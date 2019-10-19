@@ -13,8 +13,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./bazarr:/config
-      - /mnt/hubbe/array/Videos/Movies:/movies
-      - /mnt/hubbe/array/Videos/Shows:/tv
+      - ${ARRAY}/Videos/Movies:/movies
+      - ${ARRAY}/Videos/Shows:/tv
   calibre:
     image: linuxserver/calibre-web:latest
     container_name: calibre
@@ -27,7 +27,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./calibre:/config
-      - /mnt/hubbe/array/Books:/books
+      - ${ARRAY}/Books:/books
   db:
     image: linuxserver/mariadb:latest
     container_name: db
@@ -78,9 +78,9 @@ services:
     volumes:
       - ./jellyfin/config:/config
       - ./jellyfin/transcode:/transcode
-      - /mnt/hubbe/array/Videos/Shows:/tvshows
-      - /mnt/hubbe/array/Videos/Movies:/movies
-      - /mnt/hubbe/array/Music:/music
+      - ${ARRAY}/Videos/Shows:/tvshows
+      - ${ARRAY}/Videos/Movies:/movies
+      - ${ARRAY}/Music:/music
   nextcloud:
     image: linuxserver/nextcloud:latest
     container_name: nextcloud
@@ -94,7 +94,7 @@ services:
     volumes:
       - ./nextcloud/data:/data
       - ./nextcloud/config:/config
-      - /mnt/hubbe/array:/mnt/hubbe/array:ro
+      - ${ARRAY}:${ARRAY}
   qbittorrent:
     image: linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -108,8 +108,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./qbittorrent:/config
-      - /mnt/hubbe/array/Downloads:/downloads
-      - /mnt/hubbe/array/Videos:/videos
+      - ${ARRAY}/Downloads:/downloads
+      - ${ARRAY}/Videos:/videos
   radarr:
     image: linuxserver/radarr:latest
     container_name: radarr
@@ -120,8 +120,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./radarr:/config
-      - /mnt/hubbe/array/Videos/Movies:/movies
-      - /mnt/hubbe/array/Downloads:/downloads
+      - ${ARRAY}/Videos/Movies:/movies
+      - ${ARRAY}/Downloads:/downloads
   rss:
     image: linuxserver/tt-rss:latest
     container_name: rss
@@ -144,8 +144,8 @@ services:
     restart: unless-stopped
     volumes:
       - ./sonarr:/config
-      - /mnt/hubbe/array/Videos/Shows:/tv
-      - /mnt/hubbe/array/Downloads:/downloads
+      - ${ARRAY}/Videos/Shows:/tv
+      - ${ARRAY}/Downloads:/downloads
   sync:
     image: linuxserver/syncthing:latest
     container_name: sync
@@ -159,7 +159,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./sync:/config
-      - /mnt/hubbe/array/Sync:/sync
+      - ${ARRAY}/Sync:/sync
   unifi:
     image: linuxserver/unifi-controller:latest
     container_name: unifi
