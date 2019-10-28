@@ -81,6 +81,18 @@ services:
       - ${ARRAY}/Videos/Shows:/tvshows
       - ${ARRAY}/Videos/Movies:/movies
       - ${ARRAY}/Music:/music
+  lidarr:
+    image: linuxserver/lidarr:latest
+    container_name: lidarr
+    env_file:
+      - lsio.env
+    healthcheck:
+      test: curl --max-time 5 -ILs --fail http://localhost:8686 || exit 1
+    restart: unless-stopped
+    volumes:
+      - ./lidarr:/config
+      - ${ARRAY}/Music:/music
+      - ${ARRAY}/Downloads:/downloads
   nextcloud:
     image: linuxserver/nextcloud:latest
     container_name: nextcloud
