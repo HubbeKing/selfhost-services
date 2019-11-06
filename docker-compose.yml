@@ -135,7 +135,7 @@ services:
       - ${ARRAY}/Videos/Movies:/movies
       - ${ARRAY}/Downloads:/downloads
   rss:
-    image: linuxserver/tt-rss:latest
+    image: linuxserver/freshrss:latest
     container_name: rss
     depends_on:
       - db
@@ -145,7 +145,7 @@ services:
       test: curl --max-time 5 -ILs --fail http://localhost:80 || exit 1
     restart: unless-stopped
     volumes:
-      - ./rss:/config
+      - ./freshrss:/config
   sonarr:
     image: linuxserver/sonarr:preview
     container_name: sonarr
