@@ -172,24 +172,6 @@ services:
     volumes:
       - ./sync:/config
       - ${ARRAY}/Sync:/sync
-  unifi:
-    image: linuxserver/unifi-controller:latest
-    container_name: unifi
-    env_file:
-      - lsio.env
-    healthcheck:
-      test: curl --max-time 5 -kILs --fail https://localhost:8443 || exit 1
-    ports:
-      - 3478:3478/udp
-      - 10001:10001/udp
-      - 8080:8080
-      - 8081:8081
-      - 8843:8843
-      - 8880:8880
-      - 6789:6789
-    restart: unless-stopped
-    volumes:
-      - ./unifi:/config
 
 networks:
   default:
