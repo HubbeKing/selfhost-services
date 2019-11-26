@@ -6,28 +6,11 @@ services:
     container_name: bazarr
     env_file:
       - lsio.env
-    healthcheck:
-      test: curl --max-time 5 -ILs --fail http://localhost:6767 || exit 1
-      retries: 5
-      start_period: 30s
     restart: unless-stopped
     volumes:
       - ./bazarr:/config
       - ${ARRAY}/Videos/Movies:/movies
       - ${ARRAY}/Videos/Shows:/tv
-  calibre:
-    image: linuxserver/calibre-web:latest
-    container_name: calibre
-    env_file:
-      - lsio.env
-    environment:
-      - DOCKER_MODS=linuxserver/calibre-web:calibre
-    healthcheck:
-      test: curl --max-time 5 -ILs --fail http://localhost:8083 || exit 1
-    restart: unless-stopped
-    volumes:
-      - ./calibre:/config
-      - ${ARRAY}/Books:/books
   db:
     image: linuxserver/mariadb:latest
     container_name: db
@@ -35,17 +18,9 @@ services:
       - lsio.env
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
     restart: unless-stopped
     volumes:
       - ./mariadb:/config
-  documentserver:
-    image: onlyoffice/documentserver:latest
-    container_name: documentserver
-    healthcheck:
-      test: curl --max-time 5 -ILs --fail http://localhost:80/healthcheck || exit 1
-    restart: unless-stopped
   hubbot:
     image: hubbeking/hubbot:latest
     container_name: hubbot
@@ -59,8 +34,6 @@ services:
     container_name: jackett
     env_file:
       - lsio.env
-    healthcheck:
-      test: curl http://localhost:9117 || exit 1
     restart: unless-stopped
     volumes:
       - ./jackett/config:/config
@@ -72,8 +45,6 @@ services:
       - /dev/dri:/dev/dri
     env_file:
       - lsio.env
-    healthcheck:
-      test: curl --max-time 5 -Ls --fail http://localhost:8096/web/index.html || exit 1
     restart: unless-stopped
     volumes:
       - ./jellyfin/config:/config
@@ -86,8 +57,6 @@ services:
     container_name: lidarr
     env_file:
       - lsio.env
-    healthcheck:
-      test: curl --max-time 5 -ILs --fail http://localhost:8686 || exit 1
     restart: unless-stopped
     volumes:
       - ./lidarr:/config
@@ -100,8 +69,6 @@ services:
       - db
     env_file:
       - lsio.env
-    healthcheck:
-      test: curl --max-time 5 -kILs --fail https://localhost:443 || exit 1
     restart: unless-stopped
     volumes:
       - ./nextcloud/data:/data
@@ -112,8 +79,6 @@ services:
     container_name: qbittorrent
     env_file:
       - lsio.env
-    healthcheck:
-      test: curl --max-time 5 -ILs --fail http://localhost:8080 || exit 1
     ports:
       - 62881:62881
       - 62881:62881/udp
@@ -127,8 +92,6 @@ services:
     container_name: radarr
     env_file:
       - lsio.env
-    healthcheck:
-      test: curl --max-time 5 -ILs --fail http://localhost:7878 || exit 1
     restart: unless-stopped
     volumes:
       - ./radarr:/config
@@ -141,8 +104,6 @@ services:
       - db
     env_file:
       - lsio.env
-    healthcheck:
-      test: curl --max-time 5 -ILs --fail http://localhost:80 || exit 1
     restart: unless-stopped
     volumes:
       - ./freshrss:/config
@@ -151,8 +112,6 @@ services:
     container_name: sonarr
     env_file:
       - lsio.env
-    healthcheck:
-      test: curl --max-time 5 -ILs --fail http://localhost:8989 || exit 1
     restart: unless-stopped
     volumes:
       - ./sonarr:/config
@@ -163,8 +122,6 @@ services:
     container_name: sync
     env_file:
       - lsio.env
-    healthcheck:
-      test: nc -z localhost 8384 || exit 1
     ports:
       - "22000:22000"
       - "21027:21027/udp"
