@@ -1,10 +1,12 @@
 ## selfhosted-services
-The services running on hubbe.club
+The services that will be running on hubbe.club
+In kubernetes, once I'm done porting and testing
 
 ## Setup
-- Create an `.env` file with the ARRAY and MYSQL_ROOT_PASSWORD variables
-  - ARRAY - path to storage pool for Videos and other large file content
-  - MYSQL_ROOT_PASSWORD - used by `linuxserver/mariadb` container
-- Folders for services, probably just restore from borg backup if totally borked
-- `docker-compose pull`
-- `docker-compose up -d`
+- TBD
+- NFS shares for `service-nfs-pv` and `array-nfs-pv` need to be created
+    - Must be accessible from the IPs that k8s decides to use?
+- Services deployed with `kubectl apply -f <file_name>`
+    - Note that `service-nfs-pv` and `array-nfs-pv` need to be deployed first
+    - Then whatever secrets I need to have
+    - Then deployments in whichever order

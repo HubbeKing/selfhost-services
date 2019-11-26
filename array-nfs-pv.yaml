@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: array-data
+  labels:
+    bucket: shared
+spec:
+  capacity:
+    storage: 20T
+  volumeMode: Filesystem
+  storageClassName: slow
+  persistentVolumeReclaimPolicy: Retain
+  accessModes:
+    — ReadWriteMany
+  nfs:
+    server: "192.168.1.213"
+    path: “/mnt/hubbe/array”
+  readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: array-data
+spec:
+  accessModes:
+    — ReadWriteMany
+  storageClassName: slow
+  resources:
+    requests:
+      storage: 20T
+  selector:
+    matchLabels:
+      bucket: shared
