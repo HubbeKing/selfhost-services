@@ -8,7 +8,7 @@ spec:
     - port: 3306
   selector:
     app: mariadb
-    # this means we route to containers whose app: label matches mariadb
+    # this means we route to containers whose app label matches mariadb
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -20,7 +20,7 @@ spec:
   selector:
     matchLabels:
       app: mariadb
-      # this deployment should only be concerned about containers labeledd "app: mariadb"
+      # this deployment should only be concerned about containers labeled "app=mariadb"
   strategy:
     type: Recreate
     # recreate rather than rollingUpdate, so we only have one replica running at once
@@ -28,7 +28,7 @@ spec:
     metadata:
       labels:
         app: mariadb
-        # label containers with "app: mariadb" so the service routes to them
+        # label containers so the service knows to route to them
     spec:
       containers:
         - image: mariadb:10
@@ -37,14 +37,11 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: password
-          ports:
-            - containerPort: 3306
-              name: mariadb
-        volumeMounts:
-          - name: mariadb-storage
-            mountPath: /var/lib/mysql
-            subPath: mariadb
-            # mount a subPath of service-data as a volume for the created container
+          volumeMounts:
+            - name: mariadb-storage
+              mountPath: /var/lib/mysql
+              subPath: mariadb
+              # mount a subPath of service-data as a volume for the created container
       volumes:
         - name: mariadb-storage
           persistentVolumeClaim:
