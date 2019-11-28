@@ -14,8 +14,8 @@ spec:
     - ReadWriteMany
   nfs:
     server: "192.168.1.213"
-    path: “/mnt/hubbe/array”
-  readOnly: false
+    path: "/mnt/hubbe/array"
+    readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
