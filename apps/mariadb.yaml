@@ -4,6 +4,7 @@ metadata:
   name: mariadb
   # this is the service name other pods can use to access this pod
 spec:
+  # this is the port this service tries to hit on pods/containers
   ports:
     - port: 3306
   selector:
@@ -33,6 +34,10 @@ spec:
       containers:
         - image: mariadb:10
           name: mariadb
+          # this needs to match the anonuid of the NFS share on the server
+          # otherwise, nodes trying to chown volumes will fail
+          securityContext:
+            runAsUser: 1000
           # Use secret in real usage, obviously
           env:
             - name: MYSQL_ROOT_PASSWORD
