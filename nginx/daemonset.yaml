@@ -11,13 +11,10 @@ spec:
     metadata:
       labels:
         app: nginx-ingress
-     #annotations:
-       #prometheus.io/scrape: "true"
-       #prometheus.io/port: "9113"
     spec:
       serviceAccountName: nginx-ingress
       containers:
-      - image: nginx/nginx-ingress:edge
+      - image: nginx/nginx-ingress:1.5.8
         imagePullPolicy: Always
         name: nginx-ingress
         ports:
@@ -27,16 +24,6 @@ spec:
         - name: https
           containerPort: 443
           hostPort: 443
-       #- name: prometheus
-         #containerPort: 9113
-        securityContext:
-          allowPrivilegeEscalation: true
-          runAsUser: 101 #nginx
-          capabilities:
-            drop:
-            - ALL
-            add:
-            - NET_BIND_SERVICE
         env:
         - name: POD_NAMESPACE
           valueFrom:

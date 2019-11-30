@@ -6,6 +6,8 @@ metadata:
 data:
   # don't emit version number on error pages and server headers
   server-tokens: "False"
+  # disable proxy buffering, always pass response directly
+  proxy-buffering: "False"
   # ensure HTTPS redirect is enabled
   ssl-redirect: "True"
   # 2-year HSTS on by default
