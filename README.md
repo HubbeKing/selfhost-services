@@ -35,7 +35,7 @@ In kubernetes, once I'm done porting and testing
     - Check `cert-issuer/*.yaml.example` files
     - Run `./setup-cert-manager.sh`
 - Deploy nginx ingress controller with `./setup-nginx.sh`
-    - Current congiguration assumes a single wildcard cert, `nginx-ingress/tls` for all sites
+    - Current configuration assumes a single wildcard cert, `nginx-ingress/tls` for all sites
     - Issued by LetsEncrypt, solved by CloudFlare DNS verification
     - See `nginx/certificate.yaml` for certificate request fulfilled by `cert-manager`
 
