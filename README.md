@@ -31,12 +31,13 @@ In kubernetes, once I'm done porting and testing
 - Create MariaDB initial database/user creation SQL from `apps/mariadb-init-config.yaml.example`
     - Save as `apps/mariadb-init-config.yaml`
 
-- Create nginx ingress controller TLS secret for wildcard cert:
-    - `./create-nginx-secret.sh path/to/cert.pem path/to/key.pem`
-- Set up up namespace for nginx with `kubectl apply -f nginx/ns-and-sa.yaml`
-- Deploy nginx ingress controller with `kubectl apply -f nginx/`
-    - To update cert on-the-fly, update the secret file with the above command
-    - And then apply with `kubectl apply -f nginx/certificate.yaml`
+- Set up `cert-manager` for automated cert fetching/renewing
+    - Check `cert-issuer/*.yaml.example` files
+    - Run `./setup-cert-manager.sh`
+- Deploy nginx ingress controller with `./setup-nginx.sh`
+    - Current congiguration assumes a single wildcard cert, `nginx-ingress/tls` for all sites
+    - Issued by LetsEncrypt, solved by CloudFlare DNS verification
+    - See `nginx/certificate.yaml` for certificate request fulfilled by `cert-manager`
 
 - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/`
 - Deploy apps
