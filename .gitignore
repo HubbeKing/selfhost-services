@@ -1,1 +1,3 @@
 apps/*-secret.yaml
+nginx/certificate.yaml
+calico.yaml

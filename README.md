@@ -14,8 +14,16 @@ In kubernetes, once I'm done porting and testing
     - Somewhat unsure how to do permissions properly? This works, though:
         - Should use `all_squash` on NFS server to squash all access to a known UID/GID pair
         - Containers may also need to runAsUser with this UID to not break things when trying to `chown`
+
 - Create valid secrets from `*-secret.yaml.example` files in `apps` dir
-- Services deployed with `kubectl apply -f <file_name>`
-    - Note that `volumes` dir should be deployed first with `kubectl apply -f volumes/`
-    - After that, `apps` can be deployed using `kubectl apply -f apps/`
-        - If not all apps are needed, remember to deploy secrets along with the apps that need them
+
+- Create nginx ingress controller TLS secret for wildcard cert:
+    - `./create-nginx-secret.sh path/to/cert.pem path/to/key.pem`
+- Deploy nginx ingress controller with `kubectl apply -f nginx/`
+    - To update cert on-the-fly, update the secret file with the above command
+    - And then apply with `kubectl apply -f nginx/certificate.yaml`
+
+- Deploy volumes (PV/PVC) with `kubectl apply -f volumes/`
+- Deploy apps
+    - All apps can be deployed simply with `kubectl apply -f apps/`
+    - If deploying single apps, remember to also deploy related secrets
