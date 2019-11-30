@@ -4,9 +4,11 @@ In kubernetes, once I'm done porting and testing
 
 ### k8s Cluster Setup
 - Set up control-plane single-node "cluster" with `kubeadm-init.sh` script
+    - Note that this script is likely Arch Linux specific
     - This also sets up `Calico` for pod networking
     - Default pod CIDR is 10.0.0.0/16, adjust as needed
-    - This also sets up docker to use cgroups rather than systemd
+    - This also sets up docker to use systemd as its cgroup driver
+    - This also enables kernel source address verification
 
 ### Storage setup
 - NFS shares for things in `volumes` dir need to be created
