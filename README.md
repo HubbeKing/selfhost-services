@@ -29,6 +29,7 @@ In kubernetes, once I'm done porting and testing
 
 - Create nginx ingress controller TLS secret for wildcard cert:
     - `./create-nginx-secret.sh path/to/cert.pem path/to/key.pem`
+- Set up up namespace for nginx with `kubectl apply -f nginx/ns-and-sa.yaml`
 - Deploy nginx ingress controller with `kubectl apply -f nginx/`
     - To update cert on-the-fly, update the secret file with the above command
     - And then apply with `kubectl apply -f nginx/certificate.yaml`

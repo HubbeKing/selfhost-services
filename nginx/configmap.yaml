@@ -4,11 +4,15 @@ metadata:
   name: nginx-config
   namespace: nginx-ingress
 data:
-  server-tokens: False              # don't emit version number on error pages and server headers
-  ssl-redirect: True                # 301-redirect HTTP-to-HTTPS when supported
-  hsts: True                        # HSTS header
-  hsts-max-age: 63072000            # 2-year HSTS max-age
-  ssl-protocols: "TLSv1.2 TLSv1.3"  # Mozilla Intermediate SSL config
+  # don't emit version number on error pages and server headers
+  server-tokens: "False"
+  # ensure HTTPS redirect is enabled
+  ssl-redirect: "True"
+  # 2-year HSTS on by default
+  hsts: "True"
+  hsts-max-age: "63072000"
+  # Mozilla Intermediate SSL config
+  ssl-protocols: "TLSv1.2 TLSv1.3"
   ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
   # https://ssl-config.mozilla.org/ffdhe4096.txt
   ssl-dhparam-file: |
