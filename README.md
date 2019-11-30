@@ -21,6 +21,10 @@ In kubernetes, once I'm done porting and testing
         - Should use `all_squash` on NFS server to squash all access to a known UID/GID pair
         - Containers may also need to runAsUser with this UID to not break things when trying to `chown`
 
+### VAAPI setup
+- Some apps need iGPU acceleration (jellyfin)
+    - See https://github.com/intel/intel-device-plugins-for-kubernetes/tree/master/cmd/gpu_plugin
+
 ### App setup
 - Create valid secrets from `*-secret.yaml.example` files in `apps` dir
     - Save as `apps/*-secret.yaml`

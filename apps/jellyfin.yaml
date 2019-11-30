@@ -7,7 +7,6 @@ spec:
     - port: 8096
   selector:
     app: jellyfin
-  type: NodePort  # temporary, for testing
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -26,10 +25,20 @@ spec:
         app: jellyfin
     spec:
       containers:
-        - image: jellyfin/jellyfin:latest
+        - image: linuxserver/jellyfin:latest
+          imagePullPolicy: Always
           name: jellyfin
-          securityContext:
-            runAsUser: 1000
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: Europe/Helsinki
+          # requires intel-device-plugins-for-kubernetes, VAAPI acceleration
+          resources:
+            limits:
+              gpu.intel.com/i915: 1
           volumeMounts:
             - name: jellyfin-config
               mountPath: /config
@@ -43,8 +52,6 @@ spec:
             - name: jellyfin-shows
               mountPath: /shows
               readOnly: True
-            - name: jellyfin-vaapi
-              mountPath: /dev/dri/renderD128
       volumes:
         - name: jellyfin-config
           persistentVolumeClaim:
@@ -58,26 +65,11 @@ spec:
         - name: jellyfin-shows
           persistentVolumeClaim:
             claimName: shows
-        - name: jellyfin-vaapi
-          hostPath:
-            path: /dev/dri/renderD128
-            type: CharDevice
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: jellyfin
-  annotations:
-    # custom snippets, as per https://jellyfin.org/docs/general/administration/reverse-proxy.html#nginx
-    nginx.org/location-snippets: |
-      location / {
-        proxy_buffering off;
-      }
-      location /socket {
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-      }
 spec:
   tls:
     - hosts:
@@ -86,6 +78,7 @@ spec:
     - host: video.hubbe.club
       http:
         paths:
-          - backend:
+          - path: /
+            backend:
               serviceName: jellyfin
               servicePort: 8096
