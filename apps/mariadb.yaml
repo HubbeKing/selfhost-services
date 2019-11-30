@@ -46,11 +46,17 @@ spec:
                   name: mariadb-envs
                   key: root-password
           volumeMounts:
+            # mount a subPath of service-data as a volume for the created container
             - name: mariadb-storage
               mountPath: /var/lib/mysql
               subPath: mariadb
-              # mount a subPath of service-data as a volume for the created container
+            # mount a ConfigMap for initial DB/user creation
+            - name: mariadb-init
+              mountPath: /docker-entrypoint-initdb.d
       volumes:
         - name: mariadb-storage
           persistentVolumeClaim:
             claimName: service-data
+        - name: mariadb-init
+          configMap:
+            name: mariadb-init-config

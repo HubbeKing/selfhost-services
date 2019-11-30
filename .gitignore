@@ -1,3 +1,4 @@
 apps/*-secret.yaml
+apps/mariadb-init-config.yaml
 nginx/certificate.yaml
 calico.yaml

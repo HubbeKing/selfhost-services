@@ -2,9 +2,13 @@
 The services that will be running on hubbe.club
 In kubernetes, once I'm done porting and testing
 
-## Setup
+### k8s Cluster Setup
 - Set up control-plane single-node "cluster" with `kubeadm-init.sh` script
     - This also sets up `Calico` for pod networking
+    - Default pod CIDR is 10.0.0.0/16, adjust as needed
+    - This also sets up docker to use cgroups rather than systemd
+
+### Storage setup
 - NFS shares for things in `volumes` dir need to be created
     - Sadly, it seems one PV/PVC pair can't be mounted into one pod multiple times
         - Ideally, I'd want one PV/PVC pair that just says 192.168.1.213:/mnt/hubbe/array
@@ -15,7 +19,11 @@ In kubernetes, once I'm done porting and testing
         - Should use `all_squash` on NFS server to squash all access to a known UID/GID pair
         - Containers may also need to runAsUser with this UID to not break things when trying to `chown`
 
+### App setup
 - Create valid secrets from `*-secret.yaml.example` files in `apps` dir
+    - Save as `apps/*-secret.yaml`
+- Create MariaDB initial database/user creation SQL from `apps/mariadb-init-config.yaml.example`
+    - Save as `apps/mariadb-init-config.yaml`
 
 - Create nginx ingress controller TLS secret for wildcard cert:
     - `./create-nginx-secret.sh path/to/cert.pem path/to/key.pem`

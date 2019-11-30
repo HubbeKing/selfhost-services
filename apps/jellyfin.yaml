@@ -43,6 +43,8 @@ spec:
             - name: jellyfin-shows
               mountPath: /shows
               readOnly: True
+            - name: jellyfin-vaapi
+              mountPath: /dev/dri/renderD128
       volumes:
         - name: jellyfin-config
           persistentVolumeClaim:
@@ -56,3 +58,34 @@ spec:
         - name: jellyfin-shows
           persistentVolumeClaim:
             claimName: shows
+        - name: jellyfin-vaapi
+          hostPath:
+            path: /dev/dri/renderD128
+            type: CharDevice
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jellyfin
+  annotations:
+    # custom snippets, as per https://jellyfin.org/docs/general/administration/reverse-proxy.html#nginx
+    nginx.org/location-snippets: |
+      location / {
+        proxy_buffering off;
+      }
+      location /socket {
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+      }
+spec:
+  tls:
+    - hosts:
+      - video.hubbe.club  
+  rules:
+    - host: video.hubbe.club
+      http:
+        paths:
+          - backend:
+              serviceName: jellyfin
+              servicePort: 8096
