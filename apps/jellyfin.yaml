@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jellyfin
+spec:
+  ports:
+    - port: 8096
+  selector:
+    app: jellyfin
+  type: NodePort  # temporary, for testing
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      containers:
+        - image: jellyfin/jellyfin:latest
+          name: jellyfin
+          securityContext:
+            runAsUser: 1000
+          volumeMounts:
+            - name: jellyfin-config
+              mountPath: /config
+              subPath: jellyfin
+            - name: jellyfin-movies
+              mountPath: /movies
+              readOnly: True
+            - name: jellyfin-music
+              mountPath: /music
+              readOnly: True
+            - name: jellyfin-shows
+              mountPath: /shows
+              readOnly: True
+      volumes:
+        - name: jellyfin-config
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: jellyfin-movies
+          persistentVolumeClaim:
+            claimName: movies
+        - name: jellyfin-music
+          persistentVolumeClaim:
+            claimName: music
+        - name: jellyfin-shows
+          persistentVolumeClaim:
+            claimName: shows

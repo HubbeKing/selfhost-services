@@ -1,5 +1,19 @@
 #!/bin/bash
 
+# ensure kubernetes has the stuff it needs to setup and work
+pikaur -Syu --needed kubeadm-bin kubelet-bin kubectl-bin
+
+# ensure kubelet service is enabled
+sudo systemctl enable kubelet.service
+
+# ensure docker uses systemd for its cgroup driver
+sudo ./setup-docker.sh
+
+# ensure kernel source address verification is enabled
+# this is likely Arch Linux specific
+echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /usr/lib/sysctl.d/99-rpfilter-1.conf
+sudo sysctl net.ipv4.conf.all.rp_filter=1
+
 # by default, Calico uses 192.168.0.0/16, but this conflicts with my setup
 DESIRED_CIDR=10.0.0.0/16
 
