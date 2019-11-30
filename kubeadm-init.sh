@@ -26,7 +26,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # fetch Calico pod networking config, alter for DESIRED_CIDR, and apply
-wget https://docs.projectcalico.org/v3.10/manifests/calico.yaml
+wget -O calico.yaml https://docs.projectcalico.org/v3.10/manifests/calico.yaml
 sed -i 's|192.168.0.0/16|'${DESIRED_CIDR}'|g' calico.yaml
 kubectl apply -f calico.yaml
 
