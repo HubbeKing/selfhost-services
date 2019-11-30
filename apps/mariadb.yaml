@@ -38,10 +38,13 @@ spec:
           # otherwise, nodes trying to chown volumes will fail
           securityContext:
             runAsUser: 1000
-          # Use secret in real usage, obviously
+          # Pull root pw env var from Secret
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-envs
+                  key: root-password
           volumeMounts:
             - name: mariadb-storage
               mountPath: /var/lib/mysql
