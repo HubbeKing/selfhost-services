@@ -57,22 +57,9 @@ spec:
         - image: linuxserver/resilio-sync:latest
           imagePullPolicy: Always
           name: resilio-sync
-          env:
-            - name: PUID
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: PUID
-            - name: PGID
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: PGID
-            - name: TZ
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: TZ
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
           volumeMounts:
             - name: resilio-sync-config
               mountPath: /config
