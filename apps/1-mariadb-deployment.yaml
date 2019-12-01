@@ -36,13 +36,21 @@ spec:
           imagePullPolicy: Always
           name: mariadb
           env:
-            # TODO pull linuxserver envs from a ConfigMap
             - name: PUID
-              value: "1000"
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: PUID
             - name: PGID
-              value: "1000"
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: PGID
             - name: TZ
-              value: Europe/Helsinki
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: TZ
             # Pull root pw env var from Secret
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -54,7 +62,7 @@ spec:
             - name: mariadb-storage
               mountPath: /config
               subPath: mariadb
-            # mount a ConfigMap for initial DB/user creation
+            # mount a Secret for initial DB/user creation
             - name: mariadb-init
               mountPath: /docker-entrypoint-initdb.d
       volumes:
@@ -62,5 +70,5 @@ spec:
           persistentVolumeClaim:
             claimName: service-data
         - name: mariadb-init
-          configMap:
+          secret:
             name: mariadb-init-config

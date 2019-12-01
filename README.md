@@ -18,8 +18,9 @@ In kubernetes, once I'm done porting and testing
             - Tried that, k8s hung when creating, waiting for things to mount
     - Must be accessible from the IPs nodes in the k8s cluster
     - Somewhat unsure how to do permissions properly? This works, though:
-        - Should use `all_squash` on NFS server to squash all access to a known UID/GID pair
-        - Containers may also need to runAsUser with this UID to not break things when trying to `chown`
+        - Use `all_squash`, `anonuid`, and `anongid` on NFS server to squash all access to a known UID/GID pair
+        - Containers may need to runAsUser with this UID to not break things when trying to `chown`
+            - Alternatively, use linuxserver.io containers with PUID and PGID envs
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert fetching/renewing
@@ -33,11 +34,12 @@ In kubernetes, once I'm done porting and testing
 ### Apps setup
 - Some apps need iGPU acceleration (jellyfin)
     - See https://github.com/intel/intel-device-plugins-for-kubernetes/tree/master/cmd/gpu_plugin
-- Deploy volumes (PV/PVC) with `kubectl apply -f volumes/`
-- Create valid secrets from `*-secret.yaml.example` files in `apps` dir
-    - Save as `apps/*-secret.yaml`
-- Create MariaDB initial database/user creation SQL from `apps/mariadb-init-config.yaml.example`
-    - Save as `apps/mariadb-init-config.yaml`
+- Check NFS server IPs and share paths in `volumes` directory
+    - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/`
+- Create valid configs from `*-config.yaml.example` files in `apps` dir
+    - Save as `apps/*-config.yaml`
+- Set PUID, PGID, and TZ variables in `apps/0-linuxserver-envs.yaml`
 - Deploy apps
     - All apps can be deployed simply with `kubectl apply -f apps/`
-    - If deploying single apps, remember to also deploy related secrets
+    - If deploying single apps, remember to also deploy related configs and potentially mariadb
+

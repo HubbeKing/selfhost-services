@@ -1,52 +1,50 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: jellyfin
+  name: lidarr
 spec:
   ports:
-    - port: 8096
+    - port: 8686
   selector:
-    app: jellyfin
+    app: lidarr
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: jellyfin
+  name: lidarr
 spec:
   tls:
     - hosts:
-      - video.hubbe.club  
+      - lidarr.hubbe.club  
   rules:
-    - host: video.hubbe.club
+    - host: lidarr.hubbe.club
       http:
         paths:
           - path: /
             backend:
-              serviceName: jellyfin
-              servicePort: 8096
+              serviceName: lidarr
+              servicePort: 8686
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jellyfin
+  name: lidarr
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: jellyfin
+      app: lidarr
   strategy:
-    # jellyfin freaks out if multiple processes access its config dir at once
-    # by using Recreate, old pods are terminated before new pods are deployed
     type: Recreate
   template:
     metadata:
       labels:
-        app: jellyfin
+        app: lidarr
     spec:
       containers:
-        - image: linuxserver/jellyfin:latest
+        - image: linuxserver/lidarr:latest
           imagePullPolicy: Always
-          name: jellyfin
+          name: lidarr
           env:
             - name: PUID
               valueFrom:
@@ -63,33 +61,21 @@ spec:
                 configMapKeyRef:
                   name: linuxserver-envs
                   key: TZ
-          # requires intel-device-plugins-for-kubernetes, VAAPI acceleration
-          resources:
-            limits:
-              gpu.intel.com/i915: 1
           volumeMounts:
-            - name: jellyfin-config
+            - name: lidarr-config
               mountPath: /config
-              subPath: jellyfin
-            - name: jellyfin-movies
-              mountPath: /movies
-              readOnly: True
-            - name: jellyfin-music
+              subPath: lidarr
+            - name: lidarr-music
               mountPath: /music
-              readOnly: True
-            - name: jellyfin-shows
-              mountPath: /shows
-              readOnly: True
+            - name: lidarr-downloads
+              mountPath: /downloads
       volumes:
-        - name: jellyfin-config
+        - name: lidarr-config
           persistentVolumeClaim:
             claimName: service-data
-        - name: jellyfin-movies
-          persistentVolumeClaim:
-            claimName: movies
-        - name: jellyfin-music
+        - name: lidarr-music
           persistentVolumeClaim:
             claimName: music
-        - name: jellyfin-shows
+        - name: lidarr-downloads
           persistentVolumeClaim:
-            claimName: shows
+            claimName: downloads

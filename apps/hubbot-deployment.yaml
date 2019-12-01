@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hubbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hubbot
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: hubbot
+    spec:
+      containers:
+        - image: hubbeking/hubbot:latest
+          imagePullPolicy: Always
+          name: hubbot
+          volumeMounts:
+            - name: hubbot-data
+              mountPath: /app/hubbot/data
+              subPath: hubbot-data
+            - name: hubbot-logs
+              mountPath: /app/hubbot/logs
+              subPath: hubbot-logs
+            - name: hubbot-config
+              mountPath: /app/hubbot.toml
+      volumes:
+        - name: hubbot-data
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: hubbot-logs
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: hubbot-config
+          configMap:
+            name: hubbot-config

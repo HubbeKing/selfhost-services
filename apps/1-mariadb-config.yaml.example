@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mariadb-envs
+type: Opaque
+stringData:
+  root-password: "root-password"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mariadb-init-config
+stringData:
+  create-dbs-and-users.sql: |
+    CREATE DATABASE nextcloud;
+    CREATE USER nextcloud IDENTIFIED BY 'nextcloud-password';
+    GRANT ALL PRIVILEGES ON nextcloud.* TO 'nextcloud'@'%';
+    CREATE DATABASE freshrss;
+    CREATE USER freshrss IDENTIFIED BY 'freshrss-password';
+    GRANT ALL PRIVILEGES ON freshrss.* TO 'freshrss'@'%';
+    FLUSH PRIVILEGES;

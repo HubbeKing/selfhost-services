@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: freshrss
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: freshrss
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: freshrss
+spec:
+  tls:
+    - hosts:
+      - rss.hubbe.club  
+  rules:
+    - host: rss.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: freshrss
+              servicePort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freshrss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: freshrss
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: freshrss
+    spec:
+      containers:
+        - image: freshrss/freshrss:latest
+          imagePullPolicy: Always
+          name: freshrss
+          env:
+            # cron minutes definition for RSS sync
+            - name: CRON_MIN
+              value: "*/5"
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: TZ
+          volumeMounts:
+            - name: freshrss-data
+              mountPath: /var/www/FreshRSS/data
+              subPath: freshrss
+      volumes:
+        - name: freshrss-data
+          persistentVolumeClaim:
+            claimName: service-data

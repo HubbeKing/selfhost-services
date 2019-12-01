@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextcloud
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: nextcloud
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nextcloud
+spec:
+  tls:
+    - hosts:
+      - cloud.hubbe.club  
+  rules:
+    - host: cloud.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: nextcloud
+              servicePort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextcloud
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nextcloud
+    spec:
+      containers:
+        - image: nextcloud:latest
+          imagePullPolicy: Always
+          name: nextcloud
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-envs
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-envs
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-envs
+                  key: MYSQL_PASSWORD
+            - name: MYSQL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-envs
+                  key: MYSQL_HOST
+          volumeMounts:
+            - name: nextcloud-data
+              mountPath: /var/www/html
+              subPath: nextcloud
+            - name: nextcloud-array
+              mountPath: /mnt/hubbe/array
+      volumes:
+        - name: nextcloud-data
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: nextcloud-array
+          persistentVolumeClaim:
+            claimName: array-data

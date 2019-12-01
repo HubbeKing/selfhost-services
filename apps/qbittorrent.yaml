@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: qbittorrent
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: qbittorrent
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: qbittorrent
+spec:
+  tls:
+    - hosts:
+      - torrents.hubbe.club  
+  rules:
+    - host: torrents.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: qbittorrent
+              servicePort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbittorrent
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      containers:
+        - image: linuxserver/qbittorrent:latest
+          imagePullPolicy: Always
+          name: qbittorrent
+          env:
+            - name: PUID
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: PUID
+            - name: PGID
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: PGID
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: TZ
+          volumeMounts:
+            - name: qbittorrent-config
+              mountPath: /config
+              subPath: qbittorrent
+            - name: qbittorrent-downloads
+              mountPath: /downloads
+            - name: qbittorrent-videos
+              mountPath: /videos
+      volumes:
+        - name: qbittorrent-data
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: qbittorrent-downloads
+          persistentVolumeClaim:
+            claimName: downloads
+        - name: qbittorrent-videos
+          persistentVolumeClaim:
+            claimName: videos

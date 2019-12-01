@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jackett
+spec:
+  ports:
+    - port: 9117
+  selector:
+    app: jackett
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jackett
+spec:
+  tls:
+    - hosts:
+      - jackett.hubbe.club  
+  rules:
+    - host: jackett.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: jackett
+              servicePort: 9117
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jackett
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: jackett
+    spec:
+      containers:
+        - image: linuxserver/jackett:latest
+          imagePullPolicy: Always
+          name: jackett
+          env:
+            - name: PUID
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: PUID
+            - name: PGID
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: PGID
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: TZ
+          volumeMounts:
+            - name: jackett-config
+              mountPath: /config
+              subPath: jackett
+      volumes:
+        - name: jackett-config
+          persistentVolumeClaim:
+            claimName: service-data
