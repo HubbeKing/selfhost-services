@@ -11,6 +11,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: nextcloud-redis
+spec:
+  ports:
+    - port: 6379
+  selector:
+    app: nextcloud-redis
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: nextcloud
 spec:
   ports:
@@ -54,7 +64,7 @@ spec:
     matchLabels:
       app: nextcloud
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -67,6 +77,8 @@ spec:
           env:
             - name: MYSQL_HOST
               value: nextcloud-db
+            - name: REDIS_HOST
+              value: nextcloud-redis
           envFrom:
             - secretRef:
                 name: nextcloud-envs
@@ -118,3 +130,24 @@ spec:
         - name: nextcloud-db-storage
           persistentVolumeClaim:
             claimName: service-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-redis
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: nextcloud-redis
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nextcloud-redis
+    spec:
+      containers:
+        - image: redis:latest
+          imagePullPolicy: Always
+          name: nextcloud-redis
