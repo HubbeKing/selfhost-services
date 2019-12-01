@@ -1,5 +1,4 @@
 apps/*-config.yaml
-apps/mariadb-init-config.yaml
 cert-issuer/issuer.yaml
 cert-issuer/cloudflare-secret.yaml
 calico.yaml

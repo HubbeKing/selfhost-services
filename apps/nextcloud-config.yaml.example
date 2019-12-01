@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Secret
-metadata:
-  name: nextcloud-envs
-stringData:  
-  MYSQL_DATABASE: "nextcloud"
-  MYSQL_USER: "nextcloud"
-  MYSQL_PASSWORD: "nextcloud-password"
-  MYSQL_HOST: "mariadb"

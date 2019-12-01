@@ -1,6 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: freshrss-db
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: freshrss-db
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: freshrss
 spec:
   ports:
@@ -24,6 +34,15 @@ spec:
             backend:
               serviceName: freshrss
               servicePort: 80
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: freshrss-envs
+stringData:  
+  MYSQL_DATABASE: "freshrss"
+  MYSQL_USER: "freshrss"
+  MYSQL_PASSWORD: "Appendage3-Dedicator-Chaps"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -60,5 +79,52 @@ spec:
               subPath: freshrss
       volumes:
         - name: freshrss-data
+          persistentVolumeClaim:
+            claimName: service-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freshrss-db
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: freshrss-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: freshrss-db
+    spec:
+      containers:
+        - image: mariadb:10
+          imagePullPolicy: Always
+          name: freshrss-db
+          env:
+            - name: MYSQL_RANDOM_ROOT_PASSWORD
+              value: "yes"
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss-envs
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss-envs
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: freshrss-envs
+                  key: MYSQL_PASSWORD
+          volumeMounts:
+            - name: freshrss-db-storage
+              mountPath: /config
+              subPath: freshrss-db
+      volumes:
+        - name: freshrss-db-storage
           persistentVolumeClaim:
             claimName: service-data

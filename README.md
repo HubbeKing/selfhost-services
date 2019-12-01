@@ -36,8 +36,10 @@ In kubernetes, once I'm done porting and testing
     - See https://github.com/intel/intel-device-plugins-for-kubernetes/tree/master/cmd/gpu_plugin
 - Check NFS server IPs and share paths in `volumes` directory
     - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/`
-- Create valid configs from `*-config.yaml.example` files in `apps` dir
-    - Save as `apps/*-config.yaml`
+- Create config for `hubbot` from `hubbot-config.yaml.example`
+- Create config for `roundcubemail` from `roundcubemail-config.yaml.example`
+- Optional:
+    - Set new MYSQL_PASSWORD environment variables for `nextcloud` and `freshrss`
 - Set PUID, PGID, and TZ variables in `apps/0-linuxserver-envs.yaml`
 - Deploy apps
     - All apps can be deployed simply with `kubectl apply -f apps/`

@@ -1,6 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: nextcloud-db
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: nextcloud-db
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: nextcloud
 spec:
   ports:
@@ -24,6 +34,15 @@ spec:
             backend:
               serviceName: nextcloud
               servicePort: 80
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nextcloud-envs
+stringData:  
+  MYSQL_DATABASE: "nextcloud"
+  MYSQL_USER: "nextcloud"
+  MYSQL_PASSWORD: "Target-Cabana-Clunky5"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -62,16 +81,13 @@ spec:
                   name: nextcloud-envs
                   key: MYSQL_PASSWORD
             - name: MYSQL_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: nextcloud-envs
-                  key: MYSQL_HOST
+              value: nextcloud-db
           volumeMounts:
             - name: nextcloud-data
               mountPath: /var/www/html
               subPath: nextcloud
             - name: nextcloud-array
-              mountPath: /mnt/hubbe/array
+              mountPath: /array
       volumes:
         - name: nextcloud-data
           persistentVolumeClaim:
@@ -79,3 +95,50 @@ spec:
         - name: nextcloud-array
           persistentVolumeClaim:
             claimName: array-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-db
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: nextcloud-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nextcloud-db
+    spec:
+      containers:
+        - image: mariadb:10
+          imagePullPolicy: Always
+          name: nextcloud-db
+          env:
+            - name: MYSQL_RANDOM_ROOT_PASSWORD
+              value: "yes"
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-envs
+                  key: MYSQL_DATABASE
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-envs
+                  key: MYSQL_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-envs
+                  key: MYSQL_PASSWORD
+          volumeMounts:
+            - name: nextcloud-db-storage
+              mountPath: /config
+              subPath: nextcloud-db
+      volumes:
+        - name: nextcloud-db-storage
+          persistentVolumeClaim:
+            claimName: service-data

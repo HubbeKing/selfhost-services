@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: roundcubemail-envs
+stringData:
+  # example, config for SMTP auth to privateemail.com
+  ROUNDCUBEMAIL_DEFAULT_HOST: tls://mail.privateemail.com
+  ROUNDCUBEMAIL_DEFAULT_PORT: "143"
+  ROUNDCUBEMAIL_SMTP_SERVER: tls://mail.privateemail.com
+  ROUNDCUBEMAIL_SMTP_PORT: "587"
+  ROUNDCUBEMAIL_PLUGINS: archive,zipdownload
+  ROUNDCUBEMAIL_SKIN: elastic
+  ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE: 100M
+  
+  MYSQL_USER: roundcubemail
+  MYSQL_PASSWORD: Drained2-Rentable-Pod
+  MYSQL_DATABASE: roundcubemail
