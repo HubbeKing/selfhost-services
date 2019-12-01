@@ -45,22 +45,9 @@ spec:
         - image: linuxserver/sonarr:latest
           imagePullPolicy: Always
           name: sonarr
-          env:
-            - name: PUID
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: PUID
-            - name: PGID
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: PGID
-            - name: TZ
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: TZ
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
           volumeMounts:
             - name: sonarr-config
               mountPath: /config
