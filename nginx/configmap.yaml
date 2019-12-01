@@ -31,3 +31,5 @@ data:
     +S6O/BQfvsqmKHxZR05rwF2ZspZPoJDDoiM7oYZRW+ftH2EpcM7i16+4G912IXBI
     HNAGkSfVsFqpk7TqmI2P3cGG/7fckKbAj030Nck0BjGZ//////////8CAQI=
     -----END DH PARAMETERS-----
+  # rate limiting for weechat
+  http-snippets: "limit_req_zone $binary_remote_addr zone=weechat:10m rate=5r/m;"
