@@ -18,6 +18,8 @@ spec:
     matchLabels:
       app: jellyfin
   strategy:
+    # jellyfin freaks out if multiple processes access its config dir at once
+    # by using Recreate, old pods are terminated before new pods are deployed
     type: Recreate
   template:
     metadata:
@@ -29,6 +31,7 @@ spec:
           imagePullPolicy: Always
           name: jellyfin
           env:
+            # TODO pull linuxserver env vars from a ConfigMap
             - name: PUID
               value: "1000"
             - name: PGID

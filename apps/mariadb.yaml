@@ -32,14 +32,18 @@ spec:
         # label containers so the service knows to route to them
     spec:
       containers:
-        - image: mariadb:10
+        - image: linuxserver/mariadb:latest
+          imagePullPolicy: Always
           name: mariadb
-          # this needs to match the anonuid of the NFS share on the server
-          # otherwise, nodes trying to chown volumes will fail
-          securityContext:
-            runAsUser: 1000
-          # Pull root pw env var from Secret
           env:
+            # TODO pull linuxserver envs from a ConfigMap
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: Europe/Helsinki
+            # Pull root pw env var from Secret
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -48,7 +52,7 @@ spec:
           volumeMounts:
             # mount a subPath of service-data as a volume for the created container
             - name: mariadb-storage
-              mountPath: /var/lib/mysql
+              mountPath: /config
               subPath: mariadb
             # mount a ConfigMap for initial DB/user creation
             - name: mariadb-init
