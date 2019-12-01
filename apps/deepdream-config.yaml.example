@@ -5,5 +5,6 @@ metadata:
 stringData:
   EMAIL_SMTP: "smtp.gmail.com"
   EMAIL_PORT: "587"
-  EMAIL_USER: "hubbe128@gmail.com"
-  EMAIL_PASS: "sqiyapkzaybnjgdw"
+  EMAIL_SENDER: "example@gmail.com"
+  EMAIL_USER: "from-example@gmail.com"
+  EMAIL_PASS: "wheeeeeee1234"
