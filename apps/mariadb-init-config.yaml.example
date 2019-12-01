@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mariadb-init-config
-data:
+stringData:
   create-dbs-and-users.sql: |
     CREATE DATABASE test;
     CREATE USER test IDENTIFIED BY 'test';
