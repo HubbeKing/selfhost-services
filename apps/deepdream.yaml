@@ -94,7 +94,7 @@ spec:
     matchLabels:
       app: deepdream-worker
   strategy:
-    type: Recreate
+    type: RollingUpdate
   template:
     metadata:
       labels:
