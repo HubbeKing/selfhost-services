@@ -1,0 +1,153 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: deepdream-api
+spec:
+  ports:
+    - port: 8000
+  selector:
+    app: deepdream-api
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deepdream-queue
+spec:
+  ports:
+    - port: 5672
+  selector:
+    app: deepdream-queue
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: deepdream-api
+spec:
+  tls:
+    - hosts:
+      - deepdream.hubbe.club  
+  rules:
+    - host: deepdream.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: deepdream-api
+              servicePort: 8000
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: deepdream-rabbit-envs
+data:
+  RABBITMQ_HOST: deepdream-queue
+  RABBITMQ_PORT: "5672"
+  RABBITMQ_DEFAULT_USER: deepdream
+  RABBITMQ_DEFAULT_PASS: Karaoke-Strudel-Cannon4
+  RABBITMQ_DEFAULT_VHOST: tasks
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepdream-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deepdream-api
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: deepdream-api
+    spec:
+      containers:
+        - image: hubbeking/deepdream-docker:latest
+          imagePullPolicy: Always
+          name: deepdream-api
+          envFrom:
+            - configMapRef:
+                name: deepdream-rabbit-envs
+          volumeMounts:
+            - name: deepdream-inputs
+              mountPath: /opt/deepdream/inputs
+              subPath: deepdream-inputs
+            - name: deepdream-outputs
+              mountPath: /opt/deepdream/outputs
+              subPath: deepdream-outputs
+      volumes:
+        - name: deepdream-inputs
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: deepdream-outputs
+          persistentVolumeClaim:
+            claimName: service-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepdream-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deepdream-worker
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: deepdream-worker
+    spec:
+      containers:
+        - image: hubbeking/deepdream-docker:latest
+          imagePullPolicy: Always
+          name: deepdream-worker
+          command: celery -A tasks worker --loglevel=INFO
+          env:
+            - name: GLOG_minloglevel
+              value: "2"
+          envFrom:
+            - configMapRef:
+                name: deepdream-rabbit-envs
+            - secretRef:
+                name: deepdream-mail-envs
+          volumeMounts:
+            - name: deepdream-inputs
+              mountPath: /opt/deepdream/inputs
+              subPath: deepdream-inputs
+            - name: deepdream-outputs
+              mountPath: /opt/deepdream/outputs
+              subPath: deepdream-outputs
+      volumes:
+        - name: deepdream-inputs
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: deepdream-outputs
+          persistentVolumeClaim:
+            claimName: service-data
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepdream-queue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deepdream-queue
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: deepdream-queue
+    spec:
+      containers:
+        - image: rabbitmq:latest
+          imagePullPolicy: Always
+          name: deepdream-queue
+          envFrom:
+            - configMapRef:
+                name: deepdream-rabbit-envs

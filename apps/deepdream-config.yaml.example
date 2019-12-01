@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: deepdream-mail-envs
+stringData:
+  EMAIL_SMTP: "smtp.gmail.com"
+  EMAIL_PORT: "587"
+  EMAIL_USER: "hubbe128@gmail.com"
+  EMAIL_PASS: "sqiyapkzaybnjgdw"
