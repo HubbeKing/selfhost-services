@@ -65,23 +65,11 @@ spec:
           imagePullPolicy: Always
           name: nextcloud
           env:
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: nextcloud-envs
-                  key: MYSQL_DATABASE
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: nextcloud-envs
-                  key: MYSQL_USER
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: nextcloud-envs
-                  key: MYSQL_PASSWORD
             - name: MYSQL_HOST
               value: nextcloud-db
+          envFrom:
+            - secretRef:
+                name: nextcloud-envs
           volumeMounts:
             - name: nextcloud-data
               mountPath: /var/www/html
@@ -119,21 +107,9 @@ spec:
           env:
             - name: MYSQL_RANDOM_ROOT_PASSWORD
               value: "yes"
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: nextcloud-envs
-                  key: MYSQL_DATABASE
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: nextcloud-envs
-                  key: MYSQL_USER
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: nextcloud-envs
-                  key: MYSQL_PASSWORD
+          envFrom:
+            - secretRef:
+              name: nextcloud-envs
           volumeMounts:
             - name: nextcloud-db-storage
               mountPath: /config

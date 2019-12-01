@@ -62,56 +62,9 @@ spec:
               value: roundcubemail-db
             - name: ROUNDCUBEMAIL_DB_PORT
               value: "3306"
-            - name: ROUNDCUBEMAIL_DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: MYSQL_DATABASE
-            - name: ROUNDCUBEMAIL_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: MYSQL_USER
-            - name: ROUNDCUBEMAIL_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: MYSQL_PASSWORD
-            - name: ROUNDCUBEMAIL_DEFAULT_HOST
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: ROUNDCUBEMAIL_DEFAULT_HOST
-            - name: ROUNDCUBEMAIL_DEFAULT_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: ROUNDCUBEMAIL_DEFAULT_PORT
-            - name: ROUNDCUBEMAIL_SMTP_SERVER
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: ROUNDCUBEMAIL_SMTP_SERVER
-            - name: ROUNDCUBEMAIL_SMTP_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: ROUNDCUBEMAIL_SMTP_PORT
-            - name: ROUNDCUBEMAIL_PLUGINS
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: ROUNDCUBEMAIL_PLUGINS
-            - name: ROUNDCUBEMAIL_SKIN
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: ROUNDCUBEMAIL_SKIN
-            - name: ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE
+          envFrom:
+            - secretRef:
+                name: roundcubemail-envs
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -136,21 +89,9 @@ spec:
           env:
             - name: MYSQL_RANDOM_ROOT_PASSWORD
               value: "yes"
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: MYSQL_DATABASE
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: MYSQL_USER
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: roundcubemail-envs
-                  key: MYSQL_PASSWORD
+          envFrom:
+            - secretRef:
+                name: roundcubemail-envs
           volumeMounts:
             - name: roundcubemail-db-storage
               mountPath: /config

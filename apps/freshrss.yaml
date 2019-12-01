@@ -105,21 +105,9 @@ spec:
           env:
             - name: MYSQL_RANDOM_ROOT_PASSWORD
               value: "yes"
-            - name: MYSQL_DATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: freshrss-envs
-                  key: MYSQL_DATABASE
-            - name: MYSQL_USER
-              valueFrom:
-                secretKeyRef:
-                  name: freshrss-envs
-                  key: MYSQL_USER
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: freshrss-envs
-                  key: MYSQL_PASSWORD
+          envFrom:
+            - secretRef:
+                name: freshrss-envs
           volumeMounts:
             - name: freshrss-db-storage
               mountPath: /config
