@@ -47,22 +47,9 @@ spec:
         - image: linuxserver/jellyfin:latest
           imagePullPolicy: Always
           name: jellyfin
-          env:
-            - name: PUID
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: PUID
-            - name: PGID
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: PGID
-            - name: TZ
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: TZ
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
           # requires intel-device-plugins-for-kubernetes, VAAPI acceleration
           resources:
             limits:
