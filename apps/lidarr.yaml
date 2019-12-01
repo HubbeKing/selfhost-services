@@ -45,22 +45,9 @@ spec:
         - image: linuxserver/lidarr:latest
           imagePullPolicy: Always
           name: lidarr
-          env:
-            - name: PUID
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: PUID
-            - name: PGID
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: PGID
-            - name: TZ
-              valueFrom:
-                configMapKeyRef:
-                  name: linuxserver-envs
-                  key: TZ
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
           volumeMounts:
             - name: lidarr-config
               mountPath: /config
