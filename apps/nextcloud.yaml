@@ -72,6 +72,8 @@ spec:
       labels:
         app: nextcloud
     spec:
+      securityContext:
+        runAsUser: 1000
       containers:
         - image: nextcloud:latest
           imagePullPolicy: Always
