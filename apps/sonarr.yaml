@@ -42,7 +42,7 @@ spec:
         app: sonarr
     spec:
       containers:
-        - image: linuxserver/sonarr:latest
+        - image: linuxserver/sonarr:preview
           imagePullPolicy: Always
           name: sonarr
           envFrom:
