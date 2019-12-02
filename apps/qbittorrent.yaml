@@ -57,7 +57,7 @@ spec:
             - name: qbittorrent-videos
               mountPath: /videos
       volumes:
-        - name: qbittorrent-data
+        - name: qbittorrent-config
           persistentVolumeClaim:
             claimName: service-data
         - name: qbittorrent-downloads
