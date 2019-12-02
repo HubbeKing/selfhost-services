@@ -32,6 +32,8 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: nextcloud
+  annotations:
+    nginx.org/client-max-body-size: "0"
 spec:
   tls:
     - hosts:
@@ -121,7 +123,7 @@ spec:
               value: "yes"
           envFrom:
             - secretRef:
-              name: nextcloud-envs
+                name: nextcloud-envs
           volumeMounts:
             - name: nextcloud-db-storage
               mountPath: /config
