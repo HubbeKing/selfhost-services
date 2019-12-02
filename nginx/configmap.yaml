@@ -8,6 +8,8 @@ data:
   server-tokens: "False"
   # disable proxy buffering, always pass response directly
   proxy-buffering: "False"
+  # increase default client max body size (1M is real small)
+  client-max-body-size: 16m
   # ensure HTTPS redirect is enabled
   ssl-redirect: "True"
   # 2-year HSTS on by default
