@@ -23,7 +23,7 @@ spec:
           volumeMounts:
             - name: hubbot-data
               mountPath: /app/data
-              subPath: hubbot-data
+              subPath: hubbot
             - name: hubbot-config
               mountPath: /app/hubbot.toml
       volumes:
