@@ -16,11 +16,8 @@ In kubernetes, once I'm done porting and testing
         - Ideally, I'd want one PV/PVC pair that just says 192.168.1.213:/mnt/hubbe/array
         - And then mount that multiple times in one pod with different subPaths
             - Tried that, k8s hung when creating, waiting for things to mount
-    - Must be accessible from the IPs nodes in the k8s cluster
-    - Somewhat unsure how to do permissions properly? This works, though:
-        - Use `all_squash`, `anonuid`, and `anongid` on NFS server to squash all access to a known UID/GID pair
-        - Containers may need to runAsUser with this UID to not break things when trying to `chown`
-            - Alternatively, use linuxserver.io containers with PUID and PGID envs
+    - Must be accessible from the IPs of the nodes in the k8s cluster
+    - NFS exports should use `no_root_squash`, as some apps run as root and may fail if NFS doesn't give files the expected owner
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert fetching/renewing

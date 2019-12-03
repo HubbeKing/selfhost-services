@@ -60,8 +60,6 @@ spec:
       labels:
         app: freshrss
     spec:
-      securityContext:
-        runAsUser: 1000
       containers:
         - image: freshrss/freshrss:latest
           imagePullPolicy: Always
@@ -75,6 +73,9 @@ spec:
                 configMapKeyRef:
                   name: linuxserver-envs
                   key: TZ
+          envFrom:
+            - secretRef:
+                name: freshrss-envs
           volumeMounts:
             - name: freshrss-data
               mountPath: /var/www/FreshRSS/data
