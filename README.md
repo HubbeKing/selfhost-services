@@ -40,5 +40,5 @@ In kubernetes, once I'm done porting and testing
 - Set PUID, PGID, and TZ variables in `apps/0-linuxserver-envs.yaml`
 - Deploy apps
     - All apps can be deployed simply with `kubectl apply -f apps/`
-    - If deploying single apps, remember to also deploy related configs and potentially mariadb
-
+    - If deploying single apps, remember to also deploy related configs
+        - Most things need the `apps/0-linuxserver-envs.yaml` ConfigMap
