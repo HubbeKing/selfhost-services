@@ -81,19 +81,26 @@ spec:
               value: nextcloud-db
             - name: REDIS_HOST
               value: nextcloud-redis
+            - name: NEXTCLOUD_DATA_DIR
+              value: "/data"
           envFrom:
             - secretRef:
                 name: nextcloud-envs
           volumeMounts:
-            - name: nextcloud-data
+            - name: nextcloud-config
               mountPath: /var/www/html
               subPath: nextcloud
+            - name: nextcloud-data
+              mountPath: /data
             - name: nextcloud-array
               mountPath: /array
       volumes:
-        - name: nextcloud-data
+        - name: nextcloud-config
           persistentVolumeClaim:
             claimName: service-data
+        - name: nextcloud-data
+          persistentVolumeClaim:
+            claimName: nextcloud-data
         - name: nextcloud-array
           persistentVolumeClaim:
             claimName: array-data
