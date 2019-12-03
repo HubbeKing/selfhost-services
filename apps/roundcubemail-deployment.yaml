@@ -86,15 +86,12 @@ spec:
         - image: mariadb:10
           imagePullPolicy: Always
           name: roundcubemail-db
-          env:
-            - name: MYSQL_RANDOM_ROOT_PASSWORD
-              value: "yes"
           envFrom:
             - secretRef:
                 name: roundcubemail-envs
           volumeMounts:
             - name: roundcubemail-db-storage
-              mountPath: /config
+              mountPath: /var/lib/mysql
               subPath: roundcubemail-db
       volumes:
         - name: roundcubemail-db-storage
