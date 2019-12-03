@@ -11,8 +11,12 @@ stringData:
   ROUNDCUBEMAIL_PLUGINS: archive,zipdownload
   ROUNDCUBEMAIL_SKIN: elastic
   ROUNDCUBEMAIL_UPLOAD_MAX_FILESIZE: 100M
-  
-  MYSQL_USER: roundcubemail
-  MYSQL_PASSWORD: Drained2-Rentable-Pod
+
+  # DB configuration, ROUNDCUBE_* and MYSQL_* should have matching values
+  ROUNDCUBEMAIL_DB_NAME: roundcubemail
   MYSQL_DATABASE: roundcubemail
+  ROUNDCUBEMAIL_DB_USER: roundcubemail
+  MYSQL_USER: roundcubemail
+  ROUNDCUBEMAIL_DB_PASSWORD: Drained2-Rentable-Pod
+  MYSQL_PASSWORD: Drained2-Rentable-Pod
   MYSQL_RANDOM_ROOT_PASSWORD: "yes"
