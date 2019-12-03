@@ -55,6 +55,7 @@ stringData:
   MYSQL_DATABASE: "nextcloud"
   MYSQL_USER: "nextcloud"
   MYSQL_PASSWORD: "Target-Cabana-Clunky5"
+  MYSQL_RANDOM_ROOT_PASSWORD: "yes"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -125,15 +126,12 @@ spec:
         - image: mariadb:10
           imagePullPolicy: Always
           name: nextcloud-db
-          env:
-            - name: MYSQL_RANDOM_ROOT_PASSWORD
-              value: "yes"
           envFrom:
             - secretRef:
                 name: nextcloud-envs
           volumeMounts:
             - name: nextcloud-db-storage
-              mountPath: /config
+              mountPath: /var/lib/mysql
               subPath: nextcloud-db
       volumes:
         - name: nextcloud-db-storage

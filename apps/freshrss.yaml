@@ -17,6 +17,7 @@ spec:
     - port: 80
   selector:
     app: freshrss
+  type: NodePort
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -43,6 +44,7 @@ stringData:
   MYSQL_DATABASE: "freshrss"
   MYSQL_USER: "freshrss"
   MYSQL_PASSWORD: "Appendage3-Dedicator-Chaps"
+  MYSQL_RANDOM_ROOT_PASSWORD: "yes"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -105,15 +107,12 @@ spec:
         - image: mariadb:10
           imagePullPolicy: Always
           name: freshrss-db
-          env:
-            - name: MYSQL_RANDOM_ROOT_PASSWORD
-              value: "yes"
           envFrom:
             - secretRef:
                 name: freshrss-envs
           volumeMounts:
             - name: freshrss-db-storage
-              mountPath: /config
+              mountPath: /var/lib/mysql
               subPath: freshrss-db
       volumes:
         - name: freshrss-db-storage
