@@ -17,7 +17,6 @@ spec:
     - port: 80
   selector:
     app: freshrss
-  type: NodePort
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
