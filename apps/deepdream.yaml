@@ -70,17 +70,16 @@ spec:
             - configMapRef:
                 name: deepdream-rabbit-envs
           volumeMounts:
-            - name: deepdream-inputs
+            # this should mean service-data/deepdream/inputs gets mounted as /opt/deepdream/inputs
+            # this should mean service-data/deepdream/outputs gets mounted as /opt/deepdream/outputs
+            - name: deepdream
               mountPath: /opt/deepdream/inputs
-              subPath: deepdream-inputs
-            - name: deepdream-outputs
+              subPath: deepdream/inputs
+            - name: deepdream
               mountPath: /opt/deepdream/outputs
-              subPath: deepdream-outputs
+              subPath: deepdream/outputs
       volumes:
-        - name: deepdream-inputs
-          persistentVolumeClaim:
-            claimName: service-data
-        - name: deepdream-outputs
+        - name: deepdream
           persistentVolumeClaim:
             claimName: service-data
 ---
@@ -114,17 +113,16 @@ spec:
             - secretRef:
                 name: deepdream-mail-envs
           volumeMounts:
-            - name: deepdream-inputs
+            # this should mean service-data/deepdream/inputs gets mounted as /opt/deepdream/inputs
+            # this should mean service-data/deepdream/outputs gets mounted as /opt/deepdream/outputs
+            - name: deepdream
               mountPath: /opt/deepdream/inputs
-              subPath: deepdream-inputs
-            - name: deepdream-outputs
+              subPath: deepdream/inputs
+            - name: deepdream
               mountPath: /opt/deepdream/outputs
-              subPath: deepdream-outputs
+              subPath: deepdream/outputs
       volumes:
-        - name: deepdream-inputs
-          persistentVolumeClaim:
-            claimName: service-data
-        - name: deepdream-outputs
+        - name: deepdream
           persistentVolumeClaim:
             claimName: service-data
 ---
