@@ -4,18 +4,18 @@ metadata:
   name: weechat-relay
 spec:
   ports:
-    - port: 9001
+    - port: 9000
   type: ClusterIP
 ---
 apiVersion: v1
-kind: Endpoint
+kind: Endpoints
 metadata:
   name: weechat-relay
 subsets:
   - addresses:
       - ip: 192.168.1.213
     ports:
-      - port: 9001
+      - port: 9000
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -33,7 +33,7 @@ spec:
     - host: weechat.hubbe.club
       http:
         paths:
-          - path: /weechat
+          - path: /
             backend:
               serviceName: weechat-relay
-              servicePort: 9001
+              servicePort: 9000
