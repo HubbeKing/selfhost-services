@@ -103,7 +103,7 @@ spec:
         - image: hubbeking/deepdream-docker:latest
           imagePullPolicy: Always
           name: deepdream-worker
-          command: celery -A tasks worker --loglevel=INFO --concurrency=1
+          command: ["celery", "-A", "tasks", "worker", "--loglevel=INFO", "--concurrency=1"]
           env:
             - name: GLOG_minloglevel
               value: "2"
