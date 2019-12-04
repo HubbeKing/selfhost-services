@@ -14,18 +14,22 @@ spec:
       labels:
         app: hubbot
     spec:
-      securityPolicy:
+      securityContext:
         runAsUser: 1000
       containers:
         - image: hubbeking/hubbot:latest
           imagePullPolicy: Always
           name: hubbot
+          args: ["-c", "/app/configs/hubbot.toml"]
           volumeMounts:
             - name: hubbot-data
               mountPath: /app/data
-              subPath: hubbot
+              subPath: hubbot/data
+            - name: hubbot-data
+              mountPath: /app/logs
+              subPath: hubbot/logs
             - name: hubbot-config
-              mountPath: /app/hubbot.toml
+              mountPath: /app/configs
       volumes:
         - name: hubbot-data
           persistentVolumeClaim:
