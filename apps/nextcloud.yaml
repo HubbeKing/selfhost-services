@@ -34,6 +34,13 @@ metadata:
   name: nextcloud
   annotations:
     nginx.org/client-max-body-size: "0"
+    nginx.org/server-snippets: |
+      location /.well-known/carddav {
+        return 301 $scheme://$host:$server_port/remote.php/dav;
+      }
+      location /.well-known/caldav {
+        return 301 $scheme://$host:$server_port/remote.php/dav;
+      }
 spec:
   tls:
     - hosts:
