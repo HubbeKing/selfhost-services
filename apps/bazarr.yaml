@@ -52,17 +52,15 @@ spec:
             - name: bazarr-config
               mountPath: /config
               subPath: bazarr
-            - name: bazarr-movies
+            - name: bazarr-array
               mountPath: /movies
-            - name: bazarr-shows
-              mountPath: /tv
+              subPath: Videos/Movies
+            - name: bazarr-array
+              mountPath: Videos/Shows
       volumes:
         - name: bazarr-config
           persistentVolumeClaim:
             claimName: service-data
-        - name: bazarr-movies
+        - name: bazarr-array
           persistentVolumeClaim:
-            claimName: movies
-        - name: bazarr-shows
-          persistentVolumeClaim:
-            claimName: shows
+            claimName: array

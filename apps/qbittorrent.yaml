@@ -52,17 +52,16 @@ spec:
             - name: qbittorrent-config
               mountPath: /config
               subPath: qbittorrent
-            - name: qbittorrent-downloads
+            - name: qbittorrent-array
               mountPath: /downloads
-            - name: qbittorrent-videos
+              subPath: Downloads
+            - name: qbittorrent-array
               mountPath: /videos
+              subPath: Videos
       volumes:
         - name: qbittorrent-config
           persistentVolumeClaim:
             claimName: service-data
-        - name: qbittorrent-downloads
+        - name: qbittorrent-array
           persistentVolumeClaim:
-            claimName: downloads
-        - name: qbittorrent-videos
-          persistentVolumeClaim:
-            claimName: videos
+            claimName: array

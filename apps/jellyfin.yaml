@@ -58,25 +58,22 @@ spec:
             - name: jellyfin-config
               mountPath: /config
               subPath: jellyfin
-            - name: jellyfin-movies
+            - name: jellyfin-array
               mountPath: /movies
+              subPath: Videos/Movies
               readOnly: True
-            - name: jellyfin-music
+            - name: jellyfin-array
               mountPath: /music
+              subPath: Music
               readOnly: True
-            - name: jellyfin-shows
-              mountPath: /shows
+            - name: jellyfin-array
+              mountPath: /tvshows
+              subPath: Videos/Shows
               readOnly: True
       volumes:
         - name: jellyfin-config
           persistentVolumeClaim:
             claimName: service-data
-        - name: jellyfin-movies
+        - name: jellyfin-array
           persistentVolumeClaim:
-            claimName: movies
-        - name: jellyfin-music
-          persistentVolumeClaim:
-            claimName: music
-        - name: jellyfin-shows
-          persistentVolumeClaim:
-            claimName: shows
+            claimName: array

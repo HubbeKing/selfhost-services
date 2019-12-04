@@ -52,17 +52,16 @@ spec:
             - name: sonarr-config
               mountPath: /config
               subPath: sonarr
-            - name: sonarr-shows
+            - name: sonarr-array
               mountPath: /tv
-            - name: sonarr-downloads
+              subPath: Videos/Shows
+            - name: sonarr-array
               mountPath: /downloads
+              subPath: Downloads
       volumes:
         - name: sonarr-config
           persistentVolumeClaim:
             claimName: service-data
-        - name: sonarr-shows
+        - name: sonarr-array
           persistentVolumeClaim:
-            claimName: shows
-        - name: sonarr-downloads
-          persistentVolumeClaim:
-            claimName: downloads
+            claimName: array

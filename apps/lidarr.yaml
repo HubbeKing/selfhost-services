@@ -52,17 +52,16 @@ spec:
             - name: lidarr-config
               mountPath: /config
               subPath: lidarr
-            - name: lidarr-music
+            - name: lidarr-array
               mountPath: /music
-            - name: lidarr-downloads
+              subPath: Music
+            - name: lidarr-array
               mountPath: /downloads
+              subPath: Downloads
       volumes:
         - name: lidarr-config
           persistentVolumeClaim:
             claimName: service-data
-        - name: lidarr-music
+        - name: lidarr-array
           persistentVolumeClaim:
-            claimName: music
-        - name: lidarr-downloads
-          persistentVolumeClaim:
-            claimName: downloads
+            claimName: array

@@ -91,17 +91,15 @@ spec:
             - name: nextcloud-config
               mountPath: /var/www/html
               subPath: nextcloud
-            - name: nextcloud-data
+            - name: nextcloud-array
               mountPath: /data
+              subPath: Nextcloud
             - name: nextcloud-array
               mountPath: /array
       volumes:
         - name: nextcloud-config
           persistentVolumeClaim:
             claimName: service-data
-        - name: nextcloud-data
-          persistentVolumeClaim:
-            claimName: nextcloud-data
         - name: nextcloud-array
           persistentVolumeClaim:
             claimName: array-data

@@ -52,17 +52,16 @@ spec:
             - name: radarr-config
               mountPath: /config
               subPath: radarr
-            - name: radarr-movies
+            - name: radarr-array
               mountPath: /movies
-            - name: radarr-downloads
+              subPath: Videos/Movies
+            - name: radarr-array
               mountPath: /downloads
+              subPath: Downloads
       volumes:
         - name: radarr-config
           persistentVolumeClaim:
             claimName: service-data
-        - name: radarr-movies
+        - name: radarr-array
           persistentVolumeClaim:
-            claimName: movies
-        - name: radarr-downloads
-          persistentVolumeClaim:
-            claimName: downloads
+            claimName: array

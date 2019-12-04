@@ -64,12 +64,13 @@ spec:
             - name: resilio-sync-config
               mountPath: /config
               subPath: resilio-sync
-            - name: sync
+            - name: resilio-array
               mountPath: /sync
+              subPath: Sync
       volumes:
         - name: resilio-sync-config
           persistentVolumeClaim:
             claimName: service-data
-        - name: sync
+        - name: resilio-array
           persistentVolumeClaim:
-            claimName: sync
+            claimName: array
