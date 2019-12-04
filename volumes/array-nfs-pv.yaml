@@ -24,4 +24,4 @@ spec:
   resources:
     requests:
       storage: 20T
-  volumeName: array-data
+  volumeName: array
