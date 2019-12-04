@@ -8,6 +8,18 @@ spec:
   selector:
     app: qbittorrent
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qbittorrent-incoming
+spec:
+  ports:
+    - port: 31013
+      nodePort: 31013
+  selector:
+    app: qbittorrent
+  type: NodePort
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
