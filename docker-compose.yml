@@ -26,8 +26,8 @@ services:
     container_name: hubbot
     restart: unless-stopped
     volumes:
-      - ./hubbot/data:/app/hubbot/data
-      - ./hubbot/logs:/app/hubbot/logs
+      - ./hubbot/data:/app/data
+      - ./hubbot/logs:/app/logs
       - ./hubbot/dbchat.toml:/app/hubbot.toml
   jackett:
     image: linuxserver/jackett:latest
