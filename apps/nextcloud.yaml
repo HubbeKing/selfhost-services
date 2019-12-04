@@ -102,7 +102,7 @@ spec:
             claimName: service-data
         - name: nextcloud-array
           persistentVolumeClaim:
-            claimName: array-data
+            claimName: array
 ---
 apiVersion: apps/v1
 kind: Deployment
