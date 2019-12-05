@@ -70,6 +70,8 @@ spec:
               mountPath: /tvshows
               subPath: Videos/Shows
               readOnly: True
+            - name: jellyfin-transcode
+              mountPath: /transcode
       volumes:
         - name: jellyfin-config
           persistentVolumeClaim:
@@ -77,3 +79,5 @@ spec:
         - name: jellyfin-array
           persistentVolumeClaim:
             claimName: array
+        - name: jellyfin-transcode
+          emptyDir: {}
