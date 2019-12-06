@@ -9,9 +9,11 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   accessModes:
     - ReadWriteMany
+  # use file system cache for NFS mount
+  mountOptions: ["fsc"]
   nfs:
     server: "192.168.1.213"
-    path: "/mnt/hubbe/test"
+    path: "/home/hubbe/services"
     readOnly: false
 ---
 apiVersion: v1
