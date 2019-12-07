@@ -50,9 +50,13 @@ spec:
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
-          # requires intel-device-plugins-for-kubernetes, VAAPI acceleration
           resources:
+            requests:
+              # small amount of CPU to prevent latency when node is under high load
+              cpu: 500m
             limits:
+              # requires intel-device-plugins-for-kubernetes
+              # VAAPI device for acceleration
               gpu.intel.com/i915: 1
           volumeMounts:
             - name: jellyfin-config
