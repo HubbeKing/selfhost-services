@@ -21,6 +21,9 @@ spec:
           imagePullPolicy: Always
           name: hubbot
           args: ["-c", "/app/configs/hubbot.toml"]
+          resources:
+            requests:
+              cpu: "250m"
           volumeMounts:
             - name: hubbot-data
               mountPath: /app/data
