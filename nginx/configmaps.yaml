@@ -1,25 +1,52 @@
-kind: ConfigMap
 apiVersion: v1
+kind: ConfigMap
 metadata:
-  name: nginx-config
-  namespace: nginx-ingress
+  name: nginx-configuration
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
 data:
   # don't emit version number on error pages and server headers
-  server-tokens: "False"
-  # disable proxy buffering, always pass response directly
-  proxy-buffering: "False"
-  # increase default client max body size (1M is real small)
-  client-max-body-size: 16m
-  # ensure HTTPS redirect is enabled
-  ssl-redirect: "True"
-  # 2-year HSTS on by default
-  hsts: "True"
-  hsts-max-age: "63072000"
+  server-tokens: "false"
+  # increase default client-max-body-size (1m is kinda small)
+  proxy-body-size: "16m"
+  # set 2-year HSTS headers
+  hsts: "true"
+  hsts-max-axe: "63072000"
   # Mozilla Intermediate SSL config
   ssl-protocols: "TLSv1.2 TLSv1.3"
   ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
+  ssl-dh-param: ingress-nginx/ffdhe4096
+  # rate limiting zone for weechat
+  http-snippet: "limit_req_zone $binary_remote_addr zone=weechat:10m rate=5r/m;"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tcp-services
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: udp-services
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ffdhe4096
+  namespace: ingress-nginx
+stringData:
   # https://ssl-config.mozilla.org/ffdhe4096.txt
-  ssl-dhparam-file: |
+  dhparam.pem: |
     -----BEGIN DH PARAMETERS-----
     MIICCAKCAgEA///////////JD9qiIWjCNMTGYouA3BzRKQJOCIpnzHQCC76mOxOb
     IlFKCHmONATd75UZs806QxswKwpt8l8UN0/hNW1tUcJF5IW1dmJefsb0TELppjft
@@ -33,5 +60,3 @@ data:
     +S6O/BQfvsqmKHxZR05rwF2ZspZPoJDDoiM7oYZRW+ftH2EpcM7i16+4G912IXBI
     HNAGkSfVsFqpk7TqmI2P3cGG/7fckKbAj030Nck0BjGZ//////////8CAQI=
     -----END DH PARAMETERS-----
-  # rate limiting for weechat
-  http-snippets: "limit_req_zone $binary_remote_addr zone=weechat:10m rate=5r/m;"

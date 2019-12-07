@@ -33,8 +33,10 @@ kind: Ingress
 metadata:
   name: nextcloud
   annotations:
-    nginx.org/client-max-body-size: "0"
-    nginx.org/server-snippets: |
+    # disable client_max_body_size checking
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    # .well-known URLs for carddav and caldav
+    nginx.ingress.kubernetes.io/server-snippet: |
       location /.well-known/carddav {
         return 301 $scheme://$host:$server_port/remote.php/dav;
       }
@@ -84,6 +86,9 @@ spec:
         - image: nextcloud:latest
           imagePullPolicy: Always
           name: nextcloud
+          resources:
+            requests:
+              cpu: "250m"
           env:
             - name: MYSQL_HOST
               value: nextcloud-db
@@ -131,6 +136,9 @@ spec:
         - image: mariadb:10
           imagePullPolicy: Always
           name: nextcloud-db
+          resources:
+            requests:
+              cpu: "250m"
           envFrom:
             - secretRef:
                 name: nextcloud-envs
@@ -163,3 +171,6 @@ spec:
         - image: redis:latest
           imagePullPolicy: Always
           name: nextcloud-redis
+          resources:
+            requests:
+              cpu: "100m"
