@@ -35,8 +35,6 @@ spec:
             - --publish-service=$(POD_NAMESPACE)/ingress-nginx
             - --annotations-prefix=nginx.ingress.kubernetes.io
             - --default-ssl-certificate=$(POD_NAMESPACE)/tls  # wildcard cert
-            - --enable-dynamic-certificates=false             # for OCSP stapling
-            - --enable-ssl-chain-completion=true              # for OSCP stapling
           securityContext:
             allowPrivilegeEscalation: true
             capabilities:
