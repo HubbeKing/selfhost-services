@@ -22,6 +22,11 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: deepdream
+  annotations:
+    nginx.ingress.kubernetes.io/app-root: /upload
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: deepdream-auth
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - Deepdream Service"
 spec:
   tls:
     - hosts:
@@ -62,6 +67,8 @@ spec:
       labels:
         app: deepdream
     spec:
+      securityContext:
+        runAsUser: 0
       containers:
         - image: hubbeking/deepdream-docker:latest
           imagePullPolicy: Always
