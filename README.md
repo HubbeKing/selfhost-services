@@ -12,12 +12,9 @@ In kubernetes, once I'm done porting and testing
 
 ### Storage setup
 - NFS shares for things in `volumes` dir need to be created
-    - Sadly, it seems one PV/PVC pair can't be mounted into one pod multiple times
-        - Ideally, I'd want one PV/PVC pair that just says 192.168.1.213:/mnt/hubbe/array
-        - And then mount that multiple times in one pod with different subPaths
-            - Tried that, k8s hung when creating, waiting for things to mount
     - Must be accessible from the IPs of the nodes in the k8s cluster
-    - NFS exports should use `no_root_squash`, as some apps run as root and may fail if NFS doesn't give files the expected owner
+    - NFS export for `service-data` should use `no_root_squash`, as some apps run as root and may fail if NFS doesn't give files the expected owner
+    - NFS is a bit slow, though. Might be better to do some ZFS zvol + iscsi thing.
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert fetching/renewing
