@@ -67,8 +67,6 @@ spec:
       labels:
         app: deepdream
     spec:
-      securityContext:
-        runAsUser: 0
       containers:
         - image: hubbeking/deepdream-docker:latest
           imagePullPolicy: Always
