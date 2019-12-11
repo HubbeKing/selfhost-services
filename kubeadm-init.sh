@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# ensure kubernetes has the stuff it needs to setup and work
-pikaur -Syu --needed kubeadm-bin kubelet-bin kubectl-bin
-
 # ensure kubelet service is enabled
 sudo systemctl enable kubelet.service
 
