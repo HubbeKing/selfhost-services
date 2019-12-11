@@ -3,8 +3,9 @@ The services that will be running on hubbe.club
 In kubernetes, once I'm done porting and testing
 
 ### k8s Cluster Setup
+- Install `kubeadm`, `kubectl`, and `kubelet`
 - Set up control-plane single-node "cluster" with `kubeadm-init.sh` script
-    - Note that this script is likely Arch Linux specific
+    - Note that this script is systemd-specific
     - This also sets up `Calico` for pod networking
     - Default pod CIDR is 10.0.0.0/16, adjust as needed
     - This also sets up docker to use systemd as its cgroup driver
