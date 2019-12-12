@@ -2,4 +2,4 @@ apps/*-config.yaml
 apps/*-auth.yaml
 cert-issuer/issuer.yaml
 cert-issuer/cloudflare-secret.yaml
-calico.yaml
+kube-flannel.yml
