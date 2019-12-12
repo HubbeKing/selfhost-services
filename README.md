@@ -6,10 +6,11 @@ In kubernetes, once I'm done porting and testing
 - Install `kubeadm`, `kubectl`, and `kubelet`
 - Set up control-plane single-node "cluster" with `kubeadm-init.sh` script
     - Note that this script is systemd-specific
-    - This also sets up `Calico` for pod networking
+    - This also sets up `Flannel` for pod networking
     - Default pod CIDR is 10.0.0.0/16, adjust as needed
     - This also sets up docker to use systemd as its cgroup driver
     - This also enables kernel source address verification
+    - Note that this does not un-taint the master node, and thus no user pods are scheduled on master by default
 
 ### Storage setup
 - NFS shares for things in `volumes` dir need to be created
