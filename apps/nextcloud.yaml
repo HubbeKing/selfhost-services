@@ -174,3 +174,28 @@ spec:
           resources:
             requests:
               cpu: "100m"
+---
+# CronJob to curl /cron.php every 5 minutes
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: nextcloud-cron
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 5
+  successfulJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          containers:
+            - name: nextcloud-cron
+              image: nextcloud:latest
+              imagePullPolicy: IfNotPresent
+              command: ["curl"]
+              args:
+                - "--fail"
+                - "-L"
+                - "https://cloud.hubbe.club/cron.php"
