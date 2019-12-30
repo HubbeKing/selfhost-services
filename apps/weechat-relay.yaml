@@ -23,7 +23,7 @@ metadata:
   name: weechat-relay
   annotations:
     # long timeout on reads to avoid disconnects on IRC inactivity
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "604800s"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "604800"
     # rate limiting zone
     nginx.ingress.kubernetes.io/configuration-snippet: "limit_req zone=weechat burst=1 nodelay;"
 spec:
