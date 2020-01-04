@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lidarr
+spec:
+  ports:
+    - port: 8686
+  selector:
+    app: lidarr
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: lidarr
+spec:
+  tls:
+    - hosts:
+      - lidarr.hubbe.club  
+  rules:
+    - host: lidarr.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: lidarr
+              servicePort: 8686
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lidarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lidarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: lidarr
+    spec:
+      containers:
+        - image: linuxserver/lidarr:latest
+          imagePullPolicy: Always
+          name: lidarr
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          volumeMounts:
+            - name: lidarr-config
+              mountPath: /config
+              subPath: lidarr
+            - name: lidarr-array
+              mountPath: /music
+              subPath: Music
+            - name: lidarr-array
+              mountPath: /downloads
+              subPath: Downloads
+      volumes:
+        - name: lidarr-config
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: lidarr-array
+          persistentVolumeClaim:
+            claimName: array

@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: hubbe-club
+  namespace: ingress-nginx
+spec:
+  secretName: tls               # certificate will be saved as ingress-nginx/tls (namespace/name)
+  duration: 2160h               # 90 days
+  renewBefore: 360h             # 15 days
+  commonName: "*.hubbe.club"    # technically deprecated, but most certs still include it...
+  dnsNames:
+    - "hubbe.club"
+    - "*.hubbe.club"
+  issuerRef:
+    name: cloudflare-issuer
+    kind: ClusterIssuer

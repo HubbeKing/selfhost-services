@@ -1,0 +1,66 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bazarr
+spec:
+  ports:
+    - port: 6767
+  selector:
+    app: bazarr
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: bazarr
+spec:
+  tls:
+    - hosts:
+      - bazarr.hubbe.club  
+  rules:
+    - host: bazarr.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: bazarr
+              servicePort: 6767
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bazarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bazarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: bazarr
+    spec:
+      containers:
+        - image: linuxserver/bazarr:latest
+          imagePullPolicy: Always
+          name: bazarr
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          volumeMounts:
+            - name: bazarr-config
+              mountPath: /config
+              subPath: bazarr
+            - name: bazarr-array
+              mountPath: /movies
+              subPath: Videos/Movies
+            - name: bazarr-array
+              mountPath: Videos/Shows
+      volumes:
+        - name: bazarr-config
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: bazarr-array
+          persistentVolumeClaim:
+            claimName: array

@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: radarr
+spec:
+  ports:
+    - port: 7878
+  selector:
+    app: radarr
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: radarr
+spec:
+  tls:
+    - hosts:
+      - radarr.hubbe.club  
+  rules:
+    - host: radarr.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: radarr
+              servicePort: 7878
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+        - image: linuxserver/radarr:latest
+          imagePullPolicy: Always
+          name: radarr
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          volumeMounts:
+            - name: radarr-config
+              mountPath: /config
+              subPath: radarr
+            - name: radarr-array
+              mountPath: /movies
+              subPath: Videos/Movies
+            - name: radarr-array
+              mountPath: /downloads
+              subPath: Downloads
+      volumes:
+        - name: radarr-config
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: radarr-array
+          persistentVolumeClaim:
+            claimName: array

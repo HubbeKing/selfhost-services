@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hubbot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hubbot
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: hubbot
+    spec:
+      securityContext:
+        runAsUser: 1000
+      containers:
+        - image: hubbeking/hubbot:latest
+          imagePullPolicy: Always
+          name: hubbot
+          args: ["-c", "/app/configs/hubbot.toml"]
+          resources:
+            requests:
+              cpu: "250m"
+          volumeMounts:
+            - name: hubbot-data
+              mountPath: /app/data
+              subPath: hubbot
+            - name: hubbot-logs
+              mountPath: /app/logs
+            - name: hubbot-config
+              mountPath: /app/configs
+      volumes:
+        - name: hubbot-data
+          persistentVolumeClaim:
+            claimName: service-data
+        - name: hubbot-logs
+          emptyDir: {}
+        - name: hubbot-config
+          configMap:
+            name: hubbot-config
