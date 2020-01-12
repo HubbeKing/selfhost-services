@@ -7,6 +7,8 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
 data:
+  # ensure ssl-redirect is true, always redirect to https
+  ssl-redirect: "true"
   # don't emit version number on error pages and server headers
   server-tokens: "false"
   # enable ModSecurity module for detection of basic attacks
