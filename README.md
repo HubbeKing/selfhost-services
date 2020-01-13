@@ -1,6 +1,5 @@
 ## selfhosted-services
-The services that will be running on hubbe.club
-In kubernetes, once I'm done porting and testing
+Services running on hubbe.club, in local k8s cluster
 
 ### k8s Cluster Setup
 - Install `kubeadm`, `kubectl`, and `kubelet`
