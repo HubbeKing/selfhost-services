@@ -26,6 +26,8 @@ data:
   ssl-dh-param: ingress-nginx/ffdhe4096
   # rate limiting zone for weechat
   http-snippet: "limit_req_zone $binary_remote_addr zone=weechat:10m rate=5r/m;"
+  # add basic security headers
+  add-headers: "ingress-nginx/custom-headers"
 ---
 apiVersion: v1
 kind: ConfigMap
