@@ -45,6 +45,10 @@ spec:
         - image: linuxserver/sonarr:preview
           imagePullPolicy: Always
           name: sonarr
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "256Mi"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
