@@ -69,7 +69,7 @@ stringData:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nextcloud
+  name: nextcloud-web
 spec:
   replicas: 1
   selector:
