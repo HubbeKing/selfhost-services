@@ -51,8 +51,7 @@ spec:
           volumeMounts:
             - name: jackett-config
               mountPath: /config
-              subPath: jackett
       volumes:
         - name: jackett-config
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/jackett

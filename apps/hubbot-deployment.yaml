@@ -27,15 +27,14 @@ spec:
           volumeMounts:
             - name: hubbot-data
               mountPath: /app/data
-              subPath: hubbot
             - name: hubbot-logs
               mountPath: /app/logs
             - name: hubbot-config
               mountPath: /app/configs
       volumes:
         - name: hubbot-data
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/hubbot
         - name: hubbot-logs
           emptyDir: {}
         - name: hubbot-config

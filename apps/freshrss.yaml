@@ -80,11 +80,10 @@ spec:
           volumeMounts:
             - name: freshrss-data
               mountPath: /var/www/FreshRSS/data
-              subPath: freshrss
       volumes:
         - name: freshrss-data
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/freshrss
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -112,8 +111,7 @@ spec:
           volumeMounts:
             - name: freshrss-db-storage
               mountPath: /var/lib/mysql
-              subPath: freshrss-db
       volumes:
         - name: freshrss-db-storage
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/freshrss-db

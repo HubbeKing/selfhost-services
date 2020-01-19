@@ -51,7 +51,6 @@ spec:
           volumeMounts:
             - name: radarr-config
               mountPath: /config
-              subPath: radarr
             - name: radarr-array
               mountPath: /movies
               subPath: Videos/Movies
@@ -60,8 +59,8 @@ spec:
               subPath: Downloads
       volumes:
         - name: radarr-config
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/radarr
         - name: radarr-array
           persistentVolumeClaim:
             claimName: array

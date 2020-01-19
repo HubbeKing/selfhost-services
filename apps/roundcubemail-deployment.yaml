@@ -92,8 +92,7 @@ spec:
           volumeMounts:
             - name: roundcubemail-db-storage
               mountPath: /var/lib/mysql
-              subPath: roundcubemail-db
       volumes:
         - name: roundcubemail-db-storage
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/roundcubemail-db

@@ -63,7 +63,6 @@ spec:
           volumeMounts:
             - name: qbittorrent-config
               mountPath: /config
-              subPath: qbittorrent
             - name: qbittorrent-array
               mountPath: /downloads
               subPath: Downloads
@@ -72,8 +71,8 @@ spec:
               subPath: Videos
       volumes:
         - name: qbittorrent-config
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/qbittorrent
         - name: qbittorrent-array
           persistentVolumeClaim:
             claimName: array

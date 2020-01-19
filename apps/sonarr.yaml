@@ -55,7 +55,6 @@ spec:
           volumeMounts:
             - name: sonarr-config
               mountPath: /config
-              subPath: sonarr
             - name: sonarr-array
               mountPath: /tv
               subPath: Videos/Shows
@@ -64,8 +63,8 @@ spec:
               subPath: Downloads
       volumes:
         - name: sonarr-config
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/sonarr
         - name: sonarr-array
           persistentVolumeClaim:
             claimName: array

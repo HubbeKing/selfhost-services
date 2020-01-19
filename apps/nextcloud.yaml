@@ -102,7 +102,6 @@ spec:
           volumeMounts:
             - name: nextcloud-config
               mountPath: /var/www/html
-              subPath: nextcloud
             - name: nextcloud-array
               mountPath: /data
               subPath: Nextcloud
@@ -110,8 +109,8 @@ spec:
               mountPath: /array
       volumes:
         - name: nextcloud-config
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/nextcloud
         - name: nextcloud-array
           persistentVolumeClaim:
             claimName: array
@@ -145,11 +144,10 @@ spec:
           volumeMounts:
             - name: nextcloud-db-storage
               mountPath: /var/lib/mysql
-              subPath: nextcloud-db
       volumes:
         - name: nextcloud-db-storage
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/nextcloud-db
 ---
 apiVersion: apps/v1
 kind: Deployment

@@ -61,7 +61,6 @@ spec:
           volumeMounts:
             - name: jellyfin-config
               mountPath: /config
-              subPath: jellyfin
             - name: jellyfin-array
               mountPath: /movies
               subPath: Videos/Movies
@@ -78,8 +77,8 @@ spec:
               mountPath: /transcode
       volumes:
         - name: jellyfin-config
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/jellyfin
         - name: jellyfin-array
           persistentVolumeClaim:
             claimName: array

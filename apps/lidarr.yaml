@@ -51,7 +51,6 @@ spec:
           volumeMounts:
             - name: lidarr-config
               mountPath: /config
-              subPath: lidarr
             - name: lidarr-array
               mountPath: /music
               subPath: Music
@@ -60,8 +59,8 @@ spec:
               subPath: Downloads
       volumes:
         - name: lidarr-config
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/lidarr
         - name: lidarr-array
           persistentVolumeClaim:
             claimName: array

@@ -63,14 +63,13 @@ spec:
           volumeMounts:
             - name: resilio-sync-config
               mountPath: /config
-              subPath: resilio-sync
             - name: resilio-array
               mountPath: /sync
               subPath: Sync
       volumes:
         - name: resilio-sync-config
-          persistentVolumeClaim:
-            claimName: service-data
+          hostPath:
+            path: /home/hubbe/services/resilio-sync
         - name: resilio-array
           persistentVolumeClaim:
             claimName: array
