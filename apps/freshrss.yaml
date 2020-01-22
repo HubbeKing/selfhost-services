@@ -62,8 +62,7 @@ spec:
         app: freshrss
     spec:
       containers:
-        - image: freshrss/freshrss:latest
-          imagePullPolicy: Always
+        - image: freshrss/freshrss:1.15.3
           name: freshrss
           env:
             # cron minutes definition for RSS sync
