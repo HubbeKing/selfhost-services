@@ -83,8 +83,7 @@ spec:
         app: nextcloud
     spec:
       containers:
-        - image: nextcloud:latest
-          imagePullPolicy: Always
+        - image: nextcloud:18.0.0
           name: nextcloud
           resources:
             requests:
@@ -190,7 +189,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: nextcloud-cron
-              image: nextcloud:latest
+              image: curlimages/curl:latest
               imagePullPolicy: IfNotPresent
               command: ["curl"]
               args:
