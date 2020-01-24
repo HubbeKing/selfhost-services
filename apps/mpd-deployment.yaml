@@ -19,8 +19,6 @@ spec:
   selector:
     matchLabels:
       app: mpd
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -29,6 +27,9 @@ spec:
       containers:
         - image: hubbeking/mpd
           name: mpd
+          resources:
+            requests:
+              cpu: "100m"
           envFrom:
             - secretRef:
                 name: mpd-config
