@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mpd
+spec:
+  ports:
+    - port: 6600
+      nodePort: 30060
+  selector:
+    app: mpd
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mpd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mpd
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mpd
+    spec:
+      containers:
+        - image: hubbeking/mpd
+          name: mpd
+          envFrom:
+            - secretRef:
+                name: mpd-config
+          volumeMounts:
+            - name: mpd-music
+              mountPath: /music
+              subPath: Music
+      volumes:
+        - name: mpd-music
+          persistentVolumeClaim:
+            claimName: array

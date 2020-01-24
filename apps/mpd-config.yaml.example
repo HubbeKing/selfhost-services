@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mpd-config
+stringData:
+  # pulseaudio tcp receiver server
+  PULSEAUDIO_SERVER: "192.168.1.232"
+  # last.fm account for mpdscribble
+  LASTFM_USER: "Hubbe128"
+  LASTFM_PASS: "79cb2d40c6ef8ef1a032c9a7463b51f0"
