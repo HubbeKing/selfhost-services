@@ -1,0 +1,34 @@
+apiVersion: ENC[AES256_GCM,data:T8w=,iv:Qd9j/7dPvtpo1ZBiMDhFU7DGxg2W8a5fGhM+iyB92GU=,tag:7w9iqnVt+5rNqSoLK9Dx7w==,type:str]
+kind: ENC[AES256_GCM,data:3Mbj30dg,iv:9CL0OLGh6UuLBUBT9rvch938mFz+ZDVkAdsIy33fruY=,tag:DdHkIXmImbRi8opLEBTz2A==,type:str]
+metadata:
+    name: ENC[AES256_GCM,data:EliC0I6A0rcB7jws2JvklMgd6w==,iv:FBWwXV6nGhhFpHEcRMSxXS/WX/H4Bhl11EnKCui8/lk=,tag:fz6BeFpnWp9fnVjd8Vraog==,type:str]
+stringData:
+    EMAIL_SMTP: ENC[AES256_GCM,data:6lvx3wyw84JQwbINxmw=,iv:81l52Teq3TyMUVrH3ve8KLavVNVXL3SqHRHWgVJMPJA=,tag:B2GOdTg+4Nf1O3RmUZRbzw==,type:str]
+    EMAIL_PORT: ENC[AES256_GCM,data:6H2d,iv:e9eBx5O8GL3Mt3fmojc00GuRkz7vA6+Z0sKCxaBp81A=,tag:rqRfcNYqc0XjfnoN4etEww==,type:str]
+    EMAIL_SENDER: ENC[AES256_GCM,data:Am1NkIaqHaaN6pM64csd4F/Z,iv:BlTV1PyvnsggV6CnydRAeUHanFRD71Y6L2x3Oy3n6yY=,tag:yuXxlDN7r/PwshRqnF1v3Q==,type:str]
+    EMAIL_USER: ENC[AES256_GCM,data:DZnAfIgidtys5F21bclzQqWm,iv:vFMUCh074knqgbOwd4/rGVrFxO9nk9M5Vyp6A2mcJfg=,tag:jpI2VLKXRsWXEcrTI9kLLw==,type:str]
+    EMAIL_PASS: ENC[AES256_GCM,data:7C0beY3fMWvXdSLSAi0pcw==,iv:8OzMlmrD0VUekXuGAOFKr4TjM+uVO/eMIvaiEXn6Ot8=,tag:dh9Gh/IOoHoQuUC3qvC/jQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    lastmodified: '2020-01-28T19:48:04Z'
+    mac: ENC[AES256_GCM,data:O0UoVa3RbKLFBjw4+I9jk0msSxkBM13f1D1oylW0nEqZEX+7ywit9+oi7UfE+vz5t4L/BKAW4qXn59Cfu42Ktf1NUTT1FY0VjYQCmfkVZ28mveP+ivkBZlSBvpinelL8tmmrrNNSWXlwqwvGAbziHh10KwL1yB3X8zM4avGRSBM=,iv:Zk9AMaw4btnZxo9hGCRcxVfvsRBUmnBJ2MAVIYbNhgI=,tag:usEnz1dUFoaBLY+UGZgc4w==,type:str]
+    pgp:
+    -   created_at: '2020-01-28T19:48:04Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQEMA18BKFG3i+kNAQf+O6m/NkEoPqelOwdx4RNVwMnV19AgEa26C1MJLvQBT++c
+            TDaRFyRMyfu8su8Yx60mL1c/VgK9WrB1mzZL3Etg7ZnD/kvBAT9mgm2/J7+99OZX
+            CuEozvBEic0DGYAPgsEeeKlC34vOult7IL7Rxtl/dR5SnCpv+IdYj55jGi0BV0up
+            2isk4ndm/PibvJrfquTIuUtiaEiiTlueLRbHNB2Y9zirRNF96hUyX+K7agNAyymX
+            lh4LSwAaqTzTJ4qbxIMbKRsEyZgymFmyJIs0ssRx4fQyAW5NGEOsbHPNDOkLOZdp
+            GrRqve5ZR+tm/Fq71eBLIGcAUjB/k1LjsCHhmjwvodJeAXFlDs/sJelE3IgF5P/I
+            tNhx/H02u4a+PZi4ynieBJaQVIn171Ui82hIMy2CejJVfH9nkLvjLwj+nkdHlolU
+            Nofeb9ZRwPImemEwb3bbZWxLNuq6TJpv4+Ka5SLSMQ==
+            =l2ds
+            -----END PGP MESSAGE-----
+        fp: 936E0D27CC44F2E780AD4397CC2FB121243FEF14
+    unencrypted_suffix: _unencrypted
+    version: 3.5.0

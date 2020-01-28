@@ -1,0 +1,32 @@
+apiVersion: ENC[AES256_GCM,data:lxo=,iv:ql/94jg1iGZG/EzJkhwad94uhTIjA0eRXiiFnAxD2Sg=,tag:O5ydGinuXgvEL4NeXh0KUg==,type:str]
+kind: ENC[AES256_GCM,data:T2WtWUn8,iv:5dgO2pZrJuVlxV8Ta5veMEf+uH5BgQrIWnWuHRVzFTw=,tag:86LybjwekiByUgdVDVgCbA==,type:str]
+metadata:
+    name: ENC[AES256_GCM,data:EpjX2mI1BIYDmg==,iv:HUKrXb7zt5md1i0LkllfHz+YeeEH9b3nNE/CSmLPh74=,tag:0J7PhOjfVsF78ZCuCKX7RQ==,type:str]
+stringData:
+    PULSEAUDIO_SERVER: ENC[AES256_GCM,data:7PwOqbTFs6pYhh7iCQ==,iv:NF+g0WGfPwEnLWyx3h8G0uYW/TmoRd55nGBsOTRAeqM=,tag:VlomOM69Oa46xlyc5RAohw==,type:str]
+    LASTFM_USER: ENC[AES256_GCM,data:0+hg/jGpRts=,iv:+f69adGsf7Ik5BLB68Ydj7kUYFVpiiX81nYHU1Z6Q9A=,tag:fQjSFchlbfGdZmOx7RSvzg==,type:str]
+    LASTFM_PASS: ENC[AES256_GCM,data:UpzYHfLlLG8gMBbna+uRS04VqQUSRLSvJ6WqStH1T9Y=,iv:mggZ/mLh67VNNu7EIlHDWf6io+4QHD7TY/rV9DfbJl4=,tag:Xd8tU3tkpBiAPHk1+wwvbA==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    lastmodified: '2020-01-28T19:48:22Z'
+    mac: ENC[AES256_GCM,data:gzBxhs8ZKysYSRDTqojqYHc+CdWVVkmTjI/A8ZJMqQDJbxxvD6ES1jQcAdR8Jp2T/Zl64QJP6rVDwNkupDYAAWWVjgRUfJxGmQVll4YsUSywI76/hm1bqLaip4Ql+/I693OTdCv8+oyHtpiWOZ+AxfINoZ8BPq1CtHVvqT8Bc5c=,iv:fSIRSsAcHdgaWn3pHVPWAJyH1NrUOz8Vdo7MTi3o+po=,tag:IOd8AywIRzs5DKqpLs7gkQ==,type:str]
+    pgp:
+    -   created_at: '2020-01-28T19:48:22Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQEMA18BKFG3i+kNAQgAykF+Xb0HMW0Gb202sJj3ft2/ljn6Rb52a8QymhtqOaGJ
+            0hYwFBGajwAlZpJuhmXYVX3BkIvLPKXhpN849m2Zq2+A/RW9RB8ux79PZSdskk+t
+            qhs8x8GysXigSwq/l2H94N3gexwDdkpjiTflN0fLTen5jV/mwvdp7i+w12vBPw9y
+            G3jBZjaqeKAQHNNj0OBoLEG7ZMRn94x53s2OwWnvolGJ7KZGBmNqNvGlgsLnMqxS
+            OsqHuHuiVHB9I5PlCEWwr638xVTnRlFbsEIR7XMoDRmb5HzW22NFvIzcgVRq2831
+            b0d54/Z9qwUGijdeeWDSBtahLIk1AdwixWjo6Ao1ctJcAWJQIW8fnzROoXiQUqRC
+            MVuIJLTEciLxtqs4ZCQAsxMyYuTn66h7TAYRcL7H4ObN2hzifXxe2dw7W5do0BWt
+            FG2lI7FUnDvJ+37QQ2Ns1N8yJ3DfcnXbezd2p+Y=
+            =HAlS
+            -----END PGP MESSAGE-----
+        fp: 936E0D27CC44F2E780AD4397CC2FB121243FEF14
+    unencrypted_suffix: _unencrypted
+    version: 3.5.0
