@@ -50,5 +50,5 @@ Services running on hubbe.club, in local k8s cluster
         - Most things need the `apps/0-linuxserver-envs.yaml` ConfigMap
 
 ### Autoapply setup
-- Run `sops -d --in-place autoapply.yaml`
-- Run `kubectl apply -f autoapply.yaml`
+- Run `sops -d --in-place autoapply/secret.yaml`
+- Run `kubectl apply -f autoapply/`
