@@ -40,3 +40,9 @@ Services running on hubbe.club, in local k8s cluster
     - All apps can be deployed simply with `kubectl apply -f apps/`
     - If deploying single apps, remember to also deploy related configs
         - Most things need the `apps/0-linuxserver-envs.yaml` ConfigMap
+
+### Autoapply setup
+- Install sops
+    - See https://github.com/mozilla/sops
+- Run `sops -d --in-place autoapply.yaml`
+- Run `kubectl apply -f autoapply.yaml`
