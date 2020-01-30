@@ -13,7 +13,7 @@ metadata:
   labels:
     component: autoapply
 rules:
-  - apiGroups: ["", "apps", "extensions", "rbac.authorization.k8s.io", "cert-manager.io",]     # "" is the core API group
+  - apiGroups: ["", "apps", "batch", "cert-manager.io", "extensions", "networking.k8s.io", "rbac.authorization.k8s.io"]     # "" is the core API group
     resources: ["ResourceAll"]    # all resources, TODO: limit to needed resources? deployment/service/ingress/secret/configmap/pv/pvc/endpoint/cronjob?
     verbs: ["VerbAll"]            # all verbs, TODO: look into limiting to just what's needed for 'kubectl apply -f' calls
 ---
@@ -75,7 +75,7 @@ spec:
                   commands:
                     - git clone -b 'master' --depth 1 --single-branch 'git@github.com:HubbeKing/selfhost-services.git' '.'
                     - find '.' -type f -regex '.*.ya*ml' -exec sops --decrypt --in-place '{}' \;
-                    - kubectl apply --prune -l 'provider!=kubernetes,component!=autoapply' --prune-whitelist 'core/v1/ConfigMap' --prune-whitelist 'core/v1/Endpoints' --prune-whitelist 'core/v1/PersistentVolumeClaim' --prune-whitelist 'core/v1/Pod' --prune-whitelist 'core/v1/ReplicationController' --prune-whitelist 'core/v1/Secret' --prune-whitelist 'core/v1/Service' --prune-whitelist 'batch/v1/Job' --prune-whitelist 'batch/v1beta1/CronJob' --prune-whitelist 'extensions/v1beta1/DaemonSet' --prune-whitelist 'extensions/v1beta1/Deployment' --prune-whitelist 'extensions/v1beta1/Ingress' --prune-whitelist 'extensions/v1beta1/ReplicaSet' --prune-whitelist 'apps/v1beta1/StatefulSet' --prune-whitelist 'apps/v1beta1/Deployment' -f apps/ -f cert-issuer/ -f nginx/ -f volumes/ -f autoapply/  
+                    - kubectl apply --prune -l 'provider!=kubernetes,component!=autoapply' --prune-whitelist 'core/v1/ConfigMap' --prune-whitelist 'core/v1/Endpoints' --prune-whitelist 'core/v1/PersistentVolumeClaim' --prune-whitelist 'core/v1/Pod' --prune-whitelist 'apps/v1/ReplicationController' --prune-whitelist 'core/v1/Secret' --prune-whitelist 'core/v1/Service' --prune-whitelist 'batch/v1/Job' --prune-whitelist 'batch/v1beta1/CronJob' --prune-whitelist 'apps/v1/DaemonSet' --prune-whitelist 'apps/v1/Deployment' --prune-whitelist 'networking.k8s.io/v1beta1/Ingress' --prune-whitelist 'apps/v1/ReplicaSet' --prune-whitelist 'apps/v1/StatefulSet' -f apps/ -f cert-issuer/ -f nginx/ -f volumes/ -f autoapply/  
       tolerations:
         - effect: NoExecute
           operator: Exists
