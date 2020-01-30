@@ -14,7 +14,7 @@ metadata:
     component: autoapply
 rules:
   - apiGroups: [""]     # core API group
-    resources: ["*"]    # all resources, TODO: limit to needed resources? deployment/secret/configmap/pv/pvc?
+    resources: ["*"]    # all resources, TODO: limit to needed resources? deployment/service/ingress/secret/configmap/pv/pvc?
     verbs: ["*"]        # all verbs, TODO: look into limiting to just what's needed for 'kubectl apply -f' calls
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -30,6 +30,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: autoapply
+    namespace: default
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -71,10 +72,10 @@ spec:
                     - echo "${GPG}" | gpg --import
                 loop:
                   sleep: 60
-                  commands:
+                  commands:  # TODO add prune to kubectl apply command
                     - git clone -b 'master' --depth 1 --single-branch 'git@github.com:HubbeKing/selfhost-services.git' '.'
                     - find '.' -type f -regex '.*.ya*ml' -exec sops --decrypt --in-place '{}' \;
-                    - kubectl apply -f apps/ -f cert-issuer/ -f nginx/ -f volumes/ -f autoapply/
+                    - kubectl apply -f apps/ -f cert-issuer/ -f nginx/ -f volumes/ -f autoapply/  
       tolerations:
         - effect: NoExecute
           operator: Exists
