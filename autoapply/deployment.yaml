@@ -7,30 +7,25 @@ metadata:
     component: autoapply
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   name: autoapply
-  namespace: default
   labels:
     component: autoapply
 rules:
-  - apiGroups:
-      - '*'
-    resources:
-      - '*'
-    verbs:
-      - '*'
+  - apiGroups: [""]     # core API group
+    resources: ["*"]    # all resources, TODO: limit to needed resources? deployment/secret/configmap/pv/pvc?
+    verbs: ["*"]        # all verbs, TODO: look into limiting to just what's needed for 'kubectl apply -f' calls
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: autoapply
-  namespace: default
   labels:
     component: autoapply
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: autoapply
 subjects:
   - kind: ServiceAccount
