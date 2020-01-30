@@ -14,8 +14,10 @@ metadata:
     component: autoapply
 rules:
   - apiGroups: ["", "apps", "batch", "cert-manager.io", "extensions", "networking.k8s.io", "rbac.authorization.k8s.io"]     # "" is the core API group
-    resources: ["ResourceAll"]    # all resources, TODO: limit to needed resources? deployment/service/ingress/secret/configmap/pv/pvc/endpoint/cronjob?
-    verbs: ["VerbAll"]            # all verbs, TODO: look into limiting to just what's needed for 'kubectl apply -f' calls
+    resources: ["deployments","services","ingresses","secrets","configmaps","persistentvolumes","persistentvolumeclaims","endpoints","cronjobs"]    
+    # deployment/service/ingress/secret/configmap/persistentvolume/persistentvolumeclaim/endpoint/cronjob should be all that's needed
+    verbs: ["get", "list", "create", "update", "patch", "delete"]
+    # full CRUD, but not watch. should be enough.
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
