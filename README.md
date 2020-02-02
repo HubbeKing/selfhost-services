@@ -27,7 +27,7 @@ Services running on hubbe.club, in local k8s cluster
 ### Ingress setup
 - Set up `cert-manager` for automated cert fetching/renewing
     - Check `cert-issuer/*.yaml.example` files
-        - Alternatively, run `sops -d --in-place` on existing files
+        - Alternatively, run `sops --decrypt --in-place` on existing files
     - Run `./setup-cert-manager.sh`
 - Deploy nginx ingress controller with `kubectl apply -f nginx/`
     - Current configuration assumes a single wildcard cert, `ingress-nginx/tls` for all sites
@@ -40,7 +40,7 @@ Services running on hubbe.club, in local k8s cluster
 - Check NFS server IPs and share paths in `volumes` directory
     - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/`
 - Create configs from `*.yaml.example` files
-    - Alternatively, run `sops -d --in-place` on existing files
+    - Alternatively, run `sops --decrypt --in-place` on existing files
 - Optional:
     - Set new MYSQL_PASSWORD environment variables for `nextcloud` and `freshrss`
 - Set PUID, PGID, and TZ variables in `apps/0-linuxserver-envs.yaml`
@@ -50,5 +50,6 @@ Services running on hubbe.club, in local k8s cluster
         - Most things need the `apps/0-linuxserver-envs.yaml` ConfigMap
 
 ### Autoapply setup
-- Run `sops -d --in-place autoapply/secret.yaml`
-- Run `kubectl apply -f autoapply/`
+Autoapply automatically applies resources defined in the repo onto the cluster every 5m
+- Run `sops --decrypt autoapply/secret.yaml | kubectl apply -f -`
+- Run `kubectl apply -f autoapply/deployment.yaml`

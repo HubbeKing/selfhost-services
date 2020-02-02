@@ -14,11 +14,9 @@ metadata:
     component: autoapply
 rules:
   - apiGroups: ["", "apps", "batch", "cert-manager.io", "extensions", "networking.k8s.io", "rbac.authorization.k8s.io"]
-    # "" is the core API group
-    resources: ["deployments","services","ingresses","secrets","configmaps","persistentvolumes","persistentvolumeclaims","endpoints","cronjobs","clusterissuers","namespaces","serviceaccounts","clusterroles","roles","rolebindings","clusterrolebindings","certificates","limitranges","pods","replicationcontrollers","jobs","daemonsets","replicasets","statefulsets"]
-    # apps/volumes: deployments,services,ingresses,secrets,configmaps,persistentvolumes,persistentvolumeclaims,endpoints,cronjobs
-    # nginx+certs: clusterissuers,namespaces,serviceaccounts,clusterroles,roles,rolebindings,clusterrolebindings,certificates,limitranges (cert-manager / ingress-nginx)
-    # prune: pods,replicationcontrollers,jobs,daemonsets,replicasets,statefulsets
+    # "" is the core API group, other api groups as used by resources in repo
+    resources: ["*"]
+    # access to all resources means I don't have to worry about what autoapply can and can't do
     verbs: ["get", "list", "create", "update", "patch", "delete"]
     # full CRUD, but not watch. should be enough.
 ---
@@ -80,7 +78,7 @@ spec:
                   commands:
                     - git clone -b 'master' --depth 1 --single-branch 'git@github.com:HubbeKing/selfhost-services.git' '.'
                     - find '.' -type f -regex '.*.ya*ml' -exec sops --decrypt --in-place '{}' \;
-                    - kubectl apply --prune -l 'provider!=kubernetes,component!=autoapply,app!=cert-manager,app!=webhook,app!=cainjector' --prune-whitelist 'core/v1/ConfigMap' --prune-whitelist 'core/v1/Endpoints' --prune-whitelist 'core/v1/PersistentVolumeClaim' --prune-whitelist 'core/v1/Pod' --prune-whitelist 'core/v1/ReplicationController' --prune-whitelist 'core/v1/Secret' --prune-whitelist 'core/v1/Service' --prune-whitelist 'batch/v1/Job' --prune-whitelist 'batch/v1beta1/CronJob' --prune-whitelist 'apps/v1/DaemonSet' --prune-whitelist 'apps/v1/Deployment' --prune-whitelist 'networking.k8s.io/v1beta1/Ingress' --prune-whitelist 'apps/v1/ReplicaSet' --prune-whitelist 'apps/v1/StatefulSet' -f apps/ -f cert-issuer/ -f nginx/ -f volumes/ -f autoapply/
+                    - kubectl apply -f core/ -f volumes/ -f nginx/ -f apps/ -f autoapply/
       tolerations:
         - effect: NoExecute
           operator: Exists

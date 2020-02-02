@@ -25,6 +25,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # apply Flannel pod networking manifest, ensure it's adjusted for $DESIRED_CIDR
+cd core
 wget https://raw.githubusercontent.com/coreos/flannel/v0.11.0/Documentation/kube-flannel.yml
 sed -i 's|10.244.0.0/16|'${DESIRED_CIDR}'|g' kube-flannel.yml
 kubectl apply -f kube-flannel.yml
