@@ -13,7 +13,7 @@ data:
   server-tokens: "false"
   # enable ModSecurity module for detection of basic attacks
   enable-modsecurity: "true"
-  # disable Core Rule Set for ModSecurity for now, to prevent disruption
+  # enable OWASP Core Rule Set for ModSecurity
   enable-owasp-modsecurity-crs: "false"
   # increase default client-max-body-size (1m is kinda small)
   proxy-body-size: "16m"
