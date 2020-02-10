@@ -77,7 +77,10 @@ spec:
                   commands:
                     - git clone -b 'master' --depth 1 --single-branch 'git@github.com:HubbeKing/selfhost-services.git' '.'
                     - find '.' -type f -regex '.*.ya*ml' -exec sops --decrypt --in-place '{}' \;
-                    - kubectl apply -f core/ -f volumes/ -f nginx/ -f apps/ -f autoapply/ -f metrics-server/
+                    - kubectl apply -R -f core/
+                    - kubectl apply -f volumes/
+                    - kubectl apply -f nginx/
+                    - kubectl apply -R -f apps/
       tolerations:
         - effect: NoExecute
           operator: Exists
