@@ -18,16 +18,17 @@ Services running on hubbe.club, in local k8s cluster
     - This also sets up docker with the recommended configuration for kubernetes
     - This also enables kernel source address verification
     - Note that this does not un-taint the master node, and thus no user pods are scheduled on master by default
-- Add in new nodes by running `kubeadm-prejoin.sh` script on those nodes
-    - This also sets up docker with the recommended configuration for kubernetes
+- Add in new nodes by running `kubeadm-join.sh <node_user>@<node_address>`
+    - `<node_user>` must be able to SSH to the node, and have `sudo` access
+    - Nodes are added in as workers using `kubeadm token create --print-join-command` and `kubeadm join`
+    - This sets up docker with the recommended configuration for kubernetes
     - This also enables kernel source address verification
-    - Nodes need to be added with `kubeadm join` command using a token - tokens are only valid for 24h
+    
 
 ### Storage setup
 - NFS shares for things in `volumes` dir need to be created
     - Must be accessible from the IPs of the nodes in the k8s cluster
-    - NFS export for `service-data` should use `no_root_squash`, as some apps run as root and may fail if NFS doesn't give files the expected owner
-    - NFS is a bit slow, though. Might be better to do some ZFS zvol + iscsi thing.
+- NOTE: Currently, most `apps` use `hostPath` volumes, as I do not yet have a proper volume provisioner
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert renew 
