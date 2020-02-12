@@ -9,14 +9,19 @@ Services running on hubbe.club, in local k8s cluster
     - Set `SOPS_PGP_FP` env var to key fingerprint
 
 ### k8s Cluster Setup
-- Install `kubeadm`, `kubectl`, and `kubelet`
-- Set up control-plane single-node "cluster" with `kubeadm-init.sh` script
+- Set up machines with Ubuntu Server LTS 18.04
+- Install `kubeadm`, `kubectl`, `kubelet`, and `docker` on each machine in the cluster
+- Set up control-plane node with `kubeadm-init.sh` script (single node, not HA)
     - Note that this script is systemd-specific
     - This also sets up `Flannel` for pod networking
     - Default pod CIDR is 10.244.0.0/16, adjust as needed - make sure to also edit `core/kube-flannel.yaml`
     - This also sets up docker with the recommended configuration for kubernetes
     - This also enables kernel source address verification
     - Note that this does not un-taint the master node, and thus no user pods are scheduled on master by default
+- Add in new nodes by running `kubeadm-prejoin.sh` script on those nodes
+    - This also sets up docker with the recommended configuration for kubernetes
+    - This also enables kernel source address verification
+    - Nodes need to be added with `kubeadm join` command using a token - tokens are only valid for 24h
 
 ### Storage setup
 - NFS shares for things in `volumes` dir need to be created
