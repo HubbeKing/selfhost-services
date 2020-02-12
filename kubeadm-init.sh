@@ -1,19 +1,13 @@
 #!/bin/bash
 
-# ensure kubelet service is enabled
+# copy docker-daemon.json to temp location
+sudo cp docker-daemon.json /tmp/docker-daemon.json
+
+# install prereqs
+./install-prereqs.sh
+
+# ensure kubelet is running
 sudo systemctl enable kubelet.service
-
-# ensure docker is using recommended settings
-sudo cp docker-daemon.json /etc/docker/daemon.json
-sudo mkdir -p /etc/systemd/system/docker.service.d
-
-# restart docker
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-
-# ensure kernel source address verification is enabled
-echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /usr/lib/sysctl.d/99-rpfilter-1.conf
-sudo sysctl net.ipv4.conf.all.rp_filter=1
 
 # by default, Flannel uses 10.244.0.0/16
 # so long as both Flannel and kubeadm agree on the CIDR it shouldn't matter much
