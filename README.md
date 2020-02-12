@@ -13,8 +13,8 @@ Services running on hubbe.club, in local k8s cluster
 - Set up control-plane single-node "cluster" with `kubeadm-init.sh` script
     - Note that this script is systemd-specific
     - This also sets up `Flannel` for pod networking
-    - Default pod CIDR is 10.0.0.0/16, adjust as needed
-    - This also sets up docker to use systemd as its cgroup driver
+    - Default pod CIDR is 10.244.0.0/16, adjust as needed - make sure to also edit `core/kube-flannel.yaml`
+    - This also sets up docker with the recommended configuration for kubernetes
     - This also enables kernel source address verification
     - Note that this does not un-taint the master node, and thus no user pods are scheduled on master by default
 
@@ -25,11 +25,13 @@ Services running on hubbe.club, in local k8s cluster
     - NFS is a bit slow, though. Might be better to do some ZFS zvol + iscsi thing.
 
 ### Ingress setup
-- Set up `cert-manager` for automated cert fetching/renewing
+- Set up `cert-manager` for automated cert renew 
+    - Run `kubectl apply -f core/cert-manager.yml`
     - Check `core/cert-issuer/*.yaml.example` files
         - Alternatively, run `sops --decrypt --in-place` on existing files
-    - Run `./setup-cert-manager.sh`
-- Deploy nginx ingress controller with `kubectl apply -f nginx/`
+    - Run `kubectl apply -f core/cert-issuer`
+- Deploy ingress-nginx for reverse proxying to deployed pods
+    - Run `kubectl apply -f nginx/`
     - Current configuration assumes a single wildcard cert, `ingress-nginx/tls` for all sites
     - Issued by LetsEncrypt, solved by CloudFlare DNS verification
     - See `nginx/certificate.yaml` for certificate request fulfilled by `cert-manager`
@@ -37,6 +39,7 @@ Services running on hubbe.club, in local k8s cluster
 ### Apps setup
 - Some apps need iGPU acceleration (jellyfin)
     - See https://github.com/intel/intel-device-plugins-for-kubernetes/tree/master/cmd/gpu_plugin
+    - Run `kubectl apply -f core/gpu-plugin.yaml`
 - Check NFS server IPs and share paths in `volumes` directory
     - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/`
 - Create configs from `*.yaml.example` files
