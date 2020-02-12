@@ -12,7 +12,6 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 
 # ensure kernel source address verification is enabled
-# this is likely Arch Linux specific?
 echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /usr/lib/sysctl.d/99-rpfilter-1.conf
 sudo sysctl net.ipv4.conf.all.rp_filter=1
 
