@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # copy docker-daemon.json to temp location
 sudo cp docker-daemon.json /tmp/docker-daemon.json
