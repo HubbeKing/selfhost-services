@@ -15,20 +15,10 @@ echo "Enabling kubelet systemd service on target host..."
 ssh $HOST sudo systemctl enable kubelet.service
 
 # ensure docker is using recommended settings
-echo "Configuring docker on target host..."
+echo "Installing prereqs on target host..."
 scp docker-daemon.json $HOST:/tmp/daemon.json
-ssh $HOST sudo cp /tmp/daemon.json /etc/docker/daemon.json
-ssh $HOST sudo mkdir -p /etc/systemd/system/docker.service.d
-
-# restart docker
-echo "Restarting docker on target host..."
-ssh $HOST sudo systemctl daemon-reload
-ssh $HOST sudo systemctl restart docker
-
-# ensure kernel source address verification is enabled
-echo "Enabling kernel source address verification on target host..."
-ssh $HOST bash -c "echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /usr/lib/sysctl.d/99-rpfilter-1.conf"
-ssh $HOST sudo sysctl net.ipv4.conf.all.rp_filter=1
+scp install-prereqs.sh $HOST:/tmp/install-prereqs.sh
+ssh -t $HOST /tmp/install-prereqs.sh
 
 echo "Joining target host to k8s cluster using kubeadm join..."
 ssh $HOST sudo $JOIN_CMD
