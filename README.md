@@ -10,9 +10,8 @@ Services running on hubbe.club, in local k8s cluster
 
 ### k8s Cluster Setup
 - Set up machines with Ubuntu Server LTS 18.04
-- Install `kubeadm`, `kubectl`, `kubelet`, and `docker` on each machine in the cluster
 - Set up control-plane node with `kubeadm-init.sh` script (single node, not HA)
-    - Note that this script is systemd-specific
+    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
     - This also sets up `Flannel` for pod networking
     - Default pod CIDR is 10.244.0.0/16, adjust as needed - make sure to also edit `core/kube-flannel.yaml`
     - This also sets up docker with the recommended configuration for kubernetes
@@ -20,6 +19,7 @@ Services running on hubbe.club, in local k8s cluster
     - Note that this does not un-taint the master node, and thus no user pods are scheduled on master by default
 - Add in new nodes by running `kubeadm-join.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
+    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
     - Nodes are added in as workers using `kubeadm token create --print-join-command` and `kubeadm join`
     - This sets up docker with the recommended configuration for kubernetes
     - This also enables kernel source address verification
