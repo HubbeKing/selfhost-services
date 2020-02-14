@@ -15,6 +15,9 @@ spec:
         app: intel-gpu-plugin
     spec:
       nodeSelector:
+        # all amd64 linux nodes are assumed to have an intel GPU
+        # TODO apply Node Feature Discovery to cluster
+        # TODO use feature.node.kubernetes.io/pci-0300_8086.present: "true" as a nodeSelector
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
       containers:
@@ -30,18 +33,20 @@ spec:
             readOnlyRootFilesystem: true
           volumeMounts:
             - name: devfs
-              mountPath: /dev
+              mountPath: /dev/dri
+              readOnly: true
             - name: sysfs
-              mountPath: /sys
+              mountPath: /sys/class/drm
+              readOnly: true
             - name: kubeletsockets
               mountPath: /var/lib/kubelet/device-plugins
       volumes:
         - name: devfs
           hostPath:
-            path: /dev
+            path: /dev/dri
         - name: sysfs
           hostPath:
-            path: /sys
+            path: /sys/class/drm
         - name: kubeletsockets
           hostPath:
             path: /var/lib/kubelet/device-plugins
