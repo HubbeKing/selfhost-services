@@ -52,8 +52,9 @@ spec:
                 name: linuxserver-envs
           resources:
             requests:
-              # small amount of CPU to prevent latency when node is under high load
+              # request small amount of CPU to prevent latency when node is under load from other work
               cpu: 100m
+            limits:
               # VAAPI device for HW acceleration, requires intel-device-plugins-for-kubernetes
               gpu.intel.com/i915: 1
           volumeMounts:
