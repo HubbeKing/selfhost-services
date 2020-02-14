@@ -45,6 +45,10 @@ spec:
         - image: linuxserver/jackett:latest
           imagePullPolicy: Always
           name: jackett
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "200Mi"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
