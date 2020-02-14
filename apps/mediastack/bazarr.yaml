@@ -45,6 +45,10 @@ spec:
         - image: linuxserver/bazarr:latest
           imagePullPolicy: Always
           name: bazarr
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "200Mi"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
