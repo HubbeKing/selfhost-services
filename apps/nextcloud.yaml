@@ -87,7 +87,8 @@ spec:
           name: nextcloud
           resources:
             requests:
-              cpu: "250m"
+              cpu: "100m"
+              memory: "500Mi"
           env:
             - name: MYSQL_HOST
               value: nextcloud-db
@@ -136,7 +137,8 @@ spec:
           name: nextcloud-db
           resources:
             requests:
-              cpu: "250m"
+              cpu: "100m"
+              memory: "200Mi"
           envFrom:
             - secretRef:
                 name: nextcloud-envs
@@ -170,7 +172,8 @@ spec:
           name: nextcloud-redis
           resources:
             requests:
-              cpu: "100m"
+              cpu: "50m"
+              memory: "50Mi"
 ---
 # CronJob to curl /cron.php every 5 minutes
 apiVersion: batch/v1beta1
