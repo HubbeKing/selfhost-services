@@ -58,6 +58,10 @@ spec:
       containers:
         - name: autoapply
           image: autoapply/autoapply:0.15.1-kubectl
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "50Mi"
           args:
             - env:AUTOAPPLY_CONFIG
           envFrom:
