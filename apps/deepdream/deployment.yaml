@@ -71,6 +71,12 @@ spec:
         - image: hubbeking/deepdream-docker:latest
           imagePullPolicy: Always
           name: deepdream-api
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "500Mi"
+            limits:
+              cpu: "1000m"
           envFrom:
             - configMapRef:
                 name: deepdream-rabbit-envs
@@ -122,6 +128,10 @@ spec:
         - image: rabbitmq:latest
           imagePullPolicy: Always
           name: deepdream-queue
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "150Mi"
           envFrom:
             - configMapRef:
                 name: deepdream-rabbit-envs
