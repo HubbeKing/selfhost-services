@@ -57,6 +57,10 @@ spec:
         - image: linuxserver/resilio-sync:latest
           imagePullPolicy: Always
           name: resilio-sync
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
