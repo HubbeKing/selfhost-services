@@ -64,6 +64,10 @@ spec:
       containers:
         - image: freshrss/freshrss:1.15.3
           name: freshrss
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
           env:
             # cron minutes definition for RSS sync
             - name: CRON_MIN
@@ -104,6 +108,10 @@ spec:
         - image: mariadb:10
           imagePullPolicy: Always
           name: freshrss-db
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
           envFrom:
             - secretRef:
                 name: freshrss-envs
