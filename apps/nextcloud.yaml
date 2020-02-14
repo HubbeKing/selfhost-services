@@ -83,7 +83,7 @@ spec:
         app: nextcloud
     spec:
       containers:
-        - image: nextcloud:18.0.0
+        - image: nextcloud:18.0.1
           name: nextcloud
           resources:
             requests:
