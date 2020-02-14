@@ -47,8 +47,8 @@ spec:
           name: sonarr
           resources:
             requests:
-              cpu: "500m"
-              memory: "256Mi"
+              cpu: "50m"
+              memory: "300Mi"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
