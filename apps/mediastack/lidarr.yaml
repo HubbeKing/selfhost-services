@@ -45,6 +45,10 @@ spec:
         - image: linuxserver/lidarr:latest
           imagePullPolicy: Always
           name: lidarr
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "200Mi"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
