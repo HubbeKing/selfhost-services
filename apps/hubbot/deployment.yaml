@@ -23,7 +23,8 @@ spec:
           args: ["-c", "/app/configs/hubbot.toml"]
           resources:
             requests:
-              cpu: "250m"
+              cpu: "50m"
+              memory: "50Mi"
           volumeMounts:
             - name: hubbot-data
               mountPath: /app/data
