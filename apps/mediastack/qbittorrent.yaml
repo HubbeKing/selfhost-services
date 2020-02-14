@@ -57,6 +57,10 @@ spec:
         - image: linuxserver/qbittorrent:latest
           imagePullPolicy: Always
           name: qbittorrent
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "500Mi"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
