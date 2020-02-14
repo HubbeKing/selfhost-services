@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nextcloud-web
+  annotations:
+    # disable client_max_body_size checking
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    # .well-known URLs for carddav and caldav
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location /.well-known/carddav {
+        return 301 $scheme://$host:$server_port/remote.php/dav;
+      }
+      location /.well-known/caldav {
+        return 301 $scheme://$host:$server_port/remote.php/dav;
+      }
+spec:
+  tls:
+    - hosts:
+      - cloud.hubbe.club  
+  rules:
+    - host: cloud.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: nextcloud-web
+              servicePort: 80

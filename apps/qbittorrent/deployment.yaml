@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qbittorrent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qbittorrent
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: qbittorrent
+    spec:
+      containers:
+        - image: linuxserver/qbittorrent:latest
+          imagePullPolicy: Always
+          name: qbittorrent
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "500Mi"
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          volumeMounts:
+            - name: qbittorrent-config
+              mountPath: /config
+            - name: qbittorrent-array
+              mountPath: /downloads
+              subPath: Downloads
+            - name: qbittorrent-array
+              mountPath: /videos
+              subPath: Videos
+      volumes:
+        - name: qbittorrent-config
+          hostPath:
+            path: /home/hubbe/services/qbittorrent
+        - name: qbittorrent-array
+          persistentVolumeClaim:
+            claimName: array

@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: radarr
+spec:
+  tls:
+    - hosts:
+      - radarr.hubbe.club  
+  rules:
+    - host: radarr.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: radarr
+              servicePort: 7878

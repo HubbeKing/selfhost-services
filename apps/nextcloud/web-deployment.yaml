@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextcloud-web
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nextcloud-web
+    spec:
+      containers:
+        - image: nextcloud:18.0.1
+          name: nextcloud
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "500Mi"
+          env:
+            - name: MYSQL_HOST
+              value: nextcloud-db
+            - name: REDIS_HOST
+              value: nextcloud-redis
+            - name: NEXTCLOUD_DATA_DIR
+              value: "/data"
+          envFrom:
+            - secretRef:
+                name: nextcloud-envs
+          volumeMounts:
+            - name: nextcloud-config
+              mountPath: /var/www/html
+            - name: nextcloud-array
+              mountPath: /data
+              subPath: Nextcloud
+            - name: nextcloud-array
+              mountPath: /array
+      volumes:
+        - name: nextcloud-config
+          hostPath:
+            path: /home/hubbe/services/nextcloud
+        - name: nextcloud-array
+          persistentVolumeClaim:
+            claimName: array

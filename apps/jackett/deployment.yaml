@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jackett
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jackett
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: jackett
+    spec:
+      containers:
+        - image: linuxserver/jackett:latest
+          imagePullPolicy: Always
+          name: jackett
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "200Mi"
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          volumeMounts:
+            - name: jackett-config
+              mountPath: /config
+      volumes:
+        - name: jackett-config
+          hostPath:
+            path: /home/hubbe/services/jackett

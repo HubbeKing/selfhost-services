@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: qbittorrent
+spec:
+  tls:
+    - hosts:
+      - torrents.hubbe.club  
+  rules:
+    - host: torrents.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: qbittorrent
+              servicePort: 8080

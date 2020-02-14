@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: roundcubemail-web
+spec:
+  tls:
+    - hosts:
+      - mail.hubbe.club  
+  rules:
+    - host: mail.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: roundcubemail-web
+              servicePort: 80

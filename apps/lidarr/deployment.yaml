@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lidarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lidarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: lidarr
+    spec:
+      containers:
+        - image: linuxserver/lidarr:latest
+          imagePullPolicy: Always
+          name: lidarr
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "200Mi"
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          volumeMounts:
+            - name: lidarr-config
+              mountPath: /config
+            - name: lidarr-array
+              mountPath: /music
+              subPath: Music
+            - name: lidarr-array
+              mountPath: /downloads
+              subPath: Downloads
+      volumes:
+        - name: lidarr-config
+          hostPath:
+            path: /home/hubbe/services/lidarr
+        - name: lidarr-array
+          persistentVolumeClaim:
+            claimName: array

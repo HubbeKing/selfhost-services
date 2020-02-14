@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: freshrss
+spec:
+  tls:
+    - hosts:
+      - rss.hubbe.club  
+  rules:
+    - host: rss.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: freshrss
+              servicePort: 80

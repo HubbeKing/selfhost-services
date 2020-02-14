@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: resilio-sync
+spec:
+  tls:
+    - hosts:
+      - sync.hubbe.club  
+  rules:
+    - host: sync.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: resilio-sync-web
+              servicePort: 8888

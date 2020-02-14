@@ -7,6 +7,8 @@ Services running on hubbe.club, in local k8s cluster
 - Get PGP key from backup storage
     - Import using `gpg --import`
     - Set `SOPS_PGP_FP` env var to key fingerprint
+- To decrypt all secrets in repo:
+    - Run `find . -type f -name '*.yaml' -exec sops --decrypt --in-place '{}' \;`
 
 ### k8s Cluster Setup
 - Set up machines with Ubuntu Server LTS 18.04
@@ -23,7 +25,7 @@ Services running on hubbe.club, in local k8s cluster
     - Nodes are added in as workers using `kubeadm token create --print-join-command` and `kubeadm join`
     - This sets up docker with the recommended configuration for kubernetes
     - This also enables kernel source address verification
-    
+
 
 ### Storage setup
 - NFS shares for things in `volumes` dir need to be created
@@ -31,7 +33,7 @@ Services running on hubbe.club, in local k8s cluster
 - NOTE: Currently, most `apps` use `hostPath` volumes, as I do not yet have a proper volume provisioner
 
 ### Ingress setup
-- Set up `cert-manager` for automated cert renew 
+- Set up `cert-manager` for automated cert renew
     - Run `kubectl apply -f core/cert-manager.yml`
     - Check `core/cert-issuer/*.yaml.example` files
         - Alternatively, run `sops --decrypt --in-place` on existing files
@@ -52,13 +54,14 @@ Services running on hubbe.club, in local k8s cluster
     - Alternatively, run `sops --decrypt --in-place` on existing files
 - Optional:
     - Set new MYSQL_PASSWORD environment variables for `nextcloud` and `freshrss`
-- Set PUID, PGID, and TZ variables in `apps/0-linuxserver-envs.yaml`
+- Set PUID, PGID, and TZ variables in `apps/linuxserver-envs.yaml`
 - Deploy apps
     - All apps can be deployed simply with `kubectl apply -R -f apps/`
     - If deploying single apps, remember to also deploy related configs
-        - Most things need the `apps/0-linuxserver-envs.yaml` ConfigMap
+        - Most things need the `apps/linuxserver-envs.yaml` ConfigMap
 
 ### Autoapply setup
 Autoapply automatically applies resources defined in the repo onto the cluster every 5m
-- Run `sops --decrypt apps/autoapply/secret.yaml | kubectl apply -f -`
-- Run `kubectl apply -f apps/autoapply/deployment.yaml`
+- Run `sops --decrypt -in-place apps/autoapply/secret.yaml`
+- Run `kubectl apply -f apps/autoapply/`
+

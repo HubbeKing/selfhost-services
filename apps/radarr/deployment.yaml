@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: radarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: radarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: radarr
+    spec:
+      containers:
+        - image: linuxserver/radarr:latest
+          imagePullPolicy: Always
+          name: radarr
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "300Mi"
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          volumeMounts:
+            - name: radarr-config
+              mountPath: /config
+            - name: radarr-array
+              mountPath: /movies
+              subPath: Videos/Movies
+            - name: radarr-array
+              mountPath: /downloads
+              subPath: Downloads
+      volumes:
+        - name: radarr-config
+          hostPath:
+            path: /home/hubbe/services/radarr
+        - name: radarr-array
+          persistentVolumeClaim:
+            claimName: array

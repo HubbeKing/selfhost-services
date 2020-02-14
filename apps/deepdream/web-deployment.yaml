@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepdream-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deepdream
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: deepdream
+    spec:
+      containers:
+        - image: hubbeking/deepdream-docker:latest
+          imagePullPolicy: Always
+          name: deepdream-api
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "500Mi"
+            limits:
+              cpu: "1000m"
+          envFrom:
+            - configMapRef:
+                name: deepdream-rabbit-envs
+          volumeMounts:
+            - name: deepdream-inputs
+              mountPath: /opt/deepdream/inputs
+            - name: deepdream-outputs
+              mountPath: /opt/deepdream/outputs
+        - image: hubbeking/deepdream-docker:latest
+          imagePullPolicy: Always
+          name: deepdream-worker
+          command: ["celery", "-A", "tasks", "worker", "--loglevel=INFO", "--concurrency=1"]
+          env:
+            - name: GLOG_minloglevel
+              value: "2"
+          envFrom:
+            - configMapRef:
+                name: deepdream-rabbit-envs
+            - secretRef:
+                name: deepdream-mail-envs
+          volumeMounts:
+            - name: deepdream-inputs
+              mountPath: /opt/deepdream/inputs
+            - name: deepdream-outputs
+              mountPath: /opt/deepdream/outputs
+      volumes:
+        - name: deepdream-inputs
+          emptyDir: {}
+        - name: deepdream-outputs
+          emptyDir: {}

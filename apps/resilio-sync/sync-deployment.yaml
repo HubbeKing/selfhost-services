@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resilio-sync
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: resilio-sync
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: resilio-sync
+    spec:
+      containers:
+        - image: linuxserver/resilio-sync:latest
+          imagePullPolicy: Always
+          name: resilio-sync
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          volumeMounts:
+            - name: resilio-sync-config
+              mountPath: /config
+            - name: resilio-array
+              mountPath: /sync
+              subPath: Sync
+      volumes:
+        - name: resilio-sync-config
+          hostPath:
+            path: /home/hubbe/services/resilio-sync
+        - name: resilio-array
+          persistentVolumeClaim:
+            claimName: array

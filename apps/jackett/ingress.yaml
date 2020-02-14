@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jackett
+spec:
+  tls:
+    - hosts:
+      - jackett.hubbe.club  
+  rules:
+    - host: jackett.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: jackett
+              servicePort: 9117

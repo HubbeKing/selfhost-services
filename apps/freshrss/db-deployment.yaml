@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freshrss-db
+spec:
+  replicas: 1  
+  selector:
+    matchLabels:
+      app: freshrss-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: freshrss-db
+    spec:
+      containers:
+        - image: mariadb:10
+          imagePullPolicy: Always
+          name: freshrss-db
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
+          envFrom:
+            - secretRef:
+                name: freshrss-envs
+          volumeMounts:
+            - name: freshrss-db-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: freshrss-db-storage
+          hostPath:
+            path: /home/hubbe/services/freshrss-db

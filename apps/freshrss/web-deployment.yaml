@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freshrss-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: freshrss
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: freshrss
+    spec:
+      containers:
+        - image: freshrss/freshrss:1.15.3
+          name: freshrss
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
+          env:
+            # cron minutes definition for RSS sync
+            - name: CRON_MIN
+              value: "*/5"
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: TZ
+          envFrom:
+            - secretRef:
+                name: freshrss-envs
+          volumeMounts:
+            - name: freshrss-data
+              mountPath: /var/www/FreshRSS/data
+      volumes:
+        - name: freshrss-data
+          hostPath:
+            path: /home/hubbe/services/freshrss

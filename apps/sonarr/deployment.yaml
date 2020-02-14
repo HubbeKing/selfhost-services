@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sonarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sonarr
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sonarr
+    spec:
+      containers:
+        - image: linuxserver/sonarr:preview
+          imagePullPolicy: Always
+          name: sonarr
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "300Mi"
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          volumeMounts:
+            - name: sonarr-config
+              mountPath: /config
+            - name: sonarr-array
+              mountPath: /tv
+              subPath: Videos/Shows
+            - name: sonarr-array
+              mountPath: /downloads
+              subPath: Downloads
+      volumes:
+        - name: sonarr-config
+          hostPath:
+            path: /home/hubbe/services/sonarr
+        - name: sonarr-array
+          persistentVolumeClaim:
+            claimName: array

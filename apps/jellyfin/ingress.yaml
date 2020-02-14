@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jellyfin
+spec:
+  tls:
+    - hosts:
+      - video.hubbe.club  
+  rules:
+    - host: video.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: jellyfin
+              servicePort: 8096

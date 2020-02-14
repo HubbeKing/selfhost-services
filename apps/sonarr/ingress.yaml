@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: sonarr
+spec:
+  tls:
+    - hosts:
+      - sonarr.hubbe.club  
+  rules:
+    - host: sonarr.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: sonarr
+              servicePort: 8989

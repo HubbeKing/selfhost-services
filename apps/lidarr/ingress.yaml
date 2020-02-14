@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: lidarr
+spec:
+  tls:
+    - hosts:
+      - lidarr.hubbe.club  
+  rules:
+    - host: lidarr.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: lidarr
+              servicePort: 8686
