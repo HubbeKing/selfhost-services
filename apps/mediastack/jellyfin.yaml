@@ -53,10 +53,8 @@ spec:
           resources:
             requests:
               # small amount of CPU to prevent latency when node is under high load
-              cpu: 500m
-            limits:
-              # requires intel-device-plugins-for-kubernetes
-              # VAAPI device for acceleration
+              cpu: 100m
+              # VAAPI device for HW acceleration, requires intel-device-plugins-for-kubernetes
               gpu.intel.com/i915: 1
           volumeMounts:
             - name: jellyfin-config
