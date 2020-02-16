@@ -5,7 +5,6 @@ metadata:
 spec:
   ports:
     - port: 55555
-      nodePort: 31113
   selector:
     app: resilio-sync
-  type: NodePort
+  type: LoadBalancer
