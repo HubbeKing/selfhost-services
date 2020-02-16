@@ -4,8 +4,7 @@ metadata:
   name: qbittorrent-incoming
 spec:
   ports:
-    - port: 31013
-      nodePort: 31013
+    - port: 63505
   selector:
     app: qbittorrent
-  type: NodePort
+  type: LoadBalancer
