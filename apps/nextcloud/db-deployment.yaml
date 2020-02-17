@@ -31,4 +31,4 @@ spec:
       volumes:
         - name: nextcloud-db-storage
           hostPath:
-            path: /home/hubbe/services/nextcloud-db
+            path: /home/hubbe/services/nextcloud/mysql

@@ -34,15 +34,17 @@ spec:
           volumeMounts:
             - name: nextcloud-config
               mountPath: /var/www/html
-            - name: nextcloud-array
+            - name: nextcloud-data
               mountPath: /data
-              subPath: Nextcloud
             - name: nextcloud-array
               mountPath: /array
       volumes:
         - name: nextcloud-config
           hostPath:
-            path: /home/hubbe/services/nextcloud
+            path: /home/hubbe/services/nextcloud/config
+        - name: nextcloud-data
+          hostPath:
+            path: /home/hubbe/services/nextcloud/data
         - name: nextcloud-array
           persistentVolumeClaim:
             claimName: array
