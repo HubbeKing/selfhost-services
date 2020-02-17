@@ -1,45 +1,12 @@
-kind: ClusterRole
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: iscsi-provisioner-runner
-rules:
-  - apiGroups: [""]
-    resources: ["persistentvolumes"]
-    verbs: ["get", "list", "watch", "create", "delete"]
-  - apiGroups: [""]
-    resources: ["persistentvolumeclaims"]
-    verbs: ["get", "list", "watch", "update"]
-  - apiGroups: ["storage.k8s.io"]
-    resources: ["storageclasses"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["get", "list", "create", "update", "patch"]
----
-kind: ClusterRoleBinding
-apiVersion: rbac.authorization.k8s.io/v1
-metadata:
-  name: run-iscsi-provisioner
-subjects:
-  - kind: ServiceAccount
-    name: iscsi-provisioner
-    namespace: default
-roleRef:
-  kind: ClusterRole
-  name: iscsi-provisioner-runner
-  apiGroup: rbac.authorization.k8s.io
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: iscsi-provisioner
----
 kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: iscsi-provisioner
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: iscsi-provisioner
   template:
     metadata:
       labels:
@@ -72,3 +39,4 @@ spec:
                   name: targetd-config
                   key: address
       serviceAccount: iscsi-provisioner
+

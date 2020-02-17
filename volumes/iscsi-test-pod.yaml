@@ -11,7 +11,7 @@ spec:
       command: ["sleep", "60000"]
       volumeMounts:
         - name: iscsi-vol
-          mountPath: /var/lib/busybox
+          mountPath: /test
           readOnly: false
   volumes:
     - name: iscsi-vol
