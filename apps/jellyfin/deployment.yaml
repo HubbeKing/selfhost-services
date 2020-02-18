@@ -49,8 +49,8 @@ spec:
               mountPath: /transcode
       volumes:
         - name: jellyfin-config
-          hostPath:
-            path: /home/hubbe/services/jellyfin
+          persistentVolumeClaim:
+            claimName: jellyfin-config-hostpath
         - name: jellyfin-array
           persistentVolumeClaim:
             claimName: array

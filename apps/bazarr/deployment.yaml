@@ -32,11 +32,12 @@ spec:
               mountPath: /movies
               subPath: Videos/Movies
             - name: bazarr-array
-              mountPath: Videos/Shows
+              mountPath: /tv
+              subPath: Videos/Shows
       volumes:
         - name: bazarr-config
-          hostPath:
-            path: /home/hubbe/services/bazarr
+          persistentVolumeClaim:
+            claimName: bazarr-config-hostpath
         - name: bazarr-array
           persistentVolumeClaim:
             claimName: array

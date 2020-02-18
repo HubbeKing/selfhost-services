@@ -38,5 +38,5 @@ spec:
               mountPath: /var/www/FreshRSS/data
       volumes:
         - name: freshrss-data
-          hostPath:
-            path: /home/hubbe/services/freshrss
+          persistentVolumeClaim:
+            claimName: freshrss-data-hostpath

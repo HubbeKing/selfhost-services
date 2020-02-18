@@ -36,8 +36,8 @@ spec:
               subPath: Downloads
       volumes:
         - name: lidarr-config
-          hostPath:
-            path: /home/hubbe/services/lidarr
+          persistentVolumeClaim:
+            claimName: lidarr-config-hostpath
         - name: lidarr-array
           persistentVolumeClaim:
             claimName: array

@@ -36,8 +36,8 @@ spec:
               subPath: Videos
       volumes:
         - name: qbittorrent-config
-          hostPath:
-            path: /home/hubbe/services/qbittorrent
+          persistentVolumeClaim:
+            claimName: qbittorrent-config-hostpath
         - name: qbittorrent-array
           persistentVolumeClaim:
             claimName: array

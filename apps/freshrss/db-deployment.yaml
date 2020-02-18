@@ -30,5 +30,5 @@ spec:
               mountPath: /var/lib/mysql
       volumes:
         - name: freshrss-db-storage
-          hostPath:
-            path: /home/hubbe/services/freshrss-db
+          persistentVolumeClaim:
+            claimName: freshrss-db-hostpath

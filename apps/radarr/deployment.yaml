@@ -36,8 +36,8 @@ spec:
               subPath: Downloads
       volumes:
         - name: radarr-config
-          hostPath:
-            path: /home/hubbe/services/radarr
+          persistentVolumeClaim:
+            claimName: radarr-config-hostpath
         - name: radarr-array
           persistentVolumeClaim:
             claimName: array

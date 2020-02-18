@@ -40,11 +40,11 @@ spec:
               mountPath: /array
       volumes:
         - name: nextcloud-config
-          hostPath:
-            path: /home/hubbe/services/nextcloud/config
+          persistentVolumeClaim:
+            claimName: nextcloud-config-hostpath
         - name: nextcloud-data
-          hostPath:
-            path: /home/hubbe/services/nextcloud/data
+          persistentVolumeClaim:
+            claimName: nextcloud-data-hostpath
         - name: nextcloud-array
           persistentVolumeClaim:
             claimName: array

@@ -36,8 +36,8 @@ spec:
               subPath: Downloads
       volumes:
         - name: sonarr-config
-          hostPath:
-            path: /home/hubbe/services/sonarr
+          persistentVolumeClaim:
+            claimName: sonarr-config-hostpath
         - name: sonarr-array
           persistentVolumeClaim:
             claimName: array
