@@ -28,9 +28,10 @@ Services running on hubbe.club, in local k8s cluster
 
 
 ### Storage setup
-- NFS shares for things in `volumes` dir need to be created
+- NFS share for `volumes/array-pv.yaml` needs to be created
     - Must be accessible from the IPs of the nodes in the k8s cluster
-- NOTE: Currently, most `apps` use `hostPath` volumes, as I do not yet have a proper volume provisioner
+- iSCSI server with targetd must be set up and configured - see `volumes/iscsi-provisioner`
+- NOTE: Currently, most `apps` use `hostPath` volumes, as I still need to fiddle with my iscsi server
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert renew
