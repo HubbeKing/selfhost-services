@@ -8,16 +8,17 @@ rules:
   - apiGroups:
       # "" is the core API group, other api groups as used by resources in repo
       - ""
+      - "admissionregistration.k8s.io"
+      - "apiextensions.k8s.io"
+      - "apiregistration.k8s.io"
       - "apps"
       - "batch"
       - "cert-manager.io"
       - "extensions"
       - "networking.k8s.io"
-      - "rbac.authorization.k8s.io"
-      - "apiextensions.k8s.io"
-      - "admissionregistration.k8s.io"
       - "policy"
-      - "apiregistration.k8s.io"
+      - "rbac.authorization.k8s.io"
+      - "storage.k8s.io"
     # access to all resources/verbs means I don't have to worry about what autoapply can and can't do
     resources: 
        - "*"
