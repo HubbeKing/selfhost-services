@@ -46,7 +46,7 @@ spec:
                     - git clone -b 'master' --depth 1 --single-branch 'git@github.com:HubbeKing/selfhost-services.git' '.'
                     - find '.' -type f -regex '.*.ya*ml' -exec sops --decrypt --in-place '{}' \;
                     - kubectl apply -R -f core/
-                    - kubectl apply -f volumes/
+                    - kubectl apply -R -f volumes/
                     - kubectl apply -f nginx/
                     - kubectl apply -R -f apps/
       tolerations:
