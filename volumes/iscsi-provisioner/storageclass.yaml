@@ -1,0 +1,20 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+    name: iscsi-volume
+provisioner: iscsi-targetd
+reclaimPolicy: Delete
+parameters:
+    # portal to talk to for iscsi target export
+    targetPortal: 192.168.1.213:3260
+    # iqn of iscsi server
+    iqn: iqn.2020-02.club.hubbe:galactica
+    # LVM volume group to create logical volumes in
+    volumeGroup: galactica/services
+    # initiators allowed to mount created iscsi targets
+    initiators: iqn.2020-02.club.hubbe:valkyrie
+    # whether to use chap auth for discovery/session operations
+    chapAuthDiscovery: "false"
+    chapAuthSession: "false"
+    # filesystem type for logical volumes
+    fsType: ext4
