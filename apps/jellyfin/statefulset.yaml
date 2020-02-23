@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jellyfin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin
+  serviceName: jellyfin
+  template:
+    metadata:
+      labels:
+        app: jellyfin
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - image: jellyfin/jellyfin:10.4.3
+          name: jellyfin
+          resources:
+            requests:
+              # request small amount of CPU to prevent latency when node is under load from other work
+              cpu: 100m
+            limits:
+              # VAAPI device for HW acceleration, requires intel-device-plugins-for-kubernetes
+              gpu.intel.com/i915: 1
+          volumeMounts:
+            - mountPath: /movies
+              name: array
+              subPath: Videos/Movies
+              readOnly: True
+            - mountPath: /music
+              name: array
+              subPath: Music
+              readOnly: True
+            - mountPath: /tv
+              name: array
+              subPath: Videos/Shows
+              readOnly: True
+            - mountPath: /transcode
+              name: transcode
+            - mountPath: /cache
+              name: cache
+            - mountPath: /config
+              name: config
+      volumes:
+        - name: array
+          persistentVolumeClaim:
+            claimName: array
+        - name: transcode
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 1Gi
