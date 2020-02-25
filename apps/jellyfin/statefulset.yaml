@@ -28,6 +28,10 @@ spec:
               # VAAPI device for HW acceleration, requires intel-device-plugins-for-kubernetes
               gpu.intel.com/i915: 1
           volumeMounts:
+            - mountPath: /desertbus
+              name: array
+              subPath: Videos/DBfH
+              readOnly: True
             - mountPath: /movies
               name: array
               subPath: Videos/Movies
