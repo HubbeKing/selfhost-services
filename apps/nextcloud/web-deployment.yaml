@@ -15,7 +15,7 @@ spec:
         app: nextcloud-web
     spec:
       containers:
-        - image: nextcloud:18.0.2
+        - image: nextcloud:18.0.3
           name: nextcloud
           resources:
             requests:
