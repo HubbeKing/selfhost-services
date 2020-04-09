@@ -15,7 +15,7 @@ spec:
         app: freshrss
     spec:
       containers:
-        - image: freshrss/freshrss:1.15.3
+        - image: freshrss/freshrss:1.16.0
           name: freshrss
           resources:
             requests:
