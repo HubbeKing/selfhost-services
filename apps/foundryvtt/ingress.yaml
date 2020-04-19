@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: foundryvtt
+spec:
+  tls:
+    - hosts:
+      - foundry.hubbe.club  
+  rules:
+    - host: foundry.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: foundryvtt
+              servicePort: 30000
