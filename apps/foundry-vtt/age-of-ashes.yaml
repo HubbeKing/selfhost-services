@@ -1,0 +1,87 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: age-of-ashes
+spec:
+  tls:
+    - hosts:
+      - foundry.hubbe.club
+      - ashes.foundry.hubbe.club
+  rules:
+    - host: foundry.hubbe.club
+      http:
+        paths:
+          - path: /ashes/
+            backend:
+              serviceName: age-of-ashes
+              servicePort: 30000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: age-of-ashes
+spec:
+  ports:
+    - port: 30000
+  selector:
+    app: age-of-ashes
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: age-of-ashes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: age-of-ashes
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: age-of-ashes
+    spec:
+      containers:
+        - image: foundry:0.5.5
+          imagePullPolicy: Never
+          name: age-of-ashes
+          command: ["node"]
+          args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "500Mi"
+          volumeMounts:
+            - name: age-of-ashes-data
+              mountPath: /data
+      volumes:
+        - name: age-of-ashes-data
+          persistentVolumeClaim:
+            claimName: age-of-ashes-data-hostpath
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: age-of-ashes-data-hostpath
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /home/hubbe/services/foundry-vtt/age-of-ashes
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: age-of-ashes-data-hostpath
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: age-of-ashes-data-hostpath
