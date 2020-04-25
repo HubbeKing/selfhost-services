@@ -6,7 +6,6 @@ spec:
   tls:
     - hosts:
       - foundry.hubbe.club
-      - ashes.foundry.hubbe.club
   rules:
     - host: foundry.hubbe.club
       http:
