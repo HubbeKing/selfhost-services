@@ -1,0 +1,86 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: barthus-delivery-service
+spec:
+  tls:
+    - hosts:
+      - foundry.hubbe.club
+  rules:
+    - host: foundry.hubbe.club
+      http:
+        paths:
+          - path: /barthu/
+            backend:
+              serviceName: barthus-delivery-service
+              servicePort: 30000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: barthus-delivery-service
+spec:
+  ports:
+    - port: 30000
+  selector:
+    app: barthus-delivery-service
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barthus-delivery-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barthus-delivery-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: barthus-delivery-service
+    spec:
+      containers:
+        - image: foundry:0.5.5
+          imagePullPolicy: Never
+          name: barthus-delivery-service
+          command: ["node"]
+          args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "500Mi"
+          volumeMounts:
+            - name: barthus-delivery-service-data
+              mountPath: /data
+      volumes:
+        - name: barthus-delivery-service-data
+          persistentVolumeClaim:
+            claimName: barthus-delivery-service-data-hostpath
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: barthus-delivery-service-data-hostpath
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /home/hubbe/services/foundry-vtt/barthus-delivery-service
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: barthus-delivery-service-data-hostpath
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: barthus-delivery-service-data-hostpath
