@@ -1,0 +1,86 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: dead-suns
+spec:
+  tls:
+    - hosts:
+      - foundry.hubbe.club
+  rules:
+    - host: foundry.hubbe.club
+      http:
+        paths:
+          - path: /suns/
+            backend:
+              serviceName: dead-suns
+              servicePort: 30000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dead-suns
+spec:
+  ports:
+    - port: 30000
+  selector:
+    app: dead-suns
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dead-suns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dead-suns
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: dead-suns
+    spec:
+      containers:
+        - image: foundry:0.5.5
+          imagePullPolicy: Never
+          name: dead-suns
+          command: ["node"]
+          args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "500Mi"
+          volumeMounts:
+            - name: dead-suns-data
+              mountPath: /data
+      volumes:
+        - name: dead-suns-data
+          persistentVolumeClaim:
+            claimName: dead-suns-data-hostpath
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: dead-suns-data-hostpath
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  hostPath:
+    path: /home/hubbe/services/foundry-vtt/dead-suns
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: dead-suns-data-hostpath
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: dead-suns-data-hostpath
