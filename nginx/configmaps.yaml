@@ -20,6 +20,8 @@ data:
   # set 2-year HSTS headers
   hsts: "true"
   hsts-max-axe: "63072000"
+  # enable OCSP stapling (ingress-nginx 0.31.0 addition)
+  enable-ocsp: "true"
   # Mozilla Intermediate SSL config
   ssl-protocols: "TLSv1.2 TLSv1.3"
   ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
