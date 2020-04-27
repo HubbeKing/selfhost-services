@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: freshrss-web
 spec:
@@ -7,8 +7,7 @@ spec:
   selector:
     matchLabels:
       app: freshrss
-  strategy:
-    type: Recreate
+  serviceName: freshrss-web
   template:
     metadata:
       labels:
@@ -34,9 +33,14 @@ spec:
             - secretRef:
                 name: freshrss-envs
           volumeMounts:
-            - name: freshrss-data
+            - name: data
               mountPath: /var/www/FreshRSS/data
-      volumes:
-        - name: freshrss-data
-          persistentVolumeClaim:
-            claimName: freshrss-data-hostpath
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 100Mi
