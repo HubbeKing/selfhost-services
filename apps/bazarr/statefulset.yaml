@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: bazarr
 spec:
@@ -7,8 +7,7 @@ spec:
   selector:
     matchLabels:
       app: bazarr
-  strategy:
-    type: Recreate
+  serviceName: bazarr
   template:
     metadata:
       labels:
@@ -26,18 +25,24 @@ spec:
             - configMapRef:
                 name: linuxserver-envs
           volumeMounts:
-            - name: bazarr-config
+            - name: config
               mountPath: /config
-            - name: bazarr-array
-              mountPath: /movies
+            - name: array
               subPath: Videos/Movies
-            - name: bazarr-array
-              mountPath: /tv
+              mountPath: /movies
+            - name: array
               subPath: Videos/Shows
+              mountPath: /tv
       volumes:
-        - name: bazarr-config
-          persistentVolumeClaim:
-            claimName: bazarr-config-hostpath
-        - name: bazarr-array
+        - name: array
           persistentVolumeClaim:
             claimName: array
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 100Mi
