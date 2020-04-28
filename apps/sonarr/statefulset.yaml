@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: sonarr
 spec:
@@ -7,8 +7,7 @@ spec:
   selector:
     matchLabels:
       app: sonarr
-  strategy:
-    type: Recreate
+  serviceName: sonarr
   template:
     metadata:
       labels:
@@ -26,18 +25,24 @@ spec:
             - configMapRef:
                 name: linuxserver-envs
           volumeMounts:
-            - name: sonarr-config
+            - name: config
               mountPath: /config
-            - name: sonarr-array
-              mountPath: /tv
+            - name: array
               subPath: Videos/Shows
-            - name: sonarr-array
-              mountPath: /downloads
+              mountPath: /tv
+            - name: array
               subPath: Downloads
+              mountPath: /downloads
       volumes:
-        - name: sonarr-config
-          persistentVolumeClaim:
-            claimName: sonarr-config-hostpath
-        - name: sonarr-array
+        - name: array
           persistentVolumeClaim:
             claimName: array
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 1Gi
