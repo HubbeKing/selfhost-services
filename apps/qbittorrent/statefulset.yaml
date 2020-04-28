@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: qbittorrent
 spec:
@@ -7,8 +7,7 @@ spec:
   selector:
     matchLabels:
       app: qbittorrent
-  strategy:
-    type: Recreate
+  serviceName: qbittorrent
   template:
     metadata:
       labels:
@@ -26,18 +25,24 @@ spec:
             - configMapRef:
                 name: linuxserver-envs
           volumeMounts:
-            - name: qbittorrent-config
+            - name: config
               mountPath: /config
-            - name: qbittorrent-array
-              mountPath: /downloads
+            - name: array
               subPath: Downloads
-            - name: qbittorrent-array
-              mountPath: /videos
+              mountPath: /downloads
+            - name: array
               subPath: Videos
+              mountPath: /videos
       volumes:
-        - name: qbittorrent-config
-          persistentVolumeClaim:
-            claimName: qbittorrent-config-hostpath
-        - name: qbittorrent-array
+        - name: array
           persistentVolumeClaim:
             claimName: array
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 100Mi
