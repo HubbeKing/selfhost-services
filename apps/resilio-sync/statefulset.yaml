@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: resilio-sync
 spec:
@@ -7,8 +7,7 @@ spec:
   selector:
     matchLabels:
       app: resilio-sync
-  strategy:
-    type: Recreate
+  serviceName: resilio-sync
   template:
     metadata:
       labels:
@@ -26,15 +25,21 @@ spec:
             - configMapRef:
                 name: linuxserver-envs
           volumeMounts:
-            - name: resilio-sync-config
+            - name: config
               mountPath: /config
-            - name: resilio-array
-              mountPath: /sync
+            - name: array
               subPath: Sync
+              mountPath: /sync
       volumes:
-        - name: resilio-sync-config
-          persistentVolumeClaim:
-            claimName: resilio-sync-config-hostpath
-        - name: resilio-array
+        - name: array
           persistentVolumeClaim:
             claimName: array
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 1Gi
