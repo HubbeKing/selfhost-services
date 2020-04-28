@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: jackett
 spec:
@@ -7,8 +7,7 @@ spec:
   selector:
     matchLabels:
       app: jackett
-  strategy:
-    type: Recreate
+  serviceName: jackett
   template:
     metadata:
       labels:
@@ -26,9 +25,14 @@ spec:
             - configMapRef:
                 name: linuxserver-envs
           volumeMounts:
-            - name: jackett-config
+            - name: config
               mountPath: /config
-      volumes:
-        - name: jackett-config
-          persistentVolumeClaim:
-            claimName: jackett-config-hostpath
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 100Mi
