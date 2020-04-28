@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: nextcloud-web
 spec:
@@ -7,13 +7,14 @@ spec:
   selector:
     matchLabels:
       app: nextcloud-web
-  strategy:
-    type: RollingUpdate
+  serviceName: nextcloud-web
   template:
     metadata:
       labels:
         app: nextcloud-web
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
         - image: nextcloud:18.0.4
           name: nextcloud
@@ -32,19 +33,30 @@ spec:
             - secretRef:
                 name: nextcloud-envs
           volumeMounts:
-            - name: nextcloud-config
+            - name: config
               mountPath: /var/www/html
-            - name: nextcloud-data
+            - name: data
               mountPath: /data
-            - name: nextcloud-array
+            - name: array
               mountPath: /array
       volumes:
-        - name: nextcloud-config
-          persistentVolumeClaim:
-            claimName: nextcloud-config-hostpath
-        - name: nextcloud-data
-          persistentVolumeClaim:
-            claimName: nextcloud-data-hostpath
-        - name: nextcloud-array
+        - name: array
           persistentVolumeClaim:
             claimName: array
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 5Gi
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 10Gi

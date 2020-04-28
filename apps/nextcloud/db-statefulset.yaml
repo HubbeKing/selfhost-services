@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: nextcloud-db
 spec:
@@ -7,13 +7,16 @@ spec:
   selector:
     matchLabels:
       app: nextcloud-db
-  strategy:
-    type: Recreate
+  serviceName: nextcloud-db
   template:
     metadata:
       labels:
         app: nextcloud-db
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - image: mariadb:10
           imagePullPolicy: Always
@@ -26,9 +29,14 @@ spec:
             - secretRef:
                 name: nextcloud-envs
           volumeMounts:
-            - name: nextcloud-db-storage
+            - name: data
               mountPath: /var/lib/mysql
-      volumes:
-        - name: nextcloud-db-storage
-          persistentVolumeClaim:
-            claimName: nextcloud-db-hostpath
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 1Gi
