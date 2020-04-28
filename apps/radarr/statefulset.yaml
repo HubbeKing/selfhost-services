@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: radarr
 spec:
@@ -7,8 +7,7 @@ spec:
   selector:
     matchLabels:
       app: radarr
-  strategy:
-    type: Recreate
+  serviceName: radarr
   template:
     metadata:
       labels:
@@ -26,18 +25,24 @@ spec:
             - configMapRef:
                 name: linuxserver-envs
           volumeMounts:
-            - name: radarr-config
+            - name: config
               mountPath: /config
-            - name: radarr-array
-              mountPath: /movies
+            - name: array
               subPath: Videos/Movies
-            - name: radarr-array
-              mountPath: /downloads
+              mountPath: /movies
+            - name: array
               subPath: Downloads
+              mountPath: /downloads
       volumes:
-        - name: radarr-config
-          persistentVolumeClaim:
-            claimName: radarr-config-hostpath
-        - name: radarr-array
+        - name: array
           persistentVolumeClaim:
             claimName: array
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 1Gi
