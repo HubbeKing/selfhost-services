@@ -26,18 +26,18 @@ spec:
               cpu: "50m"
               memory: "50Mi"
           volumeMounts:
-            - name: hubbot-data
+            - name: data
               mountPath: /app/data
-            - name: hubbot-logs
+            - name: logs
               mountPath: /app/logs
-            - name: hubbot-config
+            - name: config
               mountPath: /app/configs
       volumes:
-        - name: hubbot-data
+        - name: data
           persistentVolumeClaim:
-            claimName: hubbot-data-hostpath
-        - name: hubbot-logs
+            claimName: data-hubbot-dbchat
+        - name: logs
           emptyDir: {}
-        - name: hubbot-config
+        - name: config
           configMap:
             name: hubbot-config
