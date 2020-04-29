@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
-  name: barthus-delivery-service
+  name: foundry-barthu
 spec:
   tls:
     - hosts:
@@ -12,39 +12,42 @@ spec:
         paths:
           - path: /barthu/
             backend:
-              serviceName: barthus-delivery-service
+              serviceName: foundry-barthu
               servicePort: 30000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: barthus-delivery-service
+  name: foundry-barthu
 spec:
   ports:
     - port: 30000
   selector:
-    app: barthus-delivery-service
+    app: foundry-barthu
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: barthus-delivery-service
+  name: foundry-barthu
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: barthus-delivery-service
-  strategy:
-    type: Recreate
+      app: foundry-barthu
+  serviceName: foundry-barthu
   template:
     metadata:
       labels:
-        app: barthus-delivery-service
+        app: foundry-barthu
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - image: foundry:0.5.5
           imagePullPolicy: Never
-          name: barthus-delivery-service
+          name: foundry-barthu
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
           resources:
@@ -52,35 +55,14 @@ spec:
               cpu: "100m"
               memory: "500Mi"
           volumeMounts:
-            - name: barthus-delivery-service-data
+            - name: data
               mountPath: /data
-      volumes:
-        - name: barthus-delivery-service-data
-          persistentVolumeClaim:
-            claimName: barthus-delivery-service-data-hostpath
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: barthus-delivery-service-data-hostpath
-spec:
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 5Gi
-  hostPath:
-    path: /home/hubbe/services/foundry-vtt/barthus-delivery-service
-  persistentVolumeReclaimPolicy: Retain
-  volumeMode: Filesystem
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: barthus-delivery-service-data-hostpath
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi
-  volumeName: barthus-delivery-service-data-hostpath
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: iscsi-volume
+        resources:
+          requests:
+            storage: 1Gi
