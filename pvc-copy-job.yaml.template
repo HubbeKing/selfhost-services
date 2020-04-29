@@ -11,8 +11,9 @@ spec:
     spec:
       containers:
       - name: rsync
-        image: rsync:latest
-        imagePullPolicy: Never
+        image: instrumentisto/rsync-ssh:latest
+        command: ["rsync"]
+        args: ["-apvH", "/srcd/", "/dest/"]
         volumeMounts:
         - name: source
           mountPath: /srcd
