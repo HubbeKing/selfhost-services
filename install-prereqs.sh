@@ -55,11 +55,15 @@ sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
 sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 
 set -e
+
+# update apt package lists
+sudo apt-get update
+
 # install iSCSI initiator, so that we can mount iSCSI targets as volumes
-sudo apt-get update && sudo apt-get install open-iscsi -y
+sudo apt-get install open-iscsi -y
 
 # install kubeadm, kubelet, and kubectl
-sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+sudo apt-get install -y apt-transport-https curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
