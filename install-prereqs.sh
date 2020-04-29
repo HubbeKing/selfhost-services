@@ -55,6 +55,9 @@ sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
 sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
 
 set -e
+# install iSCSI initiator, so that we can mount iSCSI targets as volumes
+sudo apt-get update && sudo apt-get install open-iscsi -y
+
 # install kubeadm, kubelet, and kubectl
 sudo apt-get update && sudo apt-get install -y apt-transport-https curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
