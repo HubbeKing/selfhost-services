@@ -19,7 +19,8 @@ Services running on hubbe.club, in local k8s cluster
     - This also sets up docker with the recommended configuration for kubernetes
     - This also enables kernel source address verification
     - Note that this does not un-taint the master node, and thus no user pods are scheduled on master by default
-- Add in new nodes by running `kubeadm-join.sh <node_user>@<node_address>`
+- # TODO: add script toggles for stacked etcd HA control plane
+- Add in worker nodes by running `kubeadm-join-worker.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
     - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
     - Nodes are added in as workers using `kubeadm token create --print-join-command` and `kubeadm join`
@@ -31,6 +32,7 @@ Services running on hubbe.club, in local k8s cluster
 - NFS share for `volumes/array-pv.yaml` needs to be created
     - Must be accessible from the IPs of the nodes in the k8s cluster
 - iSCSI server with targetd must be set up and configured - see `volumes/iscsi-provisioner`
+- Longhorn needs no additional setup - see `volumes/longhorn`
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert renew
