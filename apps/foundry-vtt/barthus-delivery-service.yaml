@@ -44,9 +44,10 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
+      imagePullSecrets:
+        - name: regcred
       containers:
-        - image: foundry:0.5.5
-          imagePullPolicy: Never
+        - image: hubbeking/foundry:v0.5.5
           name: foundry-barthu
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
