@@ -3,7 +3,9 @@ set -e
 
 if [ $# -eq 0 ]; then
     # no arguments provided
-    echo "Usage: kubeadm-join.sh user@host - Joins the specified host to this k8s cluster with kubeadm join. User must have ssh login and sudo access on host."
+    echo "Usage: kubeadm-join-worker.sh user@host - Joins the specified host as a worker to the current k8s cluster using kubeadm join."
+    echo "User must have ssh login and sudo access on host."
+    echo "Script should be run from an existing control-plane kubeadm node."
     exit 1
 fi
 
