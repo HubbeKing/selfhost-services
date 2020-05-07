@@ -11,10 +11,12 @@ fi
 
 HOST="$1"
 echo "Will join $HOST to the current k8s control plane."
+echo "Uploading CA certificates and calculating key SHA256 digest..."
+kubeadm init phase upload-certs --upload-certs  # this also generates a new cert key, which we need, as keys expire after 2 hours
+CA_CERT_KEY=$(openssl x509 -in /etc/kubernetes/pki/ca.crt -pubkey -noout | openssl pkey -pubin -outform DER | openssl dgst -sha256)
+
 echo "Generating join token..."
 JOIN_CMD=$(kubeadm token create --print-join-command)
-echo "Calculating CA certificate key digest..."
-CA_CERT_KEY=$(openssl x509 -in /etc/kubernetes/pki/ca.crt -pubkey -noout | openssl pkey -pubin -outform DER | openssl dgst -sha256)
 
 # ensure required packages are installed and using proper settings
 echo "Copying install scripts to target host..."
