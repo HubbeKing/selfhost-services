@@ -63,7 +63,7 @@ spec:
         name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: iscsi-volume
+        storageClassName: longhorn
         resources:
           requests:
             storage: 5Gi
