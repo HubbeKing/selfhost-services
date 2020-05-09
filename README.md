@@ -31,8 +31,9 @@ Services running on hubbe.club, in local k8s cluster
 ### Storage setup
 - NFS share for `volumes/array-pv.yaml` needs to be created
     - Must be accessible from the IPs of the nodes in the k8s cluster
+- Longhorn needs no additional setup - simply deploy `volumes/longhorn`
 - iSCSI server with targetd must be set up and configured - see `volumes/iscsi-provisioner`
-- Longhorn needs no additional setup - see `volumes/longhorn`
+    - Optional, no services use iscsi-volume anymore
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert renew
