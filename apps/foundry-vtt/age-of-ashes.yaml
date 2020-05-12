@@ -29,6 +29,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: foundry-ashes
+  annotations:
+    stash.appscode.com/backup-blueprint: app-backup
+    stash.appscode.com/target-paths: "/data"
+    stash.appscode.com/volume-mounts: "data:/data"
 spec:
   replicas: 1
   selector:

@@ -2,6 +2,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: nextcloud-db
+  annotations:
+    stash.appscode.com/backup-blueprint: app-backup
+    stash.appscode.com/target-paths: "/var/lib/mysql"
+    stash.appscode.com/volume-mounts: "data:/var/lib/mysql"
 spec:
   replicas: 1  
   selector:
