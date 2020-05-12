@@ -11,18 +11,19 @@ Services running on hubbe.club, in local k8s cluster
     - Run `find . -type f -name '*.yaml' -exec sops --decrypt --in-place '{}' \;`
 
 ### k8s Cluster Setup
-- Set up machines with basic apt-based OS
+1. Set up machines with basic apt-based OS
     - Should support Ubuntu 18.04 LTS and Ubuntu 20.04 LTS, both amd64 and arm64
     - Should support RPi HypriotOS for armhf support
-- Set up single-node control-plane with `init-scripts/kubeadm-init.sh`
-    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl` - NOTE: Always latest versions
+2. Set up single-node control-plane with `init-scripts/kubeadm-init.sh`
+    - TODO: add args for creating stacked-etcd HA control plane
+    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl` 
+        - NOTE: Always latest versions
     - `Flannel` is set up in the cluster for pod networking
         - Default pod CIDR is 10.244.0.0/16, adjust as needed - make sure to also edit `core/kube-flannel.yaml`
     - Docker is configured with the recommended daemon settings for kubernetes
     - Kernel source address verification is also enabled
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
-- # TODO: add script toggles for stacked etcd HA control plane
-- Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
+3. Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
     - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
     - Docker is configured with the recommended daemon settings for kubernetes
@@ -31,9 +32,11 @@ Services running on hubbe.club, in local k8s cluster
 
 
 ### Storage setup
-- NFS share for `volumes/array-pv.yaml` needs to be created
-    - Must be accessible from the IPs of the nodes in the k8s cluster
+- NFS share for `volumes/array-nfs-pv.yaml` needs to be created
+- NFS share for `volumes/backups-nfs-pv.yaml` needs to be created
+    - Both must be accessible from the IPs of the nodes in the k8s cluster
 - Longhorn needs no additional setup - simply deploy `volumes/longhorn` with `kubectl apply -f volumes/longhorn`
+    - The storageclass settings can be tweaked if needed for volume HA stuff - see `volumes/longhorn/storageclass.yaml`
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert renew
