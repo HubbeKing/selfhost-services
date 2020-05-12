@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-backups
+spec:
+  capacity:
+    storage: 500Gi
+  volumeMode: Filesystem
+  persistentVolumeReclaimPolicy: Retain
+  accessModes:
+    - ReadWriteMany
+  # use file system cache for NFS mount
+  mountOptions: ["fsc"]
+  nfs:
+    server: "192.168.1.213"
+    path: "/mnt/hubbe/array/Backups/k8s"
+    readOnly: false
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-backups
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Gi
+  volumeName: nfs-backups
