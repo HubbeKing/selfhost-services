@@ -23,4 +23,4 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # apply Flannel pod networking manifest
-kubectl apply -f core/kube-flannel.yml
+kubectl apply -f ../core/kube-flannel.yml

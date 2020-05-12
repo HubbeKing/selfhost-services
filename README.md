@@ -11,27 +11,29 @@ Services running on hubbe.club, in local k8s cluster
     - Run `find . -type f -name '*.yaml' -exec sops --decrypt --in-place '{}' \;`
 
 ### k8s Cluster Setup
-- Set up machines with Ubuntu Server LTS 18.04
-- Set up control-plane node with `kubeadm-init.sh` script (single node, not HA)
-    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
-    - This also sets up `Flannel` for pod networking
-    - Default pod CIDR is 10.244.0.0/16, adjust as needed - make sure to also edit `core/kube-flannel.yaml`
-    - This also sets up docker with the recommended configuration for kubernetes
-    - This also enables kernel source address verification
-    - Note that this does not un-taint the master node, and thus no user pods are scheduled on master by default
+- Set up machines with basic apt-based OS
+    - Should support Ubuntu 18.04 LTS and Ubuntu 20.04 LTS, both amd64 and arm64
+    - Should support RPi HypriotOS for armhf support
+- Set up single-node control-plane with `init-scripts/kubeadm-init.sh`
+    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl` - NOTE: Always latest versions
+    - `Flannel` is set up in the cluster for pod networking
+        - Default pod CIDR is 10.244.0.0/16, adjust as needed - make sure to also edit `core/kube-flannel.yaml`
+    - Docker is configured with the recommended daemon settings for kubernetes
+    - Kernel source address verification is also enabled
+    - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
 - # TODO: add script toggles for stacked etcd HA control plane
-- Add in worker nodes by running `kubeadm-join-worker.sh <node_user>@<node_address>`
+- Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
     - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
-    - Nodes are added in as workers using `kubeadm token create --print-join-command` and `kubeadm join`
-    - This sets up docker with the recommended configuration for kubernetes
-    - This also enables kernel source address verification
+    - Docker is configured with the recommended daemon settings for kubernetes
+    - Kernel source address verification is also enabled
+    - Nodes are then joined as workers using `kubeadm token create --print-join-command` and `kubeadm join`
 
 
 ### Storage setup
 - NFS share for `volumes/array-pv.yaml` needs to be created
     - Must be accessible from the IPs of the nodes in the k8s cluster
-- Longhorn needs no additional setup - simply deploy `volumes/longhorn`
+- Longhorn needs no additional setup - simply deploy `volumes/longhorn` with `kubectl apply -f volumes/longhorn`
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert renew
@@ -65,4 +67,3 @@ Services running on hubbe.club, in local k8s cluster
 Autoapply automatically applies resources defined in the repo onto the cluster every 5m
 - Run `sops --decrypt -in-place apps/autoapply/secret.yaml`
 - Run `kubectl apply -f apps/autoapply/`
-

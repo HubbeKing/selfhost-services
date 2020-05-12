@@ -14,7 +14,7 @@ if ! [ -x "$(command -v docker)" ]; then
 
   # add docker's official GPG key
   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    
+
   # add docker repo to apt
   sudo add-apt-repository \
   "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu \
