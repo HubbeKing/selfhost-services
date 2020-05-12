@@ -1,0 +1,26 @@
+---
+# Source: stash/templates/restore-job-psp.yaml
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: stash-restore-job
+  labels:
+    chart: "stash-v0.9.0-rc.6"
+    app: "stash"
+    release: "stash-operator"
+    heritage: "Helm"
+spec:
+  allowPrivilegeEscalation: false
+  volumes:
+  - "*" # restore job need to access all types of volume as user may restore to any types of volume
+  hostNetwork: false
+  hostIPC: false
+  hostPID: false
+  runAsUser:
+    rule: RunAsAny
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  fsGroup:
+    rule: RunAsAny

@@ -1,0 +1,28 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: BackupBlueprint
+metadata:
+  name: app-backup
+spec:
+  backend:
+    local:
+      mountPath: /safe/data
+      subPath: Backups/k8s/${TARGET_KIND}/${TARGET_NAME}
+      persistentVolumeClaim:
+        claimName: array
+    storageSecretName: stash-restic-secret
+  schedule: "* 19 * * * *"
+  backupHistoryLimit: 2
+  runtimeSettings:
+    container:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+  tempDir:
+    medium: "Memory"
+    sizeLimit: 2Gi
+  retentionPolicy:
+    name: 'tiered-keep-6M'
+    keepMonthly: 6
+    keepWeekly: 8
+    keepDaily: 7
+    prune: true
