@@ -6,11 +6,11 @@ spec:
   backend:
     local:
       mountPath: /safe/data
-      subPath: ${TARGET_KIND}/${TARGET_NAME}
+      subPath: ${TARGET_NAME}
       persistentVolumeClaim:
         claimName: nfs-backups
     storageSecretName: stash-restic-secret
-  schedule: "* 19 * * *"
+  schedule: "0 19 * * *"
   backupHistoryLimit: 2
   runtimeSettings:
     container:
