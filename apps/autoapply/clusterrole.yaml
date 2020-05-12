@@ -18,6 +18,7 @@ rules:
       - "networking.k8s.io"
       - "policy"
       - "rbac.authorization.k8s.io"
+      - "stash.appscode.com"
       - "storage.k8s.io"
     # access to all resources/verbs means I don't have to worry about what autoapply can and can't do
     resources: 
