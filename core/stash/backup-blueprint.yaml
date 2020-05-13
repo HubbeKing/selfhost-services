@@ -17,6 +17,17 @@ spec:
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
+    pod:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: "app.kubernetes.io/component"
+                    operator: In
+                    values:
+                      - "stash-backup"
+              topologyKey: "kubernetes.io/hostname"
   tempDir:
     medium: "Memory"
     sizeLimit: 2Gi
