@@ -3,14 +3,15 @@ kind: RestoreSession
 metadata:
   name: restore-statefulset
 spec:
-  repository: ${REPO_NAME}
+  repository: 
+    name: ${REPO_NAME}
   rules:
     - paths:
         - /config
   target:
     replicas: 1
     volumeMounts:
-      - name: config
+      - name: config-${STATEFULSET_NAME}
         mountPath: /config
     volumeClaimTemplates:
       - metadata:

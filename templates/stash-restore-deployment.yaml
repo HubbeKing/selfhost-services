@@ -3,14 +3,15 @@ kind: RestoreSession
 metadata:
   name: restore-deployment
 spec:
-  repository: deploy-hubbot
+  repository: 
+    name: deploy-hubbot
   rules:
     - paths:
         - /app/data
   target:
     replicas: 1
     volumeMounts:
-      - name: data
+      - name: data-hubbot-dbchat
         mountPath: /app/data
     volumeClaimTemplates:
       - metadata:
