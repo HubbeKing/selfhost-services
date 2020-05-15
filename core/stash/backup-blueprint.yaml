@@ -14,6 +14,14 @@ spec:
   backupHistoryLimit: 2
   runtimeSettings:
     container:
+      resources:
+        limits:
+          cpu: 500m
+      nice:
+        adjustment: 5  # 'reduce' cpu niceness to 15 from 10
+      ionice:
+        class: 2       # best-effort
+        classData: 7   # lowest-priority
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
