@@ -10,7 +10,7 @@ spec:
     - host: foundry.hubbe.club
       http:
         paths:
-          - path: /barthu/
+          - path: /barthu
             backend:
               serviceName: foundry-barthu
               servicePort: 30000

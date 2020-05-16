@@ -10,7 +10,7 @@ spec:
     - host: foundry.hubbe.club
       http:
         paths:
-          - path: /ashes/
+          - path: /ashes
             backend:
               serviceName: foundry-ashes
               servicePort: 30000
