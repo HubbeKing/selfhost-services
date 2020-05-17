@@ -43,18 +43,19 @@ sudo systemctl restart docker
 echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /etc/sysctl.d/99-rpfilter-1.conf
 sudo sysctl net.ipv4.conf.all.rp_filter=1
 
-# ensure iptables tooling does not use the nftables backend
-# ensure legacy binaries are installed
-sudo apt-get install -y iptables arptables ebtables
+# make sure br_netfilter module is loaded
+lsmod | grep br_netfilter
+if [ $? -ne 0 ]; then
+  sudo modprobe br_netfilter
+  echo 'br_netfilter' | sudo tee /etc/modules-load.d/99-br-netfilter
+fi
 
-# switch to legacy versions for iptables
-set +e  # ubuntu 18.04 LTS errors with "no alternatives for iptables", this can be safely ignored
-sudo update-alternatives --set iptables /usr/sbin/iptables-legacy
-sudo update-alternatives --set ip6tables /usr/sbin/ip6tables-legacy
-sudo update-alternatives --set arptables /usr/sbin/arptables-legacy
-sudo update-alternatives --set ebtables /usr/sbin/ebtables-legacy
-
-set -e
+# let iptables see bridged traffic
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+sudo sysctl --system
 
 # update apt package lists
 sudo apt-get update
