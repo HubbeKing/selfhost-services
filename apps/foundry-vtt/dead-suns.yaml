@@ -10,7 +10,7 @@ spec:
     - host: foundry.hubbe.club
       http:
         paths:
-          - path: /suns/
+          - path: /suns
             backend:
               serviceName: foundry-dead-suns
               servicePort: 30000
@@ -51,7 +51,7 @@ spec:
       imagePullSecrets:
         - name: regcred
       containers:
-        - image: hubbeking/foundry:v0.5.5
+        - image: hubbeking/foundry:v0.5.7
           name: foundry-dead-suns
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
