@@ -1,0 +1,2057 @@
+apiVersion: v1
+items:
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:22:39Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:22:40Z"
+    name: deploy-hubbot
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: Deployment
+      name: hubbot
+      uid: e3610b6d-a56b-4e73-a063-9d665257181e
+    resourceVersion: "31921337"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/deploy-hubbot
+    uid: c7d25930-2096-44aa-9594-8f6cb94742df
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: deploy-hubbot
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /app/data
+      ref:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: hubbot
+      volumeMounts:
+      - mountPath: /app/data
+        name: data
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:21:27Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:21:28Z"
+    name: sts-bazarr
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: bazarr
+      uid: 999b01c3-dc5c-44a3-8df9-a445b72f5739
+    resourceVersion: "31920897"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-bazarr
+    uid: 71059376-2c46-4aa8-a7b8-f73fde99688d
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-bazarr
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /config
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: bazarr
+      volumeMounts:
+      - mountPath: /config
+        name: config
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:31:40Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:31:42Z"
+    name: sts-foundry-ashes
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: foundry-ashes
+      uid: 8ebc62a2-ea23-4cc3-b967-8e26bdb6086b
+    resourceVersion: "31925834"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-foundry-ashes
+    uid: d1623587-bd59-419f-9099-1d6b8e88f64a
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-foundry-ashes
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /data
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: foundry-ashes
+      volumeMounts:
+      - mountPath: /data
+        name: data
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:31:41Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:31:42Z"
+    name: sts-foundry-barthu
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: foundry-barthu
+      uid: 4f18689b-8e95-49d5-80d4-030b58b296eb
+    resourceVersion: "31925837"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-foundry-barthu
+    uid: 109070a5-a4ed-4ae0-9ed3-a7673fb988f0
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-foundry-barthu
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /data
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: foundry-barthu
+      volumeMounts:
+      - mountPath: /data
+        name: data
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:32:38Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:32:39Z"
+    name: sts-foundry-dead-suns
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: foundry-dead-suns
+      uid: 462e1b40-655a-46e1-b611-715a2b71890f
+    resourceVersion: "31926313"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-foundry-dead-suns
+    uid: ac48e48a-e8f8-412e-bee7-476de00d9f0c
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-foundry-dead-suns
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /data
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: foundry-dead-suns
+      volumeMounts:
+      - mountPath: /data
+        name: data
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:23:42Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:23:45Z"
+    name: sts-freshrss-db
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: freshrss-db
+      uid: 9a516eed-3fd9-4409-985f-93c5badcb379
+    resourceVersion: "31921892"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-freshrss-db
+    uid: 5392ca6d-9d63-4a3f-b4aa-4826d3c71d4b
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-freshrss-db
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /var/lib/mysql
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: freshrss-db
+      volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: data
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:23:42Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:23:46Z"
+    name: sts-freshrss-web
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: freshrss-web
+      uid: a421d9fe-89ca-4757-a205-659e68171900
+    resourceVersion: "31921913"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-freshrss-web
+    uid: 6a876287-a3d3-4aec-ae56-ba539580bace
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-freshrss-web
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /var/www/FreshRSS/data
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: freshrss-web
+      volumeMounts:
+      - mountPath: /var/www/FreshRSS/data
+        name: data
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:23:44Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:23:47Z"
+    name: sts-jackett
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: jackett
+      uid: 4f3309dc-fffd-48c7-9cff-7261eb9675f6
+    resourceVersion: "31921933"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-jackett
+    uid: 2368a6ac-880f-43b4-95fe-7e1ab19fa16b
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-jackett
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /config
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: jackett
+      volumeMounts:
+      - mountPath: /config
+        name: config
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:24:03Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:24:04Z"
+    name: sts-jellyfin
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: jellyfin
+      uid: 6429a322-4ce1-4378-9587-b0e613cdc4d1
+    resourceVersion: "31922232"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-jellyfin
+    uid: 3d7d7dd3-3a86-4a00-b658-c7b4ec1b350a
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-jellyfin
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /config
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: jellyfin
+      volumeMounts:
+      - mountPath: /config
+        name: config
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:24:22Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:24:23Z"
+    name: sts-lidarr
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: lidarr
+      uid: 809b3c81-c7cf-4283-8670-dc83acb5e578
+    resourceVersion: "31922485"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-lidarr
+    uid: 515c9d6a-829e-4499-9d80-3f1a89e333f4
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-lidarr
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /config
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: lidarr
+      volumeMounts:
+      - mountPath: /config
+        name: config
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:24:54Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:24:56Z"
+    name: sts-nextcloud-db
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: nextcloud-db
+      uid: 99ed734f-84bd-4524-b5b7-e0a73d2a7556
+    resourceVersion: "31922859"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-nextcloud-db
+    uid: e0ded790-76dc-4d3a-b655-26f07c8b0569
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-nextcloud-db
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /var/lib/mysql
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: nextcloud-db
+      volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: data
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:24:56Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:24:57Z"
+    name: sts-nextcloud-web
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: nextcloud-web
+      uid: 81bc9d27-1515-4e06-b1b3-336a3c03de3f
+    resourceVersion: "31922876"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-nextcloud-web
+    uid: 54ce5f61-e0c9-4fbc-9801-44e82a095e8c
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-nextcloud-web
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /var/www/html
+      - /data
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: nextcloud-web
+      volumeMounts:
+      - mountPath: /var/www/html
+        name: config
+      - mountPath: /data
+        name: data
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:30:04Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:30:05Z"
+    name: sts-qbittorrent
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: qbittorrent
+      uid: b388db38-34cd-462b-8ed6-54c7c51e7c99
+    resourceVersion: "31925204"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-qbittorrent
+    uid: 9584bafc-1f28-4c86-9d50-79ebf51b7590
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-qbittorrent
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /config
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: qbittorrent
+      volumeMounts:
+      - mountPath: /config
+        name: config
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:26:03Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:26:04Z"
+    name: sts-radarr
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: radarr
+      uid: 1761d0c6-5172-4ec1-8564-61ff9af8b0b4
+    resourceVersion: "31923591"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-radarr
+    uid: 6feb437c-4872-45f0-9b50-c9da89b90787
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-radarr
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /config
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: radarr
+      volumeMounts:
+      - mountPath: /config
+        name: config
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:26:07Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:26:09Z"
+    name: sts-resilio-sync
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: resilio-sync
+      uid: 2c0fbe95-31a1-4582-9e18-9220e7997718
+    resourceVersion: "31923668"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-resilio-sync
+    uid: 58090967-b154-48e9-a3f3-2caeeb186103
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-resilio-sync
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /config
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: resilio-sync
+      volumeMounts:
+      - mountPath: /config
+        name: config
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+- apiVersion: stash.appscode.com/v1beta1
+  kind: BackupConfiguration
+  metadata:
+    creationTimestamp: "2020-05-15T10:26:09Z"
+    finalizers:
+    - stash.appscode.com
+    generation: 1
+    managedFields:
+    - apiVersion: stash.appscode.com/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:finalizers: {}
+          f:ownerReferences: {}
+        f:spec:
+          .: {}
+          f:backupHistoryLimit: {}
+          f:repository:
+            .: {}
+            f:name: {}
+          f:retentionPolicy:
+            .: {}
+            f:keepDaily: {}
+            f:keepMonthly: {}
+            f:keepWeekly: {}
+            f:name: {}
+            f:prune: {}
+          f:runtimeSettings:
+            .: {}
+            f:container:
+              .: {}
+              f:ionice:
+                .: {}
+                f:class: {}
+                f:classData: {}
+              f:nice:
+                .: {}
+                f:adjustment: {}
+              f:resources:
+                .: {}
+                f:limits:
+                  .: {}
+                  f:cpu: {}
+                f:requests:
+                  .: {}
+                  f:cpu: {}
+              f:securityContext:
+                .: {}
+                f:runAsGroup: {}
+                f:runAsUser: {}
+          f:schedule: {}
+          f:target:
+            .: {}
+            f:paths: {}
+            f:ref:
+              .: {}
+              f:apiVersion: {}
+              f:kind: {}
+              f:name: {}
+            f:volumeMounts: {}
+          f:task:
+            .: {}
+            f:name: {}
+          f:tempDir:
+            .: {}
+            f:medium: {}
+            f:sizeLimit: {}
+        f:status:
+          .: {}
+          f:observedGeneration: {}
+      manager: stash
+      operation: Update
+      time: "2020-05-15T10:26:10Z"
+    name: sts-sonarr
+    namespace: default
+    ownerReferences:
+    - apiVersion: apps/v1
+      blockOwnerDeletion: true
+      controller: true
+      kind: StatefulSet
+      name: sonarr
+      uid: fb68e777-d2ce-46f5-bc7a-f78c1b9c4976
+    resourceVersion: "31923692"
+    selfLink: /apis/stash.appscode.com/v1beta1/namespaces/default/backupconfigurations/sts-sonarr
+    uid: ed87cc1b-f414-40dd-8ee5-ead69c5e2283
+  spec:
+    backupHistoryLimit: 2
+    repository:
+      name: sts-sonarr
+    retentionPolicy:
+      keepDaily: 7
+      keepMonthly: 6
+      keepWeekly: 8
+      name: tiered-keep-6M
+      prune: true
+    runtimeSettings:
+      container:
+        ionice:
+          class: 2
+          classData: 7
+        nice:
+          adjustment: 5
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
+        securityContext:
+          runAsGroup: 1000
+          runAsUser: 1000
+    schedule: 0 19 * * *
+    target:
+      paths:
+      - /config
+      ref:
+        apiVersion: apps/v1
+        kind: StatefulSet
+        name: sonarr
+      volumeMounts:
+      - mountPath: /config
+        name: config
+    task:
+      name: ""
+    tempDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  status:
+    observedGeneration: 1
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
