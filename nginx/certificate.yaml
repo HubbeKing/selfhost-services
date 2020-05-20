@@ -10,7 +10,7 @@ spec:
   commonName: "*.hubbe.club"    # technically deprecated in 2000, but most certs in 2020 still include it...
   isCA: false                   # not a CA cert
   keySize: 2048                 # 2048-bit keysize
-  keyAlgorith: rsa              # RSA cert
+  keyAlgorithm: rsa             # RSA cert
   keyEncoding: pkcs1            # encode key with pkcs1 scheme
   dnsNames:
     - "hubbe.club"
