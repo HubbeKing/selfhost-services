@@ -1,0 +1,24 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: restore-nextcloud-db
+spec:
+  repository: 
+    name: sts-nextcloud-db
+  rules:
+    - paths:
+        - /var/lib/mysql
+  target:
+    replicas: 1
+    volumeMounts:
+      - name: data-nextcloud-db
+        mountPath: /var/lib/mysql
+    volumeClaimTemplates:
+      - metadata:
+          name: data-nextcloud-db-${POD_ORDINAL}
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: "longhorn"
+          resources:
+            requests:
+              storage: 1Gi

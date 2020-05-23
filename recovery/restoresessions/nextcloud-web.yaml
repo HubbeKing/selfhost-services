@@ -1,0 +1,35 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: restore-nextcloud-web
+spec:
+  repository: 
+    name: sts-nextcloud-web
+  rules:
+    - paths:
+        - /var/www/html
+        - /data
+  target:
+    replicas: 1
+    volumeMounts:
+      - name: config-nextcloud-web
+        mountPath: /var/www/html
+      - name: data-nextcloud-web
+        mountPath: /data
+    volumeClaimTemplates:
+      - metadata:
+          name: config-nextcloud-web-${POD_ORDINAL}
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: "longhorn"
+          resources:
+            requests:
+              storage: 5Gi
+      - metadata:
+          name: data-nextcloud-web-${POD_ORDINAL}
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: "longhorn"
+          resources:
+            requests:
+              storage: 10Gi

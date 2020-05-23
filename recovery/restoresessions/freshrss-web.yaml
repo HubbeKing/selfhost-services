@@ -1,0 +1,24 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: restore-freshrss-web
+spec:
+  repository: 
+    name: sts-freshrss-web
+  rules:
+    - paths:
+        - /var/www/FreshRSS/data
+  target:
+    replicas: 1
+    volumeMounts:
+      - name: data-freshrss-web
+        mountPath: /var/www/FreshRSS/data
+    volumeClaimTemplates:
+      - metadata:
+          name: data-freshrss-web-${POD_ORDINAL}
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: "longhorn"
+          resources:
+            requests:
+              storage: 1Gi

@@ -1,0 +1,24 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: restore-radarr
+spec:
+  repository: 
+    name: sts-radarr
+  rules:
+    - paths:
+        - /config
+  target:
+    replicas: 1
+    volumeMounts:
+      - name: config-radarr
+        mountPath: /config
+    volumeClaimTemplates:
+      - metadata:
+          name: config-radarr-${POD_ORDINAL}
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: "longhorn"
+          resources:
+            requests:
+              storage: 1Gi

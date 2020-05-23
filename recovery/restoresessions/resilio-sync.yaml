@@ -1,0 +1,24 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: restore-resilio-sync
+spec:
+  repository: 
+    name: sts-resilio-sync
+  rules:
+    - paths:
+        - /config
+  target:
+    replicas: 1
+    volumeMounts:
+      - name: config-resilio-sync
+        mountPath: /config
+    volumeClaimTemplates:
+      - metadata:
+          name: config-resilio-sync-${POD_ORDINAL}
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: "longhorn"
+          resources:
+            requests:
+              storage: 1Gi
