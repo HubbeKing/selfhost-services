@@ -11,10 +11,3 @@ spec:
         claimName: nfs-backups
       subPath: jellyfin
     storageSecretName: stash-restic-secret
-status:
-  firstBackupTime: "2020-05-13T19:01:34Z"
-  integrity: true
-  lastBackupTime: "2020-05-20T19:01:20Z"
-  snapshotCount: 7
-  snapshotsRemovedOnLastCleanup: 1
-  totalSize: 2.371 GiB

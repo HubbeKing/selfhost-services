@@ -11,10 +11,3 @@ spec:
         claimName: nfs-backups
       subPath: jackett
     storageSecretName: stash-restic-secret
-status:
-  firstBackupTime: "2020-05-13T19:00:51Z"
-  integrity: true
-  lastBackupTime: "2020-05-20T19:00:34Z"
-  snapshotCount: 7
-  snapshotsRemovedOnLastCleanup: 1
-  totalSize: 32.378 MiB

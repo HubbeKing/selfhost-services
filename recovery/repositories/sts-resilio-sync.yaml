@@ -11,10 +11,3 @@ spec:
         claimName: nfs-backups
       subPath: resilio-sync
     storageSecretName: stash-restic-secret
-status:
-  firstBackupTime: "2020-05-13T19:01:04Z"
-  integrity: true
-  lastBackupTime: "2020-05-20T19:00:37Z"
-  snapshotCount: 7
-  snapshotsRemovedOnLastCleanup: 1
-  totalSize: 372.835 MiB

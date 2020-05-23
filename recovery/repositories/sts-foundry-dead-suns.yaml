@@ -11,10 +11,3 @@ spec:
         claimName: nfs-backups
       subPath: foundry-dead-suns
     storageSecretName: stash-restic-secret
-status:
-  firstBackupTime: "2020-05-13T19:00:31Z"
-  integrity: true
-  lastBackupTime: "2020-05-20T19:00:36Z"
-  snapshotCount: 7
-  snapshotsRemovedOnLastCleanup: 1
-  totalSize: 440.186 MiB

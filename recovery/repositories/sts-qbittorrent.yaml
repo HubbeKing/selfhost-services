@@ -11,10 +11,3 @@ spec:
         claimName: nfs-backups
       subPath: qbittorrent
     storageSecretName: stash-restic-secret
-status:
-  firstBackupTime: "2020-05-13T19:01:01Z"
-  integrity: true
-  lastBackupTime: "2020-05-20T19:00:46Z"
-  snapshotCount: 7
-  snapshotsRemovedOnLastCleanup: 1
-  totalSize: 131.617 MiB

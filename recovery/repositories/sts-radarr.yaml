@@ -11,10 +11,3 @@ spec:
         claimName: nfs-backups
       subPath: radarr
     storageSecretName: stash-restic-secret
-status:
-  firstBackupTime: "2020-05-13T19:01:33Z"
-  integrity: true
-  lastBackupTime: "2020-05-20T19:01:07Z"
-  snapshotCount: 7
-  snapshotsRemovedOnLastCleanup: 1
-  totalSize: 1.622 GiB

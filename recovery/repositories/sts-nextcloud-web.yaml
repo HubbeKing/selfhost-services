@@ -11,10 +11,3 @@ spec:
         claimName: nfs-backups
       subPath: nextcloud-web
     storageSecretName: stash-restic-secret
-status:
-  firstBackupTime: "2020-05-13T19:04:56Z"
-  integrity: true
-  lastBackupTime: "2020-05-20T19:02:18Z"
-  snapshotCount: 14
-  snapshotsRemovedOnLastCleanup: 2
-  totalSize: 18.523 GiB
