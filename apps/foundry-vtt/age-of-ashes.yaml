@@ -51,7 +51,7 @@ spec:
       imagePullSecrets:
         - name: regcred
       containers:
-        - image: hubbeking/foundry:v0.5.7
+        - image: hubbeking/foundry:v0.6.0
           name: foundry-ashes
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
