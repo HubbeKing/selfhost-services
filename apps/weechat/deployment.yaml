@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weechat
+  #annotations:
+    #stash.appscode.com/backup-blueprint: app-backup
+    #stash.appscode.com/target-paths: "/home/weechat/.weechat"
+    #stash.appscode.com/volume-mounts: "data:/home/weechat/.weechat"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weechat
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: weechat
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - image: hubbeking/weechat:latest
+          imagePullPolicy: Always
+          name: weechat
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+          volumeMounts:
+            - name: data
+              mountPath: /home/weechat/.weechat
+            - name: weechat
+              mountPath: /home/weechat/
+      volumes:
+        - name: weechat
+          configMap:
+            name: weechat-configs
+            items:
+              - key: tmux.conf
+                path: .tmux.conf
+              - key: start.sh
+                path: start.sh
+                mode: 0755
+        - name: data
+          persistentVolumeClaim:
+            claimName: data-weechat-dbchat

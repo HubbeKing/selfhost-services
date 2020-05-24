@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: weechat
+  annotations:
+    # long timeout on reads to avoid disconnects on IRC inactivity
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "604800"
+    # rate limiting zone
+    nginx.ingress.kubernetes.io/configuration-snippet: "limit_req zone=weechat burst=1 nodelay;"
+spec:
+  tls:
+    - hosts:
+      - weechat.hubbe.club  
+  rules:
+    - host: weechat.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: weechat
+              servicePort: 9000
