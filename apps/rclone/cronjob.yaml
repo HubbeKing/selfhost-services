@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: rclone-sync
 spec:
-  schedule: "0 6 * * *"
+  schedule: "0 0 * * *"
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1
   successfulJobsHistoryLimit: 1
