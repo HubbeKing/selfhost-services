@@ -1,0 +1,39 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: rclone-sync
+spec:
+  schedule: "0 6 * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+          containers:
+            - name: rclone-sync
+              image: rclone/rclone:latest
+              command: ["rclone"]
+              args:
+                - "sync"
+                - "/backups"
+                - "b2:hubbeking-borg"
+              volumeMounts:
+                - name: array
+                  subPath: Backups
+                  mountPath: /backups
+                - name: rclone-config
+                  mountPath: /config/rclone
+          volumes:
+            - name: rclone-config
+              configMap:
+                name: rclone-config
+            - name: array
+              persistentVolumeClaim:
+                claimName: array

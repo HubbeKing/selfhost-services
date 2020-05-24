@@ -1,0 +1,30 @@
+apiVersion: ENC[AES256_GCM,data:NRY=,iv:EyxdyfdlzKWhHQOvFuwiG7mmvna+WBExyNKSSFU3HgY=,tag:EQJTSj1LWIxXuuS/MVmL+Q==,type:str]
+kind: ENC[AES256_GCM,data:DZG+018eGunW,iv:MHXOSu8BIL2b17bdOBVJwcpccFG8qswvMOosu6a16Yw=,tag:Ml9iSfd2nj37XessuP8PaA==,type:str]
+metadata:
+    name: ENC[AES256_GCM,data:jWzk6xrAB7d3o/+G8g==,iv:iV/ZWSGpDDVS1AO9D0GFD4LBTVOoZWASPh7+7fe4+Fs=,tag:LUa8ZCv0r6NeKdxYUV4rYQ==,type:str]
+data:
+    rclone.conf: ENC[AES256_GCM,data:lLoZ8wVfuSrgMJ4716aMr7Zrh73XojOYU/wnY2C3KW7qGuVV/6jzxM0nOBCSdh+TUJemNfdVgG49qwXtILKsnCrM3rlgM+K9QrwVTHwykxN/76XAenU2bGa7GzRIvbAYtjfnDMbl1fSq6kg=,iv:pjPAJ/dpyHJbNlZXy0U5wT7Yd39/y6ac1sWWuM2Llek=,tag:nweL0ArGeZPSQgWqm+hgmQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    lastmodified: '2020-05-24T15:55:51Z'
+    mac: ENC[AES256_GCM,data:Ztfj8pgrcB1ACdZKHuhRnUlvdNvy7voeLtp5CQ0SCb7ZF3v4JvAQpxBJm1AG5a2BFSD0mb9w25XL7S36QYCVBUsuf2FBglYMlg1o1vs6WhYU8cTJ0F/NJpNhEFVBvL3Ynr2GhS9tIk7Qs/8p20oUlHjBu9XFq1sFcDwMG33HA0I=,iv:4QCcsI2OW+kLJGzHyFkQTg1Bdc2jNprnYf6ungU/TpA=,tag:KdgTk9D7LyZg7QaSOlSSPQ==,type:str]
+    pgp:
+    -   created_at: '2020-05-24T15:55:50Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQEMA18BKFG3i+kNAQgA0TlBzE3j9zHcEFvr168zDFk0XnpHD1y7BUQ/8NBnFqFE
+            yt/W4VtBpmgv3niYLwUOxrXXFSpEXDcNSMaJsEY+Z11ezvVNRrwn3wEuvgpXI3h1
+            La7mDTxfjXQUwr3yoarrN8zHJH32atYyjCdFotntnyBSI+qoSKR3WmbnUArk5GJf
+            pMzqLOUVsaWJz5CG2UEB0pjWP5fsm0h6+e9DwR6YqiMiCQgtX8GfiJ1kCcTDJw8d
+            CxCOiUQ8qE6imUwc5w85lS6NvaUzuemiIlWXTZ2ydzZhcIu8k/mXfOgO2Gz0wR+o
+            DZJb0wAncU/ugLcJO+lw7BqzNQkvsFVPVjtkhcsdGNJeAbxfZaJYJKb5UWsUQwr4
+            iacR7kkRA1RBe0ATtPb0PpqlAvKSG0Ek0ZSn/RhyWXykNpv+a0ZmdYBoLOAh1B9Q
+            m+Vvs71aUVB6jWxRGgMdXYHSMLfDa/d6HiqOFDReZw==
+            =4foM
+            -----END PGP MESSAGE-----
+        fp: 936E0D27CC44F2E780AD4397CC2FB121243FEF14
+    unencrypted_suffix: _unencrypted
+    version: 3.5.0
