@@ -1,0 +1,24 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: restore-hubbot
+spec:
+  repository: 
+    name: deploy-weechat
+  rules:
+    - paths:
+        - /home/weechat/.weechat
+  target:
+    replicas: 1
+    volumeMounts:
+      - name: data-weechat-dbchat
+        mountPath: /home/weechat/.weechat
+    volumeClaimTemplates:
+      - metadata:
+          name: data-weechat-dbchat
+        spec:
+          accessModes: [ "ReadWriteOnce" ]
+          storageClassName: "longhorn"
+          resources:
+            requests:
+              storage: 1Gi
