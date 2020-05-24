@@ -2,10 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: weechat
-  #annotations:
-    #stash.appscode.com/backup-blueprint: app-backup
-    #stash.appscode.com/target-paths: "/home/weechat/.weechat"
-    #stash.appscode.com/volume-mounts: "data:/home/weechat/.weechat"
+  annotations:
+    stash.appscode.com/backup-blueprint: app-backup
+    stash.appscode.com/target-paths: "/home/weechat/.weechat"
+    stash.appscode.com/volume-mounts: "data:/home/weechat/.weechat"
 spec:
   replicas: 1
   selector:
