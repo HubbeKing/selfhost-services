@@ -1,6 +1,34 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: deepdream-queue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deepdream-queue
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: deepdream-queue
+    spec:
+      containers:
+        - image: rabbitmq:latest
+          imagePullPolicy: Always
+          name: deepdream-queue
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "150Mi"
+          envFrom:
+            - configMapRef:
+                name: deepdream-rabbit-envs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: deepdream-web
 spec:
   replicas: 1

@@ -7,3 +7,13 @@ spec:
     - port: 3306
   selector:
     app: freshrss-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: freshrss
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: freshrss

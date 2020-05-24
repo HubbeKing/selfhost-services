@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: deepdream
-spec:
-  ports:
-    - port: 8000
-  selector:
-    app: deepdream
