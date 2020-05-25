@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: pihole
+  annotations:
+    stash.appscode.com/backup-blueprint: app-backup
+    stash.appscode.com/target-paths: "/etc/pihole,/etc/dnsmasq.d"
+    stash.appscode.com/volume-mounts: "pihole:/etc/pihole,dnsmasq:/etc/dnsmasq.d"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pihole
+  serviceName: pihole
+  template:
+    metadata:
+      labels:
+        app: pihole
+    spec:
+      containers:
+        - image: pihole/pihole:latest
+          name: pihole
+          env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: WEBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pihole-secrets
+                  key: webpassword
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+          volumeMounts:
+            - name: pihole
+              mountPath: /etc/pihole
+            - name: dnsmasq
+              mountPath: /etc/dnsmasq.d
+  volumeClaimTemplates:
+    - metadata:
+        name: pihole
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: dnsmasq
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 1Gi
