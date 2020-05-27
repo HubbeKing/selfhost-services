@@ -49,9 +49,9 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       imagePullSecrets:
-        - name: regcred
+        - name: registry-hubbe-club-creds
       containers:
-        - image: hubbeking/foundry:v0.6.0
+        - image: registry.hubbe.club/foundry:v0.6.0
           name: foundry-barthu
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
