@@ -13,7 +13,17 @@ spec:
         app: mpd
     spec:
       containers:
-        - image: hubbeking/mpd
+        - image: hubbeking/music:mpdscribble
+          imagePullPolicy: Always
+          name: mpdscribble
+          resources:
+            requests:
+              cpu: "50m"
+          envFrom:
+            - secretRef:
+                name: mpdscribble-config
+        - image: hubbeking/music:mpd
+          imagePullPolicy: Always
           name: mpd
           resources:
             requests:
@@ -22,10 +32,10 @@ spec:
             - secretRef:
                 name: mpd-config
           volumeMounts:
-            - name: mpd-music
-              mountPath: /music
+            - name: array
               subPath: Music
+              mountPath: /music
       volumes:
-        - name: mpd-music
+        - name: array
           persistentVolumeClaim:
             claimName: array
