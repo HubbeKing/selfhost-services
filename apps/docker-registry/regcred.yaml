@@ -1,0 +1,32 @@
+apiVersion: ENC[AES256_GCM,data:lh0=,iv:biDKo6WiQku7jIZawQEtAIKUWJy2MMq+7vOx19N2Cnk=,tag:Zb9dIO5DCtUn7uCPKJHcrQ==,type:str]
+kind: ENC[AES256_GCM,data:CACPQmAH,iv:GSf/Naqn1VKyuXmNZej9U0pAo8j9+yQId3GjfLZGxy0=,tag:f4Gok+bDiHn2Zp7uPRN/dw==,type:str]
+metadata:
+    name: ENC[AES256_GCM,data:nGNb5m9wXL/FQzvdY1ouGbND5aIDiWG/dg==,iv:Tkl19drtc5mKNMePAJUsCyN16IQyj5tTM+HubD1Gj4U=,tag:J84BYe1IjLdu9rCT2uUs+A==,type:str]
+    namespace: ENC[AES256_GCM,data:pX1PTVpujQ==,iv:sp9TaiZK8JAwnuBqgZgmTzjkKqvGZeauVs0Q1S6p95w=,tag:tL/D/9pEcaxbQ1HXDZrh8Q==,type:str]
+type: ENC[AES256_GCM,data:Dtuxlox8jwDoWIv7P8FrcA2O5lHk+qJo9p1UqdoR,iv:z+t8p9Gm/ETYoPbdPND4b8aRcJzpBW7H1Kn+Su3BcC0=,tag:4iHKAWUWPZmUgTiNPMyNkA==,type:str]
+data:
+    .dockerconfigjson: ENC[AES256_GCM,data:I4ccC/NB7Ho5/yduwg8hZ78VRW/5JeAa1qaXq+2SDNpGC2zpDHpQdHxABEVorA45IvPelzmFzaj5NRGuKa2LBVV6XLVCeJ0HTyeX3Ci2C5vt8FPeviSW4bSNI8vje+fqzO9MPaQ6ZA7JMiR74qe0juxyg9a/W0lkEIa+ICw9KUb5XC1346+9fHMAzxe4AQf6pnW53EczdGOD5EZqCC9kejR5k2m744cIsCRDnvWqLYPaQg7yEtX4yLmAr0oBqo+2+VF6Ploumw8io7z73dpur9BMQg8+KUsb+cOcb0AgFVzJ/4iAbSi87+7aZa56HzLl,iv:+FIB0tu33vvy+KiY0z/oTX/A/Hujczbf6jwp9E3F35Q=,tag:3c1UFd8srS2ukenasj7VUw==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    lastmodified: '2020-05-20T18:51:08Z'
+    mac: ENC[AES256_GCM,data:nimVCPT+vybLieMqBAOhlfIO1gA6wqp6El5W5/XyZyT5+aAwkH7MfyCI/RdCDrLNm6ZJ/OLAKGuMBI9W5LfeC9Oy6cW3tzbkira42XfaOzig+/3izcoBaOKOiKgkhiEjkmfVTQqbQrxAjEcvoGGWlj23tXW3tP2PCJvlndO65GU=,iv:4Q4rhQBOLT/NOLJ+OowcicTfLmP8KvSP8dk00SZm1IM=,tag:6lLhS7ajuHi//7mcB3kPzg==,type:str]
+    pgp:
+    -   created_at: '2020-05-20T18:51:07Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQEMA18BKFG3i+kNAQf+OGETn7tMIOOnIwe3YZiSgoseGKbsNwtTNsiL1f8EY6f2
+            yF4ZZsmJSlShtG0dXAC25t4h53DUYHvKMT747euliJ0jzCUEQWDaLRrXLSOzRX+h
+            og1Jh7LKhNsoZs1ea5Qmc6H3V9T+wVMNMIcHIWchzN6Y2LtJDWqJb/d/Mao1dTn/
+            kicbE2tAXfipsMo7S/71Cpz8E54ZmfS5pOqZp5wdc4dd5D47GTp2SqDa7QG+n3oC
+            U0zGp1cb10lmVbxR8i910eOUDbvxu9YOiPOVuPYzPegNyZLKfl4RuDKCUI5P+fq6
+            gSJPe+ZXc2BmPIZwxvIRsf06lpukYClB0BH6wyfJk9JeAYiUuQ4oXa0OjNIkPJUm
+            NrnoDTtbPjPK96JHuGfCfnkxg4+LZwBk1qBSgygCYQ3bsJUCsoIHLAZxAfH+LTIH
+            aYXotV0VKZOndsFETRu7YSUavGJhHN1hTUAib7KRPg==
+            =EOyF
+            -----END PGP MESSAGE-----
+        fp: 936E0D27CC44F2E780AD4397CC2FB121243FEF14
+    unencrypted_suffix: _unencrypted
+    version: 3.5.0
