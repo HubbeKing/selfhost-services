@@ -51,7 +51,7 @@ spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds
       containers:
-        - image: registry.hubbe.club/foundry:v0.6.0
+        - image: registry.hubbe.club/foundry:v0.6.1
           name: foundry-barthu
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
