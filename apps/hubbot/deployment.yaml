@@ -20,6 +20,10 @@ spec:
     spec:
       securityContext:
         runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      nodeSelector:
+        kubernetes.io/hostname: valkyrie
       containers:
         - image: hubbeking/hubbot:latest
           imagePullPolicy: Always
