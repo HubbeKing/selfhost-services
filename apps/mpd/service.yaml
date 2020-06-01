@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: mpd
 spec:
+  loadBalancerIP: 192.168.1.7
   ports:
     - port: 6600
-      nodePort: 30060
   selector:
     app: mpd
-  type: NodePort
+  type: LoadBalancer
