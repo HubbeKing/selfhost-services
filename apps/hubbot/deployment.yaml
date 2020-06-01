@@ -18,12 +18,21 @@ spec:
       labels:
         app: hubbot
     spec:
+      # docker hub builds re2 with AVX extensions
+      # this causes a SIGILL on galactica, due to its budget CPU
+      # set a required affinity to prevent scheduling on galactica
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: NotIn
+                    values: ["galactica"]
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-      nodeSelector:
-        kubernetes.io/hostname: valkyrie
       containers:
         - image: hubbeking/hubbot:latest
           imagePullPolicy: Always
