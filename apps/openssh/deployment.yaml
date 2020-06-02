@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ssh
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ssh
+  template:
+    metadata:
+      labels:
+        app: ssh
+    spec:
+      hostname: openssh
+      serviceAccountName: openssh
+      containers:
+        - image: hubbeking/ssh:latest
+          name: openssh
+          resources:
+            requests:
+              cpu: "50m"
+          command: ["/usr/sbin/sshd"]
+          args:
+            - "-D"
+            - "-e"
+            - "-f"
+            - "/etc/sshd-config/sshd_config"
+          volumeMounts:
+            - name: ssh-host-keys
+              mountPath: /etc/ssh-host-keys
+            - name: sshd-config
+              mountPath: /etc/sshd-config
+            - name: ssh-config
+              mountPath: /home/hubbe/.ssh
+            - name: scripts
+              mountPath: /home/hubbe/scripts
+            - name: terminfo
+              mountPath: /home/hubbe/.terminfo/x
+        # kubectl proxy sidecar container so non-root can access kube-apiserver
+        - image: hubbeking/ssh:latest
+          name: kubectl-proxy
+          command: ["kubectl"]
+          args: # run proxy on 8080, disable rejection of exec commands
+            - "proxy"
+            - "--port"
+            - "8080"
+            - "--reject-paths"
+            - "^/api/./pods/./attach"    # remove ^/api/./pods/./exec from reject-paths
+      volumes:
+        - name: ssh-host-keys
+          secret:
+            secretName: ssh-host-keys
+            defaultMode: 0600
+        - name: sshd-config
+          secret:
+            secretName: sshd-config
+            defaultMode: 0600
+        - name: ssh-config
+          secret:
+            secretName: ssh-config
+        - name: scripts
+          configMap:
+            name: scripts
+            defaultMode: 0755
+        - name: terminfo
+          configMap:
+            name: terminfo
+            defaultMode: 0666

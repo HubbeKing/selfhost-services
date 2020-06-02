@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: openssh
+  labels:
+    component: openssh
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: openssh
+subjects:
+  - kind: ServiceAccount
+    name: openssh
+    namespace: default
