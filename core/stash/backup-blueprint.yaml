@@ -16,7 +16,7 @@ spec:
     container:
       resources:
         requests:
-          cpu: 50m
+          cpu: 25m
         limits:
           cpu: 500m
       nice:
