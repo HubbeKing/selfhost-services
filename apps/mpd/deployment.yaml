@@ -4,6 +4,8 @@ metadata:
   name: mpd
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: mpd
@@ -16,9 +18,6 @@ spec:
         - image: hubbeking/music:mpdscribble
           imagePullPolicy: Always
           name: mpdscribble
-          resources:
-            requests:
-              cpu: "50m"
           envFrom:
             - secretRef:
                 name: mpdscribble-config
@@ -27,7 +26,7 @@ spec:
           name: mpd
           resources:
             requests:
-              cpu: "100m"
+              cpu: "50m"
           envFrom:
             - secretRef:
                 name: mpd-config
