@@ -29,6 +29,12 @@ spec:
                 secretKeyRef:
                   name: pihole-secrets
                   key: webpassword
+            - name: DNS1
+              value: "1.1.1.1"
+            - name: DNS2
+              value: "1.0.0.1"
+            - name: ServerIP
+              value: "192.168.1.9"
           resources:
             requests:
               cpu: "50m"
