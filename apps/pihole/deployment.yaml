@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pihole
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: pihole
+  template:
+    metadata:
+      labels:
+        app: pihole
+    spec:
+      # don't schedule multiple replicas on the same node for High Availability
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - pihole
+              topologyKey: "kubernetes.io/hostname"
+      containers:
+        - image: pihole/pihole:v5.0
+          imagePullPolicy: IfNotPresent
+          name: pihole
+          env:
+            - name: TZ
+              value: Europe/Helsinki
+            - name: WEBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pihole-secrets
+                  key: webpassword
+            - name: DNS1
+              value: "1.1.1.1"
+            - name: DNS2
+              value: "1.0.0.1"
+            - name: ServerIP
+              value: "192.168.1.9"
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+          livenessProbe:
+            httpGet:
+              path: /admin.index.php
+              port: 80
+            initialDelaySeconds: 30
+            failureThreshold: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /admin.index.php
+              port: 80
+            initialDelaySeconds: 30
+            failureThreshold: 3
+            timeoutSeconds: 5
+          volumeMounts:
+            - name: config
+              mountPath: /etc/pihole
+            - name: adlists
+              mountPath: /etc/pihole/adlists.list
+              subPath: adlists.list
+            - name: whitelist
+              mountPath: /etc/pihole/whitelist.txt
+              subPath: whitelist.txt
+      volumes:
+        - name: config
+          emptyDir:
+            medium: "Memory"
+        - name: adlists
+          configMap:
+            defaultMode: 420
+            name: pihole-adlists
+        - name: whitelist
+          configMap:
+            defaultMode: 420
+            name: pihole-whitelist
