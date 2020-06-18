@@ -57,7 +57,7 @@ spec:
         - image: registry.hubbe.club/foundry:v0.6.2
           name: foundry-ashes
           command: ["node"]
-          args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
+          args: ["/foundry/resources/app/main.js", "--dataPath=/data", "--world=ashes"]
           resources:
             requests:
               cpu: "100m"

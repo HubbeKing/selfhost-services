@@ -57,7 +57,7 @@ spec:
         - image: registry.hubbe.club/foundry:v0.6.2
           name: foundry-barthu
           command: ["node"]
-          args: ["/foundry/resources/app/main.js", "--dataPath=/data"]
+          args: ["/foundry/resources/app/main.js", "--dataPath=/data", "--world=barthu"]
           resources:
             requests:
               cpu: "100m"
