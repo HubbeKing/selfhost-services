@@ -12,6 +12,8 @@ spec:
       labels:
         app: ssh
     spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
       hostname: openssh
       serviceAccountName: openssh
       containers:

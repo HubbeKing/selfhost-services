@@ -4,8 +4,6 @@ metadata:
   name: mpd
 spec:
   replicas: 1
-  strategy:
-    type: Recreate
   selector:
     matchLabels:
       app: mpd
@@ -14,6 +12,8 @@ spec:
       labels:
         app: mpd
     spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
       containers:
         - image: hubbeking/music:mpdscribble
           imagePullPolicy: Always
