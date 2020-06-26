@@ -42,8 +42,6 @@ spec:
       labels:
         app: deepdream
     spec:
-      nodeSelector:
-        kubernetes.io/arch: amd64
       containers:
         - image: hubbeking/deepdream-docker:latest
           imagePullPolicy: Always

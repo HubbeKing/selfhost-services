@@ -18,8 +18,6 @@ spec:
         component: autoapply
         app: autoapply
     spec:
-      nodeSelector:
-        kubernetes.io/arch: amd64
       serviceAccountName: autoapply
       containers:
         - name: autoapply
