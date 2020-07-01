@@ -204,24 +204,24 @@ metadata:
   namespace: longhorn-system
 data:
   default-setting.yaml: |-
-    backup-target:
+    backup-target: nfs://192.168.1.213:/mnt/hubbe/array/LonghornBackups
     backup-target-credential-secret:
-    create-default-disk-labeled-nodes:
-    default-data-path:
-    replica-soft-anti-affinity:
-    storage-over-provisioning-percentage:
-    storage-minimal-available-percentage:
-    upgrade-checker:
-    default-replica-count:
-    guaranteed-engine-cpu:
-    default-longhorn-static-storage-class:
-    backupstore-poll-interval:
+    create-default-disk-labeled-nodes: true
+    default-data-path: /var/lib/longhorn/
+    replica-soft-anti-affinity: false
+    storage-over-provisioning-percentage: 200
+    storage-minimal-available-percentage: 15
+    upgrade-checker: true
+    default-replica-count: 2
+    guaranteed-engine-cpu: 0.25
+    default-longhorn-static-storage-class: longhorn
+    backupstore-poll-interval: 300
     taint-toleration:
     registry-secret:
-    auto-salvage:
-    disable-scheduling-on-cordoned-node:
-    replica-zone-soft-anti-affinity:
-    volume-attachment-recovery-policy:
+    auto-salvage: true
+    disable-scheduling-on-cordoned-node: true
+    replica-zone-soft-anti-affinity: true
+    volume-attachment-recovery-policy: "immediate"
     mkfs-ext4-parameters:
 ---
 apiVersion: apps/v1
