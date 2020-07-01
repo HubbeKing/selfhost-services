@@ -2,10 +2,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: sonarr
-  annotations:
-    stash.appscode.com/backup-blueprint: app-backup
-    stash.appscode.com/target-paths: "/config"
-    stash.appscode.com/volume-mounts: "config:/config"
 spec:
   replicas: 1
   selector:
