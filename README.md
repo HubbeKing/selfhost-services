@@ -16,7 +16,7 @@ Services running on hubbe.club, in local k8s cluster
     - Should support RPi HypriotOS for armhf support
 2. Set up single-node control-plane with `init-scripts/kubeadm-init.sh`
     - TODO: add args for creating stacked-etcd HA control plane
-    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl` 
+    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
         - NOTE: Always latest versions
     - `Flannel` is set up in the cluster for pod networking
         - Default pod CIDR is 10.244.0.0/16, adjust as needed - make sure to also edit `core/kube-flannel.yaml`
@@ -33,10 +33,12 @@ Services running on hubbe.club, in local k8s cluster
 
 ### Storage setup
 - NFS share for `volumes/array-nfs-pv.yaml` needs to be created
-- NFS share for `volumes/backups-nfs-pv.yaml` needs to be created
-    - Both must be accessible from the IPs of the nodes in the k8s cluster
+    - Must be accessible from the IPs of the nodes in the k8s cluster
 - Longhorn needs no additional setup - simply deploy `volumes/longhorn` with `kubectl apply -f volumes/longhorn`
     - The storageclass settings can be tweaked if needed for volume HA stuff - see `volumes/longhorn/storageclass.yaml`
+- At this stage, restore volumes from Longhorn backups using the Longhorn UI.
+    - Make sure to also create PVs/PVCs via the Longhorn UI.
+- Longhorn handles backups - see Longhorn UI and/or default settings in `volumes/longhorn/deployment.yaml`
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert renew
