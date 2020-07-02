@@ -6,6 +6,6 @@ provisioner: driver.longhorn.io
 allowVolumeExpansion: true
 parameters:
   numberOfReplicas: "2"
-  recurringJobs: '[{"name":"DailyBackup", "task":"backup", "cron":"00 18 * * *", "retain":7},
-                   {"name":"WeeklyBackup", "task":"backup", "cron":"05 18 * * 1", "retain":4},
-                   {"name":"MonthlyBackup", "task":"backup", "cron":"10 18 1 * *", "retain":6}]'
+  recurringJobs: '[{"name":"DailyBackup", "task":"backup", "cron":"00 00 * * *", "retain":7},
+                   {"name":"WeeklyBackup", "task":"backup", "cron":"00 01 * * 1", "retain":4},
+                   {"name":"MonthlyBackup", "task":"backup", "cron":"00 02 1 * *", "retain":6}]'
