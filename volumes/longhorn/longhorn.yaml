@@ -221,7 +221,7 @@ data:
     auto-salvage: true
     disable-scheduling-on-cordoned-node: true
     replica-zone-soft-anti-affinity: true
-    volume-attachment-recovery-policy: "immediate"
+    volume-attachment-recovery-policy: "wait"
     mkfs-ext4-parameters:
 ---
 apiVersion: apps/v1
