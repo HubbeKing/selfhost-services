@@ -206,7 +206,7 @@ data:
   default-setting.yaml: |-
     backup-target: nfs://192.168.1.213:/mnt/hubbe/array/LonghornBackups
     backup-target-credential-secret:
-    create-default-disk-labeled-nodes: true
+    create-default-disk-labeled-nodes: false
     default-data-path: /var/lib/longhorn/
     replica-soft-anti-affinity: false
     storage-over-provisioning-percentage: 200
