@@ -14,7 +14,7 @@ data:
   # enable ModSecurity module for detection of basic attacks
   enable-modsecurity: "true"
   # enable OWASP Core Rule Set for ModSecurity
-  enable-owasp-modsecurity-crs: "false"
+  enable-owasp-modsecurity-crs: "true"
   # increase default client-max-body-size (1m is kinda small)
   proxy-body-size: "16m"
   # set 2-year HSTS headers
