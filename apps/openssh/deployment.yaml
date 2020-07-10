@@ -31,8 +31,17 @@ spec:
               mountPath: /etc/ssh-host-keys
             - name: sshd-config
               mountPath: /etc/sshd-config
-            - name: ssh-config
+            - name: empty-dir
               mountPath: /home/hubbe/.ssh
+            - name: ssh-config
+              mountPath: /home/hubbe/.ssh/authorized_keys
+              subPath: authorized_keys
+            - name: ssh-config
+              mountPath: /home/hubbe/.ssh/id_ed25519
+              subPath: id_ed25519
+            - name: ssh-config
+              mountPath: /home/hubbe/.ssh/id_ed25519.pub
+              subPath: id_ed25519.pub
             - name: scripts
               mountPath: /home/hubbe/scripts
             - name: terminfo
@@ -59,6 +68,8 @@ spec:
         - name: ssh-config
           secret:
             secretName: ssh-config
+        - name: empty-dir
+          emptyDir: {}
         - name: scripts
           configMap:
             name: scripts
