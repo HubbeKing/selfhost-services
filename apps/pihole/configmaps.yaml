@@ -9,6 +9,15 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
+  name: pihole-localrecords
+data:
+  local.list: |
+    192.168.1.9   pi.hole
+    192.168.1.102 k8s.apiserver
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
   name: pihole-adlists
 data:
   adlists.list: |

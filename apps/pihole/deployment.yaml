@@ -73,6 +73,9 @@ spec:
             - name: whitelist
               mountPath: /etc/pihole/whitelist.txt
               subPath: whitelist.txt
+            - name: localrecords
+              mountPath: /etc/pihole/local.list
+              subPath: local.list
       volumes:
         - name: config
           emptyDir:
@@ -85,3 +88,7 @@ spec:
           configMap:
             defaultMode: 420
             name: pihole-whitelist
+        - name: localrecords
+          configMap:
+            defaultMode: 420
+            name: pihole-localrecords
