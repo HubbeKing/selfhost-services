@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: navidrom
+spec:
+  tls:
+    - hosts:
+      - music.hubbe.club  
+  rules:
+    - host: music.hubbe.club
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: navidrome
+              servicePort: 4533

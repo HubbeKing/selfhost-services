@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: navidrome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: navidrome
+  serviceName: navidrome
+  template:
+    metadata:
+      labels:
+        app: navidrome
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - image: deluan/navidrome:0.25.0
+          name: navidrome
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+          env:
+            - name: ND_COVERARTPRIORITY
+              value: "cover.*, folder.*, front.*, embedded"
+            - name: ND_TRANSCODINGCACHESIZE
+              value: "2GiB"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: cache
+              mountPath: /data/cache
+            - name: array
+              subPath: Music
+              mountPath: /music
+              readOnly: true
+      volumes:
+        - name: array
+          persistentVolumeClaim:
+            claimName: array
+        - name: cache
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 1Gi
