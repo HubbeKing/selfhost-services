@@ -1,0 +1,33 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: autoapply
+spec:
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: Never
+          serviceAccountName: autoapply
+          containers:
+            - name: autoapply
+              image: registry.hubbe.club/autoapply:1.19.0-rc.4
+              resources:
+                requests:
+                  cpu: "100m"
+                  memory: "50Mi"
+              command: ["bash"]
+              args: ["/apply.sh"]
+              volumeMounts:
+                - name: apply-script
+                  mountPath: /apply.sh
+                  subPath: apply.sh
+          volumes:
+            - name: apply-script
+              configMap:
+                name: apply-script
+                defaultMode: 0755
