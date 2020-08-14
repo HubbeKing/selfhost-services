@@ -7,10 +7,12 @@ data:
     #!/bin/bash
     # proxy the kubernetes API to localhost so we can apply manifests
     kubectl proxy &
-    # clone manifests into current folder
-    git clone -b 'master' --depth 1 --single-branch 'https://github.com/HubbeKing/selfhost-services.git' '.'
+    # clone manifests
+    git clone -b 'master' --depth 1 --single-branch 'https://github.com/HubbeKing/selfhost-services.git'
+    # enter folder
+    cd selfhost-services
     # run SOPS decryption on secrets
-    find '.' -type f -regex '.*.ya*ml' -exec sops --decrypt --in-place '{}' \
+    find '.' -type f -regex '.*.ya*ml' -exec sops --decrypt --in-place '{}' \;
     # apply manifests with kubectl
     kubectl apply -R -f core/
     kubectl apply -R -f volumes/
