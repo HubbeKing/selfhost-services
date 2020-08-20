@@ -18,6 +18,10 @@ spec:
         - image: redis:latest
           imagePullPolicy: Always
           name: nextcloud-redis
+          command: ["redis-server"]
+          args:
+            - "--requirepass"
+            - "Excretion-Decimeter3-Trespass"
           resources:
             requests:
               cpu: "50m"
