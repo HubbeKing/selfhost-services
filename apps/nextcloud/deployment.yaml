@@ -21,7 +21,13 @@ spec:
           command: ["redis-server"]
           args:
             - "--requirepass"
-            - "Excretion-Decimeter3-Trespass"
+            - "$(REDIS_HOST_PASSWORD)"
+          env:
+            - name: REDIS_HOST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-envs
+                  key: REDIS_HOST_PASSWORD
           resources:
             requests:
               cpu: "50m"
