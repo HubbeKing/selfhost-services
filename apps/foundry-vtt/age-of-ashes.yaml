@@ -50,7 +50,7 @@ spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds
       containers:
-        - image: registry.hubbe.club/foundry:v0.6.5
+        - image: registry.hubbe.club/foundry:v0.6.6
           name: foundry-ashes
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data", "--world=ashes"]
