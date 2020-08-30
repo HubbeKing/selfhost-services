@@ -11,7 +11,7 @@ spec:
       http:
         paths:
           - path: /
-            pathPrefix: Prefix
+            pathType: Prefix
             backend:
               service:
                 name: jellyfin
