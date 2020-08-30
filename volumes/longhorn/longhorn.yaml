@@ -207,7 +207,7 @@ metadata:
   namespace: longhorn-system
 data:
   default-setting.yaml: |-
-    backup-target: nfs://192.168.1.213:/mnt/hubbe/array/LonghornBackups
+    backup-target: nfs://192.168.1.121:/mnt/hubbe/array/LonghornBackups
     backup-target-credential-secret:
     create-default-disk-labeled-nodes: false
     default-data-path: /var/lib/longhorn/
