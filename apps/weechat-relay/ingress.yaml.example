@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: weechat-relay
@@ -16,6 +16,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: weechat-relay
-              servicePort: 9000
+              service:
+                name: weechat-relay
+                port:
+                  number: 9000

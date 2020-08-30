@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jellyfin
@@ -11,6 +11,9 @@ spec:
       http:
         paths:
           - path: /
+            pathPrefix: Prefix
             backend:
-              serviceName: jellyfin
-              servicePort: 8096
+              service:
+                name: jellyfin
+                port:
+                  number: 8096

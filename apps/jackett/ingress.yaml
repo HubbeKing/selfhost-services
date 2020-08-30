@@ -1,4 +1,4 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jackett
@@ -11,6 +11,9 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: jackett
-              servicePort: 9117
+              service:
+                name: jackett
+                port:
+                  number: 9117
