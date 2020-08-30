@@ -12,7 +12,7 @@ spec:
   # use file system cache for NFS mount
   mountOptions: ["fsc"]
   nfs:
-    server: "192.168.1.213"
+    server: "192.168.1.121"
     path: "/mnt/hubbe/array"
     readOnly: false
 ---
