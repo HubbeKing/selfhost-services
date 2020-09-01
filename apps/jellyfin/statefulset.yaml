@@ -13,6 +13,17 @@ spec:
       labels:
         app: jellyfin
     spec:
+      # prefer to be scheduled on galactica, as it has more CPU/iGPU power than valkyrie
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - galactica
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
