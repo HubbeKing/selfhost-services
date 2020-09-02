@@ -9,9 +9,10 @@ spec:
   renewBefore: 720h             # 30 days
   commonName: "*.hubbe.club"    # technically deprecated in 2000, but most certs in 2020 still include it...
   isCA: false                   # not a CA cert
-  keySize: 2048                 # 2048-bit keysize
-  keyAlgorithm: rsa             # RSA cert
-  keyEncoding: pkcs1            # encode key with pkcs1 scheme
+  privateKey:
+    algorithm: RSA              # RSA private key
+    encoding: PKCS1             # encoded with PKCS1 scheme
+    size: 2048                  # 2048-bit private key
   dnsNames:
     - "hubbe.club"
     - "*.hubbe.club"
