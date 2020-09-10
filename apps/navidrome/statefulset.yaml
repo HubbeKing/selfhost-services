@@ -18,7 +18,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: deluan/navidrome:0.32.0
+        - image: deluan/navidrome:0.33.0
           name: navidrome
           resources:
             requests:
