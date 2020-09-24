@@ -5,4 +5,4 @@ metadata:
 provisioner: driver.longhorn.io
 allowVolumeExpansion: true
 parameters:
-  numberOfReplicas: "2"
+  numberOfReplicas: "3"
