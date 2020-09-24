@@ -215,7 +215,7 @@ data:
     storage-over-provisioning-percentage: 200
     storage-minimal-available-percentage: 15
     upgrade-checker: true
-    default-replica-count: 3
+    default-replica-count: 2
     guaranteed-engine-cpu: 0.25
     default-longhorn-static-storage-class: longhorn
     backupstore-poll-interval: 300
