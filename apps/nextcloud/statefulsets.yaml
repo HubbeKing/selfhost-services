@@ -59,7 +59,7 @@ spec:
       securityContext:
         fsGroup: 1000
       containers:
-        - image: nextcloud:19.0.3
+        - image: nextcloud:19.0.4
           name: nextcloud
           resources:
             requests:
