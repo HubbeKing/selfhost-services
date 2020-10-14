@@ -23,8 +23,7 @@ spec:
               args:
                 - "sync"
                 - "--fast-list"
-                - "--transfers"
-                - "32"
+                - "--transfers=32"
                 - "/backups"
                 - "b2:hubbeking-borg"
               volumeMounts:
@@ -39,8 +38,7 @@ spec:
               args:
                 - "sync"
                 - "--fast-list"
-                - "--transfers"
-                - "32"
+                - "--transfers=32"
                 - "/longhorn"
                 - "b2:hubbeking-longhorn"
               volumeMounts:
