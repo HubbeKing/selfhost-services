@@ -10,8 +10,8 @@ sudo cp docker-daemon.json /tmp/docker-daemon.json
 # ensure kubelet is running
 sudo systemctl enable kubelet.service
 
-# by default, Flannel uses 10.244.0.0/16
-# so long as both Flannel and kubeadm agree on the CIDR it shouldn't matter much
+# set a Pod network CIDR
+# Calico should auto-detect this in Kubeadm, and it should work with the default IPIP overlay mode
 DESIRED_CIDR=10.244.0.0/16
 
 # Initialize kubernetes control-plane on this machine
@@ -22,5 +22,5 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-# apply Flannel pod networking manifest
-kubectl apply -f ../core/kube-flannel.yml
+# apply Project Calico pod networking manifest
+kubectl apply -f ../core/calico.yml
