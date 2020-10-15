@@ -18,8 +18,9 @@ Services running on hubbe.club, in local k8s cluster
     - TODO: add args for creating stacked-etcd HA control plane
     - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
         - NOTE: Always latest versions
-    - `Flannel` is set up in the cluster for pod networking
-        - Default pod CIDR is 10.244.0.0/16, adjust as needed - make sure to also edit `core/kube-flannel.yaml`
+    - `Project Calico` is set up in the cluster for pod networking - see `core/calico.yml`
+        - Default pod CIDR is 10.244.0.0/16, adjust if needed, Calico should auto-detect this setting from Kubeadm
+        - The calico network MTU is set to 1480, assuming a typical 1500 physical MTU and the default IPIP overlay
     - Docker is configured with the recommended daemon settings for kubernetes
     - Kernel source address verification is also enabled
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
@@ -29,7 +30,6 @@ Services running on hubbe.club, in local k8s cluster
     - Docker is configured with the recommended daemon settings for kubernetes
     - Kernel source address verification is also enabled
     - Nodes are then joined as workers using `kubeadm token create --print-join-command` and `kubeadm join`
-
 
 ### Storage setup
 - NFS share for `volumes/array-nfs-pv.yaml` needs to be created
