@@ -36,7 +36,7 @@ spec:
             exec:
               command:
                 - pgrep
-                - mpdscribble
+                - mpd
             initialDelaySeconds: 5
             periodSeconds: 5
           resources:
