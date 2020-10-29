@@ -17,10 +17,10 @@ spec:
       containers:
         - image: hubbeking/ssh:latest
           name: openssh
-          livenessProbe:
+          readinessProbe:
             tcpSocket:
               port: 22
-            initialDelaySeconds: 5
+            initialDelaySeconds: 0
             periodSeconds: 5
           resources:
             requests:
@@ -54,12 +54,22 @@ spec:
         # kubectl proxy sidecar container so non-root can access kube-apiserver
         - image: hubbeking/ssh:latest
           name: kubectl-proxy
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+            initialDelaySeconds: 0
+            periodSeconds: 5
           resources:
             requests:
               cpu: "50m"
           command: ["kubectl"]
           args: # run proxy on 8080, disable rejection of exec commands
             - "proxy"
+            - "--accept-hosts"
+            - ".*"
+            - "--address"
+            - "0.0.0.0"
             - "--port"
             - "8080"
             - "--reject-paths"
