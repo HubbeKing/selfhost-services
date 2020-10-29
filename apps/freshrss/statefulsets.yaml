@@ -29,7 +29,16 @@ spec:
                 - "--password=$(MYSQL_PASSWORD)"
                 - "ping"
                 - "--silent"
-            initialDelaySeconds: 5
+            initialDelaySeconds: 0
+            periodSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - "mysqladmin"
+                - "--user=$(MYSQL_USER)"
+                - "--password=$(MYSQL_PASSWORD)"
+                - "status"
+            initialDelaySeconds: 0
             periodSeconds: 5
           resources:
             requests:
