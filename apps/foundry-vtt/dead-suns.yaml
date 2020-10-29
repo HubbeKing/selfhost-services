@@ -59,7 +59,7 @@ spec:
           args: ["/foundry/resources/app/main.js", "--dataPath=/data", "--world=dead-suns"]
           livenessProbe:
             httpGet:
-              path: /suns/join
+              path: /suns
               port: 30000
             initialDelaySeconds: 5
             periodSeconds: 5

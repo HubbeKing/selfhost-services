@@ -59,7 +59,7 @@ spec:
           args: ["/foundry/resources/app/main.js", "--dataPath=/data", "--world=barthu"]
           livenessProbe:
             httpGet:
-              path: /barthu/join
+              path: /barthu
               port: 30000
             initialDelaySeconds: 5
             periodSeconds: 5
