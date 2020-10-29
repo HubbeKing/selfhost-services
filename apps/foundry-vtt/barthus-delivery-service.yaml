@@ -57,6 +57,12 @@ spec:
           name: foundry-barthu
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data", "--world=barthu"]
+          livenessProbe:
+            httpGet:
+              path: /barthu/join
+              port: 30000
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "100m"

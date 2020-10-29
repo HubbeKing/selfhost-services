@@ -17,6 +17,12 @@ spec:
         - image: linuxserver/radarr:latest
           imagePullPolicy: Always
           name: radarr
+          livenessProbe:
+            httpGet:
+              path: /login
+              port: 7878
+            initialDelaySeconds: 10
+            periodSeconds: 5
           resources:
             requests:
               cpu: "50m"

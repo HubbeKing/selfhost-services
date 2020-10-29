@@ -16,12 +16,29 @@ spec:
         - image: hubbeking/music:mpdscribble
           imagePullPolicy: Always
           name: mpdscribble
+          livenessProbe:
+            exec:
+              command:
+                - pgrep
+                - mpdscribble
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              cpu: "50m"
           envFrom:
             - secretRef:
                 name: mpdscribble-config
         - image: hubbeking/music:mpd
           imagePullPolicy: Always
           name: mpd
+          livenessProbe:
+            exec:
+              command:
+                - pgrep
+                - mpdscribble
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "50m"

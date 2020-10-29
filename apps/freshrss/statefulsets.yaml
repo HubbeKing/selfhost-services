@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: freshrss-db
 spec:
-  replicas: 1  
+  replicas: 1
   selector:
     matchLabels:
       app: freshrss-db
@@ -21,6 +21,16 @@ spec:
         - image: mariadb:10
           imagePullPolicy: Always
           name: freshrss-db
+          livenessProbe:
+            exec:
+              command:
+                - "mysqladmin"
+                - "--user=$(MYSQL_USER)"
+                - "--password=$(MYSQL_PASSWORD)"
+                - "ping"
+                - "--silent"
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "50m"
@@ -59,6 +69,12 @@ spec:
       containers:
         - image: freshrss/freshrss:1.17.0
           name: freshrss
+          livenessProbe:
+            httpGet:
+              path: /i/
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "50m"

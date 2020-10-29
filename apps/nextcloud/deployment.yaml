@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nextcloud-redis
 spec:
-  replicas: 1  
+  replicas: 1
   selector:
     matchLabels:
       app: nextcloud-redis
@@ -18,6 +18,15 @@ spec:
         - image: redis:latest
           imagePullPolicy: Always
           name: nextcloud-redis
+          livenessProbe:
+            exec:
+              command:
+                - "redis-cli"
+                - "--pass"
+                - $(REDIS_HOST_PASSWORD)
+                - "ping"
+            initialDelaySeconds: 5
+            periodSeconds: 5
           command: ["redis-server"]
           args:
             - "--requirepass"

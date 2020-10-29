@@ -17,6 +17,12 @@ spec:
         - image: linuxserver/bazarr:latest
           imagePullPolicy: Always
           name: bazarr
+          livenessProbe:
+            httpGet:
+              path: /login/
+              port: 6767
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "10m"

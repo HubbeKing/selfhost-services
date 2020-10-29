@@ -57,6 +57,12 @@ spec:
           name: foundry-dead-suns
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data", "--world=dead-suns"]
+          livenessProbe:
+            httpGet:
+              path: /suns/join
+              port: 30000
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "100m"

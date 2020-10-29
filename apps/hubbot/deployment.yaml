@@ -22,6 +22,12 @@ spec:
         - image: hubbeking/hubbot:latest
           imagePullPolicy: Always
           name: hubbot
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 9999
+            initialDelaySeconds: 5
+            periodSeconds: 5
           args: ["-c", "/app/configs/hubbot.toml"]
           resources:
             requests:

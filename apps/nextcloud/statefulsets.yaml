@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: nextcloud-db
 spec:
-  replicas: 1  
+  replicas: 1
   selector:
     matchLabels:
       app: nextcloud-db
@@ -21,6 +21,16 @@ spec:
         - image: mariadb:10
           imagePullPolicy: Always
           name: nextcloud-db
+          livenessProbe:
+            exec:
+              command:
+                - "mysqladmin"
+                - "--user=$(MYSQL_USER)"
+                - "--password=$(MYSQL_PASSWORD)"
+                - "ping"
+                - "--silent"
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "100m"
@@ -61,6 +71,13 @@ spec:
       containers:
         - image: nextcloud:19.0.4
           name: nextcloud
+          livenessProbe:
+            httpGet:
+              path: /login
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
           resources:
             requests:
               cpu: "100m"

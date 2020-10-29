@@ -31,6 +31,12 @@ spec:
       containers:
         - image: jellyfin/jellyfin:10.6.4
           name: jellyfin
+          livenessProbe:
+            httpGet:
+              path: /web/index.html
+              port: 8096
+            initialDelaySeconds: 10
+            periodSeconds: 5
           resources:
             requests:
               # request small amount of CPU to prevent latency when node is under load from other work

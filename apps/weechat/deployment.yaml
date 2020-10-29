@@ -22,6 +22,15 @@ spec:
         - image: hubbeking/weechat:latest
           imagePullPolicy: Always
           name: weechat
+          livenessProbe:
+            exec:
+              command:
+                - "tmux"
+                - "has-session"
+                - "-t"
+                - "weechat"
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "50m"

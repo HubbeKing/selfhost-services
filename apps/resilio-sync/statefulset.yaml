@@ -17,6 +17,13 @@ spec:
         - image: linuxserver/resilio-sync:latest
           imagePullPolicy: Always
           name: resilio-sync
+          livenessProbe:
+            exec:
+              command:
+                - pgrep
+                - rslsync
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "50m"

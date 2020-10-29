@@ -57,6 +57,12 @@ spec:
           name: foundry-ashes
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--dataPath=/data", "--world=ashes"]
+          livenessProbe:
+            httpGet:
+              path: /ashes/join
+              port: 30000
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "100m"

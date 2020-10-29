@@ -18,6 +18,15 @@ spec:
         - image: rabbitmq:latest
           imagePullPolicy: Always
           name: deepdream-queue
+          livenessProbe:
+            exec:
+              command:
+                - "rabbitmq-diagnostics"
+                - "-q"
+                - "ping"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
           resources:
             requests:
               cpu: "50m"
@@ -46,6 +55,12 @@ spec:
         - image: hubbeking/deepdream-docker:latest
           imagePullPolicy: Always
           name: deepdream-api
+          livenessProbe:
+            httpGet:
+              path: /health/
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
           resources:
             requests:
               cpu: "50m"
@@ -63,6 +78,16 @@ spec:
         - image: hubbeking/deepdream-docker:latest
           imagePullPolicy: Always
           name: deepdream-worker
+          livenessProbe:
+            exec:
+              command:
+                - "celery"
+                - "-A"
+                - "tasks"
+                - "status"
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
           command: ["celery", "-A", "tasks", "worker", "--loglevel=INFO", "--concurrency=1"]
           env:
             - name: GLOG_minloglevel
