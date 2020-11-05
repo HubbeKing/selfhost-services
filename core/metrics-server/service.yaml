@@ -4,6 +4,8 @@ kind: Service
 metadata:
   name: metrics-server
   namespace: kube-system
+  labels:
+    k8s-app: metrics-server
 spec:
   ports:
   - name: https
