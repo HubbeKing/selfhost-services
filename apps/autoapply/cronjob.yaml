@@ -18,6 +18,7 @@ spec:
           containers:
             - name: autoapply
               image: registry.hubbe.club/autoapply:1.19.3
+              imagePullPolicy: Always
               resources:
                 requests:
                   cpu: "100m"
