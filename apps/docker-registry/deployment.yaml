@@ -22,7 +22,7 @@ spec:
               path: /debug/health
               port: 6969
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
           env:
             - name: REGISTRY_HTTP_ADDR
               value: ":5000"

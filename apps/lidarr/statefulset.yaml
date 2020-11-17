@@ -22,7 +22,7 @@ spec:
               path: /login
               port: 8686
             initialDelaySeconds: 10
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "50m"

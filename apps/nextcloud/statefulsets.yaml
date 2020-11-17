@@ -28,7 +28,7 @@ spec:
                 - "-c"
                 - "mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ping"
             initialDelaySeconds: 0
-            periodSeconds: 5
+            periodSeconds: 15
           readinessProbe:
             exec:
               command:
@@ -36,7 +36,7 @@ spec:
                 - "-c"
                 - "mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'"
             initialDelaySeconds: 0
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "100m"
@@ -82,7 +82,7 @@ spec:
               path: /login
               port: 80
             initialDelaySeconds: 10
-            periodSeconds: 5
+            periodSeconds: 15
             timeoutSeconds: 5
           resources:
             requests:

@@ -62,7 +62,7 @@ spec:
               path: /barthu
               port: 30000
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "100m"

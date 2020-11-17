@@ -23,7 +23,7 @@ spec:
                 - pgrep
                 - rslsync
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "50m"

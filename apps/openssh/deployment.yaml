@@ -21,7 +21,7 @@ spec:
             tcpSocket:
               port: 22
             initialDelaySeconds: 0
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "50m"
@@ -59,7 +59,7 @@ spec:
               path: /readyz
               port: 8080
             initialDelaySeconds: 0
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "50m"

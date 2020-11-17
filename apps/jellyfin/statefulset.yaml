@@ -36,7 +36,7 @@ spec:
               path: /web/index.html
               port: 8096
             initialDelaySeconds: 10
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               # request small amount of CPU to prevent latency when node is under load from other work

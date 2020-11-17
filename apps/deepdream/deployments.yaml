@@ -25,7 +25,7 @@ spec:
                 - "-q"
                 - "ping"
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
             timeoutSeconds: 2
           resources:
             requests:
@@ -60,7 +60,7 @@ spec:
               path: /health/
               port: 8000
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "50m"
@@ -86,7 +86,7 @@ spec:
                 - "tasks"
                 - "status"
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
             timeoutSeconds: 2
           command: ["celery", "-A", "tasks", "worker", "--loglevel=INFO", "--concurrency=1"]
           env:

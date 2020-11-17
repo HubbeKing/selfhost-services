@@ -22,7 +22,7 @@ spec:
                 - pgrep
                 - mpdscribble
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "50m"
@@ -38,7 +38,7 @@ spec:
                 - pgrep
                 - mpd
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "50m"

@@ -22,7 +22,7 @@ spec:
               path: /
               port: 8080
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: "100m"
