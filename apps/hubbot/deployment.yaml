@@ -27,7 +27,7 @@ spec:
               path: /
               port: 9999
             initialDelaySeconds: 5
-            periodSeconds: 5
+            periodSeconds: 30
           args: ["-c", "/app/configs/hubbot.toml"]
           resources:
             requests:
