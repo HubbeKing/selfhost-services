@@ -17,7 +17,7 @@ spec:
             - name: registry-hubbe-club-creds
           containers:
             - name: autoapply
-              image: registry.hubbe.club/autoapply:1.19.3
+              image: registry.hubbe.club/autoapply:1.19.4
               imagePullPolicy: Always
               resources:
                 requests:
