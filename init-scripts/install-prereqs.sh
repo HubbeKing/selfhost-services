@@ -21,10 +21,10 @@ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/
 
 # install cri-o
 sudo apt update
-sudo apt install cri-o cri-o-runc
+sudo apt install -y cri-o cri-o-runc
 
 # enable and start crio systemd daemon
-sudo systemcrl enable --now crio
+sudo systemctl enable --now crio
 
 # ensure kernel source address verification is enabled
 echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /etc/sysctl.d/99-rpfilter-1.conf
