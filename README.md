@@ -14,18 +14,28 @@ Services running on hubbe.club, in local k8s cluster
 1. Set up machines with basic apt-based OS
     - Should support Ubuntu 18.04 LTS and Ubuntu 20.04 LTS, both amd64 and arm64
     - Should support RPi HypriotOS for armhf support
-2. Set up single-node control-plane with `init-scripts/kubeadm-init.sh`
+2. Adjust kubeadm configuration in `init-scripts/kubeadm-config.yaml`
+    - This file is needed in order to set the cgroupDriver for the kubelet on kubeadm init
+    - The main settings of note:
+        - `ClusterConfiguration.kubernetesVersion` - should match desired version and installed kubelet version
+        - `ClusterConfiguration.networking.podSubnet` - CIDR for pods in the cluster, should not already be in use in the network
+    - For info on what the configurations in this file control, see:
+        - https://godoc.org/k8s.io/kubelet/config/v1beta1#KubeletConfiguration
+        - https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#InitConfiguration
+        - https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#ClusterConfiguration
+3. Set up single-node control-plane with `init-scripts/kubeadm-init.sh`
     - TODO: add args for creating stacked-etcd HA control plane
     - Required packages are installed - `cri-o`, `cri-o-runc`, `kubeadm`, `kubelet`, and `kubectl`
-        - NOTE: please see `init-scripts/install-prereqs.sh` for cri-o version/os information
-        - NOTE: please see `init-scripts/install-prereqs.sh` for kubeadm/kubelete/kubectl version information
-        - NOTE: cri-o and kubernetes versions MUST match for cluster to function
+        - NOTE: please see `init-scripts/install-prereqs.sh` for cri-o version/os settings
+        - NOTE: please see `init-scripts/install-prereqs.sh` for kubeadm/kubelete/kubectl version settings
+        - NOTE: please see `init-scripts/kubeadm-config.yaml` for kubeadm configuration
+        - NOTE: cri-o and kubernetes versions MUST match across the two files for cluster initialization to work
     - `Project Calico` is set up in the cluster for pod networking - see `core/calico.yml`
-        - Default pod CIDR is 10.244.0.0/16, adjust if needed, Calico should auto-detect this setting from Kubeadm
+        - Note: Calico auto-detects the podSubnet setting from kubeadm, there should be no need to adjust it
         - NOTE: recent versions of Calico auto-detect network MTU, there should be no need to adjust it manually.
     - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
-3. Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
+4. Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
     - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
     - Docker is configured with the recommended daemon settings for kubernetes
