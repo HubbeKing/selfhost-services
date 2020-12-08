@@ -31,8 +31,7 @@ echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /etc/sysctl.d/99-rpfilter-1.co
 sudo sysctl net.ipv4.conf.all.rp_filter=1
 
 # make sure br_netfilter module is loaded
-lsmod | grep br_netfilter
-if [ $? -ne 0 ]; then
+if [ ! `lsmod | grep -o ^br_netfilter` ]; then
   sudo modprobe br_netfilter
   echo 'br_netfilter' | sudo tee /etc/modules-load.d/99-br-netfilter
 fi
