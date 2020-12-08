@@ -16,13 +16,14 @@ Services running on hubbe.club, in local k8s cluster
     - Should support RPi HypriotOS for armhf support
 2. Set up single-node control-plane with `init-scripts/kubeadm-init.sh`
     - TODO: add args for creating stacked-etcd HA control plane
-    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
-        - NOTE: Always latest versions
+    - Required packages are installed - `cri-o`, `cri-o-runc`, `kubeadm`, `kubelet`, and `kubectl`
+        - NOTE: please see `init-scripts/install-prereqs.sh` for cri-o version/os information
+        - NOTE: please see `init-scripts/install-prereqs.sh` for kubeadm/kubelete/kubectl version information
+        - NOTE: cri-o and kubernetes versions MUST match for cluster to function
     - `Project Calico` is set up in the cluster for pod networking - see `core/calico.yml`
         - Default pod CIDR is 10.244.0.0/16, adjust if needed, Calico should auto-detect this setting from Kubeadm
-        - The calico network MTU is set to 1480, assuming a typical 1500 physical MTU and the default IPIP overlay
-    - Docker is configured with the recommended daemon settings for kubernetes
-    - Kernel source address verification is also enabled
+        - NOTE: recent versions of Calico auto-detect network MTU, there should be no need to adjust it manually.
+    - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
 3. Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access

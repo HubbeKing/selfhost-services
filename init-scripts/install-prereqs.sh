@@ -1,43 +1,30 @@
 #!/bin/bash
 set -e
 
-# check if docker appears to be installed
-if ! [ -x "$(command -v docker)" ]; then
-  echo "docker does not appear to be installed, installing..."
-  # install prereqs to allow apt to use a repository over HTTPS
-  sudo apt-get install -y \
-      apt-transport-https \
-      ca-certificates \
-      curl \
-      gnupg-agent \
-      software-properties-common
+# NOTE - KUBE_VERSION and VERSION need to match, see cri-o compatability matrix
+# https://github.com/cri-o/cri-o#compatibility-matrix-cri-o--kubernetes
 
-  # add docker's official GPG key
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+# kubeadm/kubelet/kubectl version to install
+KUBE_VERSION=1.19.4-00
+# cri-o version and OS information environment variables
+# see https://github.com/cri-o/cri-o/blob/master/install.md for more information
+export VERSION=1.19
+export OS=xUbuntu_20.04
 
-  # add docker repo to apt
-  sudo add-apt-repository \
-  "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) \
-  stable"
+# add cri-o repos to apt sources.list.d directory
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
 
-  # update
-  sudo apt-get update
+# get cri-o release keys
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key add -
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key add -
 
-  # install latest version of docker
-  sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-fi
+# install cri-o
+sudo apt update
+sudo apt install cri-o cri-o-runc
 
-# ensure docker daemon is enabled and running
-sudo systemctl enable --now docker
-
-# ensure docker is using recommended settings
-sudo cp /tmp/docker-daemon.json /etc/docker/daemon.json
-sudo mkdir -p /etc/systemd/system/docker.service.d
-
-# restart docker
-sudo systemctl daemon-reload
-sudo systemctl restart docker
+# enable and start crio systemd daemon
+sudo systemcrl enable --now crio
 
 # ensure kernel source address verification is enabled
 echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /etc/sysctl.d/99-rpfilter-1.conf
@@ -70,5 +57,5 @@ cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get install -y kubelet=$KUBE_VERSION kubeadm=$KUBE_VERSION kubectl=$KUBE_VERSION
 sudo apt-mark hold kubelet kubeadm kubectl
