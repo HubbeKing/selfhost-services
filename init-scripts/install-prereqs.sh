@@ -11,6 +11,33 @@ KUBE_VERSION=1.19.4-00
 export VERSION=1.19
 export OS=xUbuntu_20.04
 
+# make sure overlay module is loaded
+if [ ! `lsmod | grep -o ^overlay` ]; then
+  sudo modprobe overlay
+  echo 'overlay' | sudo tee /etc/modules-load.d/99-overlay
+fi
+
+# make sure br_netfilter module is loaded
+if [ ! `lsmod | grep -o ^br_netfilter` ]; then
+  sudo modprobe br_netfilter
+  echo 'br_netfilter' | sudo tee /etc/modules-load.d/99-br-netfilter
+fi
+
+# set required sysctl params
+# rp_filter=1 enables strict kernel source address verification
+# bridge-nf-call ensures iptables can see bridged traffic
+# ip_forward ensures traffic is bridged properly
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.ipv4.conf.all.rp_filter = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOF
+
+# load sysctl parameters immediately
+sudo sysctl --system
+
+
 # add cri-o repos to apt sources.list.d directory
 echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
 echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
@@ -24,24 +51,8 @@ sudo apt update
 sudo apt install -y cri-o cri-o-runc
 
 # enable and start crio systemd daemon
+sudo systemctl daemon-reload
 sudo systemctl enable --now crio
-
-# ensure kernel source address verification is enabled
-echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /etc/sysctl.d/99-rpfilter-1.conf
-sudo sysctl net.ipv4.conf.all.rp_filter=1
-
-# make sure br_netfilter module is loaded
-if [ ! `lsmod | grep -o ^br_netfilter` ]; then
-  sudo modprobe br_netfilter
-  echo 'br_netfilter' | sudo tee /etc/modules-load.d/99-br-netfilter
-fi
-
-# let iptables see bridged traffic
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
-sudo sysctl --system
 
 # update apt package lists
 sudo apt-get update
