@@ -7,12 +7,8 @@ set -e
 # ensure kubelet is running
 sudo systemctl enable kubelet.service
 
-# set a Pod network CIDR
-# Calico should auto-detect this in Kubeadm, and it should work with the default IPIP overlay mode
-DESIRED_CIDR=10.244.0.0/16
-
 # Initialize kubernetes control-plane on this machine
-sudo kubeadm init --pod-network-cidr=${DESIRED_CIDR}
+sudo kubeadm init --config kubeadm-config.yaml
 
 # set up kubectl for non-sudo use by copying config into home
 mkdir -p $HOME/.kube
