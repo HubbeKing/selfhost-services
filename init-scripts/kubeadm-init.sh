@@ -11,7 +11,7 @@ sudo systemctl enable kubelet.service
 source INSTALL_SETTINGS
 
 # check if a CONTROL_PLANE_ENDPOINT has been specified
-if [ -z "${CONTROL_PLANE_ENDPOINT}" ]; then
+if [ -n "${CONTROL_PLANE_ENDPOINT}" ]; then
     # Initialize stacked HA control-plane cluster on this machine if so
     KUBE_VERSION=${KUBE_VERSION} POD_NETWORK_CIDR=${POD_NETWORK_CIDR} K8S_SERVICE_CIDR=${K8S_SERVICE_CIDR} CONTROL_PLANE_ENDPOINT=${CONTROL_PLANE_ENDPOINT} envsubst < kubeadm-configs/stacked-ha.yaml > temp.yaml
     sudo kubeadm init --upload-certs --config temp.yaml
