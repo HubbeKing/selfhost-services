@@ -14,33 +14,35 @@ Services running on hubbe.club, in local k8s cluster
 1. Set up machines with basic apt-based OS
     - Should support Ubuntu 18.04 LTS and Ubuntu 20.04 LTS, both amd64 and arm64
     - Should support RPi HypriotOS for armhf support
-2. Adjust kubeadm configuration in `init-scripts/kubeadm-config.yaml`
+2. Adjust settings in `init-scripts/INSTALL_SETTINGS`
+    - TODO: Adjust this file to allow for stack control-plane HA setup
+    - The other scripts pull variables from this file:
+        - `KUBE_VERSION` sets the kubernetes version for the cluster
+        - `OS` MUST be set to the cri-o variable for the nodes' operating system
+            - See https://github.com/cri-o/cri-o/blob/master/install.md#apt-based-operating-systems
+        - `POD_NETWORK_CIDR` sets the pod networking subnet, this should be set to avoid conflicts with existing networking
+        - `K8S_SERVICE_CIDR` sets the service subnet, this should also avoid conflicting
+3. Adjust kubeadm configuration if needed in `init-scripts/kubeadm-config.yaml`
     - This file is needed in order to set the cgroupDriver for the kubelet on kubeadm init
-    - The main settings of note:
-        - `ClusterConfiguration.kubernetesVersion` - should match desired version and installed kubelet version
-        - `ClusterConfiguration.networking.podSubnet` - CIDR for pods in the cluster, should not already be in use in the network
     - For info on what the configurations in this file control, see:
         - https://godoc.org/k8s.io/kubelet/config/v1beta1#KubeletConfiguration
         - https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#InitConfiguration
         - https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#ClusterConfiguration
-3. Set up single-node control-plane with `init-scripts/kubeadm-init.sh`
-    - TODO: add args for creating stacked-etcd HA control plane
+4. Set up the first node of the control-plane with `init-scripts/kubeadm-init.sh`
     - Required packages are installed - `cri-o`, `cri-o-runc`, `kubeadm`, `kubelet`, and `kubectl`
-        - NOTE: please see `init-scripts/install-prereqs.sh` for cri-o version/os settings
-        - NOTE: please see `init-scripts/install-prereqs.sh` for kubeadm/kubelete/kubectl version settings
-        - NOTE: please see `init-scripts/kubeadm-config.yaml` for kubeadm configuration
-        - NOTE: cri-o and kubernetes versions MUST match across the two files for cluster initialization to work
     - `Project Calico` is set up in the cluster for pod networking - see `core/calico.yml`
-        - Note: Calico auto-detects the podSubnet setting from kubeadm, there should be no need to adjust it
+        - NOTE: Calico auto-detects the podSubnet setting from kubeadm, there should be no need to adjust it
         - NOTE: recent versions of Calico auto-detect network MTU, there should be no need to adjust it manually.
     - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
-4. Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
+5. TODO: (optional) Add additional control-plane nodes with `init-scripts/kubeadm-join-controlplane.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
-    - Required packages are installed - `docker`, `kubeadm`, `kubelet`, and `kubectl`
-    - Docker is configured with the recommended daemon settings for kubernetes
-    - Kernel source address verification is also enabled
-    - Nodes are then joined as workers using `kubeadm token create --print-join-command` and `kubeadm join`
+    - Same inital setup is performed as on first node
+    - Nodes are then joined as control-plane nodes using `kubeadm token create --print-join-command` and `kubeadm join`
+6. Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
+    - `<node_user>` must be able to SSH to the node, and have `sudo` access
+    - Same initial setup is performed as on first node
+    - Nodes are then joined as worker nodes using `kubeadm token create --print-join-command` and `kubeadm join`
 
 ### Storage setup
 - NFS share for `volumes/array-nfs-pv.yaml` needs to be created

@@ -1,15 +1,12 @@
 #!/bin/bash
 set -e
 
-# NOTE - KUBE_VERSION and VERSION need to match, see cri-o compatability matrix
-# https://github.com/cri-o/cri-o#compatibility-matrix-cri-o--kubernetes
-
-# kubeadm/kubelet/kubectl version to install
-KUBE_VERSION=1.19.4-00
+# get env vars from settings file
+source INSTALL_SETTINGS
 # cri-o version and OS information environment variables
 # see https://github.com/cri-o/cri-o/blob/master/install.md for more information
-export VERSION=1.19
-export OS=xUbuntu_20.04
+export VERSION=${KUBE_VERSION%.*}
+export OS=$OS
 
 # make sure overlay module is loaded
 if [ ! `lsmod | grep -o ^overlay` ]; then
@@ -67,5 +64,5 @@ cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 sudo apt-get update
-sudo apt-get install -y kubelet=$KUBE_VERSION kubeadm=$KUBE_VERSION kubectl=$KUBE_VERSION
+sudo apt-get install -y kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00
 sudo apt-mark hold kubelet kubeadm kubectl

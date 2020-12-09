@@ -1,0 +1,16 @@
+
+# Kubernetes version to install
+KUBE_VERSION=1.19.4
+
+# Node Operating System
+# needed to get proper packages for CRI-o
+# see https://github.com/cri-o/cri-o/blob/master/install.md#apt-based-operating-systems
+OS=xUbuntu_20.04
+
+# subnet CIDRs for kubeadm configuration
+# these should be set to avoid conflicts with existing networks
+
+# pod subnet CIDR
+POD_NETWORK_CIDR=10.244.0.0/16
+# kubernetes service subnet CIDR
+K8S_SERVICE_CIDR=10.96.0.0/12

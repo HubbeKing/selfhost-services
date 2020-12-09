@@ -33,9 +33,9 @@ etcd:
   local:
     dataDir: /var/lib/etcd
 imageRepository: k8s.gcr.io
-kubernetesVersion: v1.19.4
+kubernetesVersion: v${KUBE_VERSION}
 networking:
   dnsDomain: cluster.local
-  podSubnet: 10.244.0.0/16
-  serviceSubnet: 10.96.0.0/12
+  podSubnet: ${POD_NETWORK_CIDR}
+  serviceSubnet: ${K8S_SERVICE_CIDR}
 scheduler: {}
