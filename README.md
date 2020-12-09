@@ -15,13 +15,14 @@ Services running on hubbe.club, in local k8s cluster
     - Should support Ubuntu 18.04 LTS and Ubuntu 20.04 LTS, both amd64 and arm64
     - Should support RPi HypriotOS for armhf support
 2. Adjust settings in `init-scripts/INSTALL_SETTINGS`
-    - TODO: Adjust this file to allow for stack control-plane HA setup
     - The other scripts pull variables from this file:
         - `KUBE_VERSION` sets the kubernetes version for the cluster
         - `OS` MUST be set to the cri-o variable for the nodes' operating system
             - See https://github.com/cri-o/cri-o/blob/master/install.md#apt-based-operating-systems
         - `POD_NETWORK_CIDR` sets the pod networking subnet, this should be set to avoid conflicts with existing networking
         - `K8S_SERVICE_CIDR` sets the service subnet, this should also avoid conflicting
+        - `CONTROL_PLANE_ENDPOINT` sets the kube-apiserver loadbalancer endpoint, which allows for stacked HA setups
+            - See https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
 3. Adjust kubeadm configuration if needed in `init-scripts/kubeadm-config.yaml`
     - This file is needed in order to set the cgroupDriver for the kubelet on kubeadm init
     - For info on what the configurations in this file control, see:
@@ -35,7 +36,7 @@ Services running on hubbe.club, in local k8s cluster
         - NOTE: recent versions of Calico auto-detect network MTU, there should be no need to adjust it manually.
     - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
-5. TODO: (optional) Add additional control-plane nodes with `init-scripts/kubeadm-join-controlplane.sh <node_user>@<node_address>`
+5. (optional) Add additional control-plane nodes with `init-scripts/kubeadm-join-controlplane.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
     - Same inital setup is performed as on first node
     - Nodes are then joined as control-plane nodes using `kubeadm token create --print-join-command` and `kubeadm join`

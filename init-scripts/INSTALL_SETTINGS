@@ -14,3 +14,8 @@ OS=xUbuntu_20.04
 POD_NETWORK_CIDR=10.244.0.0/16
 # kubernetes service subnet CIDR
 K8S_SERVICE_CIDR=10.96.0.0/12
+
+# control plane loadbalancer endpoint
+# uncomment and set this if stacked control plane HA setup is desired
+# see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
+#CONTROL_PLANE_ENDPOINT=apiserver.lan:6443
