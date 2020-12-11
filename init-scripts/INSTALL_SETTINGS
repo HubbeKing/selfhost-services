@@ -1,6 +1,6 @@
 
 # Kubernetes version to install
-KUBE_VERSION=1.19.4
+KUBE_VERSION=1.19.5
 
 # Node Operating System
 # needed to get proper packages for CRI-o
