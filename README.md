@@ -23,7 +23,9 @@ Services running on hubbe.club, in local k8s cluster
         - `K8S_SERVICE_CIDR` sets the service subnet, this should also avoid conflicting
         - `CONTROL_PLANE_ENDPOINT` sets the kube-apiserver loadbalancer endpoint, which allows for stacked HA setups
             - See https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
-3. Adjust kubeadm configuration if needed in `init-scripts/kubeadm-config.yaml`
+3. (optional) Adjust kubeadm configuration in `init-scripts/kubeadm-configs`
+    - `single.yaml` is used if CONTROL_PLANE_ENDPOINT is not set
+    - `stacked-ha.yaml` is used if CONTROL_PLANE_ENDPOINT is set
     - This file is needed in order to set the cgroupDriver for the kubelet on kubeadm init
     - For info on what the configurations in this file control, see:
         - https://godoc.org/k8s.io/kubelet/config/v1beta1#KubeletConfiguration
