@@ -695,7 +695,8 @@ metadata:
   name: longhorn-frontend
   namespace: longhorn-system
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.6
   selector:
     app: longhorn-ui
   ports:
