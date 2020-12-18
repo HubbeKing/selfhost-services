@@ -459,7 +459,7 @@ data:
   default-setting.yaml: |-
     backup-target: nfs://192.168.1.121:/mnt/hubbe/array/LonghornBackups
     backup-target-credential-secret:
-    allow-recurring-job-while-volume-detached:
+    allow-recurring-job-while-volume-detached: true
     create-default-disk-labeled-nodes: false
     default-data-path: /var/lib/longhorn/
     replica-soft-anti-affinity: false
@@ -474,19 +474,19 @@ data:
     taint-toleration:
     priority-class:
     auto-salvage: true
-    auto-delete-pod-when-volume-detached-unexpectedly:
+    auto-delete-pod-when-volume-detached-unexpectedly: true
     disable-scheduling-on-cordoned-node: true
     replica-zone-soft-anti-affinity: true
     volume-attachment-recovery-policy: "immediate"
-    node-down-pod-deletion-policy:
-    allow-node-drain-with-last-healthy-replica:
+    node-down-pod-deletion-policy: "delete-both-statefulset-and-deployment-pod"
+    allow-node-drain-with-last-healthy-replica: true
     mkfs-ext4-parameters:
-    disable-replica-rebuild:
-    replica-replenishment-wait-interval:
-    disable-revision-counter:
-    system-managed-pods-image-pull-policy:
-    allow-volume-creation-with-degraded-availability:
-    auto-cleanup-system-generated-snapshot:
+    disable-replica-rebuild: false
+    replica-replenishment-wait-interval: 600
+    disable-revision-counter: false
+    system-managed-pods-image-pull-policy: "if-not-present"
+    allow-volume-creation-with-degraded-availability: true
+    auto-cleanup-system-generated-snapshot: true
 ---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
