@@ -479,7 +479,7 @@ data:
     replica-zone-soft-anti-affinity: true
     volume-attachment-recovery-policy: "immediate"
     node-down-pod-deletion-policy: "delete-both-statefulset-and-deployment-pod"
-    allow-node-drain-with-last-healthy-replica: true
+    allow-node-drain-with-last-healthy-replica: false
     mkfs-ext4-parameters:
     disable-replica-rebuild: false
     replica-replenishment-wait-interval: 600
