@@ -14,7 +14,7 @@ spec:
         app: qbittorrent
     spec:
       containers:
-        - image: linuxserver/qbittorrent:latest
+        - image: ghcr.io/linuxserver/qbittorrent:latest
           imagePullPolicy: Always
           name: qbittorrent
           livenessProbe:

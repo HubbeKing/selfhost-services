@@ -14,7 +14,7 @@ spec:
         app: bazarr
     spec:
       containers:
-        - image: linuxserver/bazarr:latest
+        - image: ghcr.io/linuxserver/bazarr:latest
           imagePullPolicy: Always
           name: bazarr
           livenessProbe:

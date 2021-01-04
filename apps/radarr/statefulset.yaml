@@ -14,7 +14,7 @@ spec:
         app: radarr
     spec:
       containers:
-        - image: linuxserver/radarr:latest
+        - image: ghcr.io/linuxserver/radarr:latest
           imagePullPolicy: Always
           name: radarr
           livenessProbe:

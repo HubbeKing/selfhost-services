@@ -14,7 +14,7 @@ spec:
         app: resilio-sync
     spec:
       containers:
-        - image: linuxserver/resilio-sync:latest
+        - image: ghcr.io/linuxserver/resilio-sync:latest
           imagePullPolicy: Always
           name: resilio-sync
           livenessProbe:

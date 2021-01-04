@@ -14,7 +14,7 @@ spec:
         app: sonarr
     spec:
       containers:
-        - image: linuxserver/sonarr:preview
+        - image: ghcr.io/linuxserver/sonarr:preview
           imagePullPolicy: Always
           name: sonarr
           livenessProbe:
