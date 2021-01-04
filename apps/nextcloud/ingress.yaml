@@ -16,7 +16,7 @@ metadata:
 spec:
   tls:
     - hosts:
-      - cloud.hubbe.club  
+      - cloud.hubbe.club
   rules:
     - host: cloud.hubbe.club
       http:
@@ -26,5 +26,25 @@ spec:
             backend:
               service:
                 name: nextcloud-web
+                port:
+                  number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nextcloud-onlyoffice
+spec:
+  tls:
+    - hosts:
+      - documents.hubbe.club
+  rules:
+    - host: documents.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud-onlyoffice
                 port:
                   number: 80

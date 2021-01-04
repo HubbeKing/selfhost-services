@@ -41,3 +41,23 @@ spec:
             requests:
               cpu: "50m"
               memory: "50Mi"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-onlyoffice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nextcloud-onlyoffice
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: nextcloud-onlyoffice
+    spec:
+      containers:
+        - image: onlyoffice/documentserver:6.1.0
+          name: nextcloud-onlyoffice
