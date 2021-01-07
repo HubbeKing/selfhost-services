@@ -1,21 +1,25 @@
 #!/bin/bash
 set -e
 
-# copy docker-daemon.json to temp location
-sudo cp docker-daemon.json /tmp/docker-daemon.json
-
 # install prereqs
 ./install-prereqs.sh
 
 # ensure kubelet is running
 sudo systemctl enable kubelet.service
 
-# set a Pod network CIDR
-# Calico should auto-detect this in Kubeadm, and it should work with the default IPIP overlay mode
-DESIRED_CIDR=10.244.0.0/16
+# get required kubeadm config vars from INSTALL_SETTINGS
+source INSTALL_SETTINGS
 
-# Initialize kubernetes control-plane on this machine
-sudo kubeadm init --pod-network-cidr=${DESIRED_CIDR}
+# check if a CONTROL_PLANE_ENDPOINT has been specified
+if [ -n "${CONTROL_PLANE_ENDPOINT}" ]; then
+    # Initialize stacked HA control-plane cluster on this machine if so
+    KUBE_VERSION=${KUBE_VERSION} POD_NETWORK_CIDR=${POD_NETWORK_CIDR} K8S_SERVICE_CIDR=${K8S_SERVICE_CIDR} CONTROL_PLANE_ENDPOINT=${CONTROL_PLANE_ENDPOINT} envsubst < kubeadm-configs/stacked-ha.yaml > temp.yaml
+    sudo kubeadm init --upload-certs --config temp.yaml
+else
+    # Initialize single control-plane cluster on this machine otherwise
+    KUBE_VERSION=${KUBE_VERSION} POD_NETWORK_CIDR=${POD_NETWORK_CIDR} K8S_SERVICE_CIDR=${K8S_SERVICE_CIDR} envsubst < kubeadm-configs/single.yaml > temp.yaml
+    sudo kubeadm init --config temp.yaml
+fi
 
 # set up kubectl for non-sudo use by copying config into home
 mkdir -p $HOME/.kube
@@ -24,3 +28,6 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # apply Project Calico pod networking manifest
 kubectl apply -f ../core/calico.yaml
+
+# remove temporary kubeadm config file
+rm temp.yaml

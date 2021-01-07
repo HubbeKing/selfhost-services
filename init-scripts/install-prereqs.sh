@@ -1,61 +1,54 @@
 #!/bin/bash
 set -e
 
-# check if docker appears to be installed
-if ! [ -x "$(command -v docker)" ]; then
-  echo "docker does not appear to be installed, installing..."
-  # install prereqs to allow apt to use a repository over HTTPS
-  sudo apt-get install -y \
-      apt-transport-https \
-      ca-certificates \
-      curl \
-      gnupg-agent \
-      software-properties-common
+# get env vars from settings file
+source INSTALL_SETTINGS
+# cri-o version and OS information environment variables
+# see https://github.com/cri-o/cri-o/blob/master/install.md for more information
+export VERSION=${KUBE_VERSION%.*}
+export OS=$OS
 
-  # add docker's official GPG key
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-
-  # add docker repo to apt
-  sudo add-apt-repository \
-  "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) \
-  stable"
-
-  # update
-  sudo apt-get update
-
-  # install latest version of docker
-  sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+# make sure overlay module is loaded
+if [ ! `lsmod | grep -o ^overlay` ]; then
+  sudo modprobe overlay
+  echo 'overlay' | sudo tee /etc/modules-load.d/99-overlay
 fi
 
-# ensure docker daemon is enabled and running
-sudo systemctl enable --now docker
-
-# ensure docker is using recommended settings
-sudo cp /tmp/docker-daemon.json /etc/docker/daemon.json
-sudo mkdir -p /etc/systemd/system/docker.service.d
-
-# restart docker
-sudo systemctl daemon-reload
-sudo systemctl restart docker
-
-# ensure kernel source address verification is enabled
-echo 'net.ipv4.conf.all.rp_filter = 1' | sudo tee /etc/sysctl.d/99-rpfilter-1.conf
-sudo sysctl net.ipv4.conf.all.rp_filter=1
-
 # make sure br_netfilter module is loaded
-lsmod | grep br_netfilter
-if [ $? -ne 0 ]; then
+if [ ! `lsmod | grep -o ^br_netfilter` ]; then
   sudo modprobe br_netfilter
   echo 'br_netfilter' | sudo tee /etc/modules-load.d/99-br-netfilter
 fi
 
-# let iptables see bridged traffic
+# set required sysctl params
+# rp_filter=1 enables strict kernel source address verification
+# bridge-nf-call ensures iptables can see bridged traffic
+# ip_forward ensures traffic is bridged properly
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.ipv4.conf.all.rp_filter = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
 EOF
+
+# load sysctl parameters immediately
 sudo sysctl --system
+
+# add cri-o repos to apt sources.list.d directory
+echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
+echo "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/$VERSION/$OS/ /" | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable:cri-o:$VERSION.list
+
+# get cri-o release keys
+curl -L https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable:cri-o:$VERSION/$OS/Release.key | sudo apt-key add -
+curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/$OS/Release.key | sudo apt-key add -
+
+# install cri-o
+sudo apt update
+sudo apt install -y cri-o cri-o-runc
+
+# enable and start crio systemd daemon
+sudo systemctl daemon-reload
+sudo systemctl enable --now crio
 
 # update apt package lists
 sudo apt-get update
@@ -70,5 +63,5 @@ cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get install -y kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00
 sudo apt-mark hold kubelet kubeadm kubectl
