@@ -15,9 +15,10 @@ echo "Generating join token..."
 JOIN_CMD=$(kubeadm token create --print-join-command)
 
 # ensure required packages are installed and using proper settings
-echo "Copying install scripts to target host..."
-scp docker-daemon.json $HOST:/tmp/
+echo "Copying install script to target host..."
+scp INSTALL_SETTINGS $HOST:/tmp/
 scp install-prereqs.sh $HOST:/tmp/
+ssh -t $HOST "sed -i 's|INSTALL_SETTINGS|/tmp/INSTALL_SETTINGS|' /tmp/install-prereqs.sh"
 echo "Installing prereqs on target host..."
 ssh -t $HOST /tmp/install-prereqs.sh
 
