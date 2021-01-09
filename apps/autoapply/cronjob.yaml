@@ -17,7 +17,7 @@ spec:
             - name: registry-hubbe-club-creds
           containers:
             - name: autoapply
-              image: registry.hubbe.club/autoapply:1.19.4
+              image: registry.hubbe.club/autoapply:1.20.1
               env:
                 - name: SOPS_PGP_FP
                   value: 74B91EB9898B2ADB9A9E488A7C60FBD151BFFC9E
