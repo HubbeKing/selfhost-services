@@ -75,7 +75,7 @@ spec:
       securityContext:
         fsGroup: 1000
       containers:
-        - image: nextcloud:20.0.4
+        - image: nextcloud:20.0.5
           name: nextcloud
           livenessProbe:
             httpGet:
