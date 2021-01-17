@@ -39,8 +39,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "100m"
-              memory: "200Mi"
+              cpu: "50m"
+              memory: "100Mi"
+            limits:
+              cpu: "250m"
+              memory: "500Mi"
           envFrom:
             - secretRef:
                 name: nextcloud-envs
@@ -78,6 +81,13 @@ spec:
         - image: nextcloud:20.0.5
           name: nextcloud
           livenessProbe:
+            exec:
+              command:
+                - pgrep
+                - apache2
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
             httpGet:
               path: /login
               port: 80
@@ -87,7 +97,10 @@ spec:
           resources:
             requests:
               cpu: "100m"
-              memory: "500Mi"
+              memory: "250Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
           env:
             - name: MYSQL_HOST
               value: nextcloud-db

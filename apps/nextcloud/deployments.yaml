@@ -41,6 +41,9 @@ spec:
             requests:
               cpu: "50m"
               memory: "50Mi"
+            limits:
+              cpu: "150m"
+              memory: "150Mi"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -61,3 +64,17 @@ spec:
       containers:
         - image: onlyoffice/documentserver:6.1.0
           name: nextcloud-onlyoffice
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "1Gi"
+            limits:
+              cpu: "500m"
+              memory: "2Gi"
