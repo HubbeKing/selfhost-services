@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: deepdream-queue
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: deepdream-queue
@@ -43,7 +43,7 @@ kind: Deployment
 metadata:
   name: deepdream-web
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: deepdream
