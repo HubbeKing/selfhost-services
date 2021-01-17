@@ -23,6 +23,13 @@ spec:
               port: 6969
             initialDelaySeconds: 5
             periodSeconds: 15
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+            limits:
+              cpu: "250m"
+              memory: "250Mi"
           env:
             - name: REGISTRY_HTTP_ADDR
               value: ":5000"
