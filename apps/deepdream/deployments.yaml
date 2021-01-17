@@ -29,8 +29,11 @@ spec:
             timeoutSeconds: 2
           resources:
             requests:
-              cpu: "50m"
+              cpu: "100m"
               memory: "150Mi"
+            limits:
+              cpu: "200m"
+              memory: "250Mi"
           envFrom:
             - configMapRef:
                 name: deepdream-rabbit-envs
@@ -64,9 +67,10 @@ spec:
           resources:
             requests:
               cpu: "50m"
-              memory: "500Mi"
+              memory: "250Mi"
             limits:
-              cpu: "1000m"
+              cpu: "150m"
+              memory: "500Mi"
           envFrom:
             - configMapRef:
                 name: deepdream-rabbit-envs
@@ -88,6 +92,13 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 15
             timeoutSeconds: 2
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "100Mi"
+            limits:
+              cpu: "1000m"
+              memory: "500Mi"
           command: ["celery", "-A", "tasks", "worker", "--loglevel=INFO", "--concurrency=1"]
           env:
             - name: GLOG_minloglevel
