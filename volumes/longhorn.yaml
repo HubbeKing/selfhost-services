@@ -466,7 +466,7 @@ data:
     storage-over-provisioning-percentage: 200
     storage-minimal-available-percentage: 15
     upgrade-checker: true
-    default-replica-count: 2
+    default-replica-count: 3
     default-data-locality: "best-effort"
     guaranteed-engine-cpu: 0.25
     default-longhorn-static-storage-class: longhorn
@@ -549,6 +549,26 @@ subjects:
   - kind: ServiceAccount
     name: default
     namespace: longhorn-system
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: longhorn-storageclass
+  namespace: longhorn-system
+data:
+  storageclass.yaml: |
+    kind: StorageClass
+    apiVersion: storage.k8s.io/v1
+    metadata:
+      name: longhorn
+    provisioner: driver.longhorn.io
+    allowVolumeExpansion: true
+    reclaimPolicy: Delete
+    volumeBindingMode: Immediate
+    parameters:
+      numberOfReplicas: "3"
+      dataLocality: "best-effort"
+      staleReplicaTimeout: "2880"
 ---
 apiVersion: apps/v1
 kind: DaemonSet
