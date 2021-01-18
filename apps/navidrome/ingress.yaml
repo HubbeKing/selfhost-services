@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: navidrom
+  name: navidrome
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - music.hubbe.club  
+      - music.hubbe.club
   rules:
     - host: music.hubbe.club
       http:
