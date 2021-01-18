@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nextcloud-web
+  name: nextcloud
   annotations:
     # disable client_max_body_size checking
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
@@ -33,7 +33,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nextcloud-onlyoffice
+  name: onlyoffice
   annotations:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       more_clear_headers "X-Frame-Options";
