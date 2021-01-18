@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: docker-registry
+  name: registry
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: docker-registry
+      app: registry
   template:
     metadata:
       labels:
-        app: docker-registry
+        app: registry
     spec:
       containers:
-        - name: docker-registry
+        - name: registry
           image: registry:2.7.1
           livenessProbe:
             httpGet:
