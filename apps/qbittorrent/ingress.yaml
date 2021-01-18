@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: qbittorrent
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - torrents.hubbe.club  

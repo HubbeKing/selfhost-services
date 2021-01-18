@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: radarr
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - radarr.hubbe.club  

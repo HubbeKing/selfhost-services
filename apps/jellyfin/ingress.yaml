@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: jellyfin
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - video.hubbe.club  

@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: navidrom
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - music.hubbe.club  

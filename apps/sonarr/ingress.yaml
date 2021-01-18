@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: sonarr
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - sonarr.hubbe.club  

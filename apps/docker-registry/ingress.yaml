@@ -10,6 +10,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-secret: registry-auth
     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - Private Registry"
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - registry.hubbe.club

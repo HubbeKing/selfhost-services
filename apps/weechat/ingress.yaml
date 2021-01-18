@@ -8,6 +8,7 @@ metadata:
     # rate limiting zone
     nginx.ingress.kubernetes.io/configuration-snippet: "limit_req zone=weechat burst=1 nodelay;"
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - weechat.hubbe.club  

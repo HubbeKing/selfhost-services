@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: roundcubemail-web
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - mail.hubbe.club  

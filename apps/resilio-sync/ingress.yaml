@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: resilio-sync
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - sync.hubbe.club  

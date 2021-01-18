@@ -8,6 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-secret: deepdream-auth
     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - Deepdream Service"
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - deepdream.hubbe.club  

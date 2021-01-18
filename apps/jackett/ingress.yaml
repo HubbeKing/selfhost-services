@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: jackett
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - jackett.hubbe.club  

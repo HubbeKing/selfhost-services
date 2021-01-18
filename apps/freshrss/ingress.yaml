@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: freshrss
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - rss.hubbe.club  

@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: lidarr
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - lidarr.hubbe.club  

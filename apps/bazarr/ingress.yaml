@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: bazarr
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - bazarr.hubbe.club  
