@@ -6,6 +6,7 @@ metadata:
     # disable client_max_body_size checking, to allow large uploads
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - foundry.hubbe.club
