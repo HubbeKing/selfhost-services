@@ -25,8 +25,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "10m"
-              memory: "200Mi"
+              cpu: "100m"
+              memory: "250Mi"
+            limits:
+              cpu: "250m"
+              memory: "500Mi"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
