@@ -39,11 +39,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
-              memory: "100Mi"
-            limits:
               cpu: "250m"
-              memory: "500Mi"
+              memory: "0.5Gi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
           envFrom:
             - secretRef:
                 name: nextcloud-envs
