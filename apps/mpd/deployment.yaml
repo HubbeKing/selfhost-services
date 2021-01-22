@@ -12,8 +12,10 @@ spec:
       labels:
         app: mpd
     spec:
+      imagePullSecrets:
+        - name: registry-hubbe-club-creds
       containers:
-        - image: hubbeking/music:mpdscribble
+        - image: registry.hubbe.club/music:mpdscribble
           imagePullPolicy: Always
           name: mpdscribble
           livenessProbe:
@@ -29,7 +31,7 @@ spec:
           envFrom:
             - secretRef:
                 name: mpdscribble-config
-        - image: hubbeking/music:mpd
+        - image: registry.hubbe.club/music:mpd
           imagePullPolicy: Always
           name: mpd
           livenessProbe:
