@@ -14,6 +14,8 @@ spec:
       labels:
         app: hubbot
     spec:
+      imagePullSecrets:
+        - name: registry-hubbe-club-creds
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
