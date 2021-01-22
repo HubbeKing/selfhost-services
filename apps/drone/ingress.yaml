@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: drone
+  namespace: drone
+  labels:
+    component: drone
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - drone.hubbe.club  
+  rules:
+    - host: drone.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: drone
+                port:
+                  number: 80

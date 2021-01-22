@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: drone
+  namespace: drone
+  labels:
+    component: drone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: drone
+  serviceName: drone
+  template:
+    metadata:
+      labels:
+        app: drone
+    spec:
+      containers:
+        - image: drone/drone:1
+          name: drone
+          envFrom:
+            - secretRef:
+                name: drone-envs
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/drone
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 1Gi

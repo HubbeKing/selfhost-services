@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: runner-policy
+  namespace: drone
+  labels:
+    component: drone-runner
+data:
+  POLICY: |
+    ---
+    kind: policy
+    name: default
+
+    metadata:
+      namespace: drone
+
+    service_account: drone
+
+    resources:
+      request:
+        cpu: 250
+        memory: 512MiB
+      limit:
+        cpu: 1000
+        memory: 2GiB
