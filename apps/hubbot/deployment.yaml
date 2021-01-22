@@ -19,7 +19,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: hubbeking/hubbot:latest
+        - image: registry.hubbe.club/hubbot:latest
           imagePullPolicy: Always
           name: hubbot
           livenessProbe:
