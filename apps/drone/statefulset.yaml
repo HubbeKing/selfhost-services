@@ -24,7 +24,7 @@ spec:
                 name: drone-envs
           volumeMounts:
             - name: data
-              mountPath: /var/lib/drone
+              mountPath: /data
   volumeClaimTemplates:
     - metadata:
         name: data
