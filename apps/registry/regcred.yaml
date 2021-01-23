@@ -5,14 +5,14 @@ metadata:
     namespace: ENC[AES256_GCM,data:t1KjXblI5Q==,iv:sp9TaiZK8JAwnuBqgZgmTzjkKqvGZeauVs0Q1S6p95w=,tag:R+VowsN22cD2TQrSDooOcw==,type:str]
 type: ENC[AES256_GCM,data:NCi1D8tFFz3Kaw7NX+Ra5ik3WLaaf5FTUn6PZiAd,iv:z+t8p9Gm/ETYoPbdPND4b8aRcJzpBW7H1Kn+Su3BcC0=,tag:j7i0EVpL1kgX9ZUuPD512w==,type:str]
 data:
-    .dockerconfigjson: ENC[AES256_GCM,data:MZGOpYUhgmXp/J8a29wrLtUO/0cRqTUib6J7WNeXG5yA5PTmFxALMxJj3Qufi5p724F3HJql+mIuW8T3/nq8VI7u3eQ5GKZWqmAJOJ2Kw7fGvk/tmalxc/Rrwuyohtt3kl46CzMpl49wwNI2jCck6YjcyYRg2DJL9w9RJjA6ULZh7hpZp3H4Ek02dihglRECA8bV/cjmqvmVnsrhPjxU74DNJ94Dg5ixKTsf+xUhE+nLx67MbiluSwsLc/P/KwKlJ3AWKD2mdsTTWZ6VuYZzeE8SdvgSmsFJptSnjAsuPz5SL8gT5HLX7MDkiJCF8KZo,iv:+FIB0tu33vvy+KiY0z/oTX/A/Hujczbf6jwp9E3F35Q=,tag:VC1cpyiihIZwiiuAcs2q0g==,type:str]
+    .dockerconfigjson: ENC[AES256_GCM,data:XnBcfN7sB4/eBHTmmVnBsVTUmiHw6CRKIaBcP1YXJ9CXNPHU6OQ5yopN11UKackHYw9YnFsjA8SMNt9iRtgqy4Wc+lzuzvm3rBzmSZkm/9v2k3bMPR4sD1XuhoBBlR2pxw4+jKOjZ08tqUJ3fiyM7LpBE9P7mUo9hes8mUfgn06Pmtt5uj3Egu5mDhzPG+8f1R4Wzn3jcgY3iC0keLyqwe/RQpJGywL6BnoQ4BwbPF+GMcJQqgOIPdt7xPOkK9QH8ytF2Q80hb2mK9R1UFGC2gEObQc=,iv:KUuWSFYHVu6lJcIKkpB1COZnRKls6P8SSD8ZsJuhpaI=,tag:+V+BiV7IRjkxGToriPEXrg==,type:str]
 sops:
     kms: []
     gcp_kms: []
     azure_kv: []
     hc_vault: []
-    lastmodified: '2020-11-11T13:31:36Z'
-    mac: ENC[AES256_GCM,data:18gsqgMhuGxB0IbRifd6XMZ5r3QfR2dDADaBAJCW4rw2JS5o+Uge9gLf6557IBrIOtBtLBKSes3OOMO6PgUegpaXGWSOT/cWuYzpai/VCTHaDMmDibR3YH9rKSCksJkDOoGrBL1Vf8zJrDZC5bAWUFHwGrudzUgbJRuTVp9yywE=,iv:8bNdGciwrIqZG+KIr7QzyZRjbCMY5Q5fX/HRp3d6QGQ=,tag:u5zQm7pHoTrwuLf2QFsCtg==,type:str]
+    lastmodified: '2021-01-23T21:39:09Z'
+    mac: ENC[AES256_GCM,data:WoZETDNORwLat5tg1EfiCAmRJxRf87L8An1Hmto5tMxnIsOrAASkn7l56aMOve1V6lWInzoqhjDcO2nJnB0XxYr8kMC/19rBBe7kCZfwQxySrCgNaU4rJ6m/iwEQ0YhkuZlwTh9dkhiJFtLSUyQUqQeH/fAZ2u+iH1BpMIljcKY=,iv:76SUVjcsVZy7lG36Vw4dNRR4KwWdnFKXu8Xcckfikw8=,tag:2n8NvK4XkDquJAAy81Tjrg==,type:str]
     pgp:
     -   created_at: '2020-11-11T13:15:03Z'
         enc: |
@@ -35,4 +35,4 @@ sops:
             -----END PGP MESSAGE-----
         fp: 74B91EB9898B2ADB9A9E488A7C60FBD151BFFC9E
     unencrypted_suffix: _unencrypted
-    version: 3.5.0
+    version: 3.6.1
