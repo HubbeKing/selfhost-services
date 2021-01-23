@@ -14,13 +14,14 @@ spec:
       labels:
         app: weechat
     spec:
+      imagePullSecrets:
+        - name: registry-hubbe-club-creds
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: hubbeking/weechat:latest
-          imagePullPolicy: Always
+        - image: registry.hubbe.club/weechat:v3.0
           name: weechat
           livenessProbe:
             exec:
