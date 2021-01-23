@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: deepdream-queue
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: deepdream-queue
@@ -43,7 +43,7 @@ kind: Deployment
 metadata:
   name: deepdream-web
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: deepdream
@@ -54,8 +54,10 @@ spec:
       labels:
         app: deepdream
     spec:
+      imagePullSecrets:
+        - name: registry-hubbe-club-creds
       containers:
-        - image: hubbeking/deepdream-docker:latest
+        - image: registry.hubbe.club/deepdream:latest
           imagePullPolicy: Always
           name: deepdream-api
           livenessProbe:
@@ -80,7 +82,7 @@ spec:
               mountPath: /opt/deepdream/inputs
             - name: deepdream-outputs
               mountPath: /opt/deepdream/outputs
-        - image: hubbeking/deepdream-docker:latest
+        - image: registry.hubbe.club/deepdream:latest
           imagePullPolicy: Always
           name: deepdream-worker
           livenessProbe:
