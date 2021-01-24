@@ -1,6 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: registry-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registry-ui
+  template:
+    metadata:
+      labels:
+        app: registry-ui
+    spec:
+      containers:
+        - name: registry-ui
+          image: docker.io/joxit/docker-registry-ui:static
+          env:
+            - name: URL
+              value: "https://registry.hubbe.club"
+            - name: DELETE_IMAGES
+              value: "true"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
   name: registry
 spec:
   replicas: 1
