@@ -1,37 +1,3 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: foundry-barthu
-  annotations:
-    # disable client_max_body_size checking, to allow large uploads
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-      - foundry.hubbe.club
-  rules:
-    - host: foundry.hubbe.club
-      http:
-        paths:
-          - path: /barthu
-            pathType: Prefix
-            backend:
-              service:
-                name: foundry-barthu
-                port:
-                  number: 30000
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: foundry-barthu
-spec:
-  ports:
-    - port: 30000
-  selector:
-    app: foundry-barthu
----
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -57,7 +23,7 @@ spec:
         - image: registry.hubbe.club/foundry:v0.7.9
           name: foundry-barthu
           command: ["node"]
-          args: ["/foundry/resources/app/main.js", "--dataPath=/data", "--world=barthu"]
+          args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=barthu"]
           livenessProbe:
             httpGet:
               path: /barthu

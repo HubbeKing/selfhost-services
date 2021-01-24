@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: foundry-ashes
+  annotations:
+    # disable client_max_body_size checking, to allow large uploads
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - foundry.hubbe.club
+  rules:
+    - host: foundry.hubbe.club
+      http:
+        paths:
+          - path: /ashes
+            pathType: Prefix
+            backend:
+              service:
+                name: foundry-ashes
+                port:
+                  number: 30000

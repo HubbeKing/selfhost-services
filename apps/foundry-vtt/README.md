@@ -4,4 +4,4 @@ App data kept on provisioned PVCs.
 
 Foundry image built as private Docker Hub image, it's a simple node.js image.
 
-Each instance of Foundry VTT uses one kubernetes manifest.
+Each instance of Foundry VTT uses one folder of manifests.
