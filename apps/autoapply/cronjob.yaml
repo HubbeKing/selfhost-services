@@ -24,7 +24,7 @@ spec:
                     secretKeyRef:
                       key: GPG_FINGERPRINT
                       name: gpg-secrets
-                - name: GPG_FINGERPRINT
+                - name: GPG_PASSPHRASE
                   valueFrom:
                     secretKeyRef:
                       key: GPG_PASSPHRASE
