@@ -20,7 +20,15 @@ spec:
               image: registry.hubbe.club/autoapply:v1.20.2
               env:
                 - name: SOPS_PGP_FP
-                  value: 74B91EB9898B2ADB9A9E488A7C60FBD151BFFC9E
+                  valueFrom:
+                    secretKeyRef:
+                      key: GPG_FINGERPRINT
+                      name: gpg-secrets
+                - name: GPG_FINGERPRINT
+                  valueFrom:
+                    secretKeyRef:
+                      key: GPG_PASSPHRASE
+                      name: gpg-secrets
               resources:
                 requests:
                   cpu: "50m"
@@ -31,8 +39,14 @@ spec:
                 - name: apply-script
                   mountPath: /apply.sh
                   subPath: apply.sh
+                - name: gpg-key
+                  mountPath: /gpg.key
+                  subPath: GPG_KEY
           volumes:
             - name: apply-script
               configMap:
                 name: apply-script
                 defaultMode: 0755
+            - name: gpg-key
+              secret:
+                secretName: gpg-secrets

@@ -5,6 +5,8 @@ metadata:
 data:
   apply.sh: |
     #!/bin/bash
+    # import a gpg key with passphrase from a mounted file/secret
+    gpg --batch --import --passphrase ${GPG_PASSPHRASE} /gpg.key
     # proxy the kubernetes API to localhost so we can apply manifests
     kubectl proxy &
     # clone manifests
