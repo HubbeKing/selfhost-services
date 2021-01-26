@@ -21,4 +21,4 @@ spec:
               args:
                 - "--fail"
                 - "-L"
-                - "https://cloud.hubbe.club/cron.php"
+                - "http://nextcloud-web/cron.php"
