@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapse-web
+spec:
+  selector:
+    matchLabels:
+      app: synapse-web
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: synapse-web
+    spec:
+      securityContext:
+        fsGroup: 991
+        runAsGroup: 991
+        runAsUser: 991
+      containers:
+        - image: docker.io/matrixdotorg/synapse:v1.25.0
+          name: synapse-web
+          env:
+            - name: TZ
+              value: Europe/Helsinki
+          resources:
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 250Mi
+          volumeMounts:
+            - mountPath: /data
+              name: data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data-matrix

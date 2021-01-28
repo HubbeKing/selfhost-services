@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: synapse-db
+spec:
+  selector:
+    matchLabels:
+      app: synapse-db
+  serviceName: synapse-db
+  template:
+    metadata:
+      labels:
+        app: synapse-db
+    spec:
+      containers:
+        - image: postgres:12-alpine
+          imagePullPolicy: Always
+          name: synapse-db
+          envFrom:
+            - secretRef:
+                name: synapse-db-envs
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /var/lib/postgres/data
+              name: data
+              subPath: postgres
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 1Gi
