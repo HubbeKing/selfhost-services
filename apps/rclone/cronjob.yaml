@@ -17,7 +17,7 @@ spec:
             runAsGroup: 1000
             fsGroup: 1000
           containers:
-            - name: borg-sync
+            - name: backups-sync
               image: rclone/rclone:latest
               command: ["rclone"]
               args:
@@ -30,21 +30,6 @@ spec:
                 - name: array
                   subPath: Backups
                   mountPath: /backups
-                - name: rclone-config
-                  mountPath: /config/rclone
-            - name: longhorn-sync
-              image: rclone/rclone:latest
-              command: ["rclone"]
-              args:
-                - "sync"
-                - "--fast-list"
-                - "--transfers=32"
-                - "/longhorn"
-                - "b2:hubbeking-longhorn"
-              volumeMounts:
-                - name: array
-                  subPath: LonghornBackups
-                  mountPath: /longhorn
                 - name: rclone-config
                   mountPath: /config/rclone
           volumes:
