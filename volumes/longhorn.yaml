@@ -457,7 +457,7 @@ metadata:
   namespace: longhorn-system
 data:
   default-setting.yaml: |-
-    backup-target: nfs://192.168.1.121:/mnt/hubbe/array/LonghornBackups
+    backup-target: nfs://192.168.1.121:/mnt/hubbe/array/Backups/longhorn
     backup-target-credential-secret:
     allow-recurring-job-while-volume-detached: true
     create-default-disk-labeled-nodes: false
