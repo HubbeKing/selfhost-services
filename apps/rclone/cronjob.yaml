@@ -25,7 +25,7 @@ spec:
                 - "--fast-list"
                 - "--transfers=32"
                 - "/backups"
-                - "b2:hubbeking-borg"
+                - "b2:hubbeking-backups"
               volumeMounts:
                 - name: array
                   subPath: Backups
