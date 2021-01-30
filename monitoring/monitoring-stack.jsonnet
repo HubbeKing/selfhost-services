@@ -2,6 +2,7 @@ local kp =
   (import 'kube-prometheus/kube-prometheus.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-anti-affinity.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-kubeadm.libsonnet') +
+  (import 'kube-prometheus/kube-prometheus-strip-limits.libsonnet') +
   (import 'loadbalancers.jsonnet') +
   {
     _config+:: {

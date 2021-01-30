@@ -24,6 +24,7 @@ spec:
       - args:
         - --kubelet-service=kube-system/kubelet
         - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:v0.44.1
+        - --config-reloader-cpu=0
         image: quay.io/prometheus-operator/prometheus-operator:v0.44.1
         name: prometheus-operator
         ports:
