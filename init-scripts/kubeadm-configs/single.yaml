@@ -26,7 +26,9 @@ apiServer:
   timeoutForControlPlane: 4m0s
 certificatesDir: /etc/kubernetes/pki
 clusterName: kubernetes
-controllerManager: {}
+controllerManager:
+  extraArgs:
+    bind-address: 0.0.0.0
 dns:
   type: CoreDNS
 etcd:
@@ -38,4 +40,6 @@ networking:
   dnsDomain: cluster.local
   podSubnet: ${POD_NETWORK_CIDR}
   serviceSubnet: ${K8S_SERVICE_CIDR}
-scheduler: {}
+scheduler:
+  extraArgs:
+    bind-address: 0.0.0.0
