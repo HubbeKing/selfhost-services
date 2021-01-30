@@ -1,1 +1,3 @@
 apps/registry/htpasswd.txt
+monitoring/vendor
+monitoring/jsonnetfile.*

@@ -17,6 +17,7 @@ data:
     find '.' -type f -regex '.*.ya*ml' -exec sops --decrypt --in-place '{}' \;
     # apply manifests with kubectl
     kubectl apply -R -f core/
+    kubectl apply -R -f monitoring/manifests
     kubectl apply -R -f volumes/
     kubectl apply -f nginx/
     kubectl apply -R -f apps/
