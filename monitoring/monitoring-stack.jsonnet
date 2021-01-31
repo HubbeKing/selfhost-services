@@ -3,7 +3,7 @@ local kp =
   (import 'kube-prometheus/kube-prometheus-anti-affinity.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-kubeadm.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-strip-limits.libsonnet') +
-  (import 'loadbalancers.jsonnet') +
+  (import 'addons/loadbalancers.jsonnet') +
   {
     _config+:: {
       namespace: 'monitoring',
@@ -15,6 +15,12 @@ local kp =
           "longhorn-system", "metallb-system", 
           "monitoring"
         ],
+      },
+      // load in grafana dashboards
+      grafana+:: {
+        dashboards+:: {
+          'nginx.json': (import 'dashboards/nginx.json'),
+        },
       },
     },
   };

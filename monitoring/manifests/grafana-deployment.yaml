@@ -81,6 +81,9 @@ spec:
         - mountPath: /grafana-dashboard-definitions/0/namespace-by-workload
           name: grafana-dashboard-namespace-by-workload
           readOnly: false
+        - mountPath: /grafana-dashboard-definitions/0/nginx
+          name: grafana-dashboard-nginx
+          readOnly: false
         - mountPath: /grafana-dashboard-definitions/0/node-cluster-rsrc-use
           name: grafana-dashboard-node-cluster-rsrc-use
           readOnly: false
@@ -165,6 +168,9 @@ spec:
       - configMap:
           name: grafana-dashboard-namespace-by-workload
         name: grafana-dashboard-namespace-by-workload
+      - configMap:
+          name: grafana-dashboard-nginx
+        name: grafana-dashboard-nginx
       - configMap:
           name: grafana-dashboard-node-cluster-rsrc-use
         name: grafana-dashboard-node-cluster-rsrc-use
