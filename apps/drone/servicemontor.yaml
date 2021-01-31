@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: drone
+  namespace: monitoring
+  labels:
+    name: drone
+spec:
+  endpoints:
+    - port: 80
+      interval: 30s
+      bearerTokenSecret:
+        key: drone-metrics-token
+        name: token
+  namespaceSelector:
+    matchNames:
+      - drone
+  selector:
+    matchLabels:
+      app: drone
