@@ -7,7 +7,7 @@ metadata:
     name: drone
 spec:
   endpoints:
-    - port: 80
+    - port: web
       interval: 30s
       bearerTokenSecret:
         key: drone-metrics-token
