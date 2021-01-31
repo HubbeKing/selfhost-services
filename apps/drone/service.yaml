@@ -4,10 +4,10 @@ metadata:
   name: drone
   namespace: drone
   labels:
+    app: drone
     component: drone
 spec:
   ports:
     - port: 80
-      name: web
   selector:
     app: drone

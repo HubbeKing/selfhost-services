@@ -7,7 +7,7 @@ metadata:
     name: drone
 spec:
   endpoints:
-    - port: web
+    - targetPort: 80
       interval: 30s
       bearerTokenSecret:
         key: token
@@ -18,3 +18,4 @@ spec:
   selector:
     matchLabels:
       app: drone
+      component: drone
