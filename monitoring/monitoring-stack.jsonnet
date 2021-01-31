@@ -20,8 +20,13 @@ local kp =
       grafana+:: {
         dashboards+:: {
           'nginx.json': (import 'dashboards/nginx.json'),
+          'longhorn.json': (import 'dashboards/longhorn.json'),
         },
       },
+    },
+    // load in prometheus rule files
+    prometheusAlerts+:: {
+      groups+: (import 'prometheusrules/longhorn.json').groups,
     },
   };
 

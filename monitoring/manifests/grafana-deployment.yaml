@@ -75,6 +75,9 @@ spec:
         - mountPath: /grafana-dashboard-definitions/0/kubelet
           name: grafana-dashboard-kubelet
           readOnly: false
+        - mountPath: /grafana-dashboard-definitions/0/longhorn
+          name: grafana-dashboard-longhorn
+          readOnly: false
         - mountPath: /grafana-dashboard-definitions/0/namespace-by-pod
           name: grafana-dashboard-namespace-by-pod
           readOnly: false
@@ -162,6 +165,9 @@ spec:
       - configMap:
           name: grafana-dashboard-kubelet
         name: grafana-dashboard-kubelet
+      - configMap:
+          name: grafana-dashboard-longhorn
+        name: grafana-dashboard-longhorn
       - configMap:
           name: grafana-dashboard-namespace-by-pod
         name: grafana-dashboard-namespace-by-pod
