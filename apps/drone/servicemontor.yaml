@@ -10,8 +10,8 @@ spec:
     - port: web
       interval: 30s
       bearerTokenSecret:
-        key: drone-metrics-token
-        name: token
+        key: token
+        name: drone-metrics-token
   namespaceSelector:
     matchNames:
       - drone
