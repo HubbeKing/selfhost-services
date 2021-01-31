@@ -344,7 +344,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: ingress-nginx-controller
-  namespace: ingress-nginx
+  namespace: monitoring
   labels:
     helm.sh/chart: ingress-nginx-3.21.0
     app.kubernetes.io/name: ingress-nginx
