@@ -569,6 +569,14 @@ data:
       numberOfReplicas: "3"
       dataLocality: "best-effort"
       staleReplicaTimeout: "2880"
+      recurringJobs: '[
+        {
+          "name": "Backup",
+          "task": "backup",
+          "cron": "00 22 * * *",
+          "retain": 7
+        }
+      ]'
 ---
 apiVersion: apps/v1
 kind: DaemonSet
