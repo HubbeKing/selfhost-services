@@ -571,7 +571,7 @@ data:
       staleReplicaTimeout: "2880"
       recurringJobs: '[
         {
-          "name": "Backup",
+          "name": "backup",
           "task": "backup",
           "cron": "00 22 * * *",
           "retain": 7
