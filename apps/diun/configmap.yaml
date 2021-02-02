@@ -14,6 +14,10 @@ data:
   DIUN_REGOPTS_HUBBECLUB_SELECTOR: "image"
   DIUN_REGOPTS_HUBBECLUB_USERNAMEFILE: /run/secrets/registry-username
   DIUN_REGOPTS_HUBBECLUB_PASSWORDFILE: /run/secrets/registry-password
+  DIUN_REGOPTS_DOCKER_NAME: "docker.io"
+  DIUN_REGOPTS_DOCKER_SELECTOR: "image"
+  DIUN_REGOPTS_DOCKER_USERNAMEFILE: /run/secrets/docker-username
+  DIUN_REGOPTS_DOCKER_PASSWORDFILE: /run/secrets/docker-password
   DIUN_NOTIF_MATRIX_HOMESERVERURL: "https://matrix.hubbe.club"
   DIUN_NOTIF_MATRIX_USERFILE: /run/secrets/matrix-username
   DIUN_NOTIF_MATRIX_PASSWORDFILE: /run/secrets/matrix-password
