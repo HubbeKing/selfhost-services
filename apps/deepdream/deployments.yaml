@@ -15,7 +15,7 @@ spec:
         app: deepdream-queue
     spec:
       containers:
-        - image: rabbitmq:latest
+        - image: docker.io/library/rabbitmq:3.8.11
           imagePullPolicy: Always
           name: deepdream-queue
           livenessProbe:

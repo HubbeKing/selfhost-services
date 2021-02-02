@@ -15,7 +15,7 @@ spec:
         app: nextcloud-redis
     spec:
       containers:
-        - image: redis:latest
+        - image: docker.io/library/redis:6.0.10
           imagePullPolicy: Always
           name: nextcloud-redis
           livenessProbe:

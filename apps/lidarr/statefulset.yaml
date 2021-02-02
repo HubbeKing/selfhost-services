@@ -14,8 +14,7 @@ spec:
         app: lidarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/lidarr:latest
-          imagePullPolicy: Always
+        - image: ghcr.io/linuxserver/lidarr:version-0.7.2.1878
           name: lidarr
           livenessProbe:
             httpGet:
