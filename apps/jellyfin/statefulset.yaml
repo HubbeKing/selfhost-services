@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: jellyfin
+  annotations:
+    diun.watch_repo: "true"
 spec:
   replicas: 1
   selector:
@@ -43,7 +45,7 @@ spec:
               cpu: 100m
             limits:
               # VAAPI device for HW acceleration, requires intel-device-plugins-for-kubernetes
-              gpu.intel.com/i915: 1
+              gpu.intel.com/i915: "1"
           volumeMounts:
             - mountPath: /desertbus
               name: array

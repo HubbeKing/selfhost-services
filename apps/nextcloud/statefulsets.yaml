@@ -64,6 +64,8 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: nextcloud-web
+  annotations:
+    diun.watch_repo: "true"
 spec:
   replicas: 1
   selector:

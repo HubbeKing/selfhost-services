@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: jackett
+  annotations:
+    diun.watch_repo: "true"
+    diun.include_tags: "^version-.*"
 spec:
   replicas: 1
   selector:

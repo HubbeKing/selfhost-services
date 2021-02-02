@@ -5,6 +5,8 @@ metadata:
   namespace: drone
   labels:
     component: drone
+  annotations:
+    diun.watch_repo: "true"
 spec:
   replicas: 1
   selector:

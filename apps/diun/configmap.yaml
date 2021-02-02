@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: diun-envs
+data:
+  TZ: "Europe/Helsinki"
+  LOG_LEVEL: "info"
+  LOG_JSON: "false"
+  DIUN_WATCH_WORKERS: "20"
+  DIUN_WATCH_SCHEDULE: "00 12 * * *"
+  DIUN_PROVIDERS_KUBERNETES: "true"
+  DIUN_PROVIDERS_KUBERNETES_WATCHBYDEFAULT: "true"
+  DIUN_REGOPTS_HUBBECLUB_NAME: "registry.hubbe.club"
+  DIUN_REGOPTS_HUBBECLUB_SELECTOR: "image"
+  DIUN_REGOPTS_HUBBECLUB_USERNAMEFILE: /run/secrets/registry-username
+  DIUN_REGOPTS_HUBBECLUB_PASSWORDFILE: /run/secrets/registry-password
+  DIUN_NOTIF_MATRIX_HOMESERVERURL: "https://matrix.hubbe.club"
+  DIUN_NOTIF_MATRIX_USERFILE: /run/secrets/matrix-username
+  DIUN_NOTIF_MATRIX_PASSWORDFILE: /run/secrets/matrix-password
+  DIUN_NOTIF_MATRIX_ROOMID: "!YquPEHwqPmCsZOlZsJ:hubbe.club"
+  DIUN_NOTIF_MATRIX_MSGTYPE: "text"

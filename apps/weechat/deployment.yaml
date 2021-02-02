@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: weechat
+  annotations:
+    diun.watch_repo: "true"
 spec:
   replicas: 1
   selector:
@@ -36,6 +38,9 @@ spec:
             requests:
               cpu: "50m"
               memory: "50Mi"
+            limits:
+              cpu: "250m"
+              memory: "250Mi"
           volumeMounts:
             - name: data
               mountPath: /home/weechat/.weechat

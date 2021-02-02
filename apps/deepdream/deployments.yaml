@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deepdream-queue
+  annotations:
+    diun.watch_repo: "true"
 spec:
   replicas: 1
   selector:

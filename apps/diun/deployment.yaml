@@ -15,29 +15,9 @@ spec:
       containers:
         - name: diun
           image: docker.io/crazymax/diun:4.11.0
-          env:
-            - name: TZ
-              value: "Europe/Helsinki"
-            - name: LOG_LEVEL
-              value: "info"
-            - name: LOG_JSON
-              value: "false"
-            - name: DIUN_WATCH_WORKERS
-              value: "20"
-            - name: DIUN_WATCH_SCHEDULE
-              value: "00 12 * * *"
-            - name: DIUN_PROVIDERS_KUBERNETES
-              value: "true"
-            - name: DIUN_PROVIDERS_KUBERNETES_WATCHBYDEFAULT
-              value: "true"
-            - name: DIUN_REGOPTS_HUBBECLUB_NAME
-              value: "registry.hubbe.club"
-            - name: DIUN_REGOPTS_HUBBECLUB_SELECTOR
-              value: "image"
-            - name: DIUN_REGOPTS_HUBBECLUB_USERNAMEFILE
-              value: /run/secrets/username
-            - name: DIUN_REGOPTS_HUBBECLUB_PASSWORDFILE
-              value: /run/secrets/password
+          envFrom:
+            - configMapRef:
+                name: diun-envs
           resources:
             limits:
               memory: 512Mi
@@ -45,16 +25,25 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
-            - mountPath: /run/secrets/username
-              name: auth
+            - mountPath: /run/secrets/registry-username
+              name: registry-auth
               subPath: username
-            - mountPath: /run/secrets/password
-              name: auth
+            - mountPath: /run/secrets/registry-password
+              name: registry-auth
+              subPath: password
+            - mountPath: /run/secrets/matrix-username
+              name: matrix-auth
+              subPath: username
+            - mountPath: /run/secrets/matrix-password
+              name: matrix-auth
               subPath: password
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: data-diun
-        - name: auth
+        - name: registry-auth
           secret:
             secretName: registry-auth
+        - name: matrix-auth
+          secret:
+            secretName: matrix-auth

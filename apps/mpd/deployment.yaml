@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mpd
+  annotations:
+    diun.watch_repo: "true"
 spec:
   replicas: 1
   selector:
@@ -27,7 +29,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 500m
+              memory: 250Mi
           envFrom:
             - secretRef:
                 name: mpdscribble-config
@@ -43,7 +49,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 500m
+              memory: 250Mi
           envFrom:
             - secretRef:
                 name: mpd-config

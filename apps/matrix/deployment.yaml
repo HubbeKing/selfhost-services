@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: synapse-web
+  annotations:
+    diun.watch_repo: "true"
 spec:
   selector:
     matchLabels:

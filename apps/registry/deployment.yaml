@@ -20,11 +20,20 @@ spec:
               value: "https://registry.hubbe.club"
             - name: DELETE_IMAGES
               value: "true"
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+            limits:
+              cpu: "250m"
+              memory: "250Mi"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: registry
+  annotations:
+    diun.watch_repo: "true"
 spec:
   replicas: 1
   strategy:
