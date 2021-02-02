@@ -73,6 +73,7 @@ spec:
         app: freshrss
       annotations:
         diun.watch_repo: "true"
+        diun.max_tags: "5"
     spec:
       containers:
         - image: freshrss/freshrss:1.17.0

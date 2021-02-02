@@ -61,6 +61,7 @@ spec:
         app: nextcloud-onlyoffice
       annotations:
         diun.watch_repo: "true"
+        diun.max_tags: "5"
     spec:
       containers:
         - image: onlyoffice/documentserver:6.1.1

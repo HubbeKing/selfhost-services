@@ -14,6 +14,7 @@ spec:
         app: jellyfin
       annotations:
         diun.watch_repo: "true"
+        diun.max_tags: "5"
         diun.exclude_tags: ".*nightly.*;.*unstable.*;.*master.*;.*rc.*"
     spec:
       # prefer to be scheduled on galactica, as it has more CPU/iGPU power than valkyrie/pegasus

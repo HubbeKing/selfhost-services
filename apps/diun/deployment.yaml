@@ -12,6 +12,7 @@ spec:
         app: diun
       annotations:
         diun.watch_repo: "true"
+        diun.max_tags: "5"
     spec:
       serviceAccountName: diun
       containers:
