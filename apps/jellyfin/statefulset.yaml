@@ -14,7 +14,7 @@ spec:
         app: jellyfin
       annotations:
         diun.watch_repo: "true"
-        diun.exclude_tags: ".*nightly.*;.*unstable.*"
+        diun.exclude_tags: ".*nightly.*;.*unstable.*;.*master.*;.*rc.*"
     spec:
       # prefer to be scheduled on galactica, as it has more CPU/iGPU power than valkyrie/pegasus
       affinity:
@@ -32,7 +32,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: jellyfin/jellyfin:10.6.4
+        - image: docker.io/jellyfin/jellyfin:10.6.4
           name: jellyfin
           livenessProbe:
             httpGet:
