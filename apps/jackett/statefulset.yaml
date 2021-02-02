@@ -12,10 +12,6 @@ spec:
     metadata:
       labels:
         app: jackett
-      annotations:
-        diun.watch_repo: "true"
-        diun.max_tags: "5"
-        diun.include_tags: "^version-v.*"
     spec:
       containers:
         - image: ghcr.io/linuxserver/jackett:version-v0.17.437

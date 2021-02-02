@@ -12,9 +12,6 @@ spec:
     metadata:
       labels:
         app: synapse-web
-      annotations:
-        diun.watch_repo: "true"
-        diun.max_tags: "5"
     spec:
       securityContext:
         fsGroup: 991

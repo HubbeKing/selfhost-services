@@ -12,10 +12,6 @@ spec:
     metadata:
       labels:
         app: navidrome
-      annotations:
-        diun.watch_repo: "true"
-        diun.max_tags: "5"
-        diun.exclude_tags: ".*pr.*;.*sha.*;.*devel.*;^v.*"
     spec:
       securityContext:
         runAsUser: 1000

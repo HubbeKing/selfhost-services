@@ -18,7 +18,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: mariadb:10
+        - image: docker.io/library/mariadb:10.5.8
           imagePullPolicy: Always
           name: freshrss-db
           livenessProbe:
@@ -71,9 +71,6 @@ spec:
     metadata:
       labels:
         app: freshrss
-      annotations:
-        diun.watch_repo: "true"
-        diun.max_tags: "5"
     spec:
       containers:
         - image: freshrss/freshrss:1.17.0

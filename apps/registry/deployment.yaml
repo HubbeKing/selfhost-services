@@ -43,9 +43,6 @@ spec:
     metadata:
       labels:
         app: registry
-      annotations:
-        diun.watch_repo: "true"
-        diun.max_tags: "5"
     spec:
       containers:
         - name: registry

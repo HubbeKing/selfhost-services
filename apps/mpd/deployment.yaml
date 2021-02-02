@@ -11,9 +11,6 @@ spec:
     metadata:
       labels:
         app: mpd
-      annotations:
-        diun.watch_repo: "true"
-        diun.max_tags: "5"
     spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds

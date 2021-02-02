@@ -12,10 +12,6 @@ spec:
     metadata:
       labels:
         app: radarr
-      annotations:
-        diun.watch_repo: "true"
-        diun.max_tags: "5"
-        diun.include_tags: "^version-3.*"
     spec:
       containers:
         - image: ghcr.io/linuxserver/radarr:version-3.0.1.4259

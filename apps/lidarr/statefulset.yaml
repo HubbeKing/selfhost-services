@@ -12,10 +12,6 @@ spec:
     metadata:
       labels:
         app: lidarr
-      annotations:
-        diun.watch_repo: "true"
-        diun.max_tags: "5"
-        diun.include_tags: "^version-0.*"
     spec:
       containers:
         - image: ghcr.io/linuxserver/lidarr:version-0.7.2.1878
