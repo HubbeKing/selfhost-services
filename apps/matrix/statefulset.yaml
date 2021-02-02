@@ -27,7 +27,7 @@ spec:
               cpu: 250m
               memory: 512Mi
           volumeMounts:
-            - mountPath: /var/lib/postgres/data
+            - mountPath: /var/lib/postgresql/data
               name: data
               subPath: postgres
   volumeClaimTemplates:
