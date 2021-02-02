@@ -13,7 +13,7 @@ spec:
         app: synapse-db
     spec:
       containers:
-        - image: postgres:12-alpine
+        - image: docker.io/library/postgres:12.5-alpine
           imagePullPolicy: Always
           name: synapse-db
           envFrom:
