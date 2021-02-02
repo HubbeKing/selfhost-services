@@ -13,12 +13,9 @@ spec:
     metadata:
       labels:
         app: nextcloud-redis
-      annotations:
-        diun.watch_repo: "true"
     spec:
       containers:
-        - image: docker.io/library/redis:6.0.10
-          imagePullPolicy: Always
+        - image: docker.io/library/redis:latest
           name: nextcloud-redis
           livenessProbe:
             exec:

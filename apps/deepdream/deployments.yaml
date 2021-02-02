@@ -13,12 +13,9 @@ spec:
     metadata:
       labels:
         app: deepdream-queue
-      annotations:
-        diun.watch_repo: "true"
     spec:
       containers:
-        - image: docker.io/library/rabbitmq:3.8.11
-          imagePullPolicy: Always
+        - image: docker.io/library/rabbitmq:latest
           name: deepdream-queue
           livenessProbe:
             exec:
