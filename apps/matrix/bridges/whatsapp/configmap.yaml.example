@@ -1,0 +1,14 @@
+# see https://github.com/tulir/mautrix-whatsapp/wiki/Bridge-setup-with-Docker
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matrix-whatsapp-config
+data:
+  config.yaml: ""
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matrix-whatsapp-registration
+data:
+  registration.yaml: ""

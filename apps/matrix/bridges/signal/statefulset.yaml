@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: matrix-signal
+spec:
+  selector:
+    matchLabels:
+      app: matrix-signal
+  serviceName: matrix-signal
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: matrix-signal
+    spec:
+      containers:
+        - name: matrix-signal
+          image: dock.mau.dev/tulir/mautrix-signal:latest
+          ports:
+            - containerPort: 29328
+              name: appservice
+            - containerPort: 8000
+              name: metrics
+          volumeMounts:
+            - mountPath: /data
+              name: data-bridge
+            - mountPath: /data/config.yaml
+              name: matrix-signal-config
+              subPath: config.yaml
+            - mountPath: /data/registration.yaml
+              name: matrix-signal-registration
+              subPath: registration.yaml
+            - mountPath: /signald
+              name: data-signald
+        - name: signald
+          image: docker.io/finn/signald:latest
+          volumeMounts:
+            - mountPath: /signald
+              name: data-signald
+        - name: postgres
+          image: docker.io/library/postgres:13.1-alpine
+          envFrom:
+            - secretRef:
+                name: matrix-signal-postgres-envs
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data-postgres
+              subPath: postgres
+      volumes:
+        - name: matrix-signal-config
+          configMap:
+            name: matrix-signal-config
+        - name: matrix-signal-registration
+          configMap:
+            name: matrix-signal-registration
+  volumeClaimTemplates:
+    - metadata:
+        name: data-bridge
+      spec:
+        storageClassName: longhorn
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: data-signald
+      spec:
+        storageClassName: longhorn
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+    - metadata:
+        name: data-postgres
+      spec:
+        storageClassName: longhorn
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi

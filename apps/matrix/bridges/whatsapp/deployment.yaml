@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matrix-whatsapp
+spec:
+  selector:
+    matchLabels:
+      app: matrix-whatsapp
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: matrix-whatsapp
+    spec:
+      securityContext:
+        fsGroup: 1337
+      containers:
+        - name: matrix-whatsapp
+          image: dock.mau.dev/tulir/mautrix-whatsapp:v0.1.5
+          ports:
+            - containerPort: 29318
+              name: appservice
+            - containerPort: 8001
+              name: metrics
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /data/config.yaml
+              name: matrix-whatsapp-config
+              subPath: config.yaml
+            - mountPath: /data/registration.yaml
+              name: matrix-whatsapp-registration
+              subPath: registration.yaml
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data-matrix-whatsapp
+        - name: matrix-whatsapp-config
+          configMap:
+            name: matrix-whatsapp-config
+        - name: matrix-whatsapp-registration
+          configMap:
+            name: matrix-whatsapp-registration

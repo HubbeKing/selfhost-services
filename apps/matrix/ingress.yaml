@@ -15,7 +15,7 @@ spec:
           pathType: Prefix
           backend:
             service:
-              name: synapse-web
+              name: matrix-synapse
               port:
                 number: 8008
 ---

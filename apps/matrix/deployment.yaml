@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: synapse-web
+  name: matrix-synapse
 spec:
   selector:
     matchLabels:
-      app: synapse-web
+      app: matrix-synapse
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: synapse-web
+        app: matrix-synapse
     spec:
       securityContext:
         fsGroup: 991
@@ -19,7 +19,7 @@ spec:
         runAsUser: 991
       containers:
         - image: docker.io/matrixdotorg/synapse:v1.26.0
-          name: synapse-web
+          name: synapse
           env:
             - name: TZ
               value: Europe/Helsinki
@@ -33,7 +33,17 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
+            - mountPath: /appservices/mautrix-whatsapp
+              name: matrix-whatsapp-registration
+            - mountPath: /appservices/mautrix-signal
+              name: matrix-signal-registration
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: data-matrix
+        - name: matrix-whatsapp-registration
+          configMap:
+            name: matrix-whatsapp-registration
+        - name: matrix-signal-registration
+          configMap:
+            name: matrix-signal-registration
