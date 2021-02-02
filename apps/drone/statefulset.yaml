@@ -17,7 +17,7 @@ spec:
         app: drone
     spec:
       containers:
-        - image: docker.io/drone/drone:1
+        - image: docker.io/drone/drone:1.10.1
           name: drone
           envFrom:
             - secretRef:

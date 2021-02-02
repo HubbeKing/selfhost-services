@@ -16,7 +16,7 @@ spec:
       serviceAccountName: drone
       containers:
         - name: runner
-          image: drone/drone-runner-kube:latest
+          image: docker.io/drone/drone-runner-kube:1.0.0-beta.6
           resources:
             requests:
               cpu: "100m"
