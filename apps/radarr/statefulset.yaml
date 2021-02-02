@@ -14,7 +14,7 @@ spec:
         app: radarr
       annotations:
         diun.watch_repo: "true"
-        diun.include_tags: "^version-.*"
+        diun.include_tags: "^version-3.*"
     spec:
       containers:
         - image: ghcr.io/linuxserver/radarr:version-3.0.1.4259

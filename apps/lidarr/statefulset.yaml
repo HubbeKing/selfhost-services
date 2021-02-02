@@ -14,7 +14,7 @@ spec:
         app: lidarr
       annotations:
         diun.watch_repo: "true"
-        diun.include_tags: "^version-.*"
+        diun.include_tags: "^version-0.*"
     spec:
       containers:
         - image: ghcr.io/linuxserver/lidarr:version-0.7.2.1878
