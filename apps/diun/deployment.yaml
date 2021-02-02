@@ -27,6 +27,12 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
+            - mountPath: /run/secrets/docker-username
+              name: docker-auth
+              subPath: username
+            - mountPath: /run/secrets/docker-password
+              name: docker-auth
+              subPath: password
             - mountPath: /run/secrets/registry-username
               name: registry-auth
               subPath: username
@@ -43,6 +49,9 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: data-diun
+        - name: docker-auth
+          secret:
+            secretName: docker-auth
         - name: registry-auth
           secret:
             secretName: registry-auth
