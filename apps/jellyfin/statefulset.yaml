@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: jellyfin
-  annotations:
-    diun.watch_repo: "true"
 spec:
   replicas: 1
   selector:
@@ -14,8 +12,10 @@ spec:
     metadata:
       labels:
         app: jellyfin
+      annotations:
+        diun.watch_repo: "true"
     spec:
-      # prefer to be scheduled on galactica, as it has more CPU/iGPU power than valkyrie
+      # prefer to be scheduled on galactica, as it has more CPU/iGPU power than valkyrie/pegasus
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

@@ -32,8 +32,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: registry
-  annotations:
-    diun.watch_repo: "true"
 spec:
   replicas: 1
   strategy:
@@ -45,6 +43,8 @@ spec:
     metadata:
       labels:
         app: registry
+      annotations:
+        diun.watch_repo: "true"
     spec:
       containers:
         - name: registry

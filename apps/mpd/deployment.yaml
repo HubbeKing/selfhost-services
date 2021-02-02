@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mpd
-  annotations:
-    diun.watch_repo: "true"
 spec:
   replicas: 1
   selector:
@@ -13,6 +11,8 @@ spec:
     metadata:
       labels:
         app: mpd
+      annotations:
+        diun.watch_repo: "true"
     spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds

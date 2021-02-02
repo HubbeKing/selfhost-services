@@ -10,6 +10,8 @@ spec:
     metadata:
       labels:
         app: diun
+      annotations:
+        diun.watch_repo: "true"
     spec:
       serviceAccountName: diun
       containers:
