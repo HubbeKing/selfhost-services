@@ -61,7 +61,7 @@ spec:
         app: nextcloud-onlyoffice
     spec:
       containers:
-        - image: onlyoffice/documentserver:6.1.1
+        - image: docker.io/onlyoffice/documentserver:6.1.1
           name: nextcloud-onlyoffice
           readinessProbe:
             httpGet:

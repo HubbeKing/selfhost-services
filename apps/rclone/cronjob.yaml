@@ -18,7 +18,7 @@ spec:
             fsGroup: 1000
           containers:
             - name: backups-sync
-              image: rclone/rclone:latest
+              image: docker.io/rclone/rclone:latest
               command: ["rclone"]
               args:
                 - "sync"

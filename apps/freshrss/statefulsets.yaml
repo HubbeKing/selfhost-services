@@ -73,7 +73,7 @@ spec:
         app: freshrss
     spec:
       containers:
-        - image: freshrss/freshrss:1.17.0
+        - image: docker.io/freshrss/freshrss:1.17.0
           name: freshrss
           livenessProbe:
             httpGet:

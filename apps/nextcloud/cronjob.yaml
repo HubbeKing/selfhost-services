@@ -15,7 +15,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: nextcloud-cron
-              image: curlimages/curl:latest
+              image: docker.io/curlimages/curl:latest
               imagePullPolicy: IfNotPresent
               command: ["curl"]
               args:
