@@ -13,7 +13,7 @@ kind: Service
 metadata:
   name: matrix-db
 spec:
-  selector:
-    app: matrix-db
   ports:
     - port: 5432
+  selector:
+    app: matrix-db
