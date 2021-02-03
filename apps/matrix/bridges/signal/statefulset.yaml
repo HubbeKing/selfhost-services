@@ -22,8 +22,6 @@ spec:
             - containerPort: 8000
               name: metrics
           volumeMounts:
-            - mountPath: /data
-              name: data-bridge
             - mountPath: /data/config.yaml
               name: matrix-signal-config
               subPath: config.yaml
@@ -54,14 +52,6 @@ spec:
           configMap:
             name: matrix-signal-registration
   volumeClaimTemplates:
-    - metadata:
-        name: data-bridge
-      spec:
-        storageClassName: longhorn
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
     - metadata:
         name: data-signald
       spec:
