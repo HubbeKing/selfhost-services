@@ -1,23 +1,20 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: matrix-whatsapp
 spec:
   selector:
     matchLabels:
       app: matrix-whatsapp
-  strategy:
-    type: Recreate
+  serviceName: matrix-whatsapp
   template:
     metadata:
       labels:
         app: matrix-whatsapp
     spec:
-      securityContext:
-        fsGroup: 1337
       containers:
         - name: matrix-whatsapp
-          image: dock.mau.dev/tulir/mautrix-whatsapp:v0.1.5
+          image: dock.mau.dev/tulir/mautrix-whatsapp:latest
           ports:
             - containerPort: 29318
               name: appservice
@@ -31,21 +28,38 @@ spec:
               cpu: 500m
               memory: 512Mi
           volumeMounts:
-            - mountPath: /data
-              name: data
+            - mountPath: /data/logs
+              name: logs
             - mountPath: /data/config.yaml
               name: matrix-whatsapp-config
               subPath: config.yaml
             - mountPath: /data/registration.yaml
               name: matrix-whatsapp-registration
               subPath: registration.yaml
+        - name: postgres
+          image: docker.io/library/postgres:13.1-alpine
+          envFrom:
+            - secretRef:
+                name: matrix-whatsapp-postgres-envs
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data-postgres
+              subPath: postgres
       volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: data-matrix-whatsapp
+        - name: logs
+          emptyDir: {}
         - name: matrix-whatsapp-config
           configMap:
             name: matrix-whatsapp-config
         - name: matrix-whatsapp-registration
           configMap:
             name: matrix-whatsapp-registration
+  volumeClaimTemplates:
+    - metadata:
+        name: data-postgres
+      spec:
+        storageClassName: longhorn
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
