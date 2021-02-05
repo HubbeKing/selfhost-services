@@ -34,15 +34,6 @@ spec:
           volumeMounts:
             - mountPath: /signald
               name: data-signald
-        - name: postgres
-          image: docker.io/library/postgres:13.1-alpine
-          envFrom:
-            - secretRef:
-                name: matrix-signal-postgres-envs
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: data-postgres
-              subPath: postgres
       volumes:
         - name: matrix-signal-config
           configMap:
@@ -53,14 +44,6 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: data-signald
-      spec:
-        storageClassName: longhorn
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
-    - metadata:
-        name: data-postgres
       spec:
         storageClassName: longhorn
         accessModes: [ "ReadWriteOnce" ]

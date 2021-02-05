@@ -36,15 +36,6 @@ spec:
             - mountPath: /data/registration.yaml
               name: matrix-whatsapp-registration
               subPath: registration.yaml
-        - name: postgres
-          image: docker.io/library/postgres:13.1-alpine
-          envFrom:
-            - secretRef:
-                name: matrix-whatsapp-postgres-envs
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: data-postgres
-              subPath: postgres
       volumes:
         - name: logs
           emptyDir: {}
@@ -54,12 +45,3 @@ spec:
         - name: matrix-whatsapp-registration
           configMap:
             name: matrix-whatsapp-registration
-  volumeClaimTemplates:
-    - metadata:
-        name: data-postgres
-      spec:
-        storageClassName: longhorn
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi

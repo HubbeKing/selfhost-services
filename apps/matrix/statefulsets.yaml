@@ -75,8 +75,7 @@ spec:
         app: matrix-db
     spec:
       containers:
-        - image: docker.io/library/postgres:12.5-alpine
-          imagePullPolicy: Always
+        - image: docker.io/library/postgres:13.1-alpine
           name: matrix-db
           envFrom:
             - secretRef:
@@ -101,4 +100,4 @@ spec:
         storageClassName: longhorn
         resources:
           requests:
-            storage: 1Gi
+            storage: 2Gi
