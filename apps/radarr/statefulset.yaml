@@ -14,7 +14,7 @@ spec:
         app: radarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/radarr:version-3.0.1.4259
+        - image: ghcr.io/linuxserver/radarr:version-3.0.2.4552
           name: radarr
           livenessProbe:
             httpGet:
