@@ -3,7 +3,10 @@ local kp =
   (import 'kube-prometheus/kube-prometheus-anti-affinity.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-kubeadm.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-strip-limits.libsonnet') +
+  // add LoadBalancer spec to services
   (import 'addons/loadbalancers.jsonnet') +
+  // override some resource requests & limits
+  (import 'addons/resources.jsonnet') +
   {
     _config+:: {
       namespace: 'monitoring',
