@@ -78,7 +78,7 @@ spec:
       securityContext:
         fsGroup: 1000
       containers:
-        - image: docker.io/library/nextcloud:20.0.6
+        - image: docker.io/library/nextcloud:20.0.7
           name: nextcloud
           livenessProbe:
             exec:
