@@ -30,13 +30,32 @@ spec:
               port: 30000
             initialDelaySeconds: 5
             periodSeconds: 15
+          ports:
+            - containerPort: 30000
+              name: http
           resources:
             requests:
               cpu: "100m"
               memory: "500Mi"
           volumeMounts:
-            - name: data
-              mountPath: /data
+            - mountPath: /data
+              name: data
+        - image: docker.io/hacdias/webdav:v4.0.0
+          name: webdav
+          args: ["-c", "/config.yaml"]
+          ports:
+            - containerPort: 9999
+              name: webdav
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /config.yaml
+              name: webdav-config
+              subPath: config.yaml
+      volumes:
+        - name: webdav-config
+          configMap:
+            name: webdav-config
   volumeClaimTemplates:
     - metadata:
         name: data

@@ -5,5 +5,8 @@ metadata:
 spec:
   ports:
     - port: 30000
+      name: http
+    - port: 9999
+      name: webdav
   selector:
     app: foundry-ashes
