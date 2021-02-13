@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: element-web
+spec:
+  tls:
+    - hosts:
+        - element.hubbe.club
+  rules:
+    - host: element.hubbe.club
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: element-web
+              port:
+                number: 80

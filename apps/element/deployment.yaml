@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: element-web
+spec:
+  selector:
+    matchLabels:
+      app: element-web
+  template:
+    metadata:
+      labels:
+        app: element-web
+    spec:
+      containers:
+        - name: element-web
+          image: docker.io/vectorim/element-web:v1.7.20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /app/config.json
+              name: element-config
+              subPath: config.json
+      volumes:
+        - name: element-config
+          configMap:
+            name: element-config
