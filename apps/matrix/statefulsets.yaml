@@ -41,6 +41,8 @@ spec:
               name: matrix-whatsapp-registration
             - mountPath: /appservices/mautrix-signal
               name: matrix-signal-registration
+            - mountPath: /appservices/matrix-irc
+              name: matrix-irc-registration
       volumes:
         - name: matrix-synapse-config
           configMap:
@@ -51,6 +53,9 @@ spec:
         - name: matrix-signal-registration
           configMap:
             name: matrix-signal-registration
+        - name: matrix-irc-registration
+          configMap:
+            name: matrix-irc-registration
   volumeClaimTemplates:
     - metadata:
         name: media-store
@@ -75,7 +80,7 @@ spec:
         app: matrix-db
     spec:
       containers:
-        - image: docker.io/library/postgres:13.1-alpine
+        - image: docker.io/library/postgres:13.2-alpine
           name: matrix-db
           envFrom:
             - secretRef:
@@ -91,6 +96,13 @@ spec:
             - mountPath: /var/lib/postgresql/data
               name: data
               subPath: postgres
+            - mountPath: /docker-entrypoint-initdb.d
+              name: matrix-db-init
+      volumes:
+        - name: matrix-db-init
+          configMap:
+            name: matrix-db-init
+            defaultMode: 0755
   volumeClaimTemplates:
     - metadata:
         name: data
