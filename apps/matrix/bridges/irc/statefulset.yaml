@@ -28,13 +28,13 @@ spec:
               cpu: 500m
               memory: 512Mi
           volumeMounts:
-            - mountPath: /app/data/config.yaml
+            - mountPath: /data/config.yaml
               name: matrix-irc-config
               subPath: config.yaml
-            - mountPath: /app/data/appservice-registration-irc.yaml
+            - mountPath: /data/appservice-registration-irc.yaml
               name: matrix-irc-registration
               subPath: appservice-registration-irc.yaml
-            - mountPath: /app/data/passkey.pem
+            - mountPath: /data/passkey.pem
               name: matrix-irc-password-encryption-key
               subPath: passkey.pem
       volumes:
