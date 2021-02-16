@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: element-web
-          image: docker.io/vectorim/element-web:v1.7.20
+          image: docker.io/vectorim/element-web:v1.7.21
           resources:
             requests:
               cpu: 100m
