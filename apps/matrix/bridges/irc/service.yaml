@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: matrix-irc
+spec:
+  selector:
+    app: matrix-irc
+  ports:
+    - port: 9999
+      name: appservice
+    - port: 7001
+      name: metrics

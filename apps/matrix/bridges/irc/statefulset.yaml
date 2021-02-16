@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: matrix-irc
+spec:
+  selector:
+    matchLabels:
+      app: matrix-irc
+  serviceName: matrix-irc
+  template:
+    metadata:
+      labels:
+        app: matrix-irc
+    spec:
+      containers:
+        - name: matrix-irc
+          image: dock.mau.dev/matrixdotorg/matrix-appservice-irc:release-0.23.0
+          ports:
+            - containerPort: 9999
+              name: appservice
+            - containerPort: 7001
+              name: metrics
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /app/data/config.yaml
+              name: matrix-irc-config
+              subPath: config.yaml
+            - mountPath: /app/data/appservice-registration-irc.yaml
+              name: matrix-irc-registration
+              subPath: appservice-registration-irc.yaml
+            - mountPath: /app/data/passkey.pem
+              name: matrix-irc-password-encryption-key
+              subPath: passkey.pem
+      volumes:
+        - name: matrix-irc-config
+          configMap:
+            name: matrix-irc-config
+        - name: matrix-irc-registration
+          configMap:
+            name: matrix-irc-registration
+        - name: matrix-irc-password-encryption-key
+          secret:
+            secretName: matrix-irc-password-encryption-key
