@@ -26,4 +26,4 @@ spec:
   selector:
     app: synapse-admin
   ports:
-    - port: 8080
+    - port: 80
