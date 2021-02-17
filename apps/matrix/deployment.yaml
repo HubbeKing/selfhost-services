@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapse-admin
+spec:
+  selector:
+    matchLabels:
+      app: synapse-admin
+  template:
+    metadata:
+      labels:
+        app: synapse-admin
+    spec:
+      containers:
+        - name: synapse-admin
+          image: docker.io/awesometechnologies/synapse-admin:0.7.0
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          ports:
+            - containerPort: 8080
