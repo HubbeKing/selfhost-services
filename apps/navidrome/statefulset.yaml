@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: navidrome
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: navidrome
@@ -20,7 +19,15 @@ spec:
       containers:
         - image: docker.io/deluan/navidrome:0.40.0
           name: navidrome
-          livenessProbe:
+          env:
+            - name: ND_COVERARTPRIORITY
+              value: "cover.*, folder.*, front.*, embedded"
+            - name: ND_TRANSCODINGCACHESIZE
+              value: "2GiB"
+          ports:
+            - containerPort: 4533
+              name: http
+          readinessProbe:
             httpGet:
               path: /app/index.html
               port: 4533
@@ -28,13 +35,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
-              memory: "50Mi"
-          env:
-            - name: ND_COVERARTPRIORITY
-              value: "cover.*, folder.*, front.*, embedded"
-            - name: ND_TRANSCODINGCACHESIZE
-              value: "2GiB"
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
           volumeMounts:
             - name: data
               mountPath: /data
@@ -55,7 +60,7 @@ spec:
         name: data
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn

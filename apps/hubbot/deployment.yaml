@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: hubbot
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: hubbot
@@ -24,20 +23,23 @@ spec:
         - image: registry.hubbe.club/hubbot:latest
           imagePullPolicy: Always
           name: hubbot
-          livenessProbe:
+          args: ["-c", "/app/configs/hubbot.toml"]
+          ports:
+            - containerPort: 9999
+              name: healthcheck
+          readinessProbe:
             httpGet:
               path: /
               port: 9999
             initialDelaySeconds: 5
             periodSeconds: 30
-          args: ["-c", "/app/configs/hubbot.toml"]
           resources:
             requests:
-              cpu: "50m"
-              memory: "150Mi"
+              cpu: 50m
+              memory: 128Mi
             limits:
-              cpu: "250m"
-              memory: "250Mi"
+              cpu: 250m
+              memory: 256Mi
           volumeMounts:
             - name: data
               mountPath: /app/data

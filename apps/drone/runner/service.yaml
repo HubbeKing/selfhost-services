@@ -4,9 +4,9 @@ metadata:
   name: drone-runner
   namespace: drone
 spec:
-  type: LoadBalancer
   loadBalancerIP: 192.168.1.8
   ports:
     - port: 3000
   selector:
     app: drone-runner
+  type: LoadBalancer

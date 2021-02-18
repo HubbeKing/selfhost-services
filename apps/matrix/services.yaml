@@ -3,27 +3,27 @@ kind: Service
 metadata:
   name: matrix-synapse
 spec:
-  selector:
-    app: matrix-synapse
   ports:
     - port: 8008
+  selector:
+    app: matrix-synapse
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: matrix-db
 spec:
-  selector:
-    app: matrix-db
   ports:
     - port: 5432
+  selector:
+    app: matrix-db
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: synapse-admin
 spec:
-  selector:
-    app: synapse-admin
   ports:
     - port: 80
+  selector:
+    app: synapse-admin

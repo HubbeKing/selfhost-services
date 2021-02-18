@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: registry-ui
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: registry-ui
@@ -20,13 +19,22 @@ spec:
               value: "https://registry.hubbe.club"
             - name: DELETE_IMAGES
               value: "true"
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
-              memory: "50Mi"
+              cpu: 50m
+              memory: 64Mi
             limits:
-              cpu: "250m"
-              memory: "250Mi"
+              cpu: 150m
+              memory: 128Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -47,19 +55,6 @@ spec:
       containers:
         - name: registry
           image: docker.io/library/registry:2.7.1
-          livenessProbe:
-            httpGet:
-              path: /debug/health
-              port: 6969
-            initialDelaySeconds: 5
-            periodSeconds: 15
-          resources:
-            requests:
-              cpu: "50m"
-              memory: "50Mi"
-            limits:
-              cpu: "250m"
-              memory: "250Mi"
           env:
             - name: REGISTRY_HTTP_ADDR
               value: ":5000"
@@ -70,8 +65,23 @@ spec:
             - name: REGISTRY_HTTP_DEBUG_ADDR
               value: "0.0.0.0:6969"
           ports:
-          - name: http
-            containerPort: 5000
+          - containerPort: 5000
+            name: http
+          - containerPort: 6969
+            name: healthcheck
+          readinessProbe:
+            httpGet:
+              path: /debug/health
+              port: 6969
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 150m
+              memory: 128Mi
           volumeMounts:
           - name: image-store
             mountPath: "/var/lib/registry"

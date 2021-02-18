@@ -3,12 +3,9 @@ kind: Deployment
 metadata:
   name: deepdream-queue
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: deepdream-queue
-  strategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -17,7 +14,13 @@ spec:
       containers:
         - image: docker.io/library/rabbitmq:latest
           name: deepdream-queue
-          livenessProbe:
+          envFrom:
+            - configMapRef:
+                name: deepdream-rabbit-envs
+          ports:
+            - containerPort: 5672
+              name: rabbitmq
+          readinessProbe:
             exec:
               command:
                 - "rabbitmq-diagnostics"
@@ -28,26 +31,20 @@ spec:
             timeoutSeconds: 10
           resources:
             requests:
-              cpu: "100m"
-              memory: "250Mi"
+              cpu: 100m
+              memory: 128Mi
             limits:
-              cpu: "500m"
-              memory: "500Mi"
-          envFrom:
-            - configMapRef:
-                name: deepdream-rabbit-envs
+              cpu: 250m
+              memory: 256Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deepdream-web
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: deepdream
-  strategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -57,9 +54,14 @@ spec:
         - name: registry-hubbe-club-creds
       containers:
         - image: registry.hubbe.club/deepdream:latest
-          imagePullPolicy: Always
           name: deepdream-api
-          livenessProbe:
+          envFrom:
+            - configMapRef:
+                name: deepdream-rabbit-envs
+          ports:
+            - containerPort: 8000
+              name: http
+          readinessProbe:
             httpGet:
               path: /health/
               port: 8000
@@ -68,23 +70,28 @@ spec:
             timeoutSeconds: 5
           resources:
             requests:
-              cpu: "50m"
-              memory: "150Mi"
+              cpu: 50m
+              memory: 128Mi
             limits:
-              cpu: "150m"
-              memory: "250Mi"
-          envFrom:
-            - configMapRef:
-                name: deepdream-rabbit-envs
+              cpu: 150m
+              memory: 256Mi
           volumeMounts:
             - name: deepdream-inputs
               mountPath: /opt/deepdream/inputs
             - name: deepdream-outputs
               mountPath: /opt/deepdream/outputs
         - image: registry.hubbe.club/deepdream:latest
-          imagePullPolicy: Always
           name: deepdream-worker
-          livenessProbe:
+          command: ["celery", "-A", "tasks", "worker", "--loglevel=INFO", "--concurrency=1"]
+          env:
+            - name: GLOG_minloglevel
+              value: "2"
+          envFrom:
+            - configMapRef:
+                name: deepdream-rabbit-envs
+            - secretRef:
+                name: deepdream-mail-envs
+          readinessProbe:
             exec:
               command:
                 - "celery"
@@ -96,20 +103,11 @@ spec:
             timeoutSeconds: 5
           resources:
             requests:
-              cpu: "100m"
-              memory: "100Mi"
+              cpu: 100m
+              memory: 128Mi
             limits:
-              cpu: "1000m"
-              memory: "500Mi"
-          command: ["celery", "-A", "tasks", "worker", "--loglevel=INFO", "--concurrency=1"]
-          env:
-            - name: GLOG_minloglevel
-              value: "2"
-          envFrom:
-            - configMapRef:
-                name: deepdream-rabbit-envs
-            - secretRef:
-                name: deepdream-mail-envs
+              cpu: 1000m
+              memory: 512Mi
           volumeMounts:
             - name: deepdream-inputs
               mountPath: /opt/deepdream/inputs

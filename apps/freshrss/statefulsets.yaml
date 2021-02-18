@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: freshrss-db
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: freshrss-db
@@ -21,13 +20,19 @@ spec:
         - image: docker.io/library/mariadb:10.5.8
           imagePullPolicy: Always
           name: freshrss-db
+          envFrom:
+            - secretRef:
+                name: freshrss-envs
+          ports:
+            - containerPort: 3306
+              name: mysql
           livenessProbe:
             exec:
               command:
                 - bash
                 - "-c"
                 - "mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ping"
-            initialDelaySeconds: 0
+            initialDelaySeconds: 5
             periodSeconds: 15
           readinessProbe:
             exec:
@@ -35,15 +40,15 @@ spec:
                 - bash
                 - "-c"
                 - "mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'"
-            initialDelaySeconds: 0
+            initialDelaySeconds: 5
             periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
-              memory: "100Mi"
-          envFrom:
-            - secretRef:
-                name: freshrss-envs
+              cpu: 150m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
           volumeMounts:
             - name: data
               mountPath: /var/lib/mysql
@@ -52,17 +57,16 @@ spec:
         name: data
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: freshrss-web
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: freshrss
@@ -75,16 +79,6 @@ spec:
       containers:
         - image: docker.io/freshrss/freshrss:1.17.0
           name: freshrss
-          livenessProbe:
-            httpGet:
-              path: /i/
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 15
-          resources:
-            requests:
-              cpu: "50m"
-              memory: "100Mi"
           env:
             # cron minutes definition for RSS sync
             - name: CRON_MIN
@@ -97,6 +91,19 @@ spec:
           envFrom:
             - secretRef:
                 name: freshrss-envs
+          readinessProbe:
+            httpGet:
+              path: /i/
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
           volumeMounts:
             - name: data
               mountPath: /var/www/FreshRSS/data
@@ -105,7 +112,7 @@ spec:
         name: data
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn

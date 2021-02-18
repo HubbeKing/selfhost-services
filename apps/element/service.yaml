@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: element-web
 spec:
-  selector:
-    app: element-web
   ports:
     - port: 80
+  selector:
+    app: element-web

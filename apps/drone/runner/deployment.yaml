@@ -4,7 +4,6 @@ metadata:
   name: drone-runner
   namespace: drone
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: drone-runner
@@ -17,16 +16,6 @@ spec:
       containers:
         - name: runner
           image: docker.io/drone/drone-runner-kube:1.0.0-beta.6
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "250Mi"
-            limits:
-              cpu: "250m"
-              memory: "500Mi"
-          envFrom:
-            - secretRef:
-                name: runner-envs
           env:
             - name: DRONE_POLICY_FILE
               value: /etc/config/policy.yml
@@ -45,6 +34,19 @@ spec:
                 secretKeyRef:
                   name: drone-envs
                   key: DRONE_RPC_SECRET
+          envFrom:
+            - secretRef:
+                name: runner-envs
+          ports:
+            - containerPort: 3000
+              name: http
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
           volumeMounts:
             - mountPath: /etc/config
               name: runner-policy

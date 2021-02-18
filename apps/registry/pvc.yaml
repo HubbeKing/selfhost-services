@@ -3,9 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: registry-image-store
 spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteOnce
+  accessModes: [ "ReadWriteOnce" ]
   resources:
     requests:
       storage: 10Gi
+  storageClassName: longhorn

@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: resilio-sync
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: resilio-sync
@@ -16,20 +15,27 @@ spec:
       containers:
         - image: ghcr.io/linuxserver/resilio-sync:version-2.7.2.1375
           name: resilio-sync
-          livenessProbe:
-            exec:
-              command:
-                - pgrep
-                - rslsync
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          ports:
+            - containerPort: 8888
+              name: http
+            - containerPort: 55555
+              name: sync
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8888
             initialDelaySeconds: 5
             periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
-              memory: "100Mi"
-          envFrom:
-            - configMapRef:
-                name: linuxserver-envs
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 150m
+              memory: 128Mi
           volumeMounts:
             - name: config
               mountPath: /config
@@ -45,7 +51,7 @@ spec:
         name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn

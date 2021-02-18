@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: foundry-dead-suns
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: foundry-dead-suns
@@ -24,19 +23,22 @@ spec:
           name: foundry-dead-suns
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=dead-suns"]
-          livenessProbe:
+          ports:
+            - containerPort: 30000
+              name: http
+          readinessProbe:
             httpGet:
               path: /suns
               port: 30000
             initialDelaySeconds: 5
             periodSeconds: 15
-          ports:
-            - containerPort: 30000
-              name: http
           resources:
             requests:
-              cpu: "100m"
-              memory: "500Mi"
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
           volumeMounts:
             - mountPath: /data
               name: data
@@ -61,7 +63,7 @@ spec:
         name: data
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn

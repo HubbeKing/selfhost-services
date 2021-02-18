@@ -3,9 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: data-hubbot-dbchat
 spec:
-  storageClassName: longhorn
-  accessModes:
-    - ReadWriteOnce
+  accessModes: [ "ReadWriteOnce" ]
   resources:
     requests:
       storage: 10Gi
+  storageClassName: longhorn

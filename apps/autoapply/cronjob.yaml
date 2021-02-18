@@ -18,6 +18,8 @@ spec:
           containers:
             - name: autoapply
               image: registry.hubbe.club/autoapply:v1.20.2
+              command: ["bash"]
+              args: ["/apply.sh"]
               env:
                 - name: SOPS_PGP_FP
                   valueFrom:
@@ -31,10 +33,11 @@ spec:
                       name: gpg-secrets
               resources:
                 requests:
-                  cpu: "50m"
-                  memory: "50Mi"
-              command: ["bash"]
-              args: ["/apply.sh"]
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 150m
+                  memory: 128Mi
               volumeMounts:
                 - name: apply-script
                   mountPath: /apply.sh

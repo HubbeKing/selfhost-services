@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: jellyfin
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: jellyfin
@@ -31,7 +30,10 @@ spec:
       containers:
         - image: docker.io/jellyfin/jellyfin:10.6.4
           name: jellyfin
-          livenessProbe:
+          ports:
+            - containerPort: 8096
+              name: http
+          readinessProbe:
             httpGet:
               path: /web/index.html
               port: 8096
@@ -40,10 +42,14 @@ spec:
           resources:
             requests:
               # request small amount of CPU to prevent latency when node is under load from other work
-              cpu: 100m
+              cpu: 250m
+              memory: 256Mi
             limits:
               # VAAPI device for HW acceleration, requires intel-device-plugins-for-kubernetes
               gpu.intel.com/i915: "1"
+              # large limits, transcoding is Expensive
+              cpu: 4000m
+              memory: 8Gi
           volumeMounts:
             - mountPath: /desertbus
               name: array
@@ -80,7 +86,7 @@ spec:
         name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 5Gi
+        storageClassName: longhorn

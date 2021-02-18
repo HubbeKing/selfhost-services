@@ -22,6 +22,9 @@ spec:
           env:
             - name: TZ
               value: Europe/Helsinki
+          ports:
+            - containerPort: 8008
+              name: http
           resources:
             limits:
               cpu: 1000m
@@ -29,9 +32,6 @@ spec:
             requests:
               cpu: 250m
               memory: 250Mi
-          ports:
-            - containerPort: 8008
-              name: http
           volumeMounts:
             - mountPath: /data
               name: matrix-synapse-config
@@ -64,6 +64,7 @@ spec:
         resources:
           requests:
             storage: 5Gi
+        storageClassName: longhorn
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -85,6 +86,9 @@ spec:
           envFrom:
             - secretRef:
                 name: matrix-db-envs
+          ports:
+            - containerPort: 5432
+              name: postgres
           resources:
             limits:
               cpu: 500m
@@ -107,9 +111,8 @@ spec:
     - metadata:
         name: data
       spec:
-        accessModes:
-          - ReadWriteOnce
-        storageClassName: longhorn
+        accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
             storage: 2Gi
+        storageClassName: longhorn

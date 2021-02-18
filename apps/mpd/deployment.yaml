@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: mpd
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: mpd
@@ -18,43 +17,37 @@ spec:
         - image: registry.hubbe.club/music:mpdscribble
           imagePullPolicy: Always
           name: mpdscribble
-          livenessProbe:
-            exec:
-              command:
-                - pgrep
-                - mpdscribble
-            initialDelaySeconds: 5
-            periodSeconds: 15
-          resources:
-            requests:
-              cpu: 50m
-              memory: 50Mi
-            limits:
-              cpu: 500m
-              memory: 250Mi
           envFrom:
             - secretRef:
                 name: mpdscribble-config
-        - image: registry.hubbe.club/music:mpd
-          imagePullPolicy: Always
-          name: mpd
-          livenessProbe:
-            exec:
-              command:
-                - pgrep
-                - mpd
-            initialDelaySeconds: 5
-            periodSeconds: 15
           resources:
             requests:
               cpu: 50m
-              memory: 50Mi
+              memory: 64Mi
             limits:
               cpu: 500m
-              memory: 250Mi
+              memory: 256Mi
+        - image: registry.hubbe.club/music:mpd
+          imagePullPolicy: Always
+          name: mpd
           envFrom:
             - secretRef:
                 name: mpd-config
+          readinessProbe:
+            tcpSocket:
+              port: 6600
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          ports:
+            - containerPort: 6600
+              name: mpd
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
           volumeMounts:
             - name: array
               subPath: Music

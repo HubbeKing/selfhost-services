@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: matrix-whatsapp
 spec:
-  selector:
-    app: matrix-whatsapp
   ports:
     - port: 29318
       name: appservice
     - port: 8001
       name: metrics
+  selector:
+    app: matrix-whatsapp

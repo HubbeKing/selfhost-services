@@ -3,26 +3,24 @@ kind: PersistentVolume
 metadata:
   name: array
 spec:
+  accessModes: [ "ReadWriteMany" ]
   capacity:
     storage: 20T
-  volumeMode: Filesystem
-  persistentVolumeReclaimPolicy: Retain
-  accessModes:
-    - ReadWriteMany
   # use file system cache for NFS mount
   mountOptions: ["fsc"]
   nfs:
     server: "192.168.1.121"
     path: "/mnt/hubbe/array"
     readOnly: false
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: array
 spec:
-  accessModes:
-    - ReadWriteMany
+  accessModes: [ "ReadWriteMany" ]
   resources:
     requests:
       storage: 20T

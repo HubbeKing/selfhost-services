@@ -5,13 +5,12 @@ metadata:
   labels:
     app: registry-ui
 spec:
-  selector:
-    app: registry-ui
-  type: LoadBalancer
   loadBalancerIP: 192.168.1.9
   ports:
     - port: 80
-      targetPort: 80
+  selector:
+    app: registry-ui
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: Service
@@ -20,8 +19,7 @@ metadata:
   labels:
     app: registry
 spec:
-  selector:
-    app: registry
   ports:
     - port: 5000
-      targetPort: 5000
+  selector:
+    app: registry

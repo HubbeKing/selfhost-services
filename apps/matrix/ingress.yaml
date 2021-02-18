@@ -26,6 +26,7 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
       - matrix.hubbe.club

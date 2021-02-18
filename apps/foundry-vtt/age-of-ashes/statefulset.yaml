@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: foundry-ashes
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: foundry-ashes
@@ -24,19 +23,22 @@ spec:
           name: foundry-ashes
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=ashes"]
-          livenessProbe:
+          ports:
+            - containerPort: 30000
+              name: http
+          readinessProbe:
             httpGet:
               path: /ashes
               port: 30000
             initialDelaySeconds: 5
             periodSeconds: 15
-          ports:
-            - containerPort: 30000
-              name: http
           resources:
             requests:
-              cpu: "100m"
-              memory: "500Mi"
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
           volumeMounts:
             - mountPath: /data
               name: data
@@ -61,7 +63,7 @@ spec:
         name: data
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 5Gi
+        storageClassName: longhorn

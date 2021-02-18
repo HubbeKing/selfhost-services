@@ -17,9 +17,6 @@ spec:
         # signald should start first. kubelet starts containers[] sequentially, in order
         - name: signald
           image: docker.io/finn/signald:latest
-          volumeMounts:
-            - mountPath: /signald
-              name: data-signald
           # use a postStart lifecycle hook to consider container started once signald.sock exists
           lifecycle:
             postStart:
@@ -28,6 +25,16 @@ spec:
                   - bash
                   - -c
                   - "while [ ! -S /signald/signald.sock ]; do sleep 1; done"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /signald
+              name: data-signald
         - name: matrix-signal
           image: dock.mau.dev/tulir/mautrix-signal:latest
           ports:
@@ -35,6 +42,13 @@ spec:
               name: appservice
             - containerPort: 8000
               name: metrics
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 128Mi
           volumeMounts:
             - mountPath: /data/config.yaml
               name: matrix-signal-config
@@ -55,8 +69,8 @@ spec:
     - metadata:
         name: data-signald
       spec:
-        storageClassName: longhorn
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn

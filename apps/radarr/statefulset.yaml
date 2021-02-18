@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: radarr
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: radarr
@@ -16,7 +15,13 @@ spec:
       containers:
         - image: ghcr.io/linuxserver/radarr:version-3.0.2.4552
           name: radarr
-          livenessProbe:
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          ports:
+            - containerPort: 7878
+              name: http
+          readinessProbe:
             httpGet:
               path: /login
               port: 7878
@@ -24,11 +29,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
-              memory: "300Mi"
-          envFrom:
-            - configMapRef:
-                name: linuxserver-envs
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
           volumeMounts:
             - name: config
               mountPath: /config
@@ -47,7 +52,7 @@ spec:
         name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn

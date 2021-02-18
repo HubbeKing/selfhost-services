@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: matrix-signal
 spec:
-  selector:
-    app: matrix-signal
   ports:
     - port: 29328
       name: appservice
     - port: 8000
       name: metrics
+  selector:
+    app: matrix-signal

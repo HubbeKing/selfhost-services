@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: element-web
 spec:
+  ingressClassName: nginx
   tls:
     - hosts:
         - element.hubbe.club

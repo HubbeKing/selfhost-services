@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: weechat
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: weechat
@@ -23,7 +22,10 @@ spec:
       containers:
         - image: registry.hubbe.club/weechat:v3.0.1
           name: weechat
-          livenessProbe:
+          ports:
+            - containerPort: 9000
+              name: relay
+          readinessProbe:
             exec:
               command:
                 - "tmux"
@@ -34,11 +36,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
-              memory: "50Mi"
+              cpu: 50m
+              memory: 64Mi
             limits:
-              cpu: "250m"
-              memory: "250Mi"
+              cpu: 150m
+              memory: 128Mi
           volumeMounts:
             - name: data
               mountPath: /home/weechat/.weechat

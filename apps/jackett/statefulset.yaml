@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: jackett
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: jackett
@@ -16,7 +15,13 @@ spec:
       containers:
         - image: ghcr.io/linuxserver/jackett:version-v0.17.532
           name: jackett
-          livenessProbe:
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          ports:
+            - containerPort: 9117
+              name: http
+          readinessProbe:
             httpGet:
               path: /UI/Login
               port: 9117
@@ -24,11 +29,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "10m"
-              memory: "200Mi"
-          envFrom:
-            - configMapRef:
-                name: linuxserver-envs
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
           volumeMounts:
             - name: config
               mountPath: /config
@@ -37,7 +42,7 @@ spec:
         name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn

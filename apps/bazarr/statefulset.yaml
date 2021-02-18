@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: bazarr
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: bazarr
@@ -16,7 +15,13 @@ spec:
       containers:
         - image: ghcr.io/linuxserver/bazarr:version-v0.9.1
           name: bazarr
-          livenessProbe:
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          ports:
+            - containerPort: 6767
+              name: http
+          readinessProbe:
             httpGet:
               path: /login/
               port: 6767
@@ -24,14 +29,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: "100m"
-              memory: "250Mi"
+              cpu: 100m
+              memory: 250Mi
             limits:
-              cpu: "500m"
-              memory: "500Mi"
-          envFrom:
-            - configMapRef:
-                name: linuxserver-envs
+              cpu: 500m
+              memory: 500Mi
           volumeMounts:
             - name: config
               mountPath: /config
@@ -50,7 +52,7 @@ spec:
         name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn
