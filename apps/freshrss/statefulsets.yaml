@@ -18,7 +18,6 @@ spec:
         fsGroup: 1000
       containers:
         - image: docker.io/library/mariadb:10.5.8
-          imagePullPolicy: Always
           name: freshrss-db
           envFrom:
             - secretRef:
