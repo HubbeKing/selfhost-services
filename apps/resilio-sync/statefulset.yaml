@@ -23,18 +23,12 @@ spec:
               name: http
             - containerPort: 55555
               name: sync
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 8888
-            initialDelaySeconds: 5
-            periodSeconds: 15
           resources:
             requests:
-              cpu: 50m
+              cpu: 150m
               memory: 64Mi
             limits:
-              cpu: 150m
+              cpu: 250m
               memory: 128Mi
           volumeMounts:
             - name: config
