@@ -3,7 +3,6 @@ kind: StatefulSet
 metadata:
   name: nextcloud-db
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: nextcloud-db
@@ -19,15 +18,20 @@ spec:
         fsGroup: 1000
       containers:
         - image: docker.io/library/mariadb:10.5.8
-          imagePullPolicy: Always
           name: nextcloud-db
+          envFrom:
+            - secretRef:
+                name: nextcloud-envs
+          ports:
+            - containerPort: 3306
+              name: mysql
           livenessProbe:
             exec:
               command:
                 - bash
                 - "-c"
                 - "mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ping"
-            initialDelaySeconds: 0
+            initialDelaySeconds: 5
             periodSeconds: 15
           readinessProbe:
             exec:
@@ -35,18 +39,15 @@ spec:
                 - bash
                 - "-c"
                 - "mysql --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'"
-            initialDelaySeconds: 0
+            initialDelaySeconds: 5
             periodSeconds: 15
           resources:
             requests:
-              cpu: "250m"
-              memory: "0.5Gi"
+              cpu: 250m
+              memory: 512Mi
             limits:
-              cpu: "500m"
-              memory: "1Gi"
-          envFrom:
-            - secretRef:
-                name: nextcloud-envs
+              cpu: 500m
+              memory: 1Gi
           volumeMounts:
             - name: data
               mountPath: /var/lib/mysql
@@ -55,10 +56,10 @@ spec:
         name: data
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 1Gi
+        storageClassName: longhorn
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -80,27 +81,6 @@ spec:
       containers:
         - image: docker.io/library/nextcloud:20.0.7
           name: nextcloud
-          livenessProbe:
-            exec:
-              command:
-                - pgrep
-                - apache2
-            initialDelaySeconds: 5
-            periodSeconds: 15
-          readinessProbe:
-            httpGet:
-              path: /login
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 15
-            timeoutSeconds: 5
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "250Mi"
-            limits:
-              cpu: "1000m"
-              memory: "1Gi"
           env:
             - name: MYSQL_HOST
               value: nextcloud-db
@@ -111,13 +91,38 @@ spec:
           envFrom:
             - secretRef:
                 name: nextcloud-envs
+          livenessProbe:
+            exec:
+              command:
+                - pgrep
+                - apache2
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1500m
+              memory: 2Gi
           volumeMounts:
             - name: config
               mountPath: /var/www/html
             - name: data
               mountPath: /data
             - name: array
-              mountPath: /array
+              mountPath: /photos
+              subPath: Photos
       volumes:
         - name: array
           persistentVolumeClaim:
@@ -127,15 +132,15 @@ spec:
         name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 5Gi
+        storageClassName: longhorn
     - metadata:
         name: data
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: longhorn
         resources:
           requests:
             storage: 10Gi
+        storageClassName: longhorn

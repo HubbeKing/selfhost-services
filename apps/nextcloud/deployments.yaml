@@ -3,12 +3,9 @@ kind: Deployment
 metadata:
   name: nextcloud-redis
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: nextcloud-redis
-  strategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -17,15 +14,6 @@ spec:
       containers:
         - image: docker.io/library/redis:latest
           name: nextcloud-redis
-          livenessProbe:
-            exec:
-              command:
-                - "redis-cli"
-                - "--pass"
-                - $(REDIS_HOST_PASSWORD)
-                - "ping"
-            initialDelaySeconds: 5
-            periodSeconds: 15
           command: ["redis-server"]
           args:
             - "--requirepass"
@@ -36,25 +24,34 @@ spec:
                 secretKeyRef:
                   name: nextcloud-envs
                   key: REDIS_HOST_PASSWORD
+          ports:
+            - containerPort: 6379
+              name: redis
+          readinessProbe:
+            exec:
+              command:
+                - "redis-cli"
+                - "--pass"
+                - $(REDIS_HOST_PASSWORD)
+                - "ping"
+            initialDelaySeconds: 5
+            periodSeconds: 15
           resources:
             requests:
-              cpu: "50m"
-              memory: "50Mi"
+              cpu: 50m
+              memory: 50Mi
             limits:
-              cpu: "150m"
-              memory: "150Mi"
+              cpu: 250m
+              memory: 250Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nextcloud-onlyoffice
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: nextcloud-onlyoffice
-  strategy:
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -63,6 +60,9 @@ spec:
       containers:
         - image: docker.io/onlyoffice/documentserver:6.1.1
           name: nextcloud-onlyoffice
+          ports:
+            - containerPort: 80
+              name: http
           readinessProbe:
             httpGet:
               path: /healthcheck
@@ -72,8 +72,8 @@ spec:
             timeoutSeconds: 5
           resources:
             requests:
-              cpu: "250m"
-              memory: "1Gi"
+              cpu: 250m
+              memory: 1Gi
             limits:
-              cpu: "500m"
-              memory: "2Gi"
+              cpu: 500m
+              memory: 2Gi
