@@ -17,7 +17,7 @@ spec:
             - name: registry-hubbe-club-creds
           containers:
             - name: autoapply
-              image: registry.hubbe.club/autoapply:v1.20.2
+              image: registry.hubbe.club/autoapply:v1.20.3
               command: ["bash"]
               args: ["/apply.sh"]
               env:
@@ -33,10 +33,10 @@ spec:
                       name: gpg-secrets
               resources:
                 requests:
-                  cpu: 50m
+                  cpu: 250m
                   memory: 64Mi
                 limits:
-                  cpu: 150m
+                  cpu: 250m
                   memory: 128Mi
               volumeMounts:
                 - name: apply-script
