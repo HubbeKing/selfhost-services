@@ -22,9 +22,6 @@ spec:
           envFrom:
             - secretRef:
                 name: freshrss-envs
-          ports:
-            - containerPort: 3306
-              name: mysql
           livenessProbe:
             exec:
               command:
@@ -33,6 +30,9 @@ spec:
                 - "mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ping"
             initialDelaySeconds: 5
             periodSeconds: 15
+          ports:
+            - containerPort: 3306
+              name: mysql
           readinessProbe:
             exec:
               command:
