@@ -18,12 +18,12 @@ data:
     CACERT=${SERVICEACCOUNT}/ca.crt
 
     # exec to default/nextcloud-web-0 pod and run:
-    # sudo -u abc php /config/www/nextcloud/occ preview:pre-generate
+    # sudo -u abc php /config/www/nextcloud/occ preview:pre-generate -vvv
     curl \
     --cacert ${CACERT} \
     --header "Authorization: Bearer ${TOKEN}" \
     -X POST \
-    ${APISERVER}/api/v1/namespaces/default/pods/nextcloud-web-0/exec?command=sudo&command=-u&command=abc&command=php&command=%2Fconfig%2Fwww%2Fnextcloud%2Focc&command=preview%3Apre-generate&container=nextcloud&stderr=true&stdout=true
+    ${APISERVER}/api/v1/namespaces/default/pods/nextcloud-web-0/exec?command=sudo&command=-u&command=abc&command=php&command=%2Fconfig%2Fwww%2Fnextcloud%2Focc&command=preview%3Apre-generate&command=-vvv&container=nextcloud&stderr=true&stdout=true
 
   preview-generate-all.sh: |
     #!/bin/sh
