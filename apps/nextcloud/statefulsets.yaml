@@ -22,9 +22,6 @@ spec:
           envFrom:
             - secretRef:
                 name: nextcloud-envs
-          ports:
-            - containerPort: 3306
-              name: mysql
           livenessProbe:
             exec:
               command:
@@ -33,6 +30,9 @@ spec:
                 - "mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ping"
             initialDelaySeconds: 5
             periodSeconds: 15
+          ports:
+            - containerPort: 3306
+              name: mysql
           readinessProbe:
             exec:
               command:
@@ -58,7 +58,7 @@ spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: 1Gi
+            storage: 2Gi
         storageClassName: longhorn
 ---
 apiVersion: apps/v1
@@ -66,7 +66,6 @@ kind: StatefulSet
 metadata:
   name: nextcloud-web
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: nextcloud-web
@@ -76,38 +75,24 @@ spec:
       labels:
         app: nextcloud-web
     spec:
-      securityContext:
-        fsGroup: 1000
       containers:
-        - image: docker.io/library/nextcloud:20.0.7
+        - image: ghcr.io/linuxserver/nextcloud:version-20.0.7
           name: nextcloud
-          env:
-            - name: MYSQL_HOST
-              value: nextcloud-db
-            - name: REDIS_HOST
-              value: nextcloud-redis
-            - name: NEXTCLOUD_DATA_DIR
-              value: "/data"
           envFrom:
             - secretRef:
                 name: nextcloud-envs
-          livenessProbe:
-            exec:
-              command:
-                - pgrep
-                - apache2
-            initialDelaySeconds: 5
-            periodSeconds: 15
+            - configMapRef:
+                name: linuxserver-envs
           ports:
-            - containerPort: 80
-              name: http
-          readinessProbe:
-            httpGet:
-              path: /login
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 15
-            timeoutSeconds: 5
+            - containerPort: 443
+              name: https
+          #readinessProbe:
+          #  httpGet:
+          #    path: /login
+          #    port: 443
+          #  initialDelaySeconds: 10
+          #  periodSeconds: 15
+          #  timeoutSeconds: 5
           resources:
             requests:
               cpu: 250m
@@ -117,7 +102,7 @@ spec:
               memory: 2Gi
           volumeMounts:
             - name: config
-              mountPath: /var/www/html
+              mountPath: /config
             - name: data
               mountPath: /data
             - name: array

@@ -34,6 +34,6 @@ metadata:
   name: nextcloud-web
 spec:
   ports:
-    - port: 80
+    - port: 443
   selector:
     app: nextcloud-web

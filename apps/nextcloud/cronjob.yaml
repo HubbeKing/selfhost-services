@@ -1,10 +1,10 @@
-# CronJob to curl /cron.php every 5 minutes
+# CronJob to run /var/www/html/occ preview:pre-generate once an hour
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: nextcloud-cron
+  name: nextcloud-preview-gen
 spec:
-  schedule: "*/5 * * * *"
+  schedule: "37 * * * *"
   concurrencyPolicy: Forbid
   failedJobsHistoryLimit: 1
   successfulJobsHistoryLimit: 1
@@ -13,12 +13,17 @@ spec:
       template:
         spec:
           restartPolicy: Never
+          serviceAccountName: nextcloud-cron
           containers:
-            - name: nextcloud-cron
+            - name: nextcloud-preview-gen
               image: docker.io/curlimages/curl:latest
-              imagePullPolicy: IfNotPresent
-              command: ["curl"]
-              args:
-                - "--fail"
-                - "-L"
-                - "http://nextcloud-web/cron.php"
+              command: [ /preview-pre-generate.sh ]
+              volumeMounts:
+                - mountPath: /preview-pre-generate.sh
+                  name: scripts
+                  subPath: preview-pre-generate.sh
+          volumes:
+            - name: scripts
+              configMap:
+                name: nextcloud-scripts
+                defaultMode: 0755
