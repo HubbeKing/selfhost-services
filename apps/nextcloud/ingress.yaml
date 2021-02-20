@@ -7,14 +7,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     # upstream https
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    # .well-known URLs for carddav and caldav
-    #nginx.ingress.kubernetes.io/server-snippet: |
-    #  location /.well-known/carddav {
-    #    return 301 $scheme://$host:$server_port/remote.php/dav;
-    #  }
-    #  location /.well-known/caldav {
-    #    return 301 $scheme://$host:$server_port/remote.php/dav;
-    #  }
 spec:
   ingressClassName: nginx
   tls:
