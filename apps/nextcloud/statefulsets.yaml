@@ -86,13 +86,17 @@ spec:
           ports:
             - containerPort: 443
               name: https
-          #readinessProbe:
-          #  httpGet:
-          #    path: /login
-          #    port: 443
-          #  initialDelaySeconds: 10
-          #  periodSeconds: 15
-          #  timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              httpHeaders:
+                - name: Host
+                  value: cloud.hubbe.club
+              path: /login
+              port: 443
+              scheme: HTTPS
+            initialDelaySeconds: 5
+            periodSeconds: 15
+            timeoutSeconds: 5
           resources:
             requests:
               cpu: 250m
