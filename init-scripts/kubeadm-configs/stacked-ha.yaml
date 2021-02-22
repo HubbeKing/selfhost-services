@@ -1,6 +1,32 @@
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
+authentication:
+  anonymous:
+    enabled: false
+  webhook:
+    cacheTTL: 2m
+    enabled: true
+  x509:
+    clientCAFile: /etc/kubernetes/pki/ca.crt
+authorization:
+  mode: Webhook
+  webhook:
+    cacheAuthorizedTTL: 5m
+    cacheUnauthorizedTTL: 30s
 cgroupDriver: systemd
+cpuManagerReconcilePeriod: 10s
+evictionPressureTransitionPeriod: 5m
+fileCheckFrequency: 20s
+httpCheckFrequency: 20s
+imageMinimumGCAge: 2m
+nodeStatusReportFrequency: 10s
+nodeStatusUpdateFrequency: 1m
+runtimeRequestTimeout: 2m
+shutdownGracePeriod: 30s
+shutdownGracePeriodCriticalPods: 10s
+streamingConnectionIdleTimeout: 4h
+syncFrequency: 20s
+volumeStatsAggPeriod: 1m
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
