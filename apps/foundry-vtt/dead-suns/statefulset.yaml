@@ -48,6 +48,11 @@ spec:
           ports:
             - containerPort: 9999
               name: webdav
+          readinessProbe:
+            tcpSocket:
+              port: 9999
+            initialDelaySeconds: 5
+            periodSeconds: 15
           volumeMounts:
             - mountPath: /data
               name: data
