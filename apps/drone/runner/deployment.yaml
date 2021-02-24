@@ -6,19 +6,48 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: drone-runner
+      app: runner
+      component: drone
   template:
     metadata:
       labels:
-        app: drone-runner
+        app: runner
+        component: drone
     spec:
       serviceAccountName: drone
       containers:
+        - name: secrets
+          image: docker.io/drone/kubernetes-secrets:latest
+          env:
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: runner-envs
+                  key: DRONE_SECRET_PLUGIN_TOKEN
+          ports:
+            - containerPort: 3000
+              name: secrets-api
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 150m
+              memory: 256Mi
         - name: runner
           image: docker.io/drone/drone-runner-kube:1.0.0-beta.6
           env:
             - name: DRONE_POLICY_FILE
               value: /etc/config/policy.yml
+            - name: DRONE_SECRET_PLUGIN_ENDPOINT
+              value: http://localhost:3000
+            - name: DRONE_HTTP_BIND
+              value: "0.0.0.0:5000"
             - name: DRONE_RPC_HOST
               valueFrom:
                 secretKeyRef:
@@ -38,8 +67,13 @@ spec:
             - secretRef:
                 name: runner-envs
           ports:
-            - containerPort: 3000
-              name: http
+            - containerPort: 5000
+              name: dashboard
+          readinessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: 100m

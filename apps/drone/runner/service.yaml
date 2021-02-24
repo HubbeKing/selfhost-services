@@ -6,7 +6,22 @@ metadata:
 spec:
   loadBalancerIP: 192.168.1.8
   ports:
-    - port: 3000
+    - port: 5000
+      targetPort: dashboard
   selector:
-    app: drone-runner
+    app: runner
+    component: drone
   type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: drone-secrets
+  namespace: drone
+spec:
+  ports:
+    - port: 3000
+      targetPort: secrets-api
+  selector:
+    app: runner
+    component: drone
