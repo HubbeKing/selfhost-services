@@ -10,6 +10,7 @@ spec:
     - port: 80
   selector:
     app: registry-ui
+    component: registry
   type: LoadBalancer
 ---
 apiVersion: v1
@@ -23,3 +24,4 @@ spec:
     - port: 5000
   selector:
     app: registry
+    component: registry

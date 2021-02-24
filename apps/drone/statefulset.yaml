@@ -3,17 +3,17 @@ kind: StatefulSet
 metadata:
   name: drone
   namespace: drone
-  labels:
-    component: drone
 spec:
   selector:
     matchLabels:
       app: drone
+      component: drone
   serviceName: drone
   template:
     metadata:
       labels:
         app: drone
+        component: drone
     spec:
       containers:
         - image: docker.io/drone/drone:1.10.1

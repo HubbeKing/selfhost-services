@@ -6,7 +6,8 @@ spec:
   ports:
     - port: 5672
   selector:
-    app: deepdream-queue
+    app: rabbitmq
+    component: deepdream
 ---
 apiVersion: v1
 kind: Service
@@ -17,3 +18,4 @@ spec:
     - port: 8000
   selector:
     app: deepdream
+    component: deepdream

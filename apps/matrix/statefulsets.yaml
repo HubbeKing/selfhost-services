@@ -5,12 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: matrix-synapse
+      app: synapse
+      component: matrix
   serviceName: matrix-synapse
   template:
     metadata:
       labels:
-        app: matrix-synapse
+        app: synapse
+        component: matrix
     spec:
       securityContext:
         fsGroup: 991
@@ -73,16 +75,18 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: matrix-db
+      app: postgres
+      component: matrix
   serviceName: matrix-db
   template:
     metadata:
       labels:
-        app: matrix-db
+        app: postgres
+        component: matrix
     spec:
       containers:
         - image: docker.io/library/postgres:13.2-alpine
-          name: matrix-db
+          name: postgres
           envFrom:
             - secretRef:
                 name: matrix-db-envs

@@ -6,10 +6,12 @@ spec:
   selector:
     matchLabels:
       app: synapse-admin
+      component: matrix
   template:
     metadata:
       labels:
         app: synapse-admin
+        component: matrix
     spec:
       containers:
         - name: synapse-admin

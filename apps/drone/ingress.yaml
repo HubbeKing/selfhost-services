@@ -3,8 +3,6 @@ kind: Ingress
 metadata:
   name: drone
   namespace: drone
-  labels:
-    component: drone
 spec:
   ingressClassName: nginx
   tls:

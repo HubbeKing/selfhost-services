@@ -6,10 +6,12 @@ spec:
   selector:
     matchLabels:
       app: registry-ui
+      component: registry
   template:
     metadata:
       labels:
         app: registry-ui
+        component: registry
     spec:
       containers:
         - name: registry-ui
@@ -47,10 +49,12 @@ spec:
   selector:
     matchLabels:
       app: registry
+      component: registry
   template:
     metadata:
       labels:
         app: registry
+        component: registry
     spec:
       containers:
         - name: registry

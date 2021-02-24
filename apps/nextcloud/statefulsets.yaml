@@ -5,12 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: nextcloud-db
+      app: mariadb
+      component: nextcloud
   serviceName: nextcloud-db
   template:
     metadata:
       labels:
-        app: nextcloud-db
+        app: mariadb
+        component: nextcloud
     spec:
       securityContext:
         runAsUser: 1000
@@ -18,7 +20,7 @@ spec:
         fsGroup: 1000
       containers:
         - image: docker.io/library/mariadb:10.5.8
-          name: nextcloud-db
+          name: mariadb
           envFrom:
             - secretRef:
                 name: nextcloud-envs
@@ -32,7 +34,7 @@ spec:
             periodSeconds: 15
           ports:
             - containerPort: 3306
-              name: mysql
+              name: mariadb
           readinessProbe:
             exec:
               command:
@@ -43,7 +45,7 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: 250m
+              cpu: 100m
               memory: 512Mi
             limits:
               cpu: 500m
@@ -68,12 +70,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: nextcloud-web
+      app: nextcloud
+      component: nextcloud
   serviceName: nextcloud-web
   template:
     metadata:
       labels:
-        app: nextcloud-web
+        app: nextcloud
+        component: nextcloud
     spec:
       containers:
         - image: ghcr.io/linuxserver/nextcloud:version-20.0.7

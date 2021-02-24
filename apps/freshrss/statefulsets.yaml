@@ -5,12 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: freshrss-db
+      app: mariadb
+      component: freshrss
   serviceName: freshrss-db
   template:
     metadata:
       labels:
-        app: freshrss-db
+        app: mariadb
+        component: freshrss
     spec:
       securityContext:
         runAsUser: 1000
@@ -18,7 +20,7 @@ spec:
         fsGroup: 1000
       containers:
         - image: docker.io/library/mariadb:10.5.8
-          name: freshrss-db
+          name: mariadb
           envFrom:
             - secretRef:
                 name: freshrss-envs
@@ -32,7 +34,7 @@ spec:
             periodSeconds: 15
           ports:
             - containerPort: 3306
-              name: mysql
+              name: mariadb
           readinessProbe:
             exec:
               command:
@@ -43,7 +45,7 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: 150m
+              cpu: 100m
               memory: 128Mi
             limits:
               cpu: 250m
@@ -69,11 +71,13 @@ spec:
   selector:
     matchLabels:
       app: freshrss
+      component: freshrss
   serviceName: freshrss-web
   template:
     metadata:
       labels:
         app: freshrss
+        component: freshrss
     spec:
       containers:
         - image: docker.io/freshrss/freshrss:1.17.0

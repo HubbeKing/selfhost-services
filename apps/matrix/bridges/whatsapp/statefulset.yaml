@@ -6,11 +6,13 @@ spec:
   selector:
     matchLabels:
       app: matrix-whatsapp
+      component: matrix
   serviceName: matrix-whatsapp
   template:
     metadata:
       labels:
         app: matrix-whatsapp
+        component: matrix
     spec:
       containers:
         - name: matrix-whatsapp

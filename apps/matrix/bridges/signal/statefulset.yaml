@@ -6,11 +6,13 @@ spec:
   selector:
     matchLabels:
       app: matrix-signal
+      component: matrix
   serviceName: matrix-signal
   template:
     metadata:
       labels:
         app: matrix-signal
+        component: matrix
     spec:
       containers:
         # this is not really necessary, since mautrix will just retry... but learning is its own reward.

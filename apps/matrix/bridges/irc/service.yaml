@@ -10,3 +10,4 @@ spec:
       name: metrics
   selector:
     app: matrix-irc
+    component: matrix

@@ -5,15 +5,17 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: deepdream-queue
+      app: rabbitmq
+      component: deepdream
   template:
     metadata:
       labels:
-        app: deepdream-queue
+        app: rabbitmq
+        component: deepdream
     spec:
       containers:
         - image: docker.io/library/rabbitmq:latest
-          name: deepdream-queue
+          name: rabbitmq
           envFrom:
             - configMapRef:
                 name: deepdream-rabbit-envs
@@ -45,16 +47,18 @@ spec:
   selector:
     matchLabels:
       app: deepdream
+      component: deepdream
   template:
     metadata:
       labels:
         app: deepdream
+        component: deepdream
     spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds
       containers:
         - image: registry.hubbe.club/deepdream:latest
-          name: deepdream-api
+          name: api
           envFrom:
             - configMapRef:
                 name: deepdream-rabbit-envs
@@ -81,7 +85,7 @@ spec:
             - name: deepdream-outputs
               mountPath: /opt/deepdream/outputs
         - image: registry.hubbe.club/deepdream:latest
-          name: deepdream-worker
+          name: worker
           command: ["celery", "-A", "tasks", "worker", "--loglevel=INFO", "--concurrency=1"]
           env:
             - name: GLOG_minloglevel

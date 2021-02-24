@@ -5,15 +5,17 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: nextcloud-redis
+      app: redis
+      component: nextcloud
   template:
     metadata:
       labels:
-        app: nextcloud-redis
+        app: redis
+        component: nextcloud
     spec:
       containers:
         - image: docker.io/library/redis:latest
-          name: nextcloud-redis
+          name: redis
           command: ["redis-server"]
           args:
             - "--requirepass"
@@ -51,15 +53,17 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: nextcloud-onlyoffice
+      app: onlyoffice
+      component: nextcloud
   template:
     metadata:
       labels:
-        app: nextcloud-onlyoffice
+        app: onlyoffice
+        component: nextcloud
     spec:
       containers:
         - image: docker.io/onlyoffice/documentserver:6.1.1
-          name: nextcloud-onlyoffice
+          name: onlyoffice
           ports:
             - containerPort: 80
               name: http

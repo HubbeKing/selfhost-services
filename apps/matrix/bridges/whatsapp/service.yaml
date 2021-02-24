@@ -10,3 +10,4 @@ spec:
       name: metrics
   selector:
     app: matrix-whatsapp
+    component: matrix

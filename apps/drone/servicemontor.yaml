@@ -3,8 +3,6 @@ kind: ServiceMonitor
 metadata:
   name: drone
   namespace: monitoring
-  labels:
-    name: drone
 spec:
   endpoints:
     - targetPort: 80
