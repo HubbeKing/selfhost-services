@@ -48,7 +48,13 @@ data:
   proxy-body-size: "16m"
   # set 2-year HSTS headers
   hsts: "true"
+  hsts-include-subdomains: "true"
   hsts-max-age: "63072000"
+  hsts-preload: "true"
+  # enable brotli compression
+  enable-brotli: "true"
+  # enable HTTP/2 support
+  use-http2: "true"
   # enable OCSP stapling (ingress-nginx 0.31.0 addition)
   enable-ocsp: "true"
   # Mozilla Intermediate SSL config
