@@ -19,7 +19,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: docker.io/library/mariadb:10.5.8
+        - image: docker.io/library/mariadb:10.5.9
           name: mariadb
           envFrom:
             - secretRef:
