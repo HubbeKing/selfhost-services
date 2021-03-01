@@ -62,7 +62,7 @@ spec:
         component: nextcloud
     spec:
       containers:
-        - image: docker.io/onlyoffice/documentserver:6.1.1
+        - image: docker.io/onlyoffice/documentserver:6.2.0
           name: onlyoffice
           ports:
             - containerPort: 80
