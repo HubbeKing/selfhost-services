@@ -3,8 +3,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   namespace: drone
   name: drone
-  labels:
-    component: drone-runner
 rules:
   - apiGroups:
       - ""
@@ -31,8 +29,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: drone
   namespace: drone
-  labels:
-    component: drone-runner
 subjects:
   - kind: ServiceAccount
     name: drone
@@ -47,5 +43,3 @@ kind: ServiceAccount
 metadata:
   name: drone
   namespace: drone
-  labels:
-    component: drone-runner

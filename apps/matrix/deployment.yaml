@@ -5,13 +5,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: synapse-admin
-      component: matrix
+      app: matrix
+      component: synapse-admin
   template:
     metadata:
       labels:
-        app: synapse-admin
-        component: matrix
+        app: matrix
+        component: synapse-admin
     spec:
       containers:
         - name: synapse-admin

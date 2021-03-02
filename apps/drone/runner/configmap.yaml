@@ -3,8 +3,6 @@ kind: ConfigMap
 metadata:
   name: runner-policy
   namespace: drone
-  labels:
-    component: drone-runner
 data:
   POLICY: |
     ---

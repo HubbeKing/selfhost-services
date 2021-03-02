@@ -5,14 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: mariadb
-      component: freshrss
+      app: freshrss
+      component: mariadb
   serviceName: freshrss-db
   template:
     metadata:
       labels:
-        app: mariadb
-        component: freshrss
+        app: freshrss
+        component: mariadb
     spec:
       securityContext:
         runAsUser: 1000
@@ -72,7 +72,7 @@ spec:
     matchLabels:
       app: freshrss
       component: freshrss
-  serviceName: freshrss-web
+  serviceName: freshrss
   template:
     metadata:
       labels:

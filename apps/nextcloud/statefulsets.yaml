@@ -5,14 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: mariadb
-      component: nextcloud
+      app: nextcloud
+      component: mariadb
   serviceName: nextcloud-db
   template:
     metadata:
       labels:
-        app: mariadb
-        component: nextcloud
+        app: nextcloud
+        component: mariadb
     spec:
       securityContext:
         runAsUser: 1000

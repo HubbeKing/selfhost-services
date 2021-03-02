@@ -5,14 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: matrix-whatsapp
-      component: matrix
+      app: matrix
+      component: matrix-whatsapp
   serviceName: matrix-whatsapp
   template:
     metadata:
       labels:
-        app: matrix-whatsapp
-        component: matrix
+        app: matrix
+        component: matrix-whatsapp
     spec:
       containers:
         - name: matrix-whatsapp

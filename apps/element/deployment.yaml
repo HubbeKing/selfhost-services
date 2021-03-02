@@ -5,13 +5,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: element-web
-      component: matrix
+      app: matrix
+      component: element-web
   template:
     metadata:
       labels:
-        app: element-web
-        component: matrix
+        app: matrix
+        component: element-web
     spec:
       containers:
         - name: element-web

@@ -6,8 +6,8 @@ spec:
   ports:
     - port: 3306
   selector:
-    app: mariadb
-    component: freshrss
+    app: freshrss
+    component: mariadb
 ---
 apiVersion: v1
 kind: Service

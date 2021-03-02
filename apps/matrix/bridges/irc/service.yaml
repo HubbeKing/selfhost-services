@@ -9,5 +9,5 @@ spec:
     - port: 7001
       name: metrics
   selector:
-    app: matrix-irc
-    component: matrix
+    app: matrix
+    component: matrix-irc

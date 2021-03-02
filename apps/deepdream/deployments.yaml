@@ -5,13 +5,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: rabbitmq
-      component: deepdream
+      app: deepdream
+      component: rabbitmq
   template:
     metadata:
       labels:
-        app: rabbitmq
-        component: deepdream
+        app: deepdream
+        component: rabbitmq
     spec:
       containers:
         - image: docker.io/library/rabbitmq:latest

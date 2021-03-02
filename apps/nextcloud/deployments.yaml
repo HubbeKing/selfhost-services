@@ -5,13 +5,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: redis
-      component: nextcloud
+      app: nextcloud
+      component: redis
   template:
     metadata:
       labels:
-        app: redis
-        component: nextcloud
+        app: nextcloud
+        component: redis
     spec:
       containers:
         - image: docker.io/library/redis:latest
@@ -53,13 +53,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: onlyoffice
-      component: nextcloud
+      app: nextcloud
+      component: onlyoffice
   template:
     metadata:
       labels:
-        app: onlyoffice
-        component: nextcloud
+        app: nextcloud
+        component: onlyoffice
     spec:
       containers:
         - image: docker.io/onlyoffice/documentserver:6.2.0

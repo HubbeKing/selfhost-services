@@ -9,8 +9,8 @@ spec:
     - port: 3000
       targetPort: dashboard
   selector:
-    app: runner
-    component: drone
+    app: drone
+    component: runner
   type: LoadBalancer
 ---
 apiVersion: v1
@@ -23,5 +23,5 @@ spec:
     - port: 5000
       targetPort: secrets-api
   selector:
-    app: runner
-    component: drone
+    app: drone
+    component: runner

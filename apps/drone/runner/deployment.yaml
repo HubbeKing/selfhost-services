@@ -6,13 +6,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: runner
-      component: drone
+      app: drone
+      component: runner
   template:
     metadata:
       labels:
-        app: runner
-        component: drone
+        app: drone
+        component: runner
     spec:
       serviceAccountName: drone
       containers:

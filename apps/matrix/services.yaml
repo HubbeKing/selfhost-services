@@ -6,8 +6,8 @@ spec:
   ports:
     - port: 8008
   selector:
-    app: synapse
-    component: matrix
+    app: matrix
+    component: synapse
 ---
 apiVersion: v1
 kind: Service
@@ -17,8 +17,8 @@ spec:
   ports:
     - port: 5432
   selector:
-    app: postgres
-    component: matrix
+    app: matrix
+    component: postgres
 ---
 apiVersion: v1
 kind: Service
@@ -28,5 +28,5 @@ spec:
   ports:
     - port: 80
   selector:
-    app: synapse-admin
-    component: matrix
+    app: matrix
+    component: synapse-admin

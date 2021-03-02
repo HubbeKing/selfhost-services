@@ -6,8 +6,8 @@ spec:
   ports:
     - port: 3306
   selector:
-    app: mariadb
-    component: nextcloud
+    app: nextcloud
+    component: mariadb
 ---
 apiVersion: v1
 kind: Service
@@ -17,8 +17,8 @@ spec:
   ports:
     - port: 6379
   selector:
-    app: redis
-    component: nextcloud
+    app: nextcloud
+    component: redis
 ---
 apiVersion: v1
 kind: Service
@@ -28,8 +28,8 @@ spec:
   ports:
     - port: 80
   selector:
-    app: onlyoffice
-    component: nextcloud
+    app: nextcloud
+    component: onlyoffice
 ---
 apiVersion: v1
 kind: Service

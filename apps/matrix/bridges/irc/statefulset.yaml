@@ -5,14 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: matrix-irc
-      component: matrix
+      app: matrix
+      component: matrix-irc
   serviceName: matrix-irc
   template:
     metadata:
       labels:
-        app: matrix-irc
-        component: matrix
+        app: matrix
+        component: matrix-irc
     spec:
       containers:
         - name: matrix-irc

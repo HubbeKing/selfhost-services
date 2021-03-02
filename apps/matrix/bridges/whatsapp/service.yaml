@@ -9,5 +9,5 @@ spec:
     - port: 8001
       name: metrics
   selector:
-    app: matrix-whatsapp
-    component: matrix
+    app: matrix
+    component: matrix-whatsapp

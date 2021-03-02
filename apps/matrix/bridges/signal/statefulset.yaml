@@ -5,14 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: matrix-signal
-      component: matrix
+      app: matrix
+      component: matrix-signal
   serviceName: matrix-signal
   template:
     metadata:
       labels:
-        app: matrix-signal
-        component: matrix
+        app: matrix
+        component: matrix-signal
     spec:
       containers:
         # this is not really necessary, since mautrix will just retry... but learning is its own reward.

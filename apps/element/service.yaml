@@ -6,5 +6,5 @@ spec:
   ports:
     - port: 80
   selector:
-    app: element-web
-    component: matrix
+    app: matrix
+    component: element-web

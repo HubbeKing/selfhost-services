@@ -9,5 +9,5 @@ spec:
     - port: 8000
       name: metrics
   selector:
-    app: matrix-signal
-    component: matrix
+    app: matrix
+    component: matrix-signal
