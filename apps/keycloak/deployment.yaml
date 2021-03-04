@@ -16,6 +16,8 @@ spec:
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:12.0.4
+          args:
+            - "-Dkeycloak.profile.feature.docker=enabled"
           envFrom:
             - secretRef:
                 name: keycloak-envs
