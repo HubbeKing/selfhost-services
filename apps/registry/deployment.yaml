@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: registry-ui
 spec:
+  replicas: 0   # for now, docker-registry-ui does not support token auth
   selector:
     matchLabels:
       app: registry
@@ -68,11 +69,19 @@ spec:
               value: "true"
             - name: REGISTRY_HTTP_DEBUG_ADDR
               value: "0.0.0.0:6969"
+            - name: REGISTRY_AUTH_TOKEN_REALM
+              value: "https://keycloak.hubbe.club/auth/realms/master/protocol/docker-v2/auth"
+            - name: REGISTRY_AUTH_TOKEN_SERVICE
+              value: "registry-hubbe-club"
+            - name: REGISTRY_AUTH_TOKEN_ISSUER
+              value: "https://keycloak.hubbe.club/auth/realms/master"
+            - name: REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE
+              value: "/certs/keycloak-cert-bundle.pem"
           ports:
-          - containerPort: 5000
-            name: http
-          - containerPort: 6969
-            name: healthcheck
+            - containerPort: 5000
+              name: http
+            - containerPort: 6969
+              name: healthcheck
           readinessProbe:
             httpGet:
               path: /debug/health
@@ -87,9 +96,14 @@ spec:
               cpu: 150m
               memory: 128Mi
           volumeMounts:
-          - name: image-store
-            mountPath: "/var/lib/registry"
+            - name: image-store
+              mountPath: "/var/lib/registry"
+            - name: certs
+              mountPath: /certs
       volumes:
         - name: image-store
           persistentVolumeClaim:
             claimName: registry-image-store
+        - name: certs
+          secret:
+            secretName: registry-cert-bundle

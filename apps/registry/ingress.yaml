@@ -6,15 +6,12 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-    nginx.ingress.kubernetes.io/auth-type: basic
-    nginx.ingress.kubernetes.io/auth-secret: registry-htpasswd
-    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - Private Registry"
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "http://192.168.1.9"
-    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-    nginx.ingress.kubernetes.io/cors-allow-methods: "HEAD, GET, OPTIONS, DELETE"
-    nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Accept"
-    nginx.ingress.kubernetes.io/cors-expose-headers: "Docker-Content-Digest"
+#    nginx.ingress.kubernetes.io/enable-cors: "true"
+#    nginx.ingress.kubernetes.io/cors-allow-origin: "http://192.168.1.9"
+#    nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+#    nginx.ingress.kubernetes.io/cors-allow-methods: "HEAD, GET, OPTIONS, DELETE"
+#    nginx.ingress.kubernetes.io/cors-allow-headers: "Authorization, Accept"
+#    nginx.ingress.kubernetes.io/cors-expose-headers: "Docker-Content-Digest"
 spec:
   ingressClassName: nginx
   tls:
