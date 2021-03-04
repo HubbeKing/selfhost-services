@@ -13,6 +13,7 @@ spec:
         app: keycloak
         component: keycloak
     spec:
+      priorityClassName: high-priority
       containers:
         - name: keycloak
           image: quay.io/keycloak/keycloak:12.0.4
@@ -55,6 +56,7 @@ spec:
         app: keycloak
         component: oauth2-proxy
     spec:
+      priorityClassName: high-priority
       containers:
         - name: oauth2-proxy
           image: quay.io/oauth2-proxy/oauth2-proxy:v7.0.1
@@ -103,6 +105,7 @@ spec:
         app: keycloak
         component: redis
     spec:
+      priorityClassName: high-priority
       containers:
         - image: docker.io/library/redis:latest
           name: redis
