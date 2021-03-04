@@ -82,3 +82,39 @@ spec:
         - name: config
           secret:
             secretName: oauth2-proxy-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-proxy-redis
+spec:
+  selector:
+    matchLabels:
+      app: keycloak
+      component: redis
+  template:
+    metadata:
+      labels:
+        app: keycloak
+        component: redis
+    spec:
+      containers:
+        - image: docker.io/library/redis:latest
+          name: redis
+          ports:
+            - containerPort: 6379
+              name: redis
+          readinessProbe:
+            exec:
+              command:
+                - "redis-cli"
+                - "ping"
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 250m
+              memory: 250Mi

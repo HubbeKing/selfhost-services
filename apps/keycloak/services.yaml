@@ -44,3 +44,14 @@ spec:
   selector:
     app: keycloak
     component: oauth2-proxy
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oauth2-proxy-redis
+spec:
+  ports:
+    - port: 6379
+  selector:
+    app: keycloak
+    component: redis
