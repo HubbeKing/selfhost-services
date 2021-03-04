@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+spec:
+  selector:
+    matchLabels:
+      app: keycloak
+      component: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+        component: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:12.0.4
+          envFrom:
+            - secretRef:
+                name: keycloak-envs
+          ports:
+            - containerPort: 8080
+              name: http
+            - containerPort: 8443
+              name: https
+          readinessProbe:
+            httpGet:
+              path: /auth/realms/master
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-proxy
+spec:
+  selector:
+    matchLabels:
+      app: keycloak
+      component: oauth2-proxy
+  template:
+    metadata:
+      labels:
+        app: keycloak
+        component: oauth2-proxy
+    spec:
+      containers:
+        - name: oauth2-proxy
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.0.1
+          command: [ "/bin/oauth2-proxy", "--config", "/config/oauth2-proxy.cfg" ]
+          ports:
+            - containerPort: 4180
+              name: http
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 4180
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          volumeMounts:
+            - mountPath: /config
+              name: config
+      volumes:
+        - name: config
+          secret:
+            secretName: oauth2-proxy-config

@@ -2,11 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: resilio-sync
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://login.hubbe.club/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://login.hubbe.club/oauth2/start?rd=https://$host$request_uri"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - sync.hubbe.club  
+      - sync.hubbe.club
   rules:
     - host: sync.hubbe.club
       http:

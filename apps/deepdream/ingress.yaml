@@ -11,7 +11,7 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - deepdream.hubbe.club  
+      - deepdream.hubbe.club
   rules:
     - host: deepdream.hubbe.club
       http:

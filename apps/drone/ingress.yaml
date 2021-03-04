@@ -7,7 +7,7 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - drone.hubbe.club  
+      - drone.hubbe.club
   rules:
     - host: drone.hubbe.club
       http:

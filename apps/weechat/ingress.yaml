@@ -11,7 +11,7 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - weechat.hubbe.club  
+      - weechat.hubbe.club
   rules:
     - host: weechat.hubbe.club
       http:
