@@ -13,7 +13,7 @@ spec:
         app: jackett
     spec:
       containers:
-        - image: ghcr.io/linuxserver/jackett:version-v0.17.532
+        - image: ghcr.io/linuxserver/jackett:latest
           name: jackett
           envFrom:
             - configMapRef:
