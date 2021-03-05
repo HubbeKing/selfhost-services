@@ -466,7 +466,7 @@ data:
     storage-over-provisioning-percentage: 200
     storage-minimal-available-percentage: 15
     upgrade-checker: true
-    default-replica-count: 3
+    default-replica-count: 2
     default-data-locality: "best-effort"
     guaranteed-engine-cpu: 0.25
     default-longhorn-static-storage-class: longhorn
@@ -566,7 +566,7 @@ data:
     reclaimPolicy: Retain
     volumeBindingMode: Immediate
     parameters:
-      numberOfReplicas: "3"
+      numberOfReplicas: "2"
       dataLocality: "best-effort"
       staleReplicaTimeout: "2880"
       recurringJobs: '[
