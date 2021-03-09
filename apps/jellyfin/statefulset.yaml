@@ -12,7 +12,7 @@ spec:
       labels:
         app: jellyfin
     spec:
-      # prefer to be scheduled on galactica, as it has more CPU/iGPU power than valkyrie/pegasus
+      # prefer to be scheduled on galactica, as it has a full desktop-grade CPU/iGPU
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -28,7 +28,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: docker.io/jellyfin/jellyfin:10.6.4
+        - image: docker.io/jellyfin/jellyfin:10.7.0
           name: jellyfin
           ports:
             - containerPort: 8096
