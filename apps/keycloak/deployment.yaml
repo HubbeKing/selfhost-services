@@ -18,7 +18,8 @@ spec:
         - name: keycloak
           image: quay.io/keycloak/keycloak:12.0.4
           args:
-            - "-Dkeycloak.profile.feature.docker=enabled"
+            - "-Dkeycloak.profile.feature.docker=enabled"   # enable Docker token auth protocol
+            - "-Dkeycloak.profile.feature.script=enabled"   # allow custom JS authentication flows
           envFrom:
             - secretRef:
                 name: keycloak-envs
