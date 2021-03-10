@@ -37,8 +37,10 @@ spec:
             httpGet:
               path: /web/index.html
               port: 8096
-            initialDelaySeconds: 10
-            periodSeconds: 15
+            failureThreshold: 5
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 3
           resources:
             requests:
               # request small amount of CPU to prevent latency when node is under load from other work
