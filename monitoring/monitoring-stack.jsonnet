@@ -3,8 +3,8 @@ local kp =
   (import 'kube-prometheus/kube-prometheus-anti-affinity.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-kubeadm.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-strip-limits.libsonnet') +
-  // add LoadBalancer spec to services
-  (import 'addons/loadbalancers.jsonnet') +
+  // add ingress definitions
+  (import 'addons/ingress.jsonnet') +
   // override some resource requests & limits
   (import 'addons/resources.jsonnet') +
   {
@@ -45,4 +45,5 @@ local kp =
 { ['alertmanager-' + name]: kp.alertmanager[name] for name in std.objectFields(kp.alertmanager) } +
 { ['prometheus-' + name]: kp.prometheus[name] for name in std.objectFields(kp.prometheus) } +
 { ['prometheus-adapter-' + name]: kp.prometheusAdapter[name] for name in std.objectFields(kp.prometheusAdapter) } +
-{ ['grafana-' + name]: kp.grafana[name] for name in std.objectFields(kp.grafana) }
+{ ['grafana-' + name]: kp.grafana[name] for name in std.objectFields(kp.grafana) } +
+{ ['ingress-' + name]: kp.ingress[name] for name in std.objectFields(kp.ingress) }
