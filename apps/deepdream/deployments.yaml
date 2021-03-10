@@ -59,6 +59,14 @@ spec:
       containers:
         - image: registry.hubbe.club/deepdream:latest
           name: api
+          env:
+            - name: DEEPDREAM_OIDC_CLIENT_SECRETS_FILE
+              value: /secrets/client_secrets.json
+            - name: FLASK_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: deepdream-envs
+                  key: FLASK_SECRET_KEY
           envFrom:
             - configMapRef:
                 name: deepdream-rabbit-envs
@@ -84,6 +92,8 @@ spec:
               mountPath: /opt/deepdream/inputs
             - name: deepdream-outputs
               mountPath: /opt/deepdream/outputs
+            - name: secrets
+              mountPath: /secrets
         - image: registry.hubbe.club/deepdream:latest
           name: worker
           command: ["celery", "-A", "tasks", "worker", "--loglevel=INFO", "--concurrency=1"]
@@ -118,6 +128,9 @@ spec:
             - name: deepdream-outputs
               mountPath: /opt/deepdream/outputs
       volumes:
+        - name: secrets
+          secret:
+            secretName: deepdream-oidc
         - name: deepdream-inputs
           emptyDir: {}
         - name: deepdream-outputs

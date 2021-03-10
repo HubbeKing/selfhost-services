@@ -4,9 +4,6 @@ metadata:
   name: deepdream
   annotations:
     nginx.ingress.kubernetes.io/app-root: /upload
-    nginx.ingress.kubernetes.io/auth-type: basic
-    nginx.ingress.kubernetes.io/auth-secret: deepdream-auth
-    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - Deepdream Service"
 spec:
   ingressClassName: nginx
   tls:
