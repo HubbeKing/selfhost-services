@@ -28,12 +28,12 @@ spec:
             - containerPort: 8008
               name: http
           resources:
-            limits:
-              cpu: 1000m
-              memory: 1Gi
             requests:
               cpu: 250m
               memory: 250Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
           volumeMounts:
             - mountPath: /data
               name: matrix-synapse-config
@@ -94,12 +94,12 @@ spec:
             - containerPort: 5432
               name: postgres
           resources:
-            limits:
-              cpu: 500m
-              memory: 1Gi
             requests:
               cpu: 250m
               memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: data

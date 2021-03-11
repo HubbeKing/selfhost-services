@@ -31,6 +31,13 @@ spec:
               port: 389
             initialDelaySeconds: 5
             periodSeconds: 15
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
           volumeMounts:
             - mountPath: /var/lib/ldap
               name: data

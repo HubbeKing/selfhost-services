@@ -70,6 +70,12 @@ spec:
           ports:
             - containerPort: 4180
               name: http
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 4180
+            initialDelaySeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: 50m
@@ -77,12 +83,6 @@ spec:
             limits:
               cpu: 250m
               memory: 256Mi
-          readinessProbe:
-            httpGet:
-              path: /ping
-              port: 4180
-            initialDelaySeconds: 5
-            periodSeconds: 15
           volumeMounts:
             - mountPath: /config
               name: config
