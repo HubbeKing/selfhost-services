@@ -54,7 +54,8 @@ sudo systemctl enable --now crio
 sudo apt-get update
 
 # install iSCSI initiator, so that we can mount iSCSI targets as volumes
-sudo apt-get install open-iscsi -y
+# install NFS client, so we can mount NFS shares as volumes
+sudo apt-get install open-iscsi nfs-common -y
 
 # install kubeadm, kubelet, and kubectl
 sudo apt-get install -y apt-transport-https curl
