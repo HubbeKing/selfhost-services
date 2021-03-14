@@ -1,69 +1,6 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: openldap
-spec:
-  selector:
-    matchLabels:
-      app: keycloak
-      component: openldap
-  serviceName: openldap
-  template:
-    metadata:
-      labels:
-        app: keycloak
-        component: openldap
-    spec:
-      priorityClassName: high-priority
-      containers:
-        - name: openldap
-          image: docker.io/osixia/openldap:1.5.0
-          envFrom:
-            - secretRef:
-                name: openldap-envs
-          ports:
-            - containerPort: 389
-              name: ldap
-            - containerPort: 636
-              name: ldaps
-          readinessProbe:
-            tcpSocket:
-              port: 389
-            initialDelaySeconds: 5
-            periodSeconds: 15
-          resources:
-            requests:
-              cpu: 100m
-              memory: 128Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
-          volumeMounts:
-            - mountPath: /var/lib/ldap
-              name: data
-            - mountPath: /etc/ldap/slapd.d
-              name: config
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
-        storageClassName: longhorn
-    - metadata:
-        name: config
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
-        storageClassName: longhorn
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
   name: keycloak-db
 spec:
   selector:
