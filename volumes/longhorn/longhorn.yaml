@@ -466,9 +466,9 @@ data:
     storage-over-provisioning-percentage: 200
     storage-minimal-available-percentage: 15
     upgrade-checker: true
-    default-replica-count: 2
+    default-replica-count: 3
     default-data-locality: "best-effort"
-    guaranteed-engine-cpu: 0.25
+    guaranteed-engine-cpu: 0.5
     default-longhorn-static-storage-class: longhorn
     backupstore-poll-interval: 300
     taint-toleration:
@@ -566,7 +566,7 @@ data:
     reclaimPolicy: Retain
     volumeBindingMode: Immediate
     parameters:
-      numberOfReplicas: "2"
+      numberOfReplicas: "3"
       dataLocality: "best-effort"
       staleReplicaTimeout: "2880"
       recurringJobs: '[
@@ -723,8 +723,7 @@ metadata:
   name: longhorn-frontend
   namespace: longhorn-system
 spec:
-  type: LoadBalancer
-  loadBalancerIP: 192.168.1.6
+  type: ClusterIP
   selector:
     app: longhorn-ui
   ports:

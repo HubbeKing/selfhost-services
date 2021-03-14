@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "https://login.hubbe.club/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://login.hubbe.club/oauth2/start?rd=https://$host$request_uri"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - longhorn.hubbe.club
+  rules:
+    - host: longhorn.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: longhorn-frontend
+                port:
+                  number: 80
