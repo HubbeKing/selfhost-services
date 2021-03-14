@@ -39,19 +39,16 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/ldap
               name: data
+              subPath: ldap
             - mountPath: /etc/ldap/slapd.d
-              name: config
+              name: data
+              subPath: slapd
+            - mountPath: /container/service/slapd/assets/certs
+              name: data
+              subPath: certs
   volumeClaimTemplates:
     - metadata:
         name: data
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
-        storageClassName: longhorn
-    - metadata:
-        name: config
       spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
