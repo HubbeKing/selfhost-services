@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   name: openldap
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: openldap
@@ -12,10 +13,29 @@ spec:
       labels:
         app: openldap
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - openldap
       priorityClassName: high-priority
       containers:
         - name: openldap
           image: docker.io/osixia/openldap:1.5.0
+          env:
+            - name: LDAP_REPLICATION
+              value: 'true'
+            - name: LDAP_REPLICATION_CONFIG_SYNCPROV
+              value: 'binddn="cn=admin,cn=config" bindmethod=simple credentials=$LDAP_CONFIG_PASSWORD searchbase="cn=config" type=refreshAndPersist retry="60 +" timeout=1'
+            - name: LDAP_REPLICATION_DB_SYNCPROV
+              value: 'binddn="cn=admin,$LDAP_BASE_DN" bindmethod=simple credentials=$LDAP_ADMIN_PASSWORD searchbase="$LDAP_BASE_DN" type=refreshAndPersist interval=00:00:00:10 retry="60 +" timeout=1'
+            - name: LDAP_REPLICATION_HOSTS
+              value: '#PYTHON2BASH:["ldap://openldap-0.openldap.default.svc.cluster.local","ldap://openldap-1.openldap.default.svc.cluster.local","ldap://openldap-2.openldap.default.svc.cluster.local"]'
           envFrom:
             - secretRef:
                 name: openldap-envs
