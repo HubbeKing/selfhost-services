@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: matrix-irc
-          image: docker.io/matrixdotorg/matrix-appservice-irc:release-0.24.0
+          image: docker.io/matrixdotorg/matrix-appservice-irc:release-0.25.0
           ports:
             - containerPort: 9999
               name: appservice
