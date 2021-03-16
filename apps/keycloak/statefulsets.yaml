@@ -1,0 +1,129 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: keycloak
+spec:
+  replicas: 2
+  serviceName: keycloak-headless
+  selector:
+    matchLabels:
+      app: keycloak
+      component: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+        component: keycloak
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - keycloak
+                  - key: component
+                    operator: In
+                    values:
+                      - keycloak
+      priorityClassName: high-priority
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:12.0.4
+          args:
+            - "-Dkeycloak.profile.feature.docker=enabled"   # enable Docker token auth protocol
+            - "-Dkeycloak.profile.feature.script=enabled"   # allow custom JS authentication flows
+          env:
+            # keycloak clustering using DNS_PING
+            - name: JGROUPS_DISCOVERY_PROTOCOL
+              value: dns.DNS_PING
+            - name: JGROUPS_DISCOVERY_PROPERTIES
+              value: dns_query=keycloak-headless.default.svc.cluster.local
+          envFrom:
+            - secretRef:
+                name: keycloak-envs
+          ports:
+            - containerPort: 7060
+              name: jgroups
+            - containerPort: 8080
+              name: http
+            - containerPort: 8443
+              name: https
+          readinessProbe:
+            httpGet:
+              path: /auth/realms/master
+              port: 8080
+            initialDelaySeconds: 90
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: keycloak-db
+spec:
+  selector:
+    matchLabels:
+      app: keycloak
+      component: mariadb
+  serviceName: keycloak-db
+  template:
+    metadata:
+      labels:
+        app: keycloak
+        component: mariadb
+    spec:
+      priorityClassName: high-priority
+      containers:
+        - image: docker.io/library/mariadb:10.5.9
+          name: mariadb
+          envFrom:
+            - secretRef:
+                name: keycloak-db-envs
+          livenessProbe:
+            exec:
+              command:
+                - bash
+                - "-c"
+                - "mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ping"
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          ports:
+            - containerPort: 3306
+              name: mysql
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - "-c"
+                - "mysql --host=localhost --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'"
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn

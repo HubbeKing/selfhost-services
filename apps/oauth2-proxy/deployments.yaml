@@ -67,7 +67,7 @@ kind: Deployment
 metadata:
   name: oauth2-proxy-redis
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: oauth2-proxy
