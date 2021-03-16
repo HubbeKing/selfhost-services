@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: oauth2-proxy
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: oauth2-proxy
@@ -13,6 +14,20 @@ spec:
         app: oauth2-proxy
         component: oauth2-proxy
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - oauth2-proxy
+                  - key: component
+                    operator: In
+                    values:
+                      - oauth2-proxy
       priorityClassName: high-priority
       containers:
         - name: oauth2-proxy
@@ -52,6 +67,7 @@ kind: Deployment
 metadata:
   name: oauth2-proxy-redis
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: oauth2-proxy
@@ -62,6 +78,20 @@ spec:
         app: oauth2-proxy
         component: redis
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - oauth2-proxy
+                  - key: component
+                    operator: In
+                    values:
+                      - redis
       priorityClassName: high-priority
       containers:
         - image: docker.io/library/redis:latest
