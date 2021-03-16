@@ -5,6 +5,8 @@ metadata:
   annotations:
     # upstream https
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    # sticky sessions, to let login work properly when replicas>1
+    nginx.ingress.kubernetes.io/affinity: "cookie"
 spec:
   ingressClassName: nginx
   tls:
