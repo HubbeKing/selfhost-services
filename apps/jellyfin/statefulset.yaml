@@ -27,6 +27,16 @@ spec:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
+      # tolerate taint on dedicated:video nodes, which are for serving/transcoding video
+      tolerations:
+        - key: dedicated
+          operator: Equal
+          value: video
+          effect: NoSchedule
+        - key: dedicated
+          operator: Equal
+          value: video
+          effect: NoExecute
       containers:
         - image: docker.io/jellyfin/jellyfin:10.7.0
           name: jellyfin

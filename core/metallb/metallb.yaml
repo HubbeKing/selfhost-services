@@ -338,9 +338,12 @@ spec:
         kubernetes.io/os: linux
       serviceAccountName: speaker
       terminationGracePeriodSeconds: 2
+      # ensure speaker is scheduled on all nodes
       tolerations:
       - effect: NoSchedule
-        key: node-role.kubernetes.io/master
+        operator: Exists
+      - effect: NoExecute
+        operator: Exists
 ---
 apiVersion: apps/v1
 kind: Deployment
