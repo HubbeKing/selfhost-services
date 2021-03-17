@@ -471,8 +471,8 @@ data:
     guaranteed-engine-cpu: 0.5
     default-longhorn-static-storage-class: longhorn
     backupstore-poll-interval: 300
-    taint-toleration:
-    priority-class:
+    taint-toleration: "dedicated=video:NoSchedule; dedicated=video:NoExecute"
+    priority-class: "high-priority"
     auto-salvage: true
     auto-delete-pod-when-volume-detached-unexpectedly: true
     disable-scheduling-on-cordoned-node: true
