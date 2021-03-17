@@ -93,6 +93,14 @@ spec:
           ports:
             - containerPort: 5432
               name: postgres
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - "-c"
+                - "pg_isready -U synapse -d synapse"
+            initialDelaySeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: 250m
