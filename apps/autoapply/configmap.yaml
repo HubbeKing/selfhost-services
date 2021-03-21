@@ -7,6 +7,10 @@ data:
     #!/bin/bash
     # import a gpg key with passphrase from a mounted file/secret
     gpg --batch --import --passphrase ${GPG_PASSPHRASE} /gpg.key
+    # sign a dummy file to unlock GPG key, as SOPS cannot do it by itself
+    echo ${GPG_PASSPHRASE} > key.txt
+    touch dummy.txt
+    gpg --batch --yes --passphrase-file key.txt --pinentry-mode=loopback -s dummy.txt
     # proxy the kubernetes API to localhost so we can apply manifests
     kubectl proxy &
     # clone manifests
