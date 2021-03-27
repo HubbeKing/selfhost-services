@@ -12,10 +12,27 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: oauth2-proxy-redis
+  name: oauth2-proxy-redis-primary
 spec:
   ports:
     - port: 6379
+      name: redis
+    - port: 26379
+      name: sentinel
   selector:
     app: oauth2-proxy
-    component: redis
+    component: redis-primary
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: oauth2-proxy-redis-secondary
+spec:
+  ports:
+    - port: 6379
+      name: redis
+    - port: 26379
+      name: sentinel
+  selector:
+    app: oauth2-proxy
+    component: redis-secondary

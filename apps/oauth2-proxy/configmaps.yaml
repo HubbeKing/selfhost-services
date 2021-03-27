@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-scripts
+data:
+  redis-primary.sh: redis-server /configs/redis.conf --cluster-announce-ip $POD_IP --cluster-announce-port 26379
+  # sentinel monitor syntax: --sentinel monitor PRIMARY_NAME PRIMARY_HOST_NAME_OR_IP REDIS_PORT QUORUM
+  # QUORUM is the number of sentinels that need to agree that the primary is down in order to promote a secondary
+  sentinel-primary.sh: redis-server /configs/sentinel.conf --sentinel announce-ip $POD_IP --sentinel monitor oauth2-proxy $POD_IP 6379 2
+  redis-secondary.sh: redis-server /configs/redis.conf --replica-announce-ip $POD_IP --replicaof oauth2-proxy-redis-primary 6379
+  sentinel-secondary.sh: redis-server /configs/sentinel.conf --sentinel announce-ip $POD_IP --sentinel monitor oauth2-proxy oauth2-proxy-redis-primary 6379 2
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-configs
+data:
+  # minimal configs, copied into writeable emptyDir volume by initContainer
+  # (redis-sentinel does not start without a writeable config file)
+  redis.conf: |
+    bind 0.0.0.0
+    port 6379
+    protected-mode no
+  sentinel.conf: |
+    bind 0.0.0.0
+    port 26379
+    protected-mode no
+    sentinel announce-port 26379
+    sentinel down-after-milliseconds oauth2-proxy 5000
+    sentinel parallel-syncs oauth2-proxy 1
+    sentinel failover-timeout oauth2-proxy 180000
+    sentinel resolve-hostnames yes
