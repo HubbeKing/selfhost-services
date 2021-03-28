@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-proxy
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      app: oauth2-proxy
+      component: proxy
+  template:
+    metadata:
+      labels:
+        app: oauth2-proxy
+        component: proxy
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - oauth2-proxy
+                  - key: component
+                    operator: In
+                    values:
+                      - proxy
+      priorityClassName: high-priority
+      containers:
+        - name: oauth2-proxy
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.1.0
+          command:
+            - "/bin/oauth2-proxy"
+            - "--config"
+            - "/config/oauth2-proxy.cfg"
+            - "--allowed-group"     # keycloak admins groups
+            - "/admins"
+          ports:
+            - containerPort: 4180
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 4180
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /config
+              name: config
+      volumes:
+        - name: config
+          secret:
+            secretName: oauth2-proxy-config

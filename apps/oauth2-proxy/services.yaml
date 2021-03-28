@@ -7,13 +7,14 @@ spec:
     - port: 4180
   selector:
     app: oauth2-proxy
-    component: oauth2-proxy
+    component: proxy
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: oauth2-proxy-redis-primary
+  name: oauth2-redis
 spec:
+  clusterIP: None
   ports:
     - port: 6379
       name: redis
@@ -21,18 +22,4 @@ spec:
       name: sentinel
   selector:
     app: oauth2-proxy
-    component: redis-primary
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: oauth2-proxy-redis-secondary
-spec:
-  ports:
-    - port: 6379
-      name: redis
-    - port: 26379
-      name: sentinel
-  selector:
-    app: oauth2-proxy
-    component: redis-secondary
+    component: redis

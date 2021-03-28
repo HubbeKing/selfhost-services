@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: oauth2-redis
+spec:
+  replicas: 3
+  serviceName: oauth2-redis
+  selector:
+    matchLabels:
+      app: oauth2-proxy
+      component: redis
+  template:
+    metadata:
+      labels:
+        app: oauth2-proxy
+        component: redis
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - oauth2-proxy
+                  - key: component
+                    operator: In
+                    values:
+                      - redis
+      priorityClassName: high-priority
+      initContainers:
+        - image: docker.io/library/busybox:stable
+          name: configmap-copier
+          command: ["/bin/sh", "-c", "cp -L /readonly/* /configs/"]
+          volumeMounts:
+            - mountPath: /readonly
+              name: redis-configs
+            - mountPath: /configs
+              name: redis-config-rw
+      containers:
+        - image: docker.io/library/redis:6.2.1
+          name: redis
+          command: ["/bin/sh", "/scripts/startup.sh", "redis"]
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          ports:
+            - containerPort: 6379
+              name: redis
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 250m
+              memory: 250Mi
+          volumeMounts:
+            - mountPath: /scripts
+              name: redis-scripts
+            - mountPath: /configs
+              name: redis-config-rw
+        - image: docker.io/library/redis:6.2.1
+          name: sentinel
+          command: ["/bin/sh", "/scripts/startup.sh", "sentinel"]
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          ports:
+            - containerPort: 26379
+              name: sentinel
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 250m
+              memory: 250Mi
+          volumeMounts:
+            - mountPath: /scripts
+              name: redis-scripts
+            - mountPath: /configs
+              name: redis-config-rw
+      volumes:
+        - name: redis-scripts
+          configMap:
+            name: redis-scripts
+            defaultMode: 0755
+        - name: redis-configs
+          configMap:
+            name: redis-configs
+        - name: redis-config-rw
+          emptyDir: {}
