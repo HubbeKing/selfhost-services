@@ -1,5 +1,6 @@
 # Control Plane load-balancer as static pods
 https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md#kube-vip
+
 https://kube-vip.io/hybrid/static/
 
 1. Generate node-specific `kube-vip.yaml` file for each control-plane node
