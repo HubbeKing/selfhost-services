@@ -11,14 +11,18 @@ export OS=$OS
 # make sure overlay module is loaded
 if [ ! `lsmod | grep -o ^overlay` ]; then
   sudo modprobe overlay
-  echo 'overlay' | sudo tee /etc/modules-load.d/99-overlay
 fi
 
 # make sure br_netfilter module is loaded
 if [ ! `lsmod | grep -o ^br_netfilter` ]; then
   sudo modprobe br_netfilter
-  echo 'br_netfilter' | sudo tee /etc/modules-load.d/99-br-netfilter
 fi
+
+# set up modules-load file for them
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+overlay
+EOF
 
 # set required sysctl params
 # rp_filter=1 enables strict kernel source address verification
