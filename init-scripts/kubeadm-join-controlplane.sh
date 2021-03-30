@@ -3,26 +3,29 @@ set -e
 
 if [ $# -eq 0 ]; then
     # no arguments provided
-    echo "Usage: kubeadm-join-controlplane.sh user@host - Joins the specified host to the control plane of this k8s cluster using kubeadm join."
-    echo "User must have ssh login and sudo access on host."
+    echo "Usage: kubeadm-join-controlplane.sh user@host [user@host] [user@host]... - Joins the specified host(s) to the control plane of this k8s cluster using kubeadm join."
+    echo "User(s) must have ssh login and sudo access on host(s)."
     echo "Script should be run from an existing control-plane kubeadm node."
     exit 1
 fi
 
-HOST="$1"
-echo "Will join $HOST to the current k8s control plane."
+for host in "$@"
+do
+    echo "Preparing $host for kubeadm join..."
+    # ensure required packages are installed and using proper settings
+    echo "Copying install script..."
+    scp INSTALL_SETTINGS $host:/tmp/
+    scp install-prereqs.sh $host:/tmp/
+    ssh -t $host "sed -i 's|INSTALL_SETTINGS|/tmp/INSTALL_SETTINGS|' /tmp/install-prereqs.sh"
+    echo "Installing required packages..."
+    ssh -t $host /tmp/install-prereqs.sh
+    # ensure kubelet service is enabled
+    echo "Enabling kubelet systemd service..."
+    ssh -t $host sudo systemctl enable kubelet.
+    echo "$host ready for kubeadm join."
+done
 
-# ensure required packages are installed and using proper settings
-echo "Copying install script to target host..."
-scp INSTALL_SETTINGS $HOST:/tmp/
-scp install-prereqs.sh $HOST:/tmp/
-ssh -t $HOST "sed -i 's|INSTALL_SETTINGS|/tmp/INSTALL_SETTINGS|' /tmp/install-prereqs.sh"
-echo "Installing prereqs on target host..."
-ssh -t $HOST /tmp/install-prereqs.sh
-
-# ensure kubelet service is enabled
-echo "Enabling kubelet systemd service on target host..."
-ssh -t $HOST sudo systemctl enable kubelet.service
+echo "All nodes ready for join."
 
 # generate certificate key and run upload-certs phase of init using this key
 echo "Generating certificate key and uploading certificates..."
@@ -33,6 +36,9 @@ sudo kubeadm init phase upload-certs --upload-certs --certificate-key $CERT_KEY
 echo "Generating join token..."
 JOIN_CMD=$(kubeadm token create --print-join-command)
 
-# use token and cert key to join node as a control-plane node
-echo "Joining target host to k8s control plane using kubeadm join..."
-ssh -t $HOST sudo $JOIN_CMD --control-plane --certificate-key $CERT_KEY
+for host in "$@"
+do
+    # use token and cert key to join node as a control-plane node
+    echo "Joining $host to k8s control plane using kubeadm join..."
+    ssh -t $host sudo $JOIN_CMD --control-plane --certificate-key $CERT_KEY
+done
