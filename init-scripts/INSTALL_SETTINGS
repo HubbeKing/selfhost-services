@@ -19,4 +19,4 @@ K8S_SERVICE_CIDR=10.96.0.0/12
 # uncomment and set this if stacked control plane HA setup is desired
 # see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
 # for control-plane loadbalancer options, see https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md
-#CONTROL_PLANE_ENDPOINT=apiserver.lan:8443
+#CONTROL_PLANE_ENDPOINT=apiserver.lan:6443

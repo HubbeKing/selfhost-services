@@ -11,12 +11,6 @@ fi
 
 HOST="$1"
 echo "Will join $HOST to the current k8s control plane."
-echo "Uploading CA certificates and calculating key SHA256 digest..."
-kubeadm init phase upload-certs --upload-certs  # this also generates a new cert key, which we need, as keys expire after 2 hours
-CA_CERT_KEY=$(openssl x509 -in /etc/kubernetes/pki/ca.crt -pubkey -noout | openssl pkey -pubin -outform DER | openssl dgst -sha256)
-
-echo "Generating join token..."
-JOIN_CMD=$(kubeadm token create --print-join-command)
 
 # ensure required packages are installed and using proper settings
 echo "Copying install script to target host..."
@@ -30,5 +24,15 @@ ssh -t $HOST /tmp/install-prereqs.sh
 echo "Enabling kubelet systemd service on target host..."
 ssh -t $HOST sudo systemctl enable kubelet.service
 
+# generate certificate key and run upload-certs phase of init using this key
+echo "Generating certificate key and uploading certificates..."
+CERT_KEY=$(kubeadm certs certificate-key)
+sudo kubeadm init phase upload-certs --upload-certs --certificate-key $CERT_KEY
+
+# generate a token for joining the cluster
+echo "Generating join token..."
+JOIN_CMD=$(kubeadm token create --print-join-command)
+
+# use token and cert key to join node as a control-plane node
 echo "Joining target host to k8s control plane using kubeadm join..."
-ssh -t $HOST sudo $JOIN_CMD --control-plane --certificate-key $CA_CERT_KEY
+ssh -t $HOST sudo $JOIN_CMD --control-plane --certificate-key $CERT_KEY
