@@ -19,14 +19,3 @@ spec:
   selector:
     app: matrix
     component: postgres
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: synapse-admin
-spec:
-  ports:
-    - port: 80
-  selector:
-    app: matrix
-    component: synapse-admin
