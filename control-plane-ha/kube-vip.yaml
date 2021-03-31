@@ -31,7 +31,7 @@ spec:
       value: "1"
     - name: vip_address
       value: 192.168.1.100
-    image: plndr/kube-vip:0.3.2
+    image: docker.io/plndr/kube-vip:0.3.2
     imagePullPolicy: Always
     name: kube-vip
     resources: {}
