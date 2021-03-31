@@ -30,14 +30,22 @@ spec:
         # TODO use feature.node.kubernetes.io/pci-0300_8086.present: "true" as a nodeSelector
         kubernetes.io/arch: amd64
         kubernetes.io/os: linux
+      initContainers:
+        - name: intel-gpu-initcontainer
+          image: intel/intel-gpu-initcontainer:0.20.0
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - mountPath: /etc/kubernetes/node-feature-discovery/source.d/
+              name: nfd-source-hooks
       containers:
         - name: intel-gpu-plugin
+          image: docker.io/intel/intel-gpu-plugin:0.20.0
           env:
             - name: NODE_NAME
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-          image: intel/intel-gpu-plugin:0.19.0
           securityContext:
             readOnlyRootFilesystem: true
           volumeMounts:
