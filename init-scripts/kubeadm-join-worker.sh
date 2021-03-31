@@ -21,7 +21,7 @@ do
     ssh -t $host /tmp/install-prereqs.sh
     # ensure kubelet service is enabled
     echo "Enabling kubelet systemd service..."
-    ssh -t $host sudo systemctl enable kubelet.
+    ssh -t $host sudo systemctl enable kubelet.service
     echo "$host ready for kubeadm join."
 done
 
