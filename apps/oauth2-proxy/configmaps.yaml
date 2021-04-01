@@ -3,10 +3,10 @@ kind: ConfigMap
 metadata:
   name: redis-scripts
 data:
-  # start redis or sentinel as primary or secondary depending on ordinal
-  # ordinal 0 is primary by default, further pods are secondary by default
-  # sentinels handle primary election if ordinal 0 ever fails or restarts and cleanly promotes another replica to primary, and demotes ordinal 0 when it comes back up
-  # of note: new secondary nodes require ordinal 0 to be healthy in order to do initial sync. scaling might fail if ordinal 0 is unhealthy.
+  # start redis or sentinel as primary or replica depending on ordinal
+  # pod 0 is primary by default, further pods are replicas by default
+  # sentinels handle primary election if pod 0 ever fails or restarts and cleanly promotes another replica to primary, and demotes pod 0 when it comes back up
+  # of note: new replica nodes require pod 0 to be healthy in order to do initial sync. scaling likely fails if pod 0 is down.
   startup.sh: |
     #!/bin/sh
     ORDINAL=${HOSTNAME##*-}
@@ -16,7 +16,7 @@ data:
       redis-server /configs/redis.conf --cluster-announce-ip $POD_IP --cluster-announce-port 26379
     elif [ "$1" = "redis" ] && [ $ORDINAL != "0" ]
     then
-      # redis secondary
+      # redis replica
       redis-server /configs/redis.conf --replica-announce-ip $POD_IP --replicaof oauth2-redis-0.oauth2-redis.default.svc.cluster.local 6379
     elif [ "$1" = "sentinel" ] && [ $ORDINAL = "0" ]
     then
@@ -24,7 +24,7 @@ data:
       redis-server /configs/sentinel.conf --sentinel announce-ip $POD_IP --sentinel monitor oauth2 $POD_IP 6379 2
     elif [ "$1" = "sentinel" ] && [ $ORDINAL != "0" ]
     then
-      # sentinel secondary
+      # sentinel replica
       redis-server /configs/sentinel.conf --sentinel announce-ip $POD_IP --sentinel monitor oauth2 oauth2-redis-0.oauth2-redis.default.svc.cluster.local 6379 2
     else
       exit 1
