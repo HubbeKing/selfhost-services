@@ -49,7 +49,7 @@ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/
 # install cri-o
 sudo apt update
 sudo apt install -y --allow-change-held-packages cri-o cri-o-runc
-sudp apt-mark hold cri-o cri-o-runc
+sudo apt-mark hold cri-o cri-o-runc
 
 # enable and start crio systemd daemon
 sudo systemctl daemon-reload
