@@ -48,25 +48,26 @@ curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/
 
 # install cri-o
 sudo apt update
-sudo apt install -y cri-o cri-o-runc
+sudo apt install -y --allow-change-held-packages cri-o cri-o-runc
+sudp apt-mark hold cri-o cri-o-runc
 
 # enable and start crio systemd daemon
 sudo systemctl daemon-reload
 sudo systemctl enable --now crio
 
 # update apt package lists
-sudo apt-get update
+sudo apt update
 
 # install iSCSI initiator, so that we can mount iSCSI targets as volumes
 # install NFS client, so we can mount NFS shares as volumes
-sudo apt-get install open-iscsi nfs-common -y
+sudo apt install -y open-iscsi nfs-common
 
 # install kubeadm, kubelet, and kubectl
-sudo apt-get install -y apt-transport-https curl
+sudo apt install -y apt-transport-https curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
 deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
-sudo apt-get update
-sudo apt-get install -y kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00
+sudo apt update
+sudo apt install -y --allow-change-held-packages kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00
 sudo apt-mark hold kubelet kubeadm kubectl
