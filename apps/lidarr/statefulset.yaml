@@ -13,7 +13,7 @@ spec:
         app: lidarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/lidarr:version-0.7.2.1878
+        - image: ghcr.io/linuxserver/lidarr:version-0.8.1.2135
           name: lidarr
           envFrom:
             - configMapRef:
