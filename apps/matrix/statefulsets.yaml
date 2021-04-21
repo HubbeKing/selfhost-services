@@ -19,7 +19,7 @@ spec:
         runAsGroup: 991
         runAsUser: 991
       containers:
-        - image: docker.io/matrixdotorg/synapse:v1.32.1
+        - image: docker.io/matrixdotorg/synapse:v1.31.0
           name: synapse
           env:
             - name: TZ
