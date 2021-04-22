@@ -27,6 +27,25 @@ local kp =
         },
       },
     },
+    // Set up prometheus retention
+    prometheus+:: {
+      prometheus+: {
+        spec+: {
+          retention: '14d',
+          storage: {
+            volumeClaimTemplate: {
+              apiVersion: 'v1',
+              kind: 'PersistentVolumeClaim',
+              spec: {
+                accessModes: ['ReadWriteOnce'],
+                resources: { requests: { storage: '20Gi' } },
+                storageClassName: 'longhorn',
+              },
+            },
+          },
+        },
+      },
+    },
     // load in prometheus rule files
     prometheusAlerts+:: {
       groups+: (import 'prometheusrules/longhorn.json').groups,
