@@ -586,7 +586,7 @@ data:
     concurrent-automatic-engine-upgrade-per-node-limit: 5
     backing-image-cleanup-wait-interval: 60
     guaranteed-engine-manager-cpu: 5
-    guaranteed-replica-manager-cpu: 35
+    guaranteed-replica-manager-cpu: 15
 ---
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
