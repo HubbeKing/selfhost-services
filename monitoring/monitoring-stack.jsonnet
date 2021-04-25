@@ -3,6 +3,7 @@ local kp =
   (import 'kube-prometheus/kube-prometheus-anti-affinity.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-kubeadm.libsonnet') +
   (import 'kube-prometheus/kube-prometheus-strip-limits.libsonnet') +
+  (import 'kube-prometheus/kube-prometheus-static-etcd.libsonnet') +
   // add ingress definitions
   (import 'addons/ingress.jsonnet') +
   // override some resource requests & limits
@@ -10,6 +11,14 @@ local kp =
   {
     _config+:: {
       namespace: 'monitoring',
+      // monitor etcd
+      etcd+:: {
+        ips: ["192.168.1.120", "192.168.1.102", "192.168.1.103"],
+        clientCA: importstr "addons/etcd/ca.crt",
+        clientKey: importstr "addons/etcd/peer.key",
+        clientCert: importstr "addons/etcd/peer.crt",
+        insecureSkipVerify: true
+      },
       // monitor important namespaces
       prometheus+:: {
         namespaces+: [
