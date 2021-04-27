@@ -56,15 +56,15 @@ spec:
             httpGet:
               path: /auth/realms/master
               port: 8080
-            initialDelaySeconds: 90
+            initialDelaySeconds: 60
             periodSeconds: 15
           resources:
             requests:
-              cpu: 250m
-              memory: 256Mi
+              cpu: 500m
+              memory: 512Mi
             limits:
-              cpu: 1000m
-              memory: 1024Mi
+              cpu: 2000m
+              memory: 2048Mi
 ---
 apiVersion: apps/v1
 kind: StatefulSet
