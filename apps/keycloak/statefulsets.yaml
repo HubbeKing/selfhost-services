@@ -35,13 +35,12 @@ spec:
           image: quay.io/keycloak/keycloak:12.0.4
           args:
             - "-Dkeycloak.profile.feature.docker=enabled"   # enable Docker token auth protocol
-            - "-Dkeycloak.profile.feature.script=enabled"   # allow custom JS authentication flows
           env:
             # keycloak clustering using DNS_PING
             - name: JGROUPS_DISCOVERY_PROTOCOL
               value: dns.DNS_PING
             - name: JGROUPS_DISCOVERY_PROPERTIES
-              value: dns_query=keycloak-headless.default.svc.cluster.local
+              value: dns_query=keycloak-headless.default.svc.cluster.local.
           envFrom:
             - secretRef:
                 name: keycloak-envs
@@ -56,8 +55,8 @@ spec:
             httpGet:
               path: /auth/realms/master
               port: 8080
-            initialDelaySeconds: 60
-            periodSeconds: 15
+            initialDelaySeconds: 30
+            periodSeconds: 10
           resources:
             requests:
               cpu: 500m
