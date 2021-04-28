@@ -30,7 +30,7 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
 };
 
 {
-  _config+:: {
+  values+:: {
     grafana+:: {
       config+: {
         sections+: {
@@ -78,7 +78,7 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
   ingress+:: {
     'alertmanager-main': ingress(
       'alertmanager-main',
-      $._config.namespace,
+      $.values.common.namespace,
       'alertmanager.hubbe.club',
       { 
         'name': 'alertmanager-main',
@@ -87,7 +87,7 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
     ),
     grafana: ingress(
       'grafana',
-      $._config.namespace,
+      $.values.common.namespace,
       'grafana.hubbe.club',
       {
         'name': 'grafana',
@@ -104,7 +104,7 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
     ),
     'prometheus-k8s': ingress(
       'prometheus-k8s',
-      $._config.namespace,
+      $.values.common.namespace,
       'prometheus.hubbe.club',
       {
         'name': 'prometheus-k8s',

@@ -3,6 +3,11 @@ data:
   grafana.ini: W2F1dGhdCm9hdXRoX2F1dG9fbG9naW4gPSB0cnVlCnNpZ25vdXRfcmVkaXJlY3RfdXJsID0gaHR0cHM6Ly9sb2dpbi5odWJiZS5jbHViL29hdXRoMi9zaWduX291dApbYXV0aC5wcm94eV0KYXV0b19zaWduX3VwID0gdHJ1ZQplbmFibGVkID0gdHJ1ZQpoZWFkZXJfbmFtZSA9IFgtRW1haWwKaGVhZGVyX3Byb3BlcnR5ID0gZW1haWwKW3NlY3VyaXR5XQpkaXNhYmxlX2luaXRpYWxfYWRtaW5fY3JlYXRpb24gPSB0cnVlCltzZXJ2ZXJdCnJvb3RfdXJsID0gaHR0cHM6Ly9ncmFmYW5hLmh1YmJlLmNsdWIvClt1c2Vyc10KYWxsb3dfc2lnbl91cCA9IGZhbHNlCmF1dG9fYXNzaWduX29yZyA9IHRydWUKYXV0b19hc3NpZ25fb3JnX3JvbGUgPSBBZG1pbgo=
 kind: Secret
 metadata:
+  labels:
+    app.kubernetes.io/component: grafana
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/part-of: kube-prometheus
+    app.kubernetes.io/version: 7.5.4
   name: grafana-config
   namespace: monitoring
 type: Opaque

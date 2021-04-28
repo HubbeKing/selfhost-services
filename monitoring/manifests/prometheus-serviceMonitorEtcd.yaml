@@ -2,7 +2,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   labels:
-    k8s-app: etcd
+    app.kubernetes.io/name: etcd
   name: etcd
   namespace: kube-system
 spec:
@@ -15,7 +15,7 @@ spec:
       certFile: /etc/prometheus/secrets/kube-etcd-client-certs/etcd-client.crt
       insecureSkipVerify: true
       keyFile: /etc/prometheus/secrets/kube-etcd-client-certs/etcd-client.key
-  jobLabel: k8s-app
+  jobLabel: app.kubernetes.io/name
   selector:
     matchLabels:
-      k8s-app: etcd
+      app.kubernetes.io/name: etcd

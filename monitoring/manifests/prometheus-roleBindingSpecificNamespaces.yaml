@@ -3,6 +3,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: default
   roleRef:
@@ -16,6 +21,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: kube-system
   roleRef:
@@ -29,6 +39,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: monitoring
   roleRef:
@@ -42,6 +57,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: cert-manager
   roleRef:
@@ -55,6 +75,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: default
   roleRef:
@@ -68,6 +93,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: drone
   roleRef:
@@ -81,6 +111,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: ingress-nginx
   roleRef:
@@ -94,6 +129,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: kube-system
   roleRef:
@@ -107,6 +147,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: longhorn-system
   roleRef:
@@ -120,6 +165,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: metallb-system
   roleRef:
@@ -133,6 +183,11 @@ items:
 - apiVersion: rbac.authorization.k8s.io/v1
   kind: RoleBinding
   metadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
     name: prometheus-k8s
     namespace: monitoring
   roleRef:

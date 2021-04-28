@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    k8s-app: kube-controller-manager
+    app.kubernetes.io/name: kube-controller-manager
   name: kube-controller-manager-prometheus-discovery
   namespace: kube-system
 spec:

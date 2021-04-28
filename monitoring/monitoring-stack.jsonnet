@@ -1,26 +1,29 @@
 local kp =
-  (import 'kube-prometheus/kube-prometheus.libsonnet') +
-  (import 'kube-prometheus/kube-prometheus-anti-affinity.libsonnet') +
-  (import 'kube-prometheus/kube-prometheus-kubeadm.libsonnet') +
-  (import 'kube-prometheus/kube-prometheus-strip-limits.libsonnet') +
-  (import 'kube-prometheus/kube-prometheus-static-etcd.libsonnet') +
+  (import 'kube-prometheus/main.libsonnet') +
+  (import 'kube-prometheus/addons/anti-affinity.libsonnet') +
+  (import 'kube-prometheus/addons/static-etcd.libsonnet') +
+  (import 'kube-prometheus/addons/strip-limits.libsonnet') +
   // add ingress definitions
   (import 'addons/ingress.jsonnet') +
-  // override some resource requests & limits
-  (import 'addons/resources.jsonnet') +
   {
-    _config+:: {
-      namespace: 'monitoring',
+    values+:: {
+      common+: {
+        namespace: 'monitoring',
+      },
+      // add kubeadm mixin
+      kubePrometheus+: {
+        platform: "kubeadm"
+      },
       // monitor etcd
-      etcd+:: {
+      etcd+: {
         ips: ["192.168.1.120", "192.168.1.102", "192.168.1.103"],
         clientCA: importstr "addons/etcd/ca.crt",
         clientKey: importstr "addons/etcd/peer.key",
         clientCert: importstr "addons/etcd/peer.crt",
-        insecureSkipVerify: true
+        insecureSkipVerify: true,
       },
-      // monitor important namespaces
-      prometheus+:: {
+      // monitor all namespaces in cluster
+      prometheus+: {
         namespaces+: [
           "cert-manager", "default", "drone", 
           "ingress-nginx", "kube-system", 
@@ -28,50 +31,64 @@ local kp =
           "monitoring"
         ],
       },
-      // load in grafana dashboards
-      grafana+:: {
+      // add grafana dashboards
+      grafana+: {
         dashboards+:: {
           'nginx.json': (import 'dashboards/nginx.json'),
           'longhorn.json': (import 'dashboards/longhorn.json'),
         },
       },
+      // add longhorn alerting rules
+      longhorn: {
+        prometheusRule: {
+          apiVersion: "monitoring.coreos.com/v1",
+          kind: "PrometheusRule",
+          metadata: {
+            name: "longhorn-alerts",
+            namespace: $.values.common.namespace,
+          },
+          spec: {
+            groups: (import 'prometheusrules/longhorn.json').groups,
+          },
+        },
+      },
     },
-    // Set up prometheus retention
+    // set up prometheus retention
     prometheus+:: {
       prometheus+: {
         spec+: {
-          retention: '14d',
+          retention: "14d",
           storage: {
             volumeClaimTemplate: {
-              apiVersion: 'v1',
-              kind: 'PersistentVolumeClaim',
+              apiVersion: "v1",
+              kind: "PersistentVolumeClaim",
               spec: {
-                accessModes: ['ReadWriteOnce'],
-                resources: { requests: { storage: '20Gi' } },
-                storageClassName: 'longhorn',
+                accessModes: ["ReadWriteOnce"],
+                resources: { requests: { storage: "20Gi" } },
+                storageClassName: "longhorn",
               },
             },
           },
         },
       },
     },
-    // load in prometheus rule files
-    prometheusAlerts+:: {
-      groups+: (import 'prometheusrules/longhorn.json').groups,
-    },
   };
 
-{ ['setup/0namespace-' + name]: kp.kubePrometheus[name] for name in std.objectFields(kp.kubePrometheus) } +
+{ 'setup/0namespace-namespace': kp.kubePrometheus.namespace } +
 {
   ['setup/prometheus-operator-' + name]: kp.prometheusOperator[name]
-  for name in std.filter((function(name) name != 'serviceMonitor'), std.objectFields(kp.prometheusOperator))
+  for name in std.filter((function(name) name != 'serviceMonitor' && name != 'prometheusRule'), std.objectFields(kp.prometheusOperator))
 } +
-// serviceMonitor is separated so that it can be created after the CRDs are ready
+// serviceMonitor and prometheusRule are separated so that they can be created after the CRDs are ready
 { 'prometheus-operator-serviceMonitor': kp.prometheusOperator.serviceMonitor } +
-{ ['node-exporter-' + name]: kp.nodeExporter[name] for name in std.objectFields(kp.nodeExporter) } +
-{ ['kube-state-metrics-' + name]: kp.kubeStateMetrics[name] for name in std.objectFields(kp.kubeStateMetrics) } +
+{ 'prometheus-operator-prometheusRule': kp.prometheusOperator.prometheusRule } +
+{ 'kube-prometheus-prometheusRule': kp.kubePrometheus.prometheusRule } +
 { ['alertmanager-' + name]: kp.alertmanager[name] for name in std.objectFields(kp.alertmanager) } +
+{ ['blackbox-exporter-' + name]: kp.blackboxExporter[name] for name in std.objectFields(kp.blackboxExporter) } +
+{ ['grafana-' + name]: kp.grafana[name] for name in std.objectFields(kp.grafana) } +
+{ ['kube-state-metrics-' + name]: kp.kubeStateMetrics[name] for name in std.objectFields(kp.kubeStateMetrics) } +
+{ ['kubernetes-' + name]: kp.kubernetesControlPlane[name] for name in std.objectFields(kp.kubernetesControlPlane) }
+{ ['node-exporter-' + name]: kp.nodeExporter[name] for name in std.objectFields(kp.nodeExporter) } +
 { ['prometheus-' + name]: kp.prometheus[name] for name in std.objectFields(kp.prometheus) } +
 { ['prometheus-adapter-' + name]: kp.prometheusAdapter[name] for name in std.objectFields(kp.prometheusAdapter) } +
-{ ['grafana-' + name]: kp.grafana[name] for name in std.objectFields(kp.grafana) } +
-{ ['ingress-' + name]: kp.ingress[name] for name in std.objectFields(kp.ingress) }
+{ [name + '-ingress']: kp.ingress[name] for name in std.objectFields(kp.ingress) }

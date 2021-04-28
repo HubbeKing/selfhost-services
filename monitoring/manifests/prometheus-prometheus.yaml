@@ -2,6 +2,10 @@ apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   labels:
+    app.kubernetes.io/component: prometheus
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/part-of: kube-prometheus
+    app.kubernetes.io/version: 2.26.0
     prometheus: k8s
   name: k8s
   namespace: monitoring
@@ -11,24 +15,32 @@ spec:
       preferredDuringSchedulingIgnoredDuringExecution:
       - podAffinityTerm:
           labelSelector:
-            matchExpressions:
-            - key: prometheus
-              operator: In
-              values:
-              - k8s
+            matchLabels:
+              app.kubernetes.io/component: prometheus
+              app.kubernetes.io/name: prometheus
+              app.kubernetes.io/part-of: kube-prometheus
+              prometheus: k8s
           namespaces:
           - monitoring
           topologyKey: kubernetes.io/hostname
         weight: 100
   alerting:
     alertmanagers:
-    - name: alertmanager-main
+    - apiVersion: v2
+      name: alertmanager-main
       namespace: monitoring
       port: web
+  externalLabels: {}
   externalUrl: https://prometheus.hubbe.club
-  image: quay.io/prometheus/prometheus:v2.22.1
+  image: quay.io/prometheus/prometheus:v2.26.0
   nodeSelector:
     kubernetes.io/os: linux
+  podMetadata:
+    labels:
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 2.26.0
   podMonitorNamespaceSelector: {}
   podMonitorSelector: {}
   probeNamespaceSelector: {}
@@ -62,4 +74,4 @@ spec:
           requests:
             storage: 20Gi
         storageClassName: longhorn
-  version: v2.22.1
+  version: 2.26.0

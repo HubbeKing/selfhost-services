@@ -3,6 +3,10 @@ kind: Alertmanager
 metadata:
   labels:
     alertmanager: main
+    app.kubernetes.io/component: alert-router
+    app.kubernetes.io/name: alertmanager
+    app.kubernetes.io/part-of: kube-prometheus
+    app.kubernetes.io/version: 0.21.0
   name: main
   namespace: monitoring
 spec:
@@ -11,11 +15,10 @@ spec:
       preferredDuringSchedulingIgnoredDuringExecution:
       - podAffinityTerm:
           labelSelector:
-            matchExpressions:
-            - key: alertmanager
-              operator: In
-              values:
-              - main
+            matchLabels:
+              app.kubernetes.io/component: alert-router
+              app.kubernetes.io/name: alertmanager
+              app.kubernetes.io/part-of: kube-prometheus
           namespaces:
           - monitoring
           topologyKey: kubernetes.io/hostname
@@ -24,10 +27,23 @@ spec:
   image: quay.io/prometheus/alertmanager:v0.21.0
   nodeSelector:
     kubernetes.io/os: linux
+  podMetadata:
+    labels:
+      app.kubernetes.io/component: alert-router
+      app.kubernetes.io/name: alertmanager
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 0.21.0
   replicas: 3
+  resources:
+    limits:
+      cpu: 100m
+      memory: 100Mi
+    requests:
+      cpu: 4m
+      memory: 100Mi
   securityContext:
     fsGroup: 2000
     runAsNonRoot: true
     runAsUser: 1000
   serviceAccountName: alertmanager-main
-  version: v0.21.0
+  version: 0.21.0

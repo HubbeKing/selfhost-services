@@ -2,20 +2,28 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
+    app.kubernetes.io/component: exporter
     app.kubernetes.io/name: kube-state-metrics
-    app.kubernetes.io/version: v1.9.7
+    app.kubernetes.io/part-of: kube-prometheus
+    app.kubernetes.io/version: 2.0.0
   name: kube-state-metrics
   namespace: monitoring
 spec:
   replicas: 1
   selector:
     matchLabels:
+      app.kubernetes.io/component: exporter
       app.kubernetes.io/name: kube-state-metrics
+      app.kubernetes.io/part-of: kube-prometheus
   template:
     metadata:
+      annotations:
+        kubectl.kubernetes.io/default-container: kube-state-metrics
       labels:
+        app.kubernetes.io/component: exporter
         app.kubernetes.io/name: kube-state-metrics
-        app.kubernetes.io/version: v1.9.7
+        app.kubernetes.io/part-of: kube-prometheus
+        app.kubernetes.io/version: 2.0.0
     spec:
       containers:
       - args:
@@ -23,8 +31,17 @@ spec:
         - --port=8081
         - --telemetry-host=127.0.0.1
         - --telemetry-port=8082
-        image: quay.io/coreos/kube-state-metrics:v1.9.7
+        image: k8s.gcr.io/kube-state-metrics/kube-state-metrics:v2.0.0
         name: kube-state-metrics
+        resources:
+          limits:
+            cpu: 100m
+            memory: 250Mi
+          requests:
+            cpu: 10m
+            memory: 190Mi
+        securityContext:
+          runAsUser: 65534
       - args:
         - --logtostderr
         - --secure-listen-address=:8443
@@ -35,6 +52,11 @@ spec:
         ports:
         - containerPort: 8443
           name: https-main
+        resources:
+          limits: {}
+          requests:
+            cpu: 20m
+            memory: 20Mi
         securityContext:
           runAsGroup: 65532
           runAsNonRoot: true
@@ -49,6 +71,11 @@ spec:
         ports:
         - containerPort: 9443
           name: https-self
+        resources:
+          limits: {}
+          requests:
+            cpu: 10m
+            memory: 20Mi
         securityContext:
           runAsGroup: 65532
           runAsNonRoot: true

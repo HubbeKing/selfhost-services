@@ -2,30 +2,37 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   labels:
+    app.kubernetes.io/component: exporter
     app.kubernetes.io/name: node-exporter
-    app.kubernetes.io/version: v1.0.1
+    app.kubernetes.io/part-of: kube-prometheus
+    app.kubernetes.io/version: 1.1.2
   name: node-exporter
   namespace: monitoring
 spec:
   selector:
     matchLabels:
+      app.kubernetes.io/component: exporter
       app.kubernetes.io/name: node-exporter
+      app.kubernetes.io/part-of: kube-prometheus
   template:
     metadata:
       labels:
+        app.kubernetes.io/component: exporter
         app.kubernetes.io/name: node-exporter
-        app.kubernetes.io/version: v1.0.1
+        app.kubernetes.io/part-of: kube-prometheus
+        app.kubernetes.io/version: 1.1.2
     spec:
       containers:
       - args:
         - --web.listen-address=127.0.0.1:9100
-        - --path.procfs=/host/proc
         - --path.sysfs=/host/sys
         - --path.rootfs=/host/root
         - --no-collector.wifi
         - --no-collector.hwmon
         - --collector.filesystem.ignored-mount-points=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/pods/.+)($|/)
-        image: quay.io/prometheus/node-exporter:v1.0.1
+        - --collector.netclass.ignored-devices=^(veth.*)$
+        - --collector.netdev.device-exclude=^(veth.*)$
+        image: quay.io/prometheus/node-exporter:v1.1.2
         name: node-exporter
         resources:
           limits: {}
@@ -33,10 +40,6 @@ spec:
             cpu: 102m
             memory: 180Mi
         volumeMounts:
-        - mountPath: /host/proc
-          mountPropagation: HostToContainer
-          name: proc
-          readOnly: true
         - mountPath: /host/sys
           mountPropagation: HostToContainer
           name: sys
@@ -81,9 +84,6 @@ spec:
       tolerations:
       - operator: Exists
       volumes:
-      - hostPath:
-          path: /proc
-        name: proc
       - hostPath:
           path: /sys
         name: sys

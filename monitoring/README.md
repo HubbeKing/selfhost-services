@@ -6,7 +6,7 @@ see also https://github.com/prometheus-operator/kube-prometheus
 - Install jsonnet-bundler (jb)
 - Run `jb init`
 - Install kube-prometheus vendor files:
-    - Run `jb install github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus@release-0.7`
+    - Run `jb install github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus@release-0.8`
 - Build manifests with `./build.sh monitoring-stack.jsonnet`
 - Commit/Push/Apply manifests:
     - Run `kubectl apply -f manifests/setup`
