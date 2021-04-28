@@ -36,6 +36,7 @@ local kp =
         dashboards+:: {
           'nginx.json': (import 'dashboards/nginx.json'),
           'longhorn.json': (import 'dashboards/longhorn.json'),
+          'etcd.json': (import 'dashboards/etcd.json'),
         },
       },
       // add longhorn alerting rules
