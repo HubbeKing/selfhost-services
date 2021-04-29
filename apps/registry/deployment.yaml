@@ -3,7 +3,6 @@ kind: Deployment
 metadata:
   name: registry-ui
 spec:
-  replicas: 0   # for now, docker-registry-ui does not support token auth
   selector:
     matchLabels:
       app: registry
@@ -16,9 +15,11 @@ spec:
     spec:
       containers:
         - name: registry-ui
-          image: docker.io/joxit/docker-registry-ui:static
+          image: docker.io/joxit/docker-registry-ui:2.0
           env:
-            - name: URL
+            - name: SINGLE_REGISTRY
+              value: "true"
+            - name: REGISTRY_URL
               value: "https://registry.hubbe.club"
             - name: DELETE_IMAGES
               value: "true"
