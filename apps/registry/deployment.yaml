@@ -1,48 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: registry-ui
-spec:
-  selector:
-    matchLabels:
-      app: registry
-      component: registry-ui
-  template:
-    metadata:
-      labels:
-        app: registry
-        component: registry-ui
-    spec:
-      containers:
-        - name: registry-ui
-          image: docker.io/joxit/docker-registry-ui:2.0
-          env:
-            - name: SINGLE_REGISTRY
-              value: "true"
-            - name: REGISTRY_URL
-              value: "https://registry.hubbe.club"
-            - name: DELETE_IMAGES
-              value: "true"
-          ports:
-            - containerPort: 80
-              name: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 15
-          resources:
-            requests:
-              cpu: 50m
-              memory: 64Mi
-            limits:
-              cpu: 150m
-              memory: 128Mi
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: registry
 spec:
   strategy:
