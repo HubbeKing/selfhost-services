@@ -14,6 +14,10 @@ PATH="$(pwd)/tmp/bin:${PATH}"
 rm -rf manifests
 mkdir -p manifests/setup
 
+# decrypt alertmanager config addon
+sops --decrypt addons/alertmanager.jsonnet.enc > addons/alertmanager.jsonnet
+
+# generate manifests.
 # Calling gojsontoyaml is optional, but we would like to generate yaml, not json
 jsonnet -J vendor -m manifests "${1-example.jsonnet}" | xargs -I{} sh -c 'cat {} | gojsontoyaml > {}.yaml' -- {}
 
@@ -21,5 +25,11 @@ jsonnet -J vendor -m manifests "${1-example.jsonnet}" | xargs -I{} sh -c 'cat {}
 find manifests -type f ! -name '*.yaml' -delete
 rm -f kustomization
 
+# remove decrypted alertmanager config addon
+rm addons/alertmanager.jsonnet
+
 # encrypt etcd certs secret
 sops --encrypt --in-place manifests/prometheus-secretEtcdCerts.yaml
+
+# encrypt alertmanger config
+sops --encrypt --in-place manifests/alertmanager-secret.yaml

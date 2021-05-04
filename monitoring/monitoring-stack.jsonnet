@@ -5,6 +5,8 @@ local kp =
   (import 'kube-prometheus/addons/strip-limits.libsonnet') +
   // add ingress definitions
   (import 'addons/ingress.jsonnet') +
+  // add alertmanager config
+  (import 'addons/alertmanager.jsonnet') +
   {
     values+:: {
       common+: {
