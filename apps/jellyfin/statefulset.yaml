@@ -38,7 +38,7 @@ spec:
           value: video
           effect: NoExecute
       containers:
-        - image: docker.io/jellyfin/jellyfin:10.7.2
+        - image: docker.io/jellyfin/jellyfin:10.7.5
           name: jellyfin
           ports:
             - containerPort: 8096
