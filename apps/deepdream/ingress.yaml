@@ -4,7 +4,7 @@ metadata:
   name: deepdream
   annotations:
     nginx.ingress.kubernetes.io/app-root: /upload
-    nginx.ingress.kubernetes.io/auth-url: "https://login.hubbe.club/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.default.svc.cluster.local:4180/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "https://login.hubbe.club/oauth2/start?rd=https://$host$request_uri"
 
 spec:
