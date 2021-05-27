@@ -88,14 +88,6 @@ spec:
           envFrom:
             - secretRef:
                 name: keycloak-db-envs
-          livenessProbe:
-            exec:
-              command:
-                - bash
-                - "-c"
-                - "mysqladmin --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} ping"
-            initialDelaySeconds: 5
-            periodSeconds: 15
           ports:
             - containerPort: 3306
               name: mysql
