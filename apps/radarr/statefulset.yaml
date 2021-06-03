@@ -13,7 +13,7 @@ spec:
         app: radarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/radarr:version-3.2.1.5070
+        - image: ghcr.io/linuxserver/radarr:version-3.2.2.5080
           name: radarr
           envFrom:
             - configMapRef:
