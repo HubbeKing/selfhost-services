@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keys-nginx
+spec:
+  selector:
+    matchLabels:
+      app: keys-nginx
+  template:
+    metadata:
+      labels:
+        app: keys-nginx
+    spec:
+      containers:
+        - image: docker.io/library/nginx:latest
+          name: nginx
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /ssh
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - name: config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: keys
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: config
+          configMap:
+            name: keys-nginx-config
+        - name: keys
+          configMap:
+            name: public-keys

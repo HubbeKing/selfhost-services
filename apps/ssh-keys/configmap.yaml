@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: public-keys
+data:
+  ssh: |
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGCOz0rEqX5SdB6fE7CV73m15e1MFKcdM1YXsmhwqlbW
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJ1zIkbSsy/2Tjb3HKn1qW9hPGYpVgbXvM1LXTsu3cz
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEx5g6m5V+1zW6wIyx3CTEovDT09hXxR+WfM4Ti0lHGQ
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keys-nginx-config
+data:
+  nginx.conf: |
+    events {
+    }
+    http {
+      default_type  text/plain;
+
+      server {
+        listen      80;
+        location / {
+          root      /usr/share/nginx/html;
+        }
+      }
+    }

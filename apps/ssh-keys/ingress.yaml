@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keys-nginx
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - keys.hubbe.club
+  rules:
+    - host: keys.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keys-nginx
+                port:
+                  number: 80
