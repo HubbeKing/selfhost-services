@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: foundry-guns
+spec:
+  selector:
+    matchLabels:
+      app: foundry-guns
+  serviceName: foundry-guns
+  template:
+    metadata:
+      labels:
+        app: foundry-guns
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      imagePullSecrets:
+        - name: registry-hubbe-club-creds
+      containers:
+        - image: registry.hubbe.club/foundry:v0.8.6
+          name: foundry-guns
+          command: ["node"]
+          args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=guns"]
+          ports:
+            - containerPort: 30000
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /guns
+              port: 30000
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          volumeMounts:
+            - mountPath: /data
+              name: data
+        - image: docker.io/hacdias/webdav:v4.0.0
+          name: webdav
+          args: ["-c", "/config.yaml"]
+          ports:
+            - containerPort: 9999
+              name: webdav
+          readinessProbe:
+            tcpSocket:
+              port: 9999
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          volumeMounts:
+            - mountPath: /data
+              name: data
+            - mountPath: /config.yaml
+              name: webdav-config
+              subPath: config.yaml
+      volumes:
+        - name: webdav-config
+          configMap:
+            name: webdav-config
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: longhorn
