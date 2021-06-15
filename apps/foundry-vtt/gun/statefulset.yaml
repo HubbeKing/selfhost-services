@@ -28,7 +28,7 @@ spec:
               name: http
           readinessProbe:
             httpGet:
-              path: /guns
+              path: /GUN
               port: 30000
             initialDelaySeconds: 5
             periodSeconds: 15
