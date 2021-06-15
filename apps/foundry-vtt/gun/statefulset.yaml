@@ -19,10 +19,10 @@ spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds
       containers:
-        - image: registry.hubbe.club/foundry:v0.8.6
+        - image: registry.hubbe.club/foundry:v0.8.7
           name: foundry-guns
           command: ["node"]
-          args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=guns"]
+          args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=gun"]
           ports:
             - containerPort: 30000
               name: http
