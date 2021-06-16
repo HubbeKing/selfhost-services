@@ -32,7 +32,7 @@ spec:
         kubernetes.io/os: linux
       initContainers:
       - name: intel-gpu-initcontainer
-        image: intel/intel-gpu-initcontainer:0.21.0
+        image: docker.io/intel/intel-gpu-initcontainer:0.21.0
         imagePullPolicy: IfNotPresent
         securityContext:
           readOnlyRootFilesystem: true
@@ -46,7 +46,7 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: spec.nodeName
-        image: intel/intel-gpu-plugin:0.21.0
+        image: docker.io/intel/intel-gpu-plugin:0.21.0
         imagePullPolicy: IfNotPresent
         securityContext:
           readOnlyRootFilesystem: true
