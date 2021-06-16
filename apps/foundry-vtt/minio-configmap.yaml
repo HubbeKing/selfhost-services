@@ -1,0 +1,38 @@
+apiVersion: ENC[AES256_GCM,data:YO8=,iv:w0o6RZZNkj1CIK2T1292O7RWFY6E0JRjPVwIVXB2MCs=,tag:px6bTDwVnmCp22h5JiYD9Q==,type:str]
+kind: ENC[AES256_GCM,data:roEZ/2qXLmhH,iv:T6svn3rxcDKjTe+Nd8Fm3MUG4QeSFyLxwK0geNgcz2c=,tag:YDO3pLEh96p2+x7jRRoiHA==,type:str]
+metadata:
+    name: ENC[AES256_GCM,data:iwePxC2zSOUg7XparB3ixhbD,iv:xTFm/TRLbUe+LhfuOeaUtC5v7TtbvShpOtvd02Tyk4E=,tag:xIMk/bOYbyeIs4oS8Bbzbw==,type:str]
+data:
+    MINIO_ROOT_USER: ENC[AES256_GCM,data:QJJ8b6E=,iv:lMu5PbAXPU+7bpvRk0R1240QMRccyeWb5Lw4aLfHn2Y=,tag:JwiBrFB1p1EqoU7enfl3gQ==,type:str]
+    MINIO_ROOT_PASSWORD: ENC[AES256_GCM,data:5jQ4o/RvVJnKuhw1fY9V4Y6OPlKtFoO7,iv:LNoSJpbILZr5hd8ipnl+Tk2HXvI7sjAdkMPFFty8BB8=,tag:ceS1/Xd5nPJ6PCmLj+/9FQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2021-06-16T14:24:40Z"
+    mac: ENC[AES256_GCM,data:3KjzFUA+juo3kF2Wtamb263g4fETyxz8IjcxcyAcI91soktK/WwngQvweJvvXtIMbBDD1KHTKcBOPUku9C/ruA/7flBRIGmG7buRmkuwucqLADDvaHXFEqI15TSZJc98FNSoGSCH1DE8XnubdOhbcNyuzABEgHgheZ5kr+dTMKs=,iv:n4sBjcoc2nNQYlsgDiGhH/o6IYzbwv+ClgFEO3wJEqs=,tag:O2EKt8GgYGde+Q1pKCS1oQ==,type:str]
+    pgp:
+        - created_at: "2021-06-16T14:24:39Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAwF87VJeJhIWAQ/8C5lT+hlJPaX7eRrhl/c4vbEh0VfebpjPFp9nUNp0Y5zQ
+            Zbsfc9LVm25xdhyJvTH8ZLWoWtmKA19K0nt//cAmqRgh4c45IYtogL4+YaS5h5N0
+            aAq1gt9QddITb06RVZ6SYzVGGEh1qloz6mduSiEv80mLcpczF6X8XCf5LX+Pd9aP
+            Dd0sTL+Fq6eg4uJzQQtfs8lba4WvE/tDmo01BJRSELricbUkRvRVtoxtKRWr5aiX
+            ZapI7XnAYIGRBsLICPvUTTRSTDsd8oDAYGz649JVexwKd8pgyu7lj3p+UJkPy/mh
+            qsVOnyrCuJmpLdlrLxOdxm8g61HP8/+dnu+R0wwlQ5v47mQbufOb7Q5F0LNjYGPI
+            W5XVSl4k+raGmGJltRF/99yC2lYaiUXxyZE/CGeydgMzme3EiSUK5LreLqT0hgs8
+            CM40nn9agUj0z+5etY7nXrQoWaFxPZtxCo1fRQDDNXdxwI11vbQSxdGHBEwQVOWx
+            hQdmcIszPasaVfMvNqs+IC0YOGn7IL1/78eYM6+ztgUU7FrzmwbKxX9idp/35kQZ
+            iQNLoyubymo7deg0CUaw/q23QeX3r4gGo5869nB9rPX2EcnxocgDpR0R+1WiFl3M
+            WKX9wbHtp/yByuEGyaHIXfAe23IyDc6JgMhny+37DPBJwdH+qtvoB8UmufV6QpDS
+            XgEGF61DW8xb3AjhD9sO4+SGKqkWx0d5rpUoY3MQJ3aO09VbPwfIYfDOvWd7+pp8
+            AJl1lBjfTFE9xwMVKGF8zE+FN1esTZ5/TbmbruKpYdo2A7rpnL+qAQHb/59dF6s=
+            =wln8
+            -----END PGP MESSAGE-----
+          fp: 74B91EB9898B2ADB9A9E488A7C60FBD151BFFC9E
+    unencrypted_suffix: _unencrypted
+    version: 3.7.1

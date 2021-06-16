@@ -6,7 +6,7 @@ spec:
   ports:
     - port: 30000
       name: http
-    - port: 9999
-      name: webdav
+    - port: 9000
+      name: minio
   selector:
     app: foundry-ashes

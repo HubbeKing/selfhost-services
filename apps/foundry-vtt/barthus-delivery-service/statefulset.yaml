@@ -42,27 +42,25 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
-        - image: docker.io/hacdias/webdav:v4.0.0
-          name: webdav
-          args: ["-c", "/config.yaml"]
+        - image: docker.io/minio/minio:latest
+          name: minio
+          args:
+            - "server"
+            - "/data"
+          envFrom:
+            - configMapRef:
+                name: foundry-minio-envs
           ports:
-            - containerPort: 9999
-              name: webdav
+            - containerPort: 9000
+              name: minio
           readinessProbe:
             tcpSocket:
-              port: 9999
+              port: 9000
             initialDelaySeconds: 5
             periodSeconds: 15
           volumeMounts:
             - mountPath: /data
               name: data
-            - mountPath: /config.yaml
-              name: webdav-config
-              subPath: config.yaml
-      volumes:
-        - name: webdav-config
-          configMap:
-            name: webdav-config
   volumeClaimTemplates:
     - metadata:
         name: data
