@@ -108,10 +108,30 @@ spec:
             - name: array
               mountPath: /photos
               subPath: Photos
+            - name: ashes
+              mountPath: /foundry/ashes
+            - name: barthu
+              mountPath: /foundry/barthu
+            - name: guns
+              mountPath: /foundry/guns
+            - name: suns
+              mountPath: /foundry/suns
       volumes:
         - name: array
           persistentVolumeClaim:
             claimName: array
+        - name: ashes
+          persistentVolumeClaim:
+            claimName: data-foundry-ashes-0
+        - name: barthu
+          persistentVolumeClaim:
+            claimName: data-foundry-barthu-0
+        - name: guns
+          persistentVolumeClaim:
+            claimName: data-foundry-guns-0
+        - name: suns
+          persistentVolumeClaim:
+            claimName: data-foundry-dead-suns-0
   volumeClaimTemplates:
     - metadata:
         name: config
