@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: foundry-minio-envs
-data:
-  MINIO_ROOT_USER: root
-  MINIO_ROOT_PASSWORD: ""

@@ -42,30 +42,11 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
-        - image: docker.io/minio/minio:latest
-          name: minio
-          args:
-            - "server"
-            - "/data"
-          envFrom:
-            - configMapRef:
-                name: foundry-minio-envs
-          ports:
-            - containerPort: 9000
-              name: minio
-          readinessProbe:
-            tcpSocket:
-              port: 9000
-            initialDelaySeconds: 5
-            periodSeconds: 15
-          volumeMounts:
-            - mountPath: /data
-              name: data
   volumeClaimTemplates:
     - metadata:
         name: data
       spec:
-        accessModes: [ "ReadWriteOnce" ]
+        accessModes: [ "ReadWriteMany" ]
         resources:
           requests:
             storage: 5Gi
