@@ -4,6 +4,8 @@ metadata:
   name: foundry-dead-suns
 spec:
   ports:
+    - port: 8080
+      name: webdav
     - port: 30000
       name: http
   selector:
