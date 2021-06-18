@@ -21,6 +21,8 @@ spec:
       value: "true"
     - name: cp_namespace
       value: kube-system
+    - name: vip_ddns
+      value: "false"
     - name: vip_leaderelection
       value: "true"
     - name: vip_leaseduration
@@ -29,9 +31,9 @@ spec:
       value: "3"
     - name: vip_retryperiod
       value: "1"
-    - name: vip_address
+    - name: address
       value: 192.168.1.100
-    image: docker.io/plndr/kube-vip:v0.3.4
+    image: docker.io/plndr/kube-vip:v0.3.5
     imagePullPolicy: Always
     name: kube-vip
     resources: {}
