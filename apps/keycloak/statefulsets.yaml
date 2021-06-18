@@ -32,7 +32,7 @@ spec:
       priorityClassName: high-priority
       containers:
         - name: keycloak
-          image: quay.io/keycloak/keycloak:13.0.1
+          image: quay.io/keycloak/keycloak:14.0.0
           args:
             - "-Dkeycloak.profile.feature.docker=enabled"   # enable Docker token auth protocol
           env:
