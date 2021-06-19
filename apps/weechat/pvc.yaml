@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: data-weechat-dbchat
 spec:
-  accessModes: [ "ReadWriteOnce" ]
+  accessModes: [ "ReadWriteMany" ]
   resources:
     requests:
       storage: 1Gi
