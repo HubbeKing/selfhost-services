@@ -44,7 +44,7 @@ spec:
               cpu: 150m
               memory: 256Mi
         - name: runner
-          image: docker.io/drone/drone-runner-kube:1.0.0-beta.7
+          image: docker.io/drone/drone-runner-kube:1.0.0-beta.8
           env:
             - name: DRONE_POLICY_FILE
               value: /etc/config/policy.yml
