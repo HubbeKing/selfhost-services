@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: foundry-genesys
+spec:
+  selector:
+    matchLabels:
+      app: foundry-genesys
+  serviceName: foundry-genesys
+  template:
+    metadata:
+      labels:
+        app: foundry-genesys
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      imagePullSecrets:
+        - name: registry-hubbe-club-creds
+      containers:
+        - image: registry.hubbe.club/foundry:v0.8.8
+          name: foundry-genesys
+          command: ["node"]
+          args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=winds-of-glass"]
+          ports:
+            - containerPort: 30000
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /genesys
+              port: 30000
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          volumeMounts:
+            - mountPath: /data
+              name: data
+        - image: docker.io/httpd:2.4.48
+          name: webdav
+          ports:
+            - containerPort: 8080
+              name: webdav
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /usr/local/apache2/conf/httpd.conf
+              name: config
+              subPath: httpd.conf
+            - mountPath: /var/www/webdav
+              name: data
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /tmp/users.pwd
+              name: users
+              subPath: users.pwd
+      volumes:
+        - name: config
+          configMap:
+            name: foundry-webdav-config
+        - name: tmp
+          emptyDir: {}
+        - name: users
+          secret:
+            secretName: foundry-webdav-htpasswd
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: longhorn
