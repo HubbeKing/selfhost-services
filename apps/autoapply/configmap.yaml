@@ -12,7 +12,7 @@ data:
     # enter folder
     cd selfhost-services
     # run SOPS decryption on secrets
-    find '.' -type f -regex '.*.ya*ml' -exec sops --decrypt --in-place '{}' \;
+    find '.' -type f -name '*.yaml' -exec sops --decrypt --in-place '{}' \;
     # apply manifests with kubectl
     kubectl apply -R -f core/
     kubectl apply -R -f monitoring/manifests
