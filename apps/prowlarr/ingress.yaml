@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jackett
+  name: prowlarr
   annotations:
     nginx.ingress.kubernetes.io/auth-url: "http://oauth2-proxy.default.svc.cluster.local:4180/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "https://login.hubbe.club/oauth2/start?rd=https://$host$request_uri"
@@ -9,15 +9,15 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - jackett.hubbe.club
+      - prowlarr.hubbe.club
   rules:
-    - host: jackett.hubbe.club
+    - host: prowlarr.hubbe.club
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: jackett
+                name: prowlarr
                 port:
-                  number: 9117
+                  number: 9696

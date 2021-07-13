@@ -1,38 +1,39 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: jackett
+  name: prowlarr
 spec:
   selector:
     matchLabels:
-      app: jackett
-  serviceName: jackett
+      app: prowlarr
+  serviceName: prowlarr
   template:
     metadata:
       labels:
-        app: jackett
+        app: prowlarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/jackett:latest
-          name: jackett
+        - image: ghcr.io/linuxserver/prowlarr:develop
+          imagePullPolicy: Always
+          name: prowlarr
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
           ports:
-            - containerPort: 9117
+            - containerPort: 9696
               name: http
           readinessProbe:
             httpGet:
-              path: /UI/Login
-              port: 9117
+              path: /
+              port: 9696
             initialDelaySeconds: 10
             periodSeconds: 15
           resources:
             requests:
-              cpu: 50m
+              cpu: 250m
               memory: 256Mi
             limits:
-              cpu: 250m
+              cpu: 1000m
               memory: 512Mi
           volumeMounts:
             - name: config
