@@ -21,16 +21,8 @@ spec:
               command: ["bash"]
               args: ["/apply.sh"]
               env:
-                - name: SOPS_PGP_FP
-                  valueFrom:
-                    secretKeyRef:
-                      key: GPG_FINGERPRINT
-                      name: gpg-secrets
-                - name: GPG_PASSPHRASE
-                  valueFrom:
-                    secretKeyRef:
-                      key: GPG_PASSPHRASE
-                      name: gpg-secrets
+                - name: SOPS_AGE_KEY_FILE
+                  value: /keys.txt
               resources:
                 requests:
                   cpu: 250m
@@ -42,14 +34,14 @@ spec:
                 - name: apply-script
                   mountPath: /apply.sh
                   subPath: apply.sh
-                - name: gpg-key
-                  mountPath: /gpg.key
-                  subPath: GPG_KEY
+                - name: age-keys
+                  mountPath: /keys.txt
+                  subPath: keys.txt
           volumes:
             - name: apply-script
               configMap:
                 name: apply-script
                 defaultMode: 0755
-            - name: gpg-key
+            - name: age-keys
               secret:
-                secretName: gpg-secrets
+                secretName: age-keys
