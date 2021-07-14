@@ -83,7 +83,7 @@ spec:
     spec:
       priorityClassName: high-priority
       containers:
-        - image: docker.io/library/mariadb:10.5.11
+        - image: docker.io/library/mariadb:10.6.3
           name: mariadb
           envFrom:
             - secretRef:
