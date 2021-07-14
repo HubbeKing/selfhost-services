@@ -674,12 +674,6 @@ data:
           "name": "backup",
           "task": "backup",
           "cron": "00 22 * * *",
-          "retain": 7
-        },
-        {
-          "name": "snap",
-          "task": "snapshot",
-          "cron": "00 21 * * *",
           "retain": 28
         }
       ]'
