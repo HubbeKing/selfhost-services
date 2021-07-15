@@ -21,6 +21,7 @@ spec:
       containers:
         - image: docker.io/library/mariadb:10.6.3
           name: mariadb
+          args: ["--skip-innodb-read-only-compressed"]  # allow read-write to ROW_FORMAT=COMPRESSED tables
           envFrom:
             - secretRef:
                 name: nextcloud-envs
