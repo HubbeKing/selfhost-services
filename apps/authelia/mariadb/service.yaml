@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+  namespace: authelia
+spec:
+  ports:
+    - port: 3306
+      name: mariadb
+    - port: 4444
+      name: sst
+    - port: 4567
+      name: galera
+    - port: 4568
+      name: ist
+  selector:
+    app: mariadb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb-headless
+  namespace: authelia
+spec:
+  clusterIP: None
+  ports:
+    - port: 3306
+      name: mariadb
+    - port: 4444
+      name: sst
+    - port: 4567
+      name: galera
+    - port: 4568
+      name: ist
+  selector:
+    app: mariadb

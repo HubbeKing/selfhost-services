@@ -1,0 +1,74 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: authelia
+  namespace: authelia
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: authelia
+  template:
+    metadata:
+      labels:
+        app: authelia
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - authelia
+      priorityClassName: high-priority
+      containers:
+        - name: authelia
+          image: docker.io/authelia/authelia:4.29.4
+          command:
+            - authelia
+          args:
+            - --config=/config/configuration.yml
+          envFrom:
+            - configMapRef:
+                name: envs
+          ports:
+            - name: http
+              containerPort: 9091
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+              scheme: HTTP
+            timeoutSeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            failureThreshold: 5
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 2000m
+              memory: 2048Mi
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: secrets
+              readOnly: true
+              mountPath: /config/secrets
+      volumes:
+        - name: config
+          configMap:
+            name: config
+        - name: secrets
+          secret:
+            secretName: secrets
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 33%
+      maxSurge: 33%

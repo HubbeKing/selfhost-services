@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: redis-scripts
+  namespace: authelia
 data:
   # start redis or sentinel as primary or replica depending on ordinal
   # pod 0 is primary by default, further pods are replicas by default
@@ -17,15 +18,15 @@ data:
     elif [ "$1" = "redis" ] && [ $ORDINAL != "0" ]
     then
       # redis replica
-      redis-server /configs/redis.conf --replica-announce-ip $POD_IP --replicaof oauth2-redis-0.oauth2-redis.default.svc.cluster.local 6379
+      redis-server /configs/redis.conf --replica-announce-ip $POD_IP --replicaof redis-0.redis.authelia.svc.cluster.local 6379
     elif [ "$1" = "sentinel" ] && [ $ORDINAL = "0" ]
     then
       # sentinel primary
-      redis-server /configs/sentinel.conf --sentinel announce-ip $POD_IP --sentinel monitor oauth2 $POD_IP 6379 2
+      redis-server /configs/sentinel.conf --sentinel announce-ip $POD_IP --sentinel monitor authelia $POD_IP 6379 2
     elif [ "$1" = "sentinel" ] && [ $ORDINAL != "0" ]
     then
       # sentinel replica
-      redis-server /configs/sentinel.conf --sentinel announce-ip $POD_IP --sentinel monitor oauth2 oauth2-redis-0.oauth2-redis.default.svc.cluster.local 6379 2
+      redis-server /configs/sentinel.conf --sentinel announce-ip $POD_IP --sentinel monitor authelia redis-0.redis.authelia.svc.cluster.local 6379 2
     else
       exit 1
     fi
@@ -36,6 +37,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: redis-configs
+  namespace: authelia
 data:
   # minimal configs, copied into writeable emptyDir volume by initContainer
   # (redis-sentinel does not start without a writeable config file)
@@ -43,12 +45,13 @@ data:
     bind 0.0.0.0
     port 6379
     protected-mode no
+    requirepass Deplete-Finished-Rosy2
   sentinel.conf: |
     bind 0.0.0.0
     port 26379
     protected-mode no
     sentinel announce-port 26379
-    sentinel down-after-milliseconds oauth2 5000
-    sentinel parallel-syncs oauth2 1
-    sentinel failover-timeout oauth2 180000
+    sentinel down-after-milliseconds authelia 5000
+    sentinel parallel-syncs authelia 1
+    sentinel failover-timeout authelia 180000
     sentinel resolve-hostnames yes

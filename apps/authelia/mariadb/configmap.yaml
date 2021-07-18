@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-scripts
+  namespace: authelia
+data:
+  # if we are pod ordinal 0, and we cannot reach any other pods, do a cluster-up for the mariadb galera cluster.
+  # otherwise, attempt to join the existing galera cluster.
+  # this is only really a problem if pod 0 ever crashes, which can happen.
+  startup.sh: |
+    #!/bin/bash
+    ORDINAL=${HOSTNAME##*-}
+    if [ $ORDINAL = "0" ]; then
+      # pod-0
+      # check if cluster is already up
+      if mysql --host=mariadb.authelia.svc.cluster.local --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'; then
+        # connect to cluster
+        docker-entrypoint.sh mysqld
+      else
+        # new cluster
+        echo "Couldn't connect, assuming cluster is not up. Bootstrapping..."
+        docker-entrypoint.sh mysqld --wsrep-new-cluster
+      fi
+    else
+      # pod-1 or above, connect to cluster
+      docker-entrypoint.sh mysqld
+    fi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-configs
+  namespace: authelia
+data:
+  galera.cnf: |
+    [galera]
+    wsrep_on=ON
+    wsrep_provider="/usr/lib/libgalera_smm.so"
+    wsrep_cluster_address="gcomm://mariadb-0.mariadb-headless.authelia.svc.cluster.local,gcomm://mariadb-1.mariadb-headless.authelia.svc.cluster.local,gcomm://mariadb-2.mariadb-headless.authelia.svc.cluster.local"
+    wsrep_cluster_name="authelia"
+    binlog_format=ROW
+    default_storage_engine=InnoDB
+    innodb_autoinc_lock_mode=2
+    innodb_doublewrite=1
+    query_cache_size=0
+    innodb_flush_log_at_trx_commit=0

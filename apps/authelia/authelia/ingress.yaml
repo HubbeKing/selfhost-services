@@ -1,25 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: keycloak
+  name: authelia
+  namespace: authelia
   annotations:
-    # upstream https
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     # sticky sessions, to let login work properly when replicas>1
     nginx.ingress.kubernetes.io/affinity: "cookie"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - keycloak.hubbe.club
+      - auth.hubbe.club
   rules:
-    - host: keycloak.hubbe.club
+    - host: auth.hubbe.club
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: keycloak
+                name: authelia
                 port:
-                  number: 8443
+                  number: 9091

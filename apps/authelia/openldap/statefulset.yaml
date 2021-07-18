@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: openldap
+  namespace: authelia
 spec:
   replicas: 3
   selector:
@@ -35,7 +36,7 @@ spec:
             - name: LDAP_REPLICATION_DB_SYNCPROV
               value: 'binddn="cn=admin,$LDAP_BASE_DN" bindmethod=simple credentials=$LDAP_ADMIN_PASSWORD searchbase="$LDAP_BASE_DN" type=refreshAndPersist interval=00:00:00:10 retry="60 +" timeout=1'
             - name: LDAP_REPLICATION_HOSTS
-              value: '#PYTHON2BASH:["ldap://openldap-0.openldap.default.svc.cluster.local","ldap://openldap-1.openldap.default.svc.cluster.local","ldap://openldap-2.openldap.default.svc.cluster.local"]'
+              value: '#PYTHON2BASH:["ldap://openldap-0.openldap.authelia.svc.cluster.local","ldap://openldap-1.openldap.authelia.svc.cluster.local","ldap://openldap-2.openldap.authelia.svc.cluster.local"]'
           envFrom:
             - secretRef:
                 name: openldap-envs

@@ -1,19 +1,18 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: oauth2-redis
+  name: redis
+  namespace: authelia
 spec:
   replicas: 3
-  serviceName: oauth2-redis
+  serviceName: redis
   selector:
     matchLabels:
-      app: oauth2-proxy
-      component: redis
+      app: redis
   template:
     metadata:
       labels:
-        app: oauth2-proxy
-        component: redis
+        app: redis
     spec:
       affinity:
         podAntiAffinity:
@@ -22,10 +21,6 @@ spec:
               labelSelector:
                 matchExpressions:
                   - key: app
-                    operator: In
-                    values:
-                      - oauth2-proxy
-                  - key: component
                     operator: In
                     values:
                       - redis

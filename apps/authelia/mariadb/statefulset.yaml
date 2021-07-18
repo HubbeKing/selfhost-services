@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mariadb
+  namespace: authelia
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mariadb
+  serviceName: mariadb-headless
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - mariadb
+      priorityClassName: high-priority
+      containers:
+        - image: docker.io/library/mariadb:10.6.3
+          name: mariadb
+          command: ["/bin/sh", "/startup.sh"]
+          envFrom:
+            - secretRef:
+                name: mariadb-envs
+          ports:
+            - containerPort: 3306
+              name: mysql
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - "-c"
+                - "mysql --host=localhost --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'"
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: data
+            - mountPath: /etc/mysql/conf.d/galera.cnf
+              name: configs
+              subPath: galera.cnf
+            - mountPath: /startup.sh
+              name: scripts
+              subPath: startup.sh
+      volumes:
+        - name: configs
+          configMap:
+            name: mariadb-configs
+        - name: scripts
+          configMap:
+            name: mariadb-scripts
+            defaultMode: 0755
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn
