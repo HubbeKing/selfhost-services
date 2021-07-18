@@ -48,10 +48,10 @@ spec:
               name: redis
           resources:
             requests:
-              cpu: 50m
+              cpu: 250m
               memory: 50Mi
             limits:
-              cpu: 250m
+              cpu: 500m
               memory: 250Mi
           volumeMounts:
             - mountPath: /scripts
