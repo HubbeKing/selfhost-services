@@ -4,6 +4,7 @@ metadata:
   name: authelia
   namespace: authelia
 spec:
+  clusterIP: 10.97.185.100
   ports:
     - port: 9091
   selector:
