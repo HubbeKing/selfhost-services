@@ -46,6 +46,7 @@ data:
     port 6379
     protected-mode no
     requirepass Deplete-Finished-Rosy2
+    masterauth Deplete-Finished-Rosy2
   sentinel.conf: |
     bind 0.0.0.0
     port 26379
