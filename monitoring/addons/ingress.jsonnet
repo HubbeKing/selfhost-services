@@ -42,7 +42,7 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
           },
           auth+: {
             oauth_auto_login: true,
-            signout_redirect_url: 'https://login.hubbe.club/oauth2/sign_out',
+            signout_redirect_url: 'https://auth.hubbe.club/logout',
           },
           'auth.proxy': {
             enabled: true,
@@ -95,8 +95,8 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
       },
       {
         'nginx.ingress.kubernetes.io/configuration-snippet': |||
-          auth_request_set $user   $upstream_http_x_auth_request_user;
-          auth_request_set $email  $upstream_http_x_auth_request_email;
+          auth_request_set $user   $upstream_http_remote_user;
+          auth_request_set $email  $upstream_http_remote_email;
           proxy_set_header X-User  $user;
           proxy_set_header X-Email $email;
         |||,
