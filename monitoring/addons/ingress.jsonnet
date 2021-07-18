@@ -5,8 +5,8 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
     name: name,
     namespace: namespace,
     annotations: {
-      'nginx.ingress.kubernetes.io/auth-url': 'https://login.hubbe.club/oauth2/auth',
-      'nginx.ingress.kubernetes.io/auth-signin': 'https://login.hubbe.club/oauth2/start?rd=https://$host$request_uri',
+      'nginx.ingress.kubernetes.io/auth-url': 'http://authelia.authelia.svc.cluster.local:9091/api/verify',
+      'nginx.ingress.kubernetes.io/auth-signin': 'https://auth.hubbe.club',
     } + extraAnnotations,
   },
   spec: { 
