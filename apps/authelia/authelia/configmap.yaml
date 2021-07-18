@@ -238,10 +238,23 @@ data:
             - group:DeepdreamUsers
           policy: two_factor
 
+          # docker registry only supports basic auth
         - domain: registry.hubbe.club
           subject:
             - group:admins
           policy: one_factor
+
+          # nzb360 can't do custom authentication at all
+          # Bypass, since /api endpoints do nothing useful without the API key
+        - domain:
+            - bazarr.hubbe.club
+            - lidarr.hubbe.club
+            - prowlarr.hubbe.club
+            - radarr.hubbe.club
+            - sonarr.hubbe.club
+          resources:
+            - '^/api.*$'
+          policy: bypass
 
         - domain: "*.hubbe.club"
           subject:
