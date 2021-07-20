@@ -4,9 +4,8 @@ Services running on hubbe.club, in local k8s cluster
 ### SOPS setup for config/secret .yaml decryption
 - Install sops
     - See https://github.com/mozilla/sops
-- Get PGP key from backup storage
-    - Import using `gpg --import`
-    - Set `SOPS_PGP_FP` env var to key fingerprint
+- Get age keys.txt from backup storage
+    - Set `SOPS_AGE_RECIPIENTS` env var to public key
 - To decrypt all secrets in repo:
     - Run `find . -type f -name '*.yaml' -exec sops --decrypt --in-place '{}' \;`
 
