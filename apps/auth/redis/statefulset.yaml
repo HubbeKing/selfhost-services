@@ -35,7 +35,7 @@ spec:
             - mountPath: /configs
               name: redis-config-rw
       containers:
-        - image: docker.io/library/redis:6.2.4
+        - image: docker.io/library/redis:6.2.5
           name: redis
           command: ["/bin/sh", "/scripts/startup.sh", "redis"]
           env:
