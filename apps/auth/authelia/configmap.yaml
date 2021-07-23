@@ -47,7 +47,7 @@ data:
       path: ""
 
     ## Level of verbosity for logs: info, debug, trace.
-    log_level: debug
+    log_level: info
 
     ## Format the logs are written as: json, text.
     log_format: text
@@ -63,7 +63,7 @@ data:
 
     ## The secret used to generate JWT tokens when validating user identity by email confirmation. 
     ## JWT Secret can also be set using a secret: https://www.authelia.com/docs/configuration/secrets.html
-  
+
     ##
     ## TOTP Configuration
     ##
@@ -341,10 +341,10 @@ data:
               port: 26379
 
           ## Choose the host with the lowest latency.
-          route_by_latency: false
+          route_by_latency: true
 
           ## Choose the host randomly.
-          route_randomly: true
+          route_randomly: false
 
     ##
     ## Regulation Configuration
