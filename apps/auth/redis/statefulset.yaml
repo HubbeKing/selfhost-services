@@ -58,7 +58,7 @@ spec:
               name: redis-scripts
             - mountPath: /configs
               name: redis-config-rw
-        - image: docker.io/library/redis:6.2.4
+        - image: docker.io/library/redis:6.2.5
           name: sentinel
           command: ["/bin/sh", "/scripts/startup.sh", "sentinel"]
           env:
