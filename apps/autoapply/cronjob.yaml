@@ -17,7 +17,7 @@ spec:
             - name: registry-hubbe-club-creds
           containers:
             - name: autoapply
-              image: registry.hubbe.club/autoapply:v1.21.2
+              image: registry.hubbe.club/autoapply:v1.21.3
               command: ["bash"]
               args: ["/apply.sh"]
               env:
