@@ -9,6 +9,10 @@ data:
   # this is only really a problem if pod 0 ever crashes, which can happen.
   startup.sh: |
     #!/bin/bash
+    set -e
+    # manually set wsrep_node_address and wsrep_node_name in galera config based on pod IP and hostname
+    sed -i 's|POD_IP|'"$POD_IP"'|' /etc/mysql/conf.d/galera.cnf
+    sed -i 's|HOSTNAME|'"$HOSTNAME"'|' /etc/mysql/conf.d/galera.cnf
     ORDINAL=${HOSTNAME##*-}
     if [ $ORDINAL = "0" ]; then
       # pod-0
@@ -36,8 +40,10 @@ data:
     [galera]
     wsrep_on=ON
     wsrep_provider="/usr/lib/libgalera_smm.so"
-    wsrep_cluster_address="gcomm://mariadb-0.mariadb-headless.authelia.svc.cluster.local,gcomm://mariadb-1.mariadb-headless.authelia.svc.cluster.local,gcomm://mariadb-2.mariadb-headless.authelia.svc.cluster.local"
+    wsrep_cluster_address="gcomm://mariadb-0.mariadb-headless.authelia.svc.cluster.local,mariadb-1.mariadb-headless.authelia.svc.cluster.local,mariadb-2.mariadb-headless.authelia.svc.cluster.local"
     wsrep_cluster_name="authelia"
+    wsrep_node_address=POD_IP
+    wsrep_node_name=HOSTNAME
     binlog_format=ROW
     default_storage_engine=InnoDB
     innodb_autoinc_lock_mode=2

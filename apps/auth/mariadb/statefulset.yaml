@@ -25,10 +25,24 @@ spec:
                     values:
                       - mariadb
       priorityClassName: high-priority
+      initContainers:
+        - image: docker.io/library/busybox:stable
+          name: configmap-copier
+          command: ["/bin/sh", "-c", "cp -L /readonly/* /configs/"]
+          volumeMounts:
+            - mountPath: /readonly
+              name: configs
+            - mountPath: /configs
+              name: configs-rw
       containers:
         - image: docker.io/library/mariadb:10.6.3
           name: mariadb
           command: ["/bin/sh", "/startup.sh"]
+          env:
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
           envFrom:
             - secretRef:
                 name: mariadb-envs
@@ -53,13 +67,14 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: data
-            - mountPath: /etc/mysql/conf.d/galera.cnf
-              name: configs
-              subPath: galera.cnf
+            - mountPath: /etc/mysql/conf.d/
+              name: configs-rw
             - mountPath: /startup.sh
               name: scripts
               subPath: startup.sh
       volumes:
+        - name: configs-rw
+          emptyDir: {}
         - name: configs
           configMap:
             name: mariadb-configs
