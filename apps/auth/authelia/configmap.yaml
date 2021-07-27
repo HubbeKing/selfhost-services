@@ -305,7 +305,7 @@ data:
       ## Important: Kubernetes (or HA) users must read https://www.authelia.com/docs/features/statelessness.html
       ##
       redis:
-        host: redis-0.redis.authelia.svc.cluster.local
+        #host: redis.authelia.svc.cluster.local
         port: 26379
 
         ## Username used for redis authentication. This is optional and a new feature in redis 6.0.
@@ -335,6 +335,8 @@ data:
           ## If the host in the above section is defined, it will be combined with this list to connect to sentinel.
           ## For high availability to be used you must have either defined; the host above or at least one node below.
           nodes:
+            - host: redis-0.redis.authelia.svc.cluster.local
+              port: 26379
             - host: redis-1.redis.authelia.svc.cluster.local
               port: 26379
             - host: redis-2.redis.authelia.svc.cluster.local
