@@ -16,10 +16,10 @@ steps:
     environment:
       AGE_KEY:
         from_secret: age_key
-      SOPS_AGE_KEY_FILE: /keys.txt
+      SOPS_AGE_KEY_FILE: /drone/src/keys.txt
     commands:
       # create keys.txt file
-      - echo $AGE_KEY > /keys.txt
+      - echo $AGE_KEY > keys.txt
       # run SOPS decryption on secrets
       - find '.' -type f -name '*.yaml' -exec sops --decrypt --in-place '{}' \;
       # apply manifests with kubectl
