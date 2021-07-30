@@ -85,9 +85,3 @@ Services running on hubbe.club, in local k8s cluster
     - All apps can be deployed simply with `kubectl apply -R -f apps/`
     - If deploying single apps, remember to also deploy related configs
         - Most things need the `apps/linuxserver-envs.yaml` ConfigMap
-
-### Autoapply setup
-Autoapply automatically applies resources defined in the repo onto the cluster every 5m
-- Ensure registry is deployed, and has an autoapply image defined in `apps/autoapply/cronjob.yaml`
-- Create gpg-secret needed by autoapply using `apps/autoapply/create_gpg_secret.sh` script
-- Run `kubectl apply -f apps/autoapply/`
