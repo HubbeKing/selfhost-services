@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: amdgpu-device-plugin-daemonset
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      name: amdgpu-dp-ds
+  template:
+    metadata:
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ""
+      labels:
+        name: amdgpu-dp-ds
+    spec:
+      nodeSelector:
+        # rycon has an AMD GPU
+        kubernetes.io/hostname: rycon
+      tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+      containers:
+        - image: rocm/k8s-device-plugin:latest
+          name: amdgpu-dp-cntr
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: dp
+              mountPath: /var/lib/kubelet/device-plugins
+            - name: sys
+              mountPath: /sys
+      volumes:
+        - name: dp
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+        - name: sys
+          hostPath:
+            path: /sys
