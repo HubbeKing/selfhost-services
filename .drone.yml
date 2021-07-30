@@ -19,7 +19,7 @@ steps:
       SOPS_AGE_KEY_FILE: /keys.txt
     commands:
       # create keys.txt file
-      - echo ${AGE_KEY} > /keys.txt
+      - echo "${AGE_KEY}" > /keys.txt
       # run SOPS decryption on secrets
       - find '.' -type f -name '*.yaml' -exec sops --decrypt --in-place '{}' \;
       # apply manifests with kubectl
@@ -31,3 +31,11 @@ steps:
 
 image_pull_secrets:
   - registry_pull_secret
+---
+kind: secret
+name: age_key
+data: 7tRAlTstgDNzgdA4r4sazMb/fwwI/Je7zhMNHuEvka3du5gWHIxwFMNaqegEOBAIOyoXkEoZ47l2kuYSLUE2PSCtghIw7ffh9BsZ8cRtrFkRGW7zfYN2yWNMW2pEn1U8JAUxZ4n2J1WFkrQ1KbIb5OP1rkOE3i9nXeTFMH0b7uY6mq8BKw3fYTRLtIJbVOVS+u1bSZzDZG8cKmxKK6TOtaylcAeF3+E1nS/HlVUBC+p+2rflofGWwfte9K70jSaeAZoFA42BxWAwk7KTLKBkJ1Z3ldg5Nc+0zA==
+---
+kind: secret
+name: registry_pull_secret
+data: bVeVKHR9PnBw77jNcp5hJSRKP4yg5ob4+O6mLJTsk34Bd25aEN6MchrKjtPf2YqqDo+U79bS08nyFr9TZuHVboY43tDmrz8OvVDs791/JZYQVGGLBLmeUcUL22ldUNgppD4PCIZbMPcBtaVwgm9BxJg3Mtrrciloq1noj3nWWPkL+fYBt1n1Wof1bCBSDMfrh7m4
