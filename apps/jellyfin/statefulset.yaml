@@ -12,31 +12,10 @@ spec:
       labels:
         app: jellyfin
     spec:
-      # prefer to be scheduled on galactica, as it has a full desktop-grade CPU/iGPU
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - galactica
       securityContext:
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
-      # tolerate taint on dedicated:video nodes, which are for serving/transcoding video
-      tolerations:
-        - key: dedicated
-          operator: Equal
-          value: video
-          effect: NoSchedule
-        - key: dedicated
-          operator: Equal
-          value: video
-          effect: NoExecute
       containers:
         - image: docker.io/jellyfin/jellyfin:10.7.6
           name: jellyfin

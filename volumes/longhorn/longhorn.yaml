@@ -566,7 +566,7 @@ data:
     guaranteed-engine-cpu:
     default-longhorn-static-storage-class: longhorn
     backupstore-poll-interval: 300
-    taint-toleration: "dedicated=video:NoSchedule; dedicated=video:NoExecute"
+    taint-toleration:
     system-managed-components-node-selector:
     priority-class: "high-priority"
     auto-salvage: true

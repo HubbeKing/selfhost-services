@@ -14,16 +14,6 @@ spec:
       labels:
         app: intel-gpu-plugin
     spec:
-      # tolerate taint on dedicated:video nodes, which are for serving/transcoding video
-      tolerations:
-        - key: dedicated
-          operator: Equal
-          value: video
-          effect: NoSchedule
-        - key: dedicated
-          operator: Equal
-          value: video
-          effect: NoExecute
       nodeSelector:
         # all amd64 linux nodes are assumed to have an intel GPU
         # TODO apply Node Feature Discovery to cluster
