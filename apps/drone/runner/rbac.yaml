@@ -43,3 +43,55 @@ kind: ServiceAccount
 metadata:
   name: drone
   namespace: drone
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: autoapply
+  labels:
+    component: autoapply
+rules:
+  - apiGroups:
+      # "" is the core API group, other api groups as used by resources in repo
+      - ""
+      - "admissionregistration.k8s.io"
+      - "apiextensions.k8s.io"
+      - "apiregistration.k8s.io"
+      - "apps"
+      - "batch"
+      - "cert-manager.io"
+      - "extensions"
+      - "monitoring.coreos.com"
+      - "networking.k8s.io"
+      - "policy"
+      - "rbac.authorization.k8s.io"
+      - "scheduling.k8s.io"
+      - "storage.k8s.io"
+    # access to all resources/verbs means I don't have to worry about what autoapply can and can't do
+    resources:
+       - "*"
+    verbs:
+       - "*"
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: autoapply
+  labels:
+    component: autoapply
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: autoapply
+subjects:
+  - kind: ServiceAccount
+    name: autoapply
+    namespace: drone
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: autoapply
+  namespace: drone
+  labels:
+    component: autoapply
