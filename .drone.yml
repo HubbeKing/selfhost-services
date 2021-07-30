@@ -13,6 +13,7 @@ steps:
   - name: apply
     image: registry.hubbe.club/autoapply:v1.21.3
     pull: if-not-exists
+    service_account: autoapply
     environment:
       AGE_KEY:
         from_secret: age_key
