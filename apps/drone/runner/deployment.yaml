@@ -16,40 +16,11 @@ spec:
     spec:
       serviceAccountName: drone
       containers:
-        - name: secrets
-          image: docker.io/drone/kubernetes-secrets:latest
-          env:
-            - name: SERVER_ADDRESS
-              value: ":5000"
-            - name: DEBUG
-              value: "true"
-            - name: SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: runner-envs
-                  key: DRONE_SECRET_PLUGIN_TOKEN
-          ports:
-            - containerPort: 5000
-              name: secrets-api
-          readinessProbe:
-            tcpSocket:
-              port: 5000
-            initialDelaySeconds: 5
-            periodSeconds: 15
-          resources:
-            requests:
-              cpu: 50m
-              memory: 64Mi
-            limits:
-              cpu: 150m
-              memory: 256Mi
         - name: runner
           image: docker.io/drone/drone-runner-kube:1.0.0-beta.8
           env:
             - name: DRONE_POLICY_FILE
               value: /etc/config/policy.yml
-            - name: DRONE_SECRET_PLUGIN_ENDPOINT
-              value: http://localhost:5000
             - name: DRONE_RPC_HOST
               valueFrom:
                 secretKeyRef:
