@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/grafana-config: c5717d186c57b2eb767d5e15b7e57256
+        checksum/grafana-config: e89de161cf3537b4152662dbdf2bac02
         checksum/grafana-datasources: bff02b6fd55e414ce7cf08a5ea2a85e3
       labels:
         app.kubernetes.io/component: grafana
