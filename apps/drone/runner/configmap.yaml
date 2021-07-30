@@ -7,6 +7,26 @@ data:
   POLICY: |
     ---
     kind: policy
+    name: autoapply
+
+    match:
+      repo:
+        - "HubbeKing/selfhost-services"
+
+    metadata:
+      namespace: drone
+
+    service_account: autoapply
+
+    resources:
+      request:
+        cpu: 500
+        memory: 128MiB
+      limit:
+        cpu: 500
+        memory: 256MiB
+    ---
+    kind: policy
     name: default
 
     metadata:
@@ -21,23 +41,3 @@ data:
       limit:
         cpu: 1000
         memory: 2GiB
-    ---
-    kind: policy
-    name: autoapply
-
-    match:
-      repo:
-        - "HubbeKing/selfhost-services"
-
-    metadata:
-      namespace: drone
-    
-    service_account: autoapply
-
-    resources:
-      request:
-        cpu: 500
-        memory: 128MiB
-      limit:
-        cpu: 500
-        memory: 256MiB
