@@ -15,11 +15,8 @@ spec:
         app: intel-gpu-plugin
     spec:
       nodeSelector:
-        # all amd64 linux nodes are assumed to have an intel GPU
-        # TODO apply Node Feature Discovery to cluster
-        # TODO use feature.node.kubernetes.io/pci-0300_8086.present: "true" as a nodeSelector
-        kubernetes.io/arch: amd64
-        kubernetes.io/os: linux
+        # NFD labels nodes with intel GPU with this label
+        feature.node.kubernetes.io/pci-0300_8086.present: "true"
       initContainers:
       - name: intel-gpu-initcontainer
         image: docker.io/intel/intel-gpu-initcontainer:devel
