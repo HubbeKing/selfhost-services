@@ -10,8 +10,8 @@ data:
   AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE: /config/secrets/LDAP_PASSWORD
   AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE: /config/secrets/SMTP_PASSWORD
   AUTHELIA_STORAGE_MYSQL_PASSWORD_FILE: /config/secrets/MYSQL_PASSWORD
-  AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY_FILE: /config/secrets/OIDC_ISSUER_PRIVATE_KEY
-  AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE: /config/secrets/OIDC_HMAC_SECRET
+  #AUTHELIA_IDENTITY_PROVIDERS_OIDC_ISSUER_PRIVATE_KEY_FILE: /config/secrets/OIDC_ISSUER_PRIVATE_KEY
+  #AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE: /config/secrets/OIDC_HMAC_SECRET
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -24,10 +24,6 @@ data:
     #                           Authelia Configuration                            #
     ###############################################################################
 
-    ## The host and port to listen on.
-    host: 0.0.0.0
-    port: 9091
-
     ## The theme to display: light, dark, grey, auto.
     theme: dark
 
@@ -35,6 +31,9 @@ data:
     ## Server Configuration
     ##
     server:
+      ## The host and port to listen on.
+      host: 0.0.0.0
+      port: 9091
       ## Buffers usually should be configured to be the same value.
       ## Explanation at https://www.authelia.com/docs/configuration/server.html
       ## Read buffer size adjusts the server's max incoming request size in bytes.
@@ -46,11 +45,12 @@ data:
       ## Must be alphanumeric chars and should not contain any slashes.
       path: ""
 
-    ## Level of verbosity for logs: info, debug, trace.
-    log_level: info
+    log:
+      ## Level of verbosity for logs: info, debug, trace.
+      level: info
 
-    ## Format the logs are written as: json, text.
-    log_format: text
+      ## Format the logs are written as: json, text.
+      format: text
 
     ## Default redirection URL
     ##
@@ -61,7 +61,7 @@ data:
     ## Note: this parameter is optional. If not provided, user won't be redirected upon successful authentication.
     default_redirection_url: https://cloud.hubbe.club
 
-    ## The secret used to generate JWT tokens when validating user identity by email confirmation. 
+    ## The secret used to generate JWT tokens when validating user identity by email confirmation.
     ## JWT Secret can also be set using a secret: https://www.authelia.com/docs/configuration/secrets.html
 
     ##
@@ -432,13 +432,13 @@ data:
     ##
     ## Identity Providers
     ##
-    identity_providers:
+    # identity_providers:
       ##
       ## OpenID Connect (Identity Provider)
       ##
       ## It's recommended you read the documentation before configuration of this section:
       ## https://www.authelia.com/docs/configuration/identity-providers/oidc.html
-      oidc:
+      # oidc:
         ## The hmac_secret is used to sign OAuth2 tokens (authorization code, access tokens and refresh tokens).
         ## HMAC Secret can also be set using a secret: https://www.authelia.com/docs/configuration/secrets.html
 
@@ -446,7 +446,7 @@ data:
         ## Issuer Private Key can also be set using a secret: https://docs.authelia.com/configuration/secrets.html
 
         ## Clients is a list of known clients and their configuration.
-        clients:
+        # clients:
           ## The ID is the OpenID Connect ClientID which is used to link an application to a configuration.
           # - id: myapp
 

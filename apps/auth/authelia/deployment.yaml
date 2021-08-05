@@ -4,7 +4,7 @@ metadata:
   name: authelia
   namespace: authelia
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
       app: authelia
@@ -13,6 +13,9 @@ spec:
       labels:
         app: authelia
     spec:
+      # work around authelia bug with ENV var parsing
+      enableServiceLinks: false
+      # don't schedule more than 1 replica per node
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -26,7 +29,7 @@ spec:
       priorityClassName: high-priority
       containers:
         - name: authelia
-          image: docker.io/authelia/authelia:4.29.4
+          image: docker.io/authelia/authelia:4.30.1
           command:
             - authelia
           args:
