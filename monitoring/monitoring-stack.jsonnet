@@ -30,7 +30,7 @@ local kp =
           "cert-manager", "default", "drone", 
           "ingress-nginx", "kube-system", 
           "longhorn-system", "metallb-system", 
-          "monitoring"
+          "monitoring", "node-feature-discovery"
         ],
       },
       // add grafana dashboards
