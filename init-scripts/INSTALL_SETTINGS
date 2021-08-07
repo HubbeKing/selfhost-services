@@ -1,11 +1,6 @@
 
 # Kubernetes version to install
-KUBE_VERSION=1.21.0
-
-# Node Operating System
-# needed to get proper packages for CRI-o
-# see https://github.com/cri-o/cri-o/blob/master/install.md#apt-based-operating-systems
-OS=xUbuntu_20.04
+KUBE_VERSION=1.21.3
 
 # subnet CIDRs for kubeadm configuration
 # these should be set to avoid conflicts with existing networks
@@ -19,4 +14,4 @@ K8S_SERVICE_CIDR=10.96.0.0/12
 # uncomment and set this if stacked control plane HA setup is desired
 # see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
 # for control-plane loadbalancer options, see https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md
-#CONTROL_PLANE_ENDPOINT=192.168.1.100:6443
+CONTROL_PLANE_ENDPOINT=192.168.1.100:6443

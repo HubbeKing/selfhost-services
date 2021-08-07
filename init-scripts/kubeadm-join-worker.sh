@@ -15,8 +15,10 @@ do
     # ensure required packages are installed and using proper settings
     echo "Copying install script..."
     scp INSTALL_SETTINGS $host:/tmp/
+    scp containerd_config.toml $host:/tmp/
     scp install-prereqs.sh $host:/tmp/
     ssh -t $host "sed -i 's|INSTALL_SETTINGS|/tmp/INSTALL_SETTINGS|' /tmp/install-prereqs.sh"
+    ssh -t $host "sed -i 's|containerd_config.toml|/tmp/containerd_config.toml|' /tmp/install-prereqs.sh"
     echo "Installing required packages..."
     ssh -t $host /tmp/install-prereqs.sh
     # ensure kubelet service is enabled

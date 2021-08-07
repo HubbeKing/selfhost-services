@@ -41,7 +41,7 @@ bootstrapTokens:
       - signing
       - authentication
 nodeRegistration:
-  criSocket: /var/run/crio/crio.sock
+  criSocket: /run/containerd/containerd.sock
   taints:
     - effect: NoSchedule
       key: node-role.kubernetes.io/master

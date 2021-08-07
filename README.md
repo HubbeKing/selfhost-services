@@ -18,8 +18,6 @@ Services running on hubbe.club, in local k8s cluster
 3. Adjust settings in `init-scripts/INSTALL_SETTINGS`
     - The other scripts pull variables from this file:
         - `KUBE_VERSION` sets the kubernetes version for the cluster
-        - `OS` MUST be set to the cri-o variable for the nodes' operating system
-            - See https://github.com/cri-o/cri-o/blob/master/install.md#apt-based-operating-systems
         - `POD_NETWORK_CIDR` sets the pod networking subnet, this should be set to avoid conflicts with existing networking
         - `K8S_SERVICE_CIDR` sets the service subnet, this should also avoid conflicting
         - `CONTROL_PLANE_ENDPOINT` sets the kube-apiserver loadbalancer endpoint, which allows for stacked HA setups
@@ -34,7 +32,7 @@ Services running on hubbe.club, in local k8s cluster
         - https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#InitConfiguration
         - https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#ClusterConfiguration
 5. Set up the first node of the control-plane with `init-scripts/kubeadm-init.sh`
-    - Required packages are installed - `cri-o`, `cri-o-runc`, `kubeadm`, `kubelet`, and `kubectl`
+    - Required packages are installed - `containerd.io`, `kubeadm`, `kubelet`, and `kubectl`
     - `Project Calico` is set up in the cluster for pod networking - see `core/calico.yml`
         - NOTE: Calico auto-detects the podSubnet setting from kubeadm, there should be no need to adjust it
         - NOTE: recent versions of Calico auto-detect network MTU, there should be no need to adjust it manually.
