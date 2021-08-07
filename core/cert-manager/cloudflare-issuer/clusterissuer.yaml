@@ -4,14 +4,14 @@ metadata:
     name: ENC[AES256_GCM,data:oIpPG97im20Hw1rZdNMwDZk=,iv:01vzWFqonAPk18HeaxJdJstdm4CEBdDrXExTdHQBa/Y=,tag:WagBOTPfljxCz2PcIxELCw==,type:str]
 spec:
     acme:
-        email: ENC[AES256_GCM,data:D6yR0NX7hU721nQ5mxTJsIwL,iv:vvgWxrUamifTfgvrGCbRW0YguiBsPugbKnyueu8Acw4=,tag:WMMzILkV93rYeOxOYIQPxw==,type:str]
+        email: ENC[AES256_GCM,data:4yUyB4c4iszzrUhRbx8ZCAL4R7jM,iv:5tiv43J6r1hsasnD+H6hwy25sEHqXdSY2a0OEfkC0Jk=,tag:ReB3CP+b3thKQT8vBe2zUQ==,type:str]
         server: ENC[AES256_GCM,data:Y0ayLIsGhWVgq8+QcaNQ/RMRYaE2xpVdnYGJk2gulx2Et/maDre+yxax/dYadw==,iv:T/8Z3vN813vyyvnvJ7WPtrytwbQfcrwEFZ+6Z5q33II=,tag:0YmJJAH6eB6tf/iNmj4DXg==,type:str]
         privateKeySecretRef:
             name: ENC[AES256_GCM,data:CYk/UtTsPnc2vAuy5q+PIw62AkO9EaE=,iv:shWWdXt+yZlJ5JLIh0xtRA8V+cRC7GozIAHYn6ugva8=,tag:BUzaIgpWE5jFPsPfiM6vhg==,type:str]
         solvers:
             - dns01:
                 cloudflare:
-                    email: ENC[AES256_GCM,data:CDCMOHtf2oLObV5mwybPXMiE,iv:+g2mYydTSup85jhY0YOqwVrRJoAb1phkoqGXUaEbcfc=,tag:nIKyQiXZOMR5turypzl51w==,type:str]
+                    email: ENC[AES256_GCM,data:RBqpNykxxNt+wyd/XfkBI8aK0GVw,iv:faJv3IZolpihkQjZwxv14JVEv2HgifDygs2MBkCagv4=,tag:A3YQt2Q3uXmuklwh4it/UQ==,type:str]
                     apiKeySecretRef:
                         name: ENC[AES256_GCM,data:W3NP4p4uTX05+qALFdkmdHM=,iv:vwJvaiL3LGV3WnfORGXneBuO6GGoCZY1DWr74yA6GmY=,tag:643t8HWv8Z9bn7ttQjZY3A==,type:str]
                         key: ENC[AES256_GCM,data:8UOLvJOYHA==,iv:UKGR3nR/8AimQlDV08GJPlagnI74UKF5UK65dFg30HU=,tag:RdTNUdPhAAnwtYR/qmRFxQ==,type:str]
@@ -34,8 +34,8 @@ sops:
             dVdoZ0FNVUhnckNKME9UcFNzMzZhQjgK/hZAKOK7xL68WHAgC7FdpowI97s1ADgm
             AS2nvy/P9PD05ru6k3odqIWyAxAeYFbdyiwXm89SY/Y/Wab4P2+05Q==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2021-07-13T09:23:24Z"
-    mac: ENC[AES256_GCM,data:P+1P412rzK+yJ17EUuFhj9ufs4FatqPc/+R2LrQgPRM7UBfvVrgWzclCemvS0SWQCEKMC/ex5cEbfCKEROvftrLzW1k8+/Px45ZZr30aWOpp+3eW2eqr8Z2KCQFF+VhPq799ieecBomeR5vE6vQOSBo8r365XjlCl8Rm8+2Ru+M=,iv:sN1muBGAr9sY5sPxLdGzdT+Gd6umEHyb6vWTnEll+Vo=,tag:D3CLFPC0pS32Sc829TilsQ==,type:str]
+    lastmodified: "2021-08-07T16:50:33Z"
+    mac: ENC[AES256_GCM,data:GWr9fjyxf1t76gsey5UgZDs26ekEebFysbRWuK0qpRNW4TdcPzPO+lZjtuEZqWyHr71qZsue7lZMuF3Vdp1hOeztpnVLufSVM0L9yG2kGSXZgLg1q9vCrRJz3l5kygJzqQyksKCkxAUiZrfo/61l540S5D9AtFvFKaz58ikDIKw=,iv:AZnwtZ3D17aO2pErarnKZO9m3Mv8Mar/ESO+M/WMHWY=,tag:46R6Ln9Sphk4hPCj8EDL+w==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
-    version: 3.6.0
+    version: 3.7.1

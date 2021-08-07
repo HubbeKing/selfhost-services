@@ -5,7 +5,7 @@ metadata:
 spec:
     acme:
         server: ENC[AES256_GCM,data:k2z0LBXP3R7FSZ3pG51wXCv1cH91Ex7AFib2zs9RzVpNVz0P9LNxlzE+CG0jfA==,iv:9u2Gf2n+H5kslv0s5f1xseIA2qDYv3pm+uCdt2BlMQg=,tag:XDDxZ8f8kmbK/1EVKWAHyA==,type:str]
-        email: ENC[AES256_GCM,data:yULbP4/vEraNXq1Ojc1xDwaL,iv:by0tS79eO2LsnRGWcLpbZwTSKazJnmcUfaou5jO4AGU=,tag:5eqKvxL5J/8TMbUxbBHIjQ==,type:str]
+        email: ENC[AES256_GCM,data:0kI2C4FomrdaqO2Hm0250T1uy7pXnA==,iv:OwktlySODfXqyQ6rcLhoxMoefkelh/t/YdPowZtGVu8=,tag:ZYWRxON19jQaDR+maT2q4A==,type:str]
         privateKeySecretRef:
             name: ENC[AES256_GCM,data:nSqeT19CEyF7ZUHbNPZtIU5aBYx44AY=,iv:CWHEvOpfGEHs8uIATt4xzO+nWPj3llIMK4JBQIWXttU=,tag:mLmZd543vP9TL7EHgskbVg==,type:str]
         solvers:
@@ -27,8 +27,8 @@ sops:
             cmt1RG1FZVRsOTQxbndkSm1vaWxGb0EKBhOYjjOoLQ2+wDbyd16JnOqoy7/IMIOK
             rwsj4Mmfba4aEO8M8sTgsgbYzdc7DKGVDPPEE4IkVTo+qSyfw++aGQ==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2021-07-13T09:23:30Z"
-    mac: ENC[AES256_GCM,data:RStad+W7tpyPyceLwELNg08l1phwBiG/5A+J0giwkR9pkvjzTIaWIKAQW/+c60pbYXd3VSLNTAVCi3AwRjOWv8vLAt1oH5rQiMYMJoTYCQp6UOy/6bd3r4clB6oH4osu/r8w8pqGlgVO+QMapX/1FhbXEV8cb4eKlMee3pKSslk=,iv:Pxqoof8f8aMyqfMmrQI1Wf5V3IkfhqFV9wLzRIqfTsw=,tag:IMQlE3Yc4PBdlOPQhq8zfg==,type:str]
+    lastmodified: "2021-08-07T16:50:59Z"
+    mac: ENC[AES256_GCM,data:7fVsOsYqSB6esEhBQg4xrHu+0zxT76zHaRS222up8Se2lrM3R/IU6efPCMWdvaYDdo/RVcKoog6Xm43MWDhr08vh01he0kThg7noET3FCY63FwpHuTvYMfVnvQSVrYQY8I7pD3LHZaAwQGb5DkaVzsvAFiKJp47v6AIltwxlQus=,iv:XBrab/Yfh5/x3HlkNq8Vo7bhX80iUPvD5UBw4UyuJUE=,tag:ABI0Ssvk5ddv7D2P8bNOrw==,type:str]
     pgp: []
     unencrypted_suffix: _unencrypted
-    version: 3.6.1
+    version: 3.7.1
