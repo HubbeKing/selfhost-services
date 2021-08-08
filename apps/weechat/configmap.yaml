@@ -3,11 +3,19 @@ kind: ConfigMap
 metadata:
   name: weechat-configs
 data:
+  .tmux.conf: |
+    set-option -g status off
+    set-option -g default-terminal screen-256color
   start.sh: |
     #!/bin/bash
 
-    # start screen daemonized weechat
-    screen -T screen-256color -U -D -m weechat
+    # start a new session with weechat
+    # if weechat exits send a signal on the "weechat" wait-for channel
+    tmux new-session -d 'weechat; tmux wait-for -S weechat'
+    # wait until wait-for signal is received on "weechat" channel
+    # if this signal is received, this command exits and the script is done, and the container dies.
+    tmux wait-for weechat
+
   attach.sh: |
     #!/bin/bash
-    TERM=screen-256color screen -r "$@"
+    TERM=screen-256color tmux attach "$@"
