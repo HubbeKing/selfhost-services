@@ -3,15 +3,11 @@ kind: ConfigMap
 metadata:
   name: weechat-configs
 data:
-  start.sh: |-
+  start.sh: |
     #!/bin/bash
-
-    # trap SIGTERM signal, tell weechat to quit, and then exit
-    _term() {
-      echo "*/quit" > /home/weechat/.weechat/weechat_fifo && exit 0
-    }
-
-    trap _term SIGTERM
 
     # start screen daemonized weechat
     screen -T screen-256color -U -D -m weechat
+  attach.sh: |
+    #!/bin/bash
+    TERM=screen-256color screen -r "$@"

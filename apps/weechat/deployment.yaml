@@ -46,6 +46,9 @@ spec:
               - key: start.sh
                 path: start.sh
                 mode: 0755
+              - key: attach.sh
+                path: attach.sh
+                mode: 0755
         - name: data
           persistentVolumeClaim:
             claimName: data-weechat-dbchat
