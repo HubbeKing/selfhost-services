@@ -23,6 +23,9 @@ spec:
         - image: registry.hubbe.club/weechat:v3.2
           imagePullPolicy: Always
           name: weechat
+          env:
+            - name: TERM
+              value: screen-256color
           ports:
             - containerPort: 9000
               name: relay
