@@ -21,19 +21,11 @@ spec:
         fsGroup: 1000
       containers:
         - image: registry.hubbe.club/weechat:v3.2
+          imagePullPolicy: Always
           name: weechat
           ports:
             - containerPort: 9000
               name: relay
-          readinessProbe:
-            exec:
-              command:
-                - "tmux"
-                - "has-session"
-                - "-t"
-                - "weechat"
-            initialDelaySeconds: 5
-            periodSeconds: 15
           resources:
             requests:
               cpu: 50m
@@ -51,8 +43,6 @@ spec:
           configMap:
             name: weechat-configs
             items:
-              - key: tmux.conf
-                path: .tmux.conf
               - key: start.sh
                 path: start.sh
                 mode: 0755
