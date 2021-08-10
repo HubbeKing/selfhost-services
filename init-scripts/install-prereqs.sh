@@ -80,8 +80,9 @@ sudo systemctl enable containerd
 sudo apt update
 
 # install iSCSI initiator, so that we can mount iSCSI targets as volumes
+# install ipvsadm for IPVS management
 # install NFS client, so we can mount NFS shares as volumes
-sudo apt install -y open-iscsi nfs-common
+sudo apt install -y --no-install-recommends open-iscsi ipvsadm nfs-common
 
 # install kubeadm, kubelet, and kubectl
 # add google cloud signing key
@@ -95,6 +96,3 @@ sudo apt update
 sudo apt install -y --allow-change-held-packages kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00
 # hold k8s packages
 sudo apt-mark hold kubelet kubeadm kubectl
-
-# install ipvsadm for IPVS management
-sudo apt install -y --no-install-recommends ipvsadm
