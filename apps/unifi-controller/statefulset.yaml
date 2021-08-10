@@ -51,12 +51,19 @@ spec:
             - containerPort: 10001
               protocol: UDP
               name: ap-discovery
+          readinessProbe:
+            httpGet:
+              path: /manage/account/login
+              port: 8443
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 15
           resources:
             requests:
               cpu: 250m
               memory: 1Gi
             limits:
-              cpu: 1000m
+              cpu: 2000m
               memory: 1Gi
           volumeMounts:
             - name: config
