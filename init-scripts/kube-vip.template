@@ -12,7 +12,7 @@ spec:
     - name: vip_arp
       value: "true"
     - name: vip_interface
-      value: enp2s0f1
+      value: ${INTERFACE}
     - name: port
       value: "6443"
     - name: vip_cidr
@@ -32,7 +32,7 @@ spec:
     - name: vip_retryperiod
       value: "1"
     - name: address
-      value: 192.168.1.100
+      value: ${VIP}
     image: docker.io/plndr/kube-vip:v0.3.7
     imagePullPolicy: Always
     name: kube-vip

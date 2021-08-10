@@ -4,6 +4,17 @@ set -e
 # get env vars from settings file
 source INSTALL_SETTINGS
 
+# make sure systemd-resolved is disabled
+sudo systemctl disable --now systemd-resolved.service
+
+# if /etc/resolv.conf is a symlink, replace with text file based on INSTALL_SETTINGS
+if [[ -L /etc/resolv.conf ]]
+then
+    sudo rm /etc/resolv.conf
+    echo "nameserver $NAMESERVER" | sudo tee /etc/resolv.conf
+    echo "search $SEARCH" | sudo tee -a /etc/resolv.conf
+fi
+
 # make sure overlay module is loaded
 if [ ! `lsmod | grep -o ^overlay` ]; then
   sudo modprobe overlay
@@ -40,7 +51,7 @@ sudo apt install -y \
     apt-transport-https \
     ca-certificates \
     curl \
-    gnupg \
+    gnupg
 
 # add docker GPG key
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -84,3 +95,6 @@ sudo apt update
 sudo apt install -y --allow-change-held-packages kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00
 # hold k8s packages
 sudo apt-mark hold kubelet kubeadm kubectl
+
+# install ipvsadm for IPVS management
+sudo apt install -y --no-install-recommends ipvsadm

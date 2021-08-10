@@ -1,6 +1,6 @@
 
 # Kubernetes version to install
-KUBE_VERSION=1.21.3
+KUBE_VERSION=1.22.0
 
 # subnet CIDRs for kubeadm configuration
 # these should be set to avoid conflicts with existing networks
@@ -15,3 +15,7 @@ K8S_SERVICE_CIDR=10.96.0.0/12
 # see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
 # for control-plane loadbalancer options, see https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md
 CONTROL_PLANE_ENDPOINT=192.168.1.100:6443
+
+# nameserver settings for nodes
+NAMESERVER=192.168.1.101
+SEARCH=lan

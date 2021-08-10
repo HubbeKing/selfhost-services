@@ -21,8 +21,11 @@ Services running on hubbe.club, in local k8s cluster
         - `POD_NETWORK_CIDR` sets the pod networking subnet, this should be set to avoid conflicts with existing networking
         - `K8S_SERVICE_CIDR` sets the service subnet, this should also avoid conflicting
         - `CONTROL_PLANE_ENDPOINT` sets the kube-apiserver loadbalancer endpoint, which allows for stacked HA setups
+            - This causes init and join-controlplane scripts to deploy kube-vip as a static pod
+                - see https://kube-vip.io/install_static
             - See https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
             - See https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md
+        - `NAMESERVER` and `SEARCH` sets resolv.conf settings to apply to nodes
 4. (optional) Adjust kubeadm configuration in `init-scripts/kubeadm-configs`
     - `single.yaml` is used if CONTROL_PLANE_ENDPOINT is not set
     - `stacked-ha.yaml` is used if CONTROL_PLANE_ENDPOINT is set
@@ -33,9 +36,8 @@ Services running on hubbe.club, in local k8s cluster
         - https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#ClusterConfiguration
 5. Set up the first node of the control-plane with `init-scripts/kubeadm-init.sh`
     - Required packages are installed - `containerd.io`, `kubeadm`, `kubelet`, and `kubectl`
-    - `Project Calico` is set up in the cluster for pod networking - see `core/calico.yml`
-        - NOTE: Calico auto-detects the podSubnet setting from kubeadm, there should be no need to adjust it
-        - NOTE: recent versions of Calico auto-detect network MTU, there should be no need to adjust it manually.
+    - `kube-router` is set up as CNI provider, with all features enabled
+        - see https://github.com/cloudnativelabs/kube-router/blob/master/docs/kubeadm.md
     - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
 6. (optional) Add additional control-plane nodes with `init-scripts/kubeadm-join-controlplane.sh <node_user>@<node_address>`
@@ -69,9 +71,10 @@ Services running on hubbe.club, in local k8s cluster
     - See `nginx/certificate.yaml` for certificate request fulfilled by `cert-manager`
 
 ### Apps setup
-- Some apps need iGPU acceleration (jellyfin)
+- Some apps need GPU acceleration (jellyfin)
     - See https://github.com/intel/intel-device-plugins-for-kubernetes/tree/master/cmd/gpu_plugin
-    - Run `kubectl apply -f core/gpu-plugin.yaml`
+    - See https://github.com/RadeonOpenCompute/k8s-device-plugin
+    - Run `kubectl apply -f core/intel-gpu-plugin.yaml -f core/amd-gpu-plugin.yaml`
 - Check NFS server IPs and share paths in `volumes` directory
     - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/`
 - Create configs from `*.yaml.example` files
@@ -80,6 +83,6 @@ Services running on hubbe.club, in local k8s cluster
     - Set new MYSQL_PASSWORD environment variables for `nextcloud` and `freshrss`
 - Set PUID, PGID, and TZ variables in `apps/linuxserver-envs.yaml`
 - Deploy apps
-    - All apps can be deployed simply with `kubectl apply -R -f apps/`
+    - All apps can be deployed simply with `kubectl apply -R -f apps/` once SOPS decryption is done
     - If deploying single apps, remember to also deploy related configs
         - Most things need the `apps/linuxserver-envs.yaml` ConfigMap
