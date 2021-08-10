@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: unifi-controller
+spec:
+  selector:
+    matchLabels:
+      app: unifi-controller
+  serviceName: unifi-controller
+  template:
+    metadata:
+      labels:
+        app: unifi-controller
+    spec:
+      containers:
+        - image: ghcr.io/linuxserver/unifi-controller:version-6.2.26
+          name: unifi-controller
+          env:
+            - name: MEM_STARTUP   # -Xms
+              value: 1024M
+            - name: MEM_LIMIT     # -Xmx
+              value: 1024M
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          ports:
+            - containerPort: 1900
+              protocol: UDP
+              name: l2-discovery
+            - containerPort: 3478
+              protocol: UDP
+              name: stun
+            - containerPort: 5514
+              protocol: UDP
+              name: remote-syslog
+            - containerPort: 6789
+              protocol: TCP
+              name: mobile-test
+            - containerPort: 8080
+              protocol: TCP
+              name: device-comm
+            - containerPort: 8443
+              protocol: TCP
+              name: admin-ui
+            - containerPort: 8843
+              protocol: TCP
+              name: https-redirect
+            - containerPort: 8880
+              protocol: TCP
+              name: http-redirect
+            - containerPort: 10001
+              protocol: UDP
+              name: ap-discovery
+          resources:
+            requests:
+              cpu: 250m
+              memory: 1Gi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          volumeMounts:
+            - name: config
+              mountPath: /config
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn
