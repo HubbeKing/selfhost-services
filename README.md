@@ -11,8 +11,7 @@ Services running on hubbe.club, in local k8s cluster
 
 ### k8s Cluster Setup
 1. Set up machines with basic apt-based OS
-    - Should support Ubuntu 18.04 LTS and Ubuntu 20.04 LTS, both amd64 and arm64
-    - Should support RPi HypriotOS for armhf support
+    - Should support Ubuntu Server 20.04 LTS and up, both arm64 and amd64, possibly also armhf
 2. Set up control-plane loadbalancer static pods
     - See `control-plane-ha` folder for details
 3. Adjust settings in `init-scripts/INSTALL_SETTINGS`
