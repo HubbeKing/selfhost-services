@@ -41,7 +41,8 @@ kubectl apply -f ../core/kube-router.yaml
 kubectl -n kube-system delete daemonset kube-proxy
 
 # clean up iptables configuration kube-proxy may have done
-ctr run --privileged --net-host --mount="type=bind,src=/lib/modules,dst=/lib/modules" k8s.gcr.io/kube-proxy:v${KUBE_VERSION} kube-proxy --cleanup
+sudo ctr image pull k8s.gcr.io/kube-proxy:v${KUBE_VERSION}
+sudo ctr run --privileged --net-host --mount="type=bind,src=/lib/modules,dst=/lib/modules" k8s.gcr.io/kube-proxy:v${KUBE_VERSION} kube-proxy --cleanup
 
 # remove temporary kubeadm config file
 rm temp.yaml
