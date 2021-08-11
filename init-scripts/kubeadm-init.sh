@@ -10,6 +10,7 @@ sudo systemctl enable kubelet.service
 # get required kubeadm config vars from INSTALL_SETTINGS
 source INSTALL_SETTINGS
 
+# TODO: once kube-router supports running without kube-proxy configmap, skip kube-proxy step during init
 # check if a CONTROL_PLANE_ENDPOINT has been specified
 if [ -n "${CONTROL_PLANE_ENDPOINT}" ]; then
     # generate and place kube-vip.yaml manifest for the current node
@@ -34,15 +35,10 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-# apply kube-router for CNI, with all features (service proxy, firewall, pod networking)
+# apply kube-router for CNI and Network Policy support
 kubectl apply -f ../core/kube-router.yaml
 
-# remove kube-proxy, since kube-router does the things it does as well
-kubectl -n kube-system delete daemonset kube-proxy
-
-# clean up iptables configuration kube-proxy may have done
-sudo ctr image pull k8s.gcr.io/kube-proxy:v${KUBE_VERSION}
-sudo ctr run --privileged --net-host --mount="type=bind,src=/lib/modules,dst=/lib/modules" k8s.gcr.io/kube-proxy:v${KUBE_VERSION} kube-proxy --cleanup
+# TODO: once kube-router supports running without kube-proxy configmap, use kube-router for service proxy
 
 # remove temporary kubeadm config file
 rm temp.yaml
