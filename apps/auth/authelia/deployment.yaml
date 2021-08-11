@@ -29,7 +29,7 @@ spec:
       priorityClassName: high-priority
       containers:
         - name: authelia
-          image: docker.io/authelia/authelia:4.30.3
+          image: docker.io/authelia/authelia:4.30.4
           command:
             - authelia
           args:
