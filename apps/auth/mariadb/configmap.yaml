@@ -8,8 +8,7 @@ data:
   # otherwise, attempt to join the existing galera cluster.
   # this is only really a problem if pod 0 ever crashes, which can happen.
   startup.sh: |
-    #!/bin/bash
-    set -e
+    #!/bin/sh
     # manually set wsrep_node_address and wsrep_node_name in galera config based on pod IP and hostname
     sed -i 's|POD_IP|'"$POD_IP"'|' /etc/mysql/conf.d/galera.cnf
     sed -i 's|HOSTNAME|'"$HOSTNAME"'|' /etc/mysql/conf.d/galera.cnf
@@ -22,13 +21,29 @@ data:
         docker-entrypoint.sh mysqld
       else
         # new cluster
-        echo "Couldn't connect, assuming cluster is not up. Bootstrapping..."
+        echo "INFO: Assuming cluster is not up. Bootstrapping..."
+        grep -q 'safe_to_bootstrap: 0' /var/lib/mysql/grastate.dat
+        BOOTSTRAP_SAFE=$?
+        if [ $BOOTSTRAP_SAFE = 0 ] && [ $BOOTSTRAP_FORCE = true ]; then
+            echo "WARNING: safe_to_bootstrap is 0 but $BOOTSTRAP_FORCE is true, forcing bootstrap..."
+            sed -i 's|safe_to_bootstrap: 0|safe_to_bootstrap: 1|' /var/lib/mysql/grastate.dat
+        fi
         docker-entrypoint.sh mysqld --wsrep-new-cluster
       fi
     else
       # pod-1 or above, connect to cluster
       docker-entrypoint.sh mysqld
     fi
+  shutdown.sh: |
+    #!/bin/sh
+    ORDINAL=${HOSTNAME##*-}
+    # if we're ordinal 0, nap for 15s, in case this is a delete
+    # so that higher ordinals have time for graceful shutdown
+    if [ $ORDINAL = "0" ]; then
+      sleep 15
+    fi
+    # gracefully shutdown - this doesn't happen on SIGTERM if there's open connections, but we WANT it to.
+    mysql --host=localhost --user=root --password=${MYSQL_ROOT_PASSWORD} --execute 'SHUTDOWN WAIT FOR ALL REPLICAS'
 ---
 apiVersion: v1
 kind: ConfigMap

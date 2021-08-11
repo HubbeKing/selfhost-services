@@ -39,6 +39,8 @@ spec:
           name: mariadb
           command: ["/bin/sh", "/startup.sh"]
           env:
+            - name: BOOTSTRAP_FORCE
+              value: "false"
             - name: POD_IP
               valueFrom:
                 fieldRef:
@@ -46,6 +48,12 @@ spec:
           envFrom:
             - secretRef:
                 name: mariadb-envs
+          lifecycle:
+            preStop:
+              # run a proper wait-for-replicas shutdown
+              exec:
+                command:
+                  - /shutdown.sh
           ports:
             - containerPort: 3306
               name: mysql
@@ -72,6 +80,10 @@ spec:
             - mountPath: /startup.sh
               name: scripts
               subPath: startup.sh
+            - mountPath: /shutdown.sh
+              name: scripts
+              subPath: shutdown.sh
+      terminationGracePeriodSeconds: 60  # give mariadb time for a graceful shutdown
       volumes:
         - name: configs-rw
           emptyDir: {}
