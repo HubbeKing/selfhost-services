@@ -4,17 +4,6 @@ set -e
 # get env vars from settings file
 source INSTALL_SETTINGS
 
-# make sure systemd-resolved is disabled
-sudo systemctl disable --now systemd-resolved.service
-
-# if /etc/resolv.conf is a symlink, replace with text file based on INSTALL_SETTINGS
-if [[ -L /etc/resolv.conf ]]
-then
-    sudo rm /etc/resolv.conf
-    echo "nameserver $NAMESERVER" | sudo tee /etc/resolv.conf
-    echo "search $SEARCH" | sudo tee -a /etc/resolv.conf
-fi
-
 # make sure overlay module is loaded
 if [ ! `lsmod | grep -o ^overlay` ]; then
   sudo modprobe overlay
