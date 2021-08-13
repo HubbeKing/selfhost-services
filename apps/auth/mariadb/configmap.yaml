@@ -16,7 +16,7 @@ data:
     if [ $ORDINAL = "0" ]; then
       # pod-0
       # check if cluster is already up
-      if mysql --host=mariadb.authelia.svc.cluster.local --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'; then
+      if mysql --host=mariadb-headless.authelia.svc.cluster.local --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'; then
         # connect to cluster
         docker-entrypoint.sh mysqld
       else
