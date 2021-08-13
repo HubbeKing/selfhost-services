@@ -20,7 +20,7 @@ if [ -n "${CONTROL_PLANE_ENDPOINT}" ]; then
     # assume first active interface is the one we want to use
     INTERFACE=$(ip addr show | awk '/inet.*brd/{print $NF; exit}')
     # deploy kube-vip.yaml static pod manifest
-    envsubst < kube-vip.template | sudo tee /etc/kubernetes/kube-vip.yaml
+    VIP=${VIP} INTERFACE=${INTERFACE} envsubst < kube-vip.template | sudo tee /etc/kubernetes/manifests/kube-vip.yaml
     # Initialize stacked HA control-plane cluster on this machine
     KUBE_VERSION=${KUBE_VERSION} POD_NETWORK_CIDR=${POD_NETWORK_CIDR} K8S_SERVICE_CIDR=${K8S_SERVICE_CIDR} CONTROL_PLANE_ENDPOINT=${CONTROL_PLANE_ENDPOINT} envsubst < kubeadm-configs/stacked-ha.yaml > temp.yaml
     sudo kubeadm init --upload-certs --config temp.yaml

@@ -51,7 +51,7 @@ VIP="${CONTROL_PLANE_ENDPOINT%%:*}"
 for host in "$@"
 do
     INTERFACE=$(ssh $host ip addr show | awk '/inet.*brd/{print $NF; exit}')
-    envsubst < kube-vip.template > kube-vip.yaml
+    VIP=${VIP} INTERFACE=${INTERFACE} envsubst < kube-vip.template | sudo tee /etc/kubernetes/manifests/kube-vip.yaml
     scp kube-vip.yaml $host:/tmp/
     ssh $host sudo mv /tmp/kube-vip.yaml /etc/kubernetes/manifests/
     rm kube-vip.yaml
