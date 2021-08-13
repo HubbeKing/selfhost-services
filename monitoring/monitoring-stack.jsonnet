@@ -18,7 +18,7 @@ local kp =
       },
       // monitor etcd
       etcd+: {
-        ips: ["192.168.1.120", "192.168.1.102", "192.168.1.103"],
+        ips: ["192.168.1.122", "192.168.1.123", "192.168.1.101"],
         clientCA: importstr "addons/etcd/ca.crt",
         clientKey: importstr "addons/etcd/peer.key",
         clientCert: importstr "addons/etcd/peer.crt",
@@ -27,7 +27,7 @@ local kp =
       // monitor all namespaces in cluster
       prometheus+: {
         namespaces+: [
-          "cert-manager", "default", "drone", 
+          "cert-manager", "default", 
           "ingress-nginx", "kube-system", 
           "longhorn-system", "metallb-system", 
           "monitoring", "node-feature-discovery"
