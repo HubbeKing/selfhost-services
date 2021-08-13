@@ -7,6 +7,8 @@ data:
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGCOz0rEqX5SdB6fE7CV73m15e1MFKcdM1YXsmhwqlbW hubbe@desktop
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFJ1zIkbSsy/2Tjb3HKn1qW9hPGYpVgbXvM1LXTsu3cz hubbe@laptop
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEx5g6m5V+1zW6wIyx3CTEovDT09hXxR+WfM4Ti0lHGQ hubbe@phone
+  age: |
+    age1j80wssnp7v6kxuga65pua3utmza4y50w243sntfyncynhp6fwpuqxkx7lc
 ---
 apiVersion: v1
 kind: ConfigMap
