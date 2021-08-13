@@ -24,7 +24,6 @@ Services running on hubbe.club, in local k8s cluster
                 - see https://kube-vip.io/install_static
             - See https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
             - See https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md
-        - `NAMESERVER` and `SEARCH` sets resolv.conf settings to apply to nodes
 4. (optional) Adjust kubeadm configuration in `init-scripts/kubeadm-configs`
     - `single.yaml` is used if CONTROL_PLANE_ENDPOINT is not set
     - `stacked-ha.yaml` is used if CONTROL_PLANE_ENDPOINT is set
@@ -37,6 +36,7 @@ Services running on hubbe.club, in local k8s cluster
     - Required packages are installed - `containerd.io`, `kubeadm`, `kubelet`, and `kubectl`
     - `kube-router` is set up as CNI provider, with all features enabled
         - see https://github.com/cloudnativelabs/kube-router/blob/master/docs/kubeadm.md
+        - note: kube-proxy is still used as service proxy, for kubeadm upgrade compatibility
     - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
 6. (optional) Add additional control-plane nodes with `init-scripts/kubeadm-join-controlplane.sh <node_user>@<node_address>`
