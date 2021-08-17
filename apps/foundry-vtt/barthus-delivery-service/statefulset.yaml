@@ -19,7 +19,7 @@ spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds
       containers:
-        - image: registry.hubbe.club/foundry:v0.8.8
+        - image: registry.hubbe.club/foundry:v0.8.9
           name: foundry-barthu
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=barthu"]
