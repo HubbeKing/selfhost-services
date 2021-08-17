@@ -4,6 +4,7 @@ metadata:
   name: mariadb
   namespace: authelia
 spec:
+  # single service IP for authelia to connect to
   ports:
     - port: 3306
       name: mariadb
@@ -19,9 +20,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mariadb-headless
+  name: galera
   namespace: authelia
 spec:
+  # headless service for the galera cluster itself
   clusterIP: None
   ports:
     - port: 3306

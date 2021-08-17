@@ -16,7 +16,7 @@ data:
     if [ $ORDINAL = "0" ]; then
       # pod-0
       # check if cluster is already up
-      if mysql --host=mariadb-headless.authelia.svc.cluster.local --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'; then
+      if mysql --host=galera.authelia.svc.cluster.local --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'; then
         # connect to cluster
         docker-entrypoint.sh mysqld
       else
@@ -55,7 +55,7 @@ data:
     [galera]
     wsrep_on=ON
     wsrep_provider="/usr/lib/libgalera_smm.so"
-    wsrep_cluster_address="gcomm://mariadb-0.mariadb-headless.authelia.svc.cluster.local,mariadb-1.mariadb-headless.authelia.svc.cluster.local,mariadb-2.mariadb-headless.authelia.svc.cluster.local"
+    wsrep_cluster_address="gcomm://mariadb-0.galera.authelia.svc.cluster.local,mariadb-1.galera.authelia.svc.cluster.local,mariadb-2.galera.authelia.svc.cluster.local"
     wsrep_cluster_name="authelia"
     wsrep_node_address=POD_IP
     wsrep_node_name=HOSTNAME
