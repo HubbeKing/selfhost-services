@@ -1,0 +1,336 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: node-feature-discovery
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: nfd-master
+  namespace: node-feature-discovery
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: nfd-master
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - get
+  - patch
+  - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: nfd-master
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: nfd-master
+subjects:
+- kind: ServiceAccount
+  name: nfd-master
+  namespace: node-feature-discovery
+---
+apiVersion: v1
+data:
+  nfd-worker.conf: |
+    #core:
+    #  labelWhiteList:
+    #  noPublish: false
+    #  sleepInterval: 60s
+    #  sources: [all]
+    #  klog:
+    #    addDirHeader: false
+    #    alsologtostderr: false
+    #    logBacktraceAt:
+    #    logtostderr: true
+    #    skipHeaders: false
+    #    stderrthreshold: 2
+    #    v: 0
+    #    vmodule:
+    ##   NOTE: the following options are not dynamically run-time configurable
+    ##         and require a nfd-worker restart to take effect after being changed
+    #    logDir:
+    #    logFile:
+    #    logFileMaxSize: 1800
+    #    skipLogHeaders: false
+    #sources:
+    #  cpu:
+    #    cpuid:
+    ##     NOTE: whitelist has priority over blacklist
+    #      attributeBlacklist:
+    #        - "BMI1"
+    #        - "BMI2"
+    #        - "CLMUL"
+    #        - "CMOV"
+    #        - "CX16"
+    #        - "ERMS"
+    #        - "F16C"
+    #        - "HTT"
+    #        - "LZCNT"
+    #        - "MMX"
+    #        - "MMXEXT"
+    #        - "NX"
+    #        - "POPCNT"
+    #        - "RDRAND"
+    #        - "RDSEED"
+    #        - "RDTSCP"
+    #        - "SGX"
+    #        - "SSE"
+    #        - "SSE2"
+    #        - "SSE3"
+    #        - "SSE4"
+    #        - "SSE42"
+    #        - "SSSE3"
+    #      attributeWhitelist:
+    #  kernel:
+    #    kconfigFile: "/path/to/kconfig"
+    #    configOpts:
+    #      - "NO_HZ"
+    #      - "X86"
+    #      - "DMI"
+    #  pci:
+    #    deviceClassWhitelist:
+    #      - "0200"
+    #      - "03"
+    #      - "12"
+    #    deviceLabelFields:
+    #      - "class"
+    #      - "vendor"
+    #      - "device"
+    #      - "subsystem_vendor"
+    #      - "subsystem_device"
+    #  usb:
+    #    deviceClassWhitelist:
+    #      - "0e"
+    #      - "ef"
+    #      - "fe"
+    #      - "ff"
+    #    deviceLabelFields:
+    #      - "class"
+    #      - "vendor"
+    #      - "device"
+    #  custom:
+    #    - name: "my.kernel.feature"
+    #      matchOn:
+    #        - loadedKMod: ["example_kmod1", "example_kmod2"]
+    #    - name: "my.pci.feature"
+    #      matchOn:
+    #        - pciId:
+    #            class: ["0200"]
+    #            vendor: ["15b3"]
+    #            device: ["1014", "1017"]
+    #        - pciId :
+    #            vendor: ["8086"]
+    #            device: ["1000", "1100"]
+    #    - name: "my.usb.feature"
+    #      matchOn:
+    #        - usbId:
+    #          class: ["ff"]
+    #          vendor: ["03e7"]
+    #          device: ["2485"]
+    #        - usbId:
+    #          class: ["fe"]
+    #          vendor: ["1a6e"]
+    #          device: ["089a"]
+    #    - name: "my.combined.feature"
+    #      matchOn:
+    #        - pciId:
+    #            vendor: ["15b3"]
+    #            device: ["1014", "1017"]
+    #          loadedKMod : ["vendor_kmod1", "vendor_kmod2"]
+    #    - name: "feature.by.nodename"
+    #      value: customValue
+    #      matchOn:
+    #        - nodename: ["worker-0", "my-.*-node"]
+kind: ConfigMap
+metadata:
+  name: nfd-worker-conf
+  namespace: node-feature-discovery
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nfd-master
+  namespace: node-feature-discovery
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: nfd-master
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nfd
+  name: nfd-master
+  namespace: node-feature-discovery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfd-master
+  template:
+    metadata:
+      labels:
+        app: nfd-master
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: In
+                values:
+                - ""
+            weight: 1
+          - preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: In
+                values:
+                - ""
+            weight: 1
+      containers:
+      - args: []
+        command:
+        - nfd-master
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        image: k8s.gcr.io/nfd/node-feature-discovery:v0.9.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /usr/bin/grpc_health_probe
+            - -addr=:8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: nfd-master
+        readinessProbe:
+          exec:
+            command:
+            - /usr/bin/grpc_health_probe
+            - -addr=:8080
+          failureThreshold: 10
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        volumeMounts: []
+      serviceAccount: nfd-master
+      tolerations:
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/master
+        operator: Equal
+        value: ""
+      - effect: NoSchedule
+        key: node-role.kubernetes.io/control-plane
+        operator: Equal
+        value: ""
+      volumes: []
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: nfd
+  name: nfd-worker
+  namespace: node-feature-discovery
+spec:
+  selector:
+    matchLabels:
+      app: nfd-worker
+  template:
+    metadata:
+      labels:
+        app: nfd-worker
+    spec:
+      containers:
+      - args:
+        - -server=nfd-master:8080
+        command:
+        - nfd-worker
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        image: k8s.gcr.io/nfd/node-feature-discovery:v0.9.0
+        imagePullPolicy: IfNotPresent
+        name: nfd-worker
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+        volumeMounts:
+        - mountPath: /host-boot
+          name: host-boot
+          readOnly: true
+        - mountPath: /host-etc/os-release
+          name: host-os-release
+          readOnly: true
+        - mountPath: /host-sys
+          name: host-sys
+          readOnly: true
+        - mountPath: /host-usr/lib
+          name: host-usr-lib
+          readOnly: true
+        - mountPath: /host-usr/src
+          name: host-usr-src
+          readOnly: true
+        - mountPath: /etc/kubernetes/node-feature-discovery/source.d/
+          name: source-d
+          readOnly: true
+        - mountPath: /etc/kubernetes/node-feature-discovery/features.d/
+          name: features-d
+          readOnly: true
+        - mountPath: /etc/kubernetes/node-feature-discovery
+          name: nfd-worker-conf
+          readOnly: true
+      dnsPolicy: ClusterFirstWithHostNet
+      volumes:
+      - hostPath:
+          path: /boot
+        name: host-boot
+      - hostPath:
+          path: /etc/os-release
+        name: host-os-release
+      - hostPath:
+          path: /sys
+        name: host-sys
+      - hostPath:
+          path: /usr/lib
+        name: host-usr-lib
+      - hostPath:
+          path: /usr/src
+        name: host-usr-src
+      - hostPath:
+          path: /etc/kubernetes/node-feature-discovery/source.d/
+        name: source-d
+      - hostPath:
+          path: /etc/kubernetes/node-feature-discovery/features.d/
+        name: features-d
+      - configMap:
+          name: nfd-worker-conf
+        name: nfd-worker-conf

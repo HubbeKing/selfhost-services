@@ -85,3 +85,8 @@ Services running on hubbe.club, in local k8s cluster
     - All apps can be deployed simply with `kubectl apply -R -f apps/` once SOPS decryption is done
     - If deploying single apps, remember to also deploy related configs
         - Most things need the `apps/linuxserver-envs.yaml` ConfigMap
+
+### Updating kustomize-based manifests
+- `kubectl create --dry-run=client -k <path> -o yaml > manifests.yaml`
+    - For example, nfd:
+        - `kubectl create --dry-run=client -k https://github.com/kubernetes-sigs/node-feature-discovery/deployment/overlays/default?ref=v0.9.0 > core/nfd.yaml`
