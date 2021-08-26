@@ -62,7 +62,7 @@ spec:
         component: onlyoffice
     spec:
       containers:
-        - image: docker.io/onlyoffice/documentserver:6.3.2
+        - image: docker.io/onlyoffice/documentserver:6.4.0
           name: onlyoffice
           ports:
             - containerPort: 80
