@@ -41,20 +41,6 @@ local kp =
           'etcd.json': (import 'dashboards/etcd.json'),
         },
       },
-      // add longhorn alerting rules
-      longhorn: {
-        prometheusRule: {
-          apiVersion: "monitoring.coreos.com/v1",
-          kind: "PrometheusRule",
-          metadata: {
-            name: "longhorn-alerts",
-            namespace: $.values.common.namespace,
-          },
-          spec: {
-            groups: (import 'prometheusrules/longhorn.json').groups,
-          },
-        },
-      },
     },
     // set up prometheus retention
     prometheus+:: {

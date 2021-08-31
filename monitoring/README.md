@@ -20,11 +20,6 @@ see also https://github.com/prometheus-operator/kube-prometheus
 - Commit/Push/Apply manifests:
     - Run `kubectl apply -R -f manifests`
 
-## Adding prometheusrules
-- Convert from YAML to JSON
-    - `cat existingrule.yaml | gojsontoyaml -yamltojson > existingrule.json`
-- Add to `prometheusAlerts` key in `monitoring-stack.jsonnet` with `import` function
-
 ## Adding grafana dashboards
 - Add json file to `dashboards` dir
 - Add to `grafana.dashboards` key in `monitoring-stack.jsonnet` with `import` function
