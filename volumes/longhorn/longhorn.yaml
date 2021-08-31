@@ -830,7 +830,6 @@ spec:
       description: Specify the labels
       jsonPath: .spec.labels
 ---
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -954,14 +953,36 @@ data:
       numberOfReplicas: "2"
       dataLocality: "best-effort"
       staleReplicaTimeout: "2880"
-      recurringJobs: '[
-        {
-          "name": "backup",
-          "task": "backup",
-          "cron": "00 22 * * *",
-          "retain": 28
-        }
+      replicaAutoBalance: "least-effort"
+      recurringJobSelector: '[
+        {"name": "prod", "isGroup": true}
       ]'
+---
+apiVersion: longhorn.io/v1beta1
+kind: RecurringJob
+metadata:
+  name: snapshot
+  namespace: longhorn-system
+spec:
+  cron: "00 */12 * * *"
+  task: "snapshot"
+  groups:
+    - prod
+  retain: 14
+  concurrency: 5
+---
+apiVersion: longhorn.io/v1beta1
+kind: RecurringJob
+metadata:
+  name: backup
+  namespace: longhorn-system
+spec:
+  cron: "00 22 * * *"
+  task: "backup"
+  groups:
+    - prod
+  retain: 28
+  concurrency: 5
 ---
 apiVersion: apps/v1
 kind: DaemonSet
