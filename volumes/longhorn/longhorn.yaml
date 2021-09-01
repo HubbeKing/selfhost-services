@@ -843,7 +843,7 @@ data:
     create-default-disk-labeled-nodes: false
     default-data-path: /var/lib/longhorn
     replica-soft-anti-affinity: false
-    replica-auto-balance: least-effort
+    replica-auto-balance: disabled
     storage-over-provisioning-percentage: 200
     storage-minimal-available-percentage: 15
     upgrade-checker: true
@@ -953,10 +953,7 @@ data:
       numberOfReplicas: "2"
       dataLocality: "best-effort"
       staleReplicaTimeout: "2880"
-      replicaAutoBalance: "least-effort"
-      recurringJobSelector: '[
-        {"name": "prod", "isGroup": true}
-      ]'
+      replicaAutoBalance: "disabled"
 ---
 apiVersion: longhorn.io/v1beta1
 kind: RecurringJob
@@ -967,7 +964,7 @@ spec:
   cron: "00 */12 * * *"
   task: "snapshot"
   groups:
-    - prod
+    - default
   retain: 14
   concurrency: 10
 ---
@@ -980,7 +977,7 @@ spec:
   cron: "00 22 * * *"
   task: "backup"
   groups:
-    - prod
+    - default
   retain: 28
   concurrency: 10
 ---
