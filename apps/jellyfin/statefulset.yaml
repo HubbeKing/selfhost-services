@@ -17,7 +17,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: docker.io/jellyfin/jellyfin:10.7.6
+        - image: docker.io/jellyfin/jellyfin:10.7.7
           name: jellyfin
           ports:
             - containerPort: 8096
@@ -32,13 +32,12 @@ spec:
             timeoutSeconds: 3
           resources:
             requests:
-              # request small amount of CPU to prevent latency when node is under load from other work
-              cpu: 250m
-              memory: 256Mi
+              cpu: 1000m
+              memory: 1Gi
             limits:
-              # VAAPI device for HW acceleration, requires intel-device-plugins-for-kubernetes
-              gpu.intel.com/i915: "1"
-              # large limits, transcoding is Expensive
+              # VAAPI device for HW acceleration
+              #amd.com/gpu: 1
+              gpu.intel.com/i915: 1
               cpu: 4000m
               memory: 8Gi
           volumeMounts:
