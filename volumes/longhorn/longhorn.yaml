@@ -1006,7 +1006,7 @@ spec:
     spec:
       containers:
       - name: longhorn-manager
-        image: longhornio/longhorn-manager:v1.2.0
+        image: longhornio/longhorn-manager:v1.2.x-head
         imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
@@ -1023,7 +1023,7 @@ spec:
         - --backing-image-manager-image
         - longhornio/backing-image-manager:v2_20210820
         - --manager-image
-        - longhornio/longhorn-manager:v1.2.0
+        - longhornio/longhorn-manager:v1.2.x-head
         - --service-account
         - longhorn-service-account
         ports:
@@ -1179,18 +1179,18 @@ spec:
     spec:
       initContainers:
         - name: wait-longhorn-manager
-          image: longhornio/longhorn-manager:v1.2.0
+          image: longhornio/longhorn-manager:v1.2.x-head
           command: ['sh', '-c', 'while [ $(curl -m 1 -s -o /dev/null -w "%{http_code}" http://longhorn-backend:9500/v1) != "200" ]; do echo waiting; sleep 2; done']
       containers:
         - name: longhorn-driver-deployer
-          image: longhornio/longhorn-manager:v1.2.0
+          image: longhornio/longhorn-manager:v1.2.x-head
           imagePullPolicy: IfNotPresent
           command:
           - longhorn-manager
           - -d
           - deploy-driver
           - --manager-image
-          - longhornio/longhorn-manager:v1.2.0
+          - longhornio/longhorn-manager:v1.2.x-head
           - --manager-url
           - http://longhorn-backend:9500/v1
           env:
