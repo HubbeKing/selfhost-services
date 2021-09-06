@@ -950,10 +950,17 @@ data:
     reclaimPolicy: Retain
     volumeBindingMode: Immediate
     parameters:
+      fsType: "ext4"
       numberOfReplicas: "2"
       dataLocality: "best-effort"
       staleReplicaTimeout: "2880"
       replicaAutoBalance: "disabled"
+      recurringJobSelector: '[
+        {
+          "name": "production",
+          "isGroup": true
+        }
+      ]'
 ---
 apiVersion: longhorn.io/v1beta1
 kind: RecurringJob
@@ -964,7 +971,7 @@ spec:
   cron: "00 */12 * * *"
   task: "snapshot"
   groups:
-    - default
+    - production
   retain: 14
   concurrency: 10
 ---
@@ -977,7 +984,7 @@ spec:
   cron: "00 22 * * *"
   task: "backup"
   groups:
-    - default
+    - production
   retain: 28
   concurrency: 10
 ---
