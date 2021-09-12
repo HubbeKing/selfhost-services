@@ -38,10 +38,10 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: 100m
-              memory: 512Mi
+              cpu: 500m
+              memory: 256Mi
             limits:
-              cpu: 1000m
+              cpu: 2000m
               memory: 1Gi
           volumeMounts:
             - name: data
@@ -73,7 +73,7 @@ spec:
         component: nextcloud
     spec:
       containers:
-        - image: ghcr.io/linuxserver/nextcloud:version-22.0.0
+        - image: ghcr.io/linuxserver/nextcloud:version-22.1.1
           name: nextcloud
           envFrom:
             - secretRef:
@@ -96,11 +96,11 @@ spec:
             timeoutSeconds: 5
           resources:
             requests:
-              cpu: 250m
-              memory: 256Mi
+              cpu: 500m
+              memory: 512Mi
             limits:
-              cpu: 1500m
-              memory: 2Gi
+              cpu: 4000m
+              memory: 4Gi
           volumeMounts:
             - name: config
               mountPath: /config
