@@ -1007,7 +1007,7 @@ spec:
       containers:
       - name: longhorn-manager
         image: longhornio/longhorn-manager:v1.2.x-head
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         securityContext:
           privileged: true
         command:
@@ -1184,7 +1184,7 @@ spec:
       containers:
         - name: longhorn-driver-deployer
           image: longhornio/longhorn-manager:v1.2.x-head
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           command:
           - longhorn-manager
           - -d
