@@ -39,7 +39,7 @@ rules:
   resources: ["priorityclasses"]
   verbs: ["watch", "list"]
 - apiGroups: ["storage.k8s.io"]
-  resources: ["storageclasses", "volumeattachments", "volumeattachments/status", "csinodes", "csidrivers"]
+  resources: ["storageclasses", "volumeattachments", "csinodes", "csidrivers"]
   verbs: ["*"]
 - apiGroups: ["snapshot.storage.k8s.io"]
   resources: ["volumesnapshotclasses", "volumesnapshots", "volumesnapshotcontents", "volumesnapshotcontents/status"]
@@ -48,9 +48,7 @@ rules:
   resources: ["volumes", "volumes/status", "engines", "engines/status", "replicas", "replicas/status", "settings",
               "engineimages", "engineimages/status", "nodes", "nodes/status", "instancemanagers", "instancemanagers/status",
               "sharemanagers", "sharemanagers/status", "backingimages", "backingimages/status",
-              "backingimagemanagers", "backingimagemanagers/status", "backingimagedatasources", "backingimagedatasources/status",
-              "backuptargets", "backuptargets/status", "backupvolumes", "backupvolumes/status", "backups", "backups/status",
-              "recurringjobs", "recurringjobs/status"]
+              "backingimagemanagers", "backingimagemanagers/status"]
   verbs: ["*"]
 - apiGroups: ["coordination.k8s.io"]
   resources: ["leases"]
@@ -547,289 +545,6 @@ spec:
       type: date
       jsonPath: .metadata.creationTimestamp
 ---
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  labels:
-    longhorn-manager: BackingImageDataSource
-  name: backingimagedatasources.longhorn.io
-spec:
-  group: longhorn.io
-  names:
-    kind: BackingImageDataSource
-    listKind: BackingImageDataSourceList
-    plural: backingimagedatasources
-    shortNames:
-    - lhbids
-    singular: backingimagedatasource
-  scope: Namespaced
-  versions:
-  - name: v1beta1
-    served: true
-    storage: true
-    schema:
-      openAPIV3Schema:
-        type: object
-        properties:
-          spec:
-            x-kubernetes-preserve-unknown-fields: true
-          status:
-            x-kubernetes-preserve-unknown-fields: true
-    subresources:
-      status: {}
-    additionalPrinterColumns:
-    - name: State
-      type: string
-      description: The current state of the pod used to provisione the backing image file from source
-      jsonPath: .status.currentState
-    - name: SourceType
-      type: string
-      description: The data source type
-      jsonPath: .spec.sourceType
-    - name: Node
-      type: string
-      description: The node the backing image file will be prepared on
-      jsonPath: .spec.nodeID
-    - name: DiskUUID
-      type: string
-      description: The disk the backing image file will be prepared on
-      jsonPath: .spec.diskUUID
-    - name: Age
-      type: date
-      jsonPath: .metadata.creationTimestamp
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  labels:
-    longhorn-manager: BackupTarget
-  name: backuptargets.longhorn.io
-spec:
-  group: longhorn.io
-  names:
-    kind: BackupTarget
-    listKind: BackupTargetList
-    plural: backuptargets
-    shortNames:
-    - lhbt
-    singular: backuptarget
-  scope: Namespaced
-  versions:
-  - name: v1beta1
-    served: true
-    storage: true
-    schema:
-      openAPIV3Schema:
-        type: object
-        properties:
-          spec:
-            x-kubernetes-preserve-unknown-fields: true
-          status:
-            x-kubernetes-preserve-unknown-fields: true
-    subresources:
-      status: {}
-    additionalPrinterColumns:
-    - name: URL
-      type: string
-      description: The backup target URL
-      jsonPath: .spec.backupTargetURL
-    - name: Credential
-      type: string
-      description: The backup target credential secret
-      jsonPath: .spec.credentialSecret
-    - name: Interval
-      type: string
-      description: The backup target poll interval
-      jsonPath: .spec.pollInterval
-    - name: Available
-      type: boolean
-      description: Indicate whether the backup target is available or not
-      jsonPath: .status.available
-    - name: LastSyncedAt
-      type: string
-      description: The backup target last synced time
-      jsonPath: .status.lastSyncedAt
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  labels:
-    longhorn-manager: BackupVolume
-  name: backupvolumes.longhorn.io
-spec:
-  group: longhorn.io
-  names:
-    kind: BackupVolume
-    listKind: BackupVolumeList
-    plural: backupvolumes
-    shortNames:
-    - lhbv
-    singular: backupvolume
-  scope: Namespaced
-  versions:
-  - name: v1beta1
-    served: true
-    storage: true
-    schema:
-      openAPIV3Schema:
-        type: object
-        properties:
-          spec:
-            x-kubernetes-preserve-unknown-fields: true
-          status:
-            x-kubernetes-preserve-unknown-fields: true
-    subresources:
-      status: {}
-    additionalPrinterColumns:
-    - name: CreatedAt
-      type: string
-      description: The backup volume creation time
-      jsonPath: .status.createdAt
-    - name: LastBackupName
-      type: string
-      description: The backup volume last backup name
-      jsonPath: .status.lastBackupName
-    - name: LastBackupAt
-      type: string
-      description: The backup volume last backup time
-      jsonPath: .status.lastBackupAt
-    - name: LastSyncedAt
-      type: string
-      description: The backup volume last synced time
-      jsonPath: .status.lastSyncedAt
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  labels:
-    longhorn-manager: Backup
-  name: backups.longhorn.io
-spec:
-  group: longhorn.io
-  names:
-    kind: Backup
-    listKind: BackupList
-    plural: backups
-    shortNames:
-    - lhb
-    singular: backup
-  scope: Namespaced
-  versions:
-  - name: v1beta1
-    served: true
-    storage: true
-    schema:
-      openAPIV3Schema:
-        type: object
-        properties:
-          spec:
-            x-kubernetes-preserve-unknown-fields: true
-          status:
-            x-kubernetes-preserve-unknown-fields: true
-    subresources:
-      status: {}
-    additionalPrinterColumns:
-    - name: SnapshotName
-      type: string
-      description: The snapshot name
-      jsonPath: .status.snapshotName
-    - name: SnapshotSize
-      type: string
-      description: The snapshot size
-      jsonPath: .status.size
-    - name: SnapshotCreatedAt
-      type: string
-      description: The snapshot creation time
-      jsonPath: .status.snapshotCreatedAt
-    - name: State
-      type: string
-      description: The backup state
-      jsonPath: .status.state
-    - name: LastSyncedAt
-      type: string
-      description: The backup last synced time
-      jsonPath: .status.lastSyncedAt
----
-apiVersion: apiextensions.k8s.io/v1
-kind: CustomResourceDefinition
-metadata:
-  labels:
-    longhorn-manager: RecurringJob
-  name: recurringjobs.longhorn.io
-spec:
-  group: longhorn.io
-  names:
-    kind: RecurringJob
-    listKind: RecurringJobList
-    plural: recurringjobs
-    shortNames:
-    - lhrj
-    singular: recurringjob
-  scope: Namespaced
-  versions:
-  - name: v1beta1
-    served: true
-    storage: true
-    schema:
-      openAPIV3Schema:
-        type: object
-        properties:
-          metadata:
-            type: object
-            properties:
-              name:
-                type: string
-          spec:
-            type: object
-            properties:
-              groups:
-                type: array
-                items:
-                  type: string
-              task:
-                type: string
-                pattern: "^snapshot|backup$"
-              cron:
-                type: string
-              retain:
-                type: integer
-              concurrency:
-                type: integer
-              labels:
-                x-kubernetes-preserve-unknown-fields: true
-          status:
-            x-kubernetes-preserve-unknown-fields: true
-    subresources:
-      status: {}
-    additionalPrinterColumns:
-    - name: Groups
-      type: string
-      description: Sets groupings to the jobs. When set to "default" group will be added to the volume label when no other job label exist in volume.
-      jsonPath: .spec.groups
-    - name: Task
-      type: string
-      description: Should be one of "backup" or "snapshot".
-      jsonPath: .spec.task
-    - name: Cron
-      type: string
-      description: The cron expression represents recurring job scheduling.
-      jsonPath: .spec.cron
-    - name: Retain
-      type: integer
-      description: The number of snapshots/backups to keep for the volume.
-      jsonPath: .spec.retain
-    - name: Concurrency
-      type: integer
-      description: The concurrent job to run by each cron job.
-      jsonPath: .spec.concurrency
-    - name: Age
-      type: date
-      jsonPath: .metadata.creationTimestamp
-    - name: Labels
-      type: string
-      description: Specify the labels
-      jsonPath: .spec.labels
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -843,10 +558,9 @@ data:
     create-default-disk-labeled-nodes: false
     default-data-path: /var/lib/longhorn
     replica-soft-anti-affinity: false
-    replica-auto-balance: disabled
     storage-over-provisioning-percentage: 200
     storage-minimal-available-percentage: 15
-    upgrade-checker: true
+    upgrade-checker: false
     default-replica-count: 2
     default-data-locality: best-effort
     default-longhorn-static-storage-class: longhorn
@@ -865,7 +579,7 @@ data:
     replica-replenishment-wait-interval: 600
     disable-revision-counter: false
     system-managed-pods-image-pull-policy: if-not-present
-    allow-volume-creation-with-degraded-availability: true
+    allow-volume-creation-with-degraded-availability: false
     auto-cleanup-system-generated-snapshot: true
     concurrent-automatic-engine-upgrade-per-node-limit: 0
     backing-image-cleanup-wait-interval: 60
@@ -954,39 +668,6 @@ data:
       numberOfReplicas: "2"
       dataLocality: "best-effort"
       staleReplicaTimeout: "2880"
-      replicaAutoBalance: "disabled"
-      recurringJobSelector: '[
-        {
-          "name": "production",
-          "isGroup": true
-        }
-      ]'
----
-apiVersion: longhorn.io/v1beta1
-kind: RecurringJob
-metadata:
-  name: snapshot
-  namespace: longhorn-system
-spec:
-  cron: "00 */12 * * *"
-  task: "snapshot"
-  groups:
-    - production
-  retain: 14
-  concurrency: 10
----
-apiVersion: longhorn.io/v1beta1
-kind: RecurringJob
-metadata:
-  name: backup
-  namespace: longhorn-system
-spec:
-  cron: "00 22 * * *"
-  task: "backup"
-  groups:
-    - production
-  retain: 28
-  concurrency: 10
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -1006,8 +687,8 @@ spec:
     spec:
       containers:
       - name: longhorn-manager
-        image: longhornio/longhorn-manager:v1.2.x-head
-        imagePullPolicy: Always
+        image: longhornio/longhorn-manager:v1.1.2
+        imagePullPolicy: IfNotPresent
         securityContext:
           privileged: true
         command:
@@ -1015,15 +696,15 @@ spec:
         - -d
         - daemon
         - --engine-image
-        - longhornio/longhorn-engine:v1.2.0
+        - longhornio/longhorn-engine:v1.1.2
         - --instance-manager-image
-        - longhornio/longhorn-instance-manager:v1_20210731
+        - longhornio/longhorn-instance-manager:v1_20210621
         - --share-manager-image
-        - longhornio/longhorn-share-manager:v1_20210914
+        - longhornio/longhorn-share-manager:v1_20210416
         - --backing-image-manager-image
-        - longhornio/backing-image-manager:v2_20210820
+        - longhornio/backing-image-manager:v1_20210422
         - --manager-image
-        - longhornio/longhorn-manager:v1.2.x-head
+        - longhornio/longhorn-manager:v1.1.2
         - --service-account
         - longhorn-service-account
         ports:
@@ -1123,7 +804,7 @@ spec:
     spec:
       containers:
       - name: longhorn-ui
-        image: longhornio/longhorn-ui:v1.2.0
+        image: longhornio/longhorn-ui:v1.1.2
         imagePullPolicy: IfNotPresent
         securityContext:
           runAsUser: 0
@@ -1179,18 +860,18 @@ spec:
     spec:
       initContainers:
         - name: wait-longhorn-manager
-          image: longhornio/longhorn-manager:v1.2.x-head
+          image: longhornio/longhorn-manager:v1.1.2
           command: ['sh', '-c', 'while [ $(curl -m 1 -s -o /dev/null -w "%{http_code}" http://longhorn-backend:9500/v1) != "200" ]; do echo waiting; sleep 2; done']
       containers:
         - name: longhorn-driver-deployer
-          image: longhornio/longhorn-manager:v1.2.x-head
-          imagePullPolicy: Always
+          image: longhornio/longhorn-manager:v1.1.2
+          imagePullPolicy: IfNotPresent
           command:
           - longhorn-manager
           - -d
           - deploy-driver
           - --manager-image
-          - longhornio/longhorn-manager:v1.2.x-head
+          - longhornio/longhorn-manager:v1.1.2
           - --manager-url
           - http://longhorn-backend:9500/v1
           env:
@@ -1212,15 +893,15 @@ spec:
           # For AirGap Installation
           # Replace PREFIX with your private registry
           #- name: CSI_ATTACHER_IMAGE
-          #  value: PREFIX/csi-attacher:v3.2.1
+          #  value: PREFIX/csi-attacher:v2.2.1-lh2
           #- name: CSI_PROVISIONER_IMAGE
-          #  value: PREFIX/csi-provisioner:v2.1.2
+          #  value: PREFIX/csi-provisioner:v1.6.0-lh2
           #- name: CSI_NODE_DRIVER_REGISTRAR_IMAGE
-          #  value: PREFIX/csi-node-driver-registrar:v2.3.0
+          #  value: PREFIX/csi-node-driver-registrar:v1.2.0-lh1
           #- name: CSI_RESIZER_IMAGE
-          #  value: PREFIX/csi-resizer:v1.2.0
+          #  value: PREFIX/csi-resizer:v0.5.1-lh2
           #- name: CSI_SNAPSHOTTER_IMAGE
-          #  value: PREFIX/csi-snapshotter:v3.0.3
+          #  value: PREFIX/csi-snapshotter:v2.1.1-lh2
           # Manually specify number of CSI attacher replicas
           #- name: CSI_ATTACHER_REPLICA_COUNT
           #  value: "3"
