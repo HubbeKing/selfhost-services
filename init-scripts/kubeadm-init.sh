@@ -35,10 +35,8 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
-# apply kube-router for CNI and Network Policy support
-kubectl apply -f ../core/kube-router.yaml
-
-# TODO: once kube-router supports running without kube-proxy configmap, use kube-router for service proxy
+# apply Project Calico CNI plugin
+kubectl apply -f ../core/calico.yaml
 
 # remove temporary kubeadm config file
 rm temp.yaml

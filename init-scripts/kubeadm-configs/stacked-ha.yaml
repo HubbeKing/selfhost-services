@@ -16,9 +16,6 @@ authorization:
 cgroupDriver: systemd
 cpuManagerReconcilePeriod: 10s
 evictionPressureTransitionPeriod: 5m
-featureGates:
-  GracefulNodeShutdown: true
-  MixedProtocolLBService: true
 fileCheckFrequency: 20s
 httpCheckFrequency: 20s
 imageMinimumGCAge: 2m
