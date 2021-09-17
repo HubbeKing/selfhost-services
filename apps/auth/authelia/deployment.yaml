@@ -29,7 +29,7 @@ spec:
       priorityClassName: high-priority
       containers:
         - name: authelia
-          image: ghcr.io/authelia/authelia:4.30.5
+          image: ghcr.io/authelia/authelia:4.31.0
           command:
             - authelia
           args:
