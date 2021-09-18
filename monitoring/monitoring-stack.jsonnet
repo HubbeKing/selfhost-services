@@ -3,6 +3,7 @@ local kp =
   (import 'kube-prometheus/addons/anti-affinity.libsonnet') +
   (import 'kube-prometheus/addons/static-etcd.libsonnet') +
   (import 'kube-prometheus/addons/strip-limits.libsonnet') +
+  (import 'kube-prometheus/addons/all-namespaces.libsonnet') +
   // add ingress definitions
   (import 'addons/ingress.jsonnet') +
   // add alertmanager config
@@ -24,14 +25,9 @@ local kp =
         clientCert: importstr "addons/etcd/peer.crt",
         insecureSkipVerify: true,
       },
-      // monitor all namespaces in cluster
+      // we monitor all namespaces through an addon rather than defining them all here
       prometheus+: {
-        namespaces+: [
-          "cert-manager", "default", 
-          "ingress-nginx", "kube-system", 
-          "longhorn-system", "metallb-system", 
-          "monitoring", "node-feature-discovery"
-        ],
+        namespaces+: [],
       },
       // add grafana dashboards
       grafana+: {
