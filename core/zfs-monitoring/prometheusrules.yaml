@@ -1,0 +1,39 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: galactica-zfs-rules
+  namespace: monitoring
+  labels:
+    prometheus: k8s
+    role: alert-rules
+spec:
+  groups:
+    - name: zfs.rules
+      rules:
+        - alert: PoolDegraded
+          annotations:
+            description: "The ZFS pool {{ $labels.pool }} is in a DEGRADED state."
+            summary: "ZFS pool is in a DEGRADED state."
+          expr: zfs_pool_health == 1
+          for: 2m
+          labels:
+            issue: "Pool {{ $labels.pool }} is in a DEGRADED state."
+            severity: warning
+        - alert: PoolFaulted
+          annotations:
+            description: "The ZFS pool {{ $labels.pool }} is in a FAULTED state."
+            summary: "ZFS pool is in a FAULTED state."
+          expr: zfs_pool_health == 2
+          for: 2m
+          labels:
+            issue: "Pool {{ $labels.pool }} is in a FAULTED state."
+            severity: critical
+        - alert: PoolOffline
+          annotations:
+            description: "The ZFS pool {{ $labels.pool }} is OFFLINE."
+            summary: "ZFS pool is OFFLINE."
+          expr: zfs_pool_health == 3
+          for: 2m
+          labels:
+            issue: "Pool {{ $labels.pool }} is OFFLINE."
+            severity: critical
