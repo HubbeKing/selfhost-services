@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Endpoints
+metadata:
+  labels:
+    app.kubernetes.io/name: blocky
+  name: blocky
+  namespace: kube-system
+subsets:
+  - addresses:
+      - ip: 192.168.1.102
+      - ip: 192.168.1.103
+    ports:
+      - name: metrics
+        port: 80
+        protocol: TCP

@@ -32,9 +32,10 @@ local kp =
       // add grafana dashboards
       grafana+: {
         dashboards+:: {
-          'nginx.json': (import 'dashboards/nginx.json'),
-          'longhorn.json': (import 'dashboards/longhorn.json'),
+          'blocky.json': (import 'dashboards/blocky.json'),
           'etcd.json': (import 'dashboards/etcd.json'),
+          'longhorn.json': (import 'dashboards/longhorn.json'),
+          'nginx.json': (import 'dashboards/nginx.json'),
         },
       },
     },

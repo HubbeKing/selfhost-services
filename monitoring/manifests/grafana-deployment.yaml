@@ -39,10 +39,10 @@ spec:
             port: http
         resources:
           limits:
-            cpu: 500m
+            cpu: 200m
             memory: 200Mi
           requests:
-            cpu: 250m
+            cpu: 100m
             memory: 100Mi
         volumeMounts:
         - mountPath: /var/lib/grafana
@@ -56,6 +56,9 @@ spec:
           readOnly: false
         - mountPath: /grafana-dashboard-definitions/0/apiserver
           name: grafana-dashboard-apiserver
+          readOnly: false
+        - mountPath: /grafana-dashboard-definitions/0/blocky
+          name: grafana-dashboard-blocky
           readOnly: false
         - mountPath: /grafana-dashboard-definitions/0/cluster-total
           name: grafana-dashboard-cluster-total
@@ -154,6 +157,9 @@ spec:
       - configMap:
           name: grafana-dashboard-apiserver
         name: grafana-dashboard-apiserver
+      - configMap:
+          name: grafana-dashboard-blocky
+        name: grafana-dashboard-blocky
       - configMap:
           name: grafana-dashboard-cluster-total
         name: grafana-dashboard-cluster-total
