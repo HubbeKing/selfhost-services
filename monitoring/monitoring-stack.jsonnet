@@ -36,6 +36,7 @@ local kp =
           'etcd.json': (import 'dashboards/etcd.json'),
           'longhorn.json': (import 'dashboards/longhorn.json'),
           'nginx.json': (import 'dashboards/nginx.json'),
+          'zfs.json': (import 'dashboards/zfs.json'),
         },
       },
     },

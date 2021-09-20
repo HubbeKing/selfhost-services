@@ -1740,67 +1740,6 @@ items:
   data:
     blocky.json: |-
       {
-          "__inputs": [
-              {
-                  "description": "",
-                  "label": "Prometheus",
-                  "name": "DS_PROMETHEUS",
-                  "pluginId": "prometheus",
-                  "pluginName": "Prometheus",
-                  "type": "datasource"
-              },
-              {
-                  "description": "",
-                  "label": "blocky API URL",
-                  "name": "VAR_BLOCKY_URL",
-                  "type": "constant",
-                  "value": ""
-              }
-          ],
-          "__requires": [
-              {
-                  "id": "grafana",
-                  "name": "Grafana",
-                  "type": "grafana",
-                  "version": "7.3.1"
-              },
-              {
-                  "id": "grafana-piechart-panel",
-                  "name": "Pie Chart",
-                  "type": "panel",
-                  "version": "1.6.1"
-              },
-              {
-                  "id": "graph",
-                  "name": "Graph",
-                  "type": "panel",
-                  "version": ""
-              },
-              {
-                  "id": "heatmap",
-                  "name": "Heatmap",
-                  "type": "panel",
-                  "version": ""
-              },
-              {
-                  "id": "prometheus",
-                  "name": "Prometheus",
-                  "type": "datasource",
-                  "version": "1.0.0"
-              },
-              {
-                  "id": "stat",
-                  "name": "Stat",
-                  "type": "panel",
-                  "version": ""
-              },
-              {
-                  "id": "text",
-                  "name": "Text",
-                  "type": "panel",
-                  "version": ""
-              }
-          ],
           "annotations": {
               "list": [
                   {
@@ -1817,8 +1756,8 @@ items:
           "editable": true,
           "gnetId": 13768,
           "graphTooltip": 0,
-          "id": null,
-          "iteration": 1619292891700,
+          "id": 29,
+          "iteration": 1632150596229,
           "links": [
               {
                   "icon": "external link",
@@ -1834,13 +1773,10 @@ items:
           "panels": [
               {
                   "cacheTimeout": null,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "current service state",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
                               {
                                   "id": 0,
@@ -1857,7 +1793,6 @@ items:
                                   "value": "0"
                               }
                           ],
-                          "nullValueMode": "connected",
                           "thresholds": {
                               "mode": "absolute",
                               "steps": [
@@ -1899,9 +1834,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(up{job=\"blocky\"})",
@@ -1919,13 +1857,10 @@ items:
               },
               {
                   "cacheTimeout": null,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Is blocking enabled?",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
                               {
                                   "id": 0,
@@ -1942,7 +1877,6 @@ items:
                                   "value": "0"
                               }
                           ],
-                          "nullValueMode": "connected",
                           "thresholds": {
                               "mode": "absolute",
                               "steps": [
@@ -1990,9 +1924,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "value"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "blocky_blocking_enabled",
@@ -2009,13 +1946,11 @@ items:
                   "type": "stat"
               },
               {
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Enable od disable blocking",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
 
-                          }
                       },
                       "overrides": [
 
@@ -2032,7 +1967,7 @@ items:
                       "content": "<style>\n\n.blocky_btn {\n    border: none;\n  cursor: pointer; \n    padding: 12px;\n  font-size: 16px;\n  min-width: 100px\n}\n\n.blocky_greenbtn { \n  background-color: #4CAF50;\n  color: white;\n}\n\n.blocky_redbtn { \n  background-color: #AF504C;\n  color: white;\n}\n\n\n.blocky_alert {\n  font-size: 14px\n}\n</style>\n<div class=\"blocky_alert blocky_alert-warning fade in\">\n  <a href=\"#\" class=\"close\" data-dismiss=\"blocky_alert\" aria-label=\"close\" style=\"text-decoration:none\">&times;</a>Done!\n</div>\n<div>\n   <button class=\"blocky_btn blocky_greenbtn\" onclick=\"blocky_status_enable()\">On</button>\n   <button class=\"blocky_btn blocky_redbtn\" onclick=\"blocky_status_disable5m()\">Off 5m</button>\n   <button class=\"blocky_btn blocky_redbtn\" onclick=\"blocky_status_disable30m()\">Off 30m</button>\n<div>\n\n\n<script type=\"text/javascript\">\n\nfunction blocky_status_disable() {\n  blocky_status_switch(false, 0)\n}\n\nfunction blocky_status_disable5m() {\n  blocky_status_switch(false, 5*60)\n}\n\nfunction blocky_status_disable30m() {\n  blocky_status_switch(false, 30*60)\n}\n\nfunction blocky_status_enable() {\n  blocky_status_switch(true, 0)\n}\n\nfunction blocky_status_switch(enable, duration) {\n  var url = '$blocky_url';\n  op = enable ? 'enable' : 'disable?duration='+duration+\"s\"\n  $.get(url + '/api/blocking/'+op, function(data) {\n    showAlert()\n  })\n   .fail(function() {\n    alert( \"error\" );\n  })\n}\n\nvar showAlert = function() {\n\t// first show the alert\n  $('.blocky_alert').show().fadeTo(500, 1);\n  \n  // Now set a timeout to hide it\n  window.setTimeout(function() {\n    $(\".blocky_alert\").fadeTo(500, 0).slideUp(500, function() {\n      $(this).hide();\n    });\n  }, 3000);\n}\n\n// start with the alert hidden\n$('.blocky_alert').hide();\n\n</script>",
                       "mode": "html"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "timeFrom": null,
                   "timeShift": null,
                   "title": "Blocking status",
@@ -2040,13 +1975,10 @@ items:
                   "type": "text"
               },
               {
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Blocky [version](https://github.com/0xERR0R/blocky) number",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
 
                           ],
@@ -2087,9 +2019,12 @@ items:
                           "fields": "/^version$/",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "repeat": null,
                   "repeatDirection": "v",
                   "targets": [
@@ -2118,13 +2053,10 @@ items:
               },
               {
                   "cacheTimeout": null,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Average query response time for all query types",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
                               {
                                   "id": 0,
@@ -2134,7 +2066,6 @@ items:
                                   "value": "null"
                               }
                           ],
-                          "nullValueMode": "connected",
                           "thresholds": {
                               "mode": "absolute",
                               "steps": [
@@ -2178,9 +2109,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(increase(blocky_request_duration_ms_sum[$__range])) / sum(increase(blocky_request_duration_ms_count[$__range]))",
@@ -2198,13 +2132,10 @@ items:
               },
               {
                   "cacheTimeout": null,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Number of blacklist entries",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
                               {
                                   "id": 0,
@@ -2214,7 +2145,6 @@ items:
                                   "value": "null"
                               }
                           ],
-                          "nullValueMode": "connected",
                           "thresholds": {
                               "mode": "absolute",
                               "steps": [
@@ -2254,9 +2184,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(blocky_blacklist_cache) / sum(up{job=\"blocky\"})",
@@ -2272,12 +2205,9 @@ items:
               },
               {
                   "cacheTimeout": null,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "decimals": 2,
                           "mappings": [
                               {
@@ -2288,7 +2218,6 @@ items:
                                   "value": "null"
                               }
                           ],
-                          "nullValueMode": "connected",
                           "thresholds": {
                               "mode": "absolute",
                               "steps": [
@@ -2328,9 +2257,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(go_memstats_sys_bytes{job=\"blocky\"})/sum(up{job=\"blocky\"})",
@@ -2346,13 +2278,10 @@ items:
               },
               {
                   "cacheTimeout": null,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Percentage of blocked queries",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "decimals": 2,
                           "mappings": [
                               {
@@ -2363,7 +2292,6 @@ items:
                                   "value": "null"
                               }
                           ],
-                          "nullValueMode": "connected",
                           "thresholds": {
                               "mode": "absolute",
                               "steps": [
@@ -2407,9 +2335,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(increase(blocky_response_total{response_type=\"BLOCKED\"}[$__range])) / sum(increase(blocky_query_total[$__range])) ",
@@ -2427,13 +2358,10 @@ items:
               },
               {
                   "cacheTimeout": null,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Number of all queries. Shows the last value",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
                               {
                                   "id": 0,
@@ -2443,7 +2371,6 @@ items:
                                   "value": "null"
                               }
                           ],
-                          "nullValueMode": "connected",
                           "thresholds": {
                               "mode": "absolute",
                               "steps": [
@@ -2484,9 +2411,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "ceil(sum(increase(blocky_query_total[$__range]))) ",
@@ -2503,13 +2433,10 @@ items:
                   "type": "stat"
               },
               {
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Number of entries in the cache. Shows the last value",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
 
                           ],
@@ -2546,9 +2473,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(blocky_cache_entry_count)/ sum(up{job=\"blocky\"})",
@@ -2565,15 +2495,12 @@ items:
                   "type": "stat"
               },
               {
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Cache Hit/Miss ratio. 100 % means, all queries could be answered from the cache, 0% - all queries must be resolved via external DNS",
                   "fieldConfig": {
                       "defaults": {
                           "color": {
                               "mode": "thresholds"
-                          },
-                          "custom": {
-
                           },
                           "mappings": [
 
@@ -2612,9 +2539,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(increase(blocky_cache_hit_count[$__range])) / (sum(increase(blocky_cache_hit_count[$__range])) + sum(increase(blocky_cache_miss_count[$__range])))",
@@ -2632,13 +2562,10 @@ items:
               },
               {
                   "cacheTimeout": null,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Number of occured errors",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "decimals": 0,
                           "mappings": [
                               {
@@ -2649,7 +2576,6 @@ items:
                                   "value": "null"
                               }
                           ],
-                          "nullValueMode": "connected",
                           "thresholds": {
                               "mode": "absolute",
                               "steps": [
@@ -2696,9 +2622,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(increase(blocky_error_total[$__range]))",
@@ -2715,13 +2644,10 @@ items:
                   "type": "stat"
               },
               {
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Amount of performed DNS queries to prefetch cached queries",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
 
                           ],
@@ -2758,9 +2684,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "ceil(sum(increase(blocky_prefetch_count[$__range])))",
@@ -2776,13 +2705,10 @@ items:
                   "type": "stat"
               },
               {
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Amount of prefetch queries per minute",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
 
                           ],
@@ -2823,9 +2749,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(rate(blocky_prefetch_count[5m])) * 60",
@@ -2841,15 +2770,12 @@ items:
                   "type": "stat"
               },
               {
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "How many of cached entries were prefetched automatically",
                   "fieldConfig": {
                       "defaults": {
                           "color": {
                               "mode": "thresholds"
-                          },
-                          "custom": {
-
                           },
                           "mappings": [
 
@@ -2888,9 +2814,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(increase(blocky_prefetch_hit_count[$__range])) / (sum(increase(blocky_cache_hit_count[$__range])))",
@@ -2907,13 +2836,10 @@ items:
                   "type": "stat"
               },
               {
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Time since last list refresh",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "decimals": 0,
                           "mappings": [
 
@@ -2952,9 +2878,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(time() -blocky_last_list_group_refresh)/ sum(up{job=\"blocky\"})",
@@ -2971,13 +2900,10 @@ items:
                   "type": "stat"
               },
               {
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "description": "Amount of unique domains in the prefetched cache",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "mappings": [
 
                           ],
@@ -3014,9 +2940,12 @@ items:
                           "fields": "",
                           "values": false
                       },
+                      "text": {
+
+                      },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "targets": [
                       {
                           "expr": "sum(blocky_prefetch_domain_name_cache_count)/ sum(up{job=\"blocky\"})",
@@ -3038,12 +2967,9 @@ items:
                   "bars": false,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "links": [
 
                           ]
@@ -3078,7 +3004,7 @@ items:
                       "alertThreshold": true
                   },
                   "percentage": false,
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "pointradius": 2,
                   "points": false,
                   "renderer": "flot",
@@ -3153,12 +3079,9 @@ items:
                   "bars": true,
                   "dashLength": 10,
                   "dashes": false,
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
-
-                          },
                           "links": [
 
                           ]
@@ -3195,7 +3118,7 @@ items:
                       "alertThreshold": false
                   },
                   "percentage": false,
-                  "pluginVersion": "7.3.1",
+                  "pluginVersion": "7.5.4",
                   "pointradius": 2,
                   "points": false,
                   "renderer": "flot",
@@ -3276,12 +3199,10 @@ items:
                       "mode": "opacity"
                   },
                   "dataFormat": "tsbuckets",
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
 
-                          }
                       },
                       "overrides": [
 
@@ -3350,12 +3271,10 @@ items:
                       "label": "Others",
                       "threshold": 0
                   },
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
 
-                          }
                       },
                       "overrides": [
 
@@ -3413,13 +3332,11 @@ items:
                       "label": "Others",
                       "threshold": 0
                   },
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "decimals": null,
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
 
-                          }
                       },
                       "overrides": [
 
@@ -3478,12 +3395,10 @@ items:
                       "label": "Others",
                       "threshold": 0
                   },
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
 
-                          }
                       },
                       "overrides": [
 
@@ -3538,12 +3453,10 @@ items:
                       "label": "Others",
                       "threshold": ""
                   },
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
 
-                          }
                       },
                       "overrides": [
 
@@ -3600,12 +3513,10 @@ items:
                       "label": "Others",
                       "threshold": 0
                   },
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
 
-                          }
                       },
                       "overrides": [
 
@@ -3662,12 +3573,10 @@ items:
                       "label": "Others",
                       "threshold": 0
                   },
-                  "datasource": "${DS_PROMETHEUS}",
+                  "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
-                          "custom": {
 
-                          }
                       },
                       "overrides": [
 
@@ -3724,23 +3633,12 @@ items:
           "templating": {
               "list": [
                   {
-                      "current": {
-                          "selected": false,
-                          "text": "${VAR_BLOCKY_URL}",
-                          "value": "${VAR_BLOCKY_URL}"
-                      },
+                      "description": null,
                       "error": null,
                       "hide": 2,
                       "label": "blocky API URL",
                       "name": "blocky_url",
-                      "options": [
-                          {
-                              "selected": false,
-                              "text": "${VAR_BLOCKY_URL}",
-                              "value": "${VAR_BLOCKY_URL}"
-                          }
-                      ],
-                      "query": "${VAR_BLOCKY_URL}",
+                      "query": "http://192.168.1.100",
                       "skipUrlSync": false,
                       "type": "constant"
                   }
@@ -44271,5 +44169,324 @@ items:
       app.kubernetes.io/part-of: kube-prometheus
       app.kubernetes.io/version: 7.5.4
     name: grafana-dashboard-workload-total
+    namespace: monitoring
+- apiVersion: v1
+  data:
+    zfs.json: |-
+      {
+          "annotations": {
+              "list": [
+                  {
+                      "builtIn": 1,
+                      "datasource": "-- Grafana --",
+                      "enable": true,
+                      "hide": true,
+                      "iconColor": "rgba(0, 211, 255, 1)",
+                      "name": "Annotations & Alerts",
+                      "type": "dashboard"
+                  }
+              ]
+          },
+          "editable": true,
+          "gnetId": null,
+          "graphTooltip": 0,
+          "id": 29,
+          "links": [
+
+          ],
+          "panels": [
+              {
+                  "collapsed": false,
+                  "datasource": null,
+                  "gridPos": {
+                      "h": 1,
+                      "w": 24,
+                      "x": 0,
+                      "y": 0
+                  },
+                  "id": 6,
+                  "panels": [
+
+                  ],
+                  "title": "Row title",
+                  "type": "row"
+              },
+              {
+                  "datasource": "prometheus",
+                  "fieldConfig": {
+                      "defaults": {
+                          "color": {
+                              "mode": "thresholds"
+                          },
+                          "mappings": [
+                              {
+                                  "from": "",
+                                  "id": 1,
+                                  "text": "HEALTHY",
+                                  "to": "",
+                                  "type": 1,
+                                  "value": "0"
+                              },
+                              {
+                                  "from": "",
+                                  "id": 2,
+                                  "text": "DEGRADED",
+                                  "to": "",
+                                  "type": 1,
+                                  "value": "1"
+                              },
+                              {
+                                  "from": "",
+                                  "id": 3,
+                                  "text": "FAULTED",
+                                  "to": "",
+                                  "type": 1,
+                                  "value": "2"
+                              },
+                              {
+                                  "from": "",
+                                  "id": 4,
+                                  "text": "OFFLINE",
+                                  "to": "",
+                                  "type": 1,
+                                  "value": "3"
+                              },
+                              {
+                                  "from": "",
+                                  "id": 5,
+                                  "text": "UNAVAILABLE",
+                                  "to": "",
+                                  "type": 1,
+                                  "value": "4"
+                              },
+                              {
+                                  "from": "",
+                                  "id": 6,
+                                  "text": "REMOVED",
+                                  "to": "",
+                                  "type": 1,
+                                  "value": "5"
+                              }
+                          ],
+                          "thresholds": {
+                              "mode": "absolute",
+                              "steps": [
+                                  {
+                                      "color": "green",
+                                      "value": null
+                                  },
+                                  {
+                                      "color": "#EAB839",
+                                      "value": 1
+                                  },
+                                  {
+                                      "color": "dark-red",
+                                      "value": 2
+                                  }
+                              ]
+                          }
+                      },
+                      "overrides": [
+
+                      ]
+                  },
+                  "gridPos": {
+                      "h": 9,
+                      "w": 5,
+                      "x": 0,
+                      "y": 1
+                  },
+                  "id": 4,
+                  "options": {
+                      "colorMode": "value",
+                      "graphMode": "area",
+                      "justifyMode": "auto",
+                      "orientation": "auto",
+                      "reduceOptions": {
+                          "calcs": [
+                              "lastNotNull"
+                          ],
+                          "fields": "",
+                          "values": false
+                      },
+                      "text": {
+
+                      },
+                      "textMode": "auto"
+                  },
+                  "pluginVersion": "7.5.4",
+                  "targets": [
+                      {
+                          "exemplar": true,
+                          "expr": "zfs_pool_health{pool=\"array\"}",
+                          "instant": true,
+                          "interval": "",
+                          "legendFormat": "",
+                          "queryType": "randomWalk",
+                          "refId": "A"
+                      }
+                  ],
+                  "title": "Pool Status",
+                  "type": "stat"
+              },
+              {
+                  "datasource": "prometheus",
+                  "description": "",
+                  "fieldConfig": {
+                      "defaults": {
+                          "color": {
+                              "mode": "thresholds"
+                          },
+                          "mappings": [
+
+                          ],
+                          "max": 21990232555520,
+                          "min": 0,
+                          "thresholds": {
+                              "mode": "percentage",
+                              "steps": [
+                                  {
+                                      "color": "dark-red",
+                                      "value": null
+                                  },
+                                  {
+                                      "color": "orange",
+                                      "value": 10
+                                  },
+                                  {
+                                      "color": "yellow",
+                                      "value": 25
+                                  },
+                                  {
+                                      "color": "green",
+                                      "value": 50
+                                  },
+                                  {
+                                      "color": "dark-green",
+                                      "value": 80
+                                  }
+                              ]
+                          },
+                          "unit": "bytes"
+                      },
+                      "overrides": [
+                          {
+                              "matcher": {
+                                  "id": "byName",
+                                  "options": "array/Backups"
+                              },
+                              "properties": [
+                                  {
+                                      "id": "max",
+                                      "value": 536870912000
+                                  }
+                              ]
+                          },
+                          {
+                              "matcher": {
+                                  "id": "byName",
+                                  "options": "array/Photos"
+                              },
+                              "properties": [
+                                  {
+                                      "id": "max",
+                                      "value": 1099511627776
+                                  }
+                              ]
+                          },
+                          {
+                              "matcher": {
+                                  "id": "byName",
+                                  "options": "array/SteamBackups"
+                              },
+                              "properties": [
+                                  {
+                                      "id": "max",
+                                      "value": 2199023255552
+                                  }
+                              ]
+                          },
+                          {
+                              "matcher": {
+                                  "id": "byName",
+                                  "options": "array/wubloader"
+                              },
+                              "properties": [
+                                  {
+                                      "id": "max",
+                                      "value": 2199023255552
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  "gridPos": {
+                      "h": 9,
+                      "w": 19,
+                      "x": 5,
+                      "y": 1
+                  },
+                  "id": 7,
+                  "options": {
+                      "reduceOptions": {
+                          "calcs": [
+                              "lastNotNull"
+                          ],
+                          "fields": "",
+                          "values": false
+                      },
+                      "showThresholdLabels": false,
+                      "showThresholdMarkers": true,
+                      "text": {
+
+                      }
+                  },
+                  "pluginVersion": "7.5.4",
+                  "targets": [
+                      {
+                          "exemplar": true,
+                          "expr": "zfs_dataset_available_bytes",
+                          "format": "time_series",
+                          "instant": true,
+                          "interval": "",
+                          "legendFormat": "{{name}}",
+                          "queryType": "randomWalk",
+                          "refId": "A"
+                      }
+                  ],
+                  "title": "Available Space",
+                  "type": "gauge"
+              }
+          ],
+          "schemaVersion": 27,
+          "style": "dark",
+          "tags": [
+
+          ],
+          "templating": {
+              "list": [
+
+              ]
+          },
+          "time": {
+              "from": "now-6h",
+              "to": "now"
+          },
+          "timepicker": {
+
+          },
+          "timezone": "",
+          "title": "ZFS Basic Data",
+          "uid": "qJEsYGHnk",
+          "version": 3
+      }
+  kind: ConfigMap
+  metadata:
+    labels:
+      app.kubernetes.io/component: grafana
+      app.kubernetes.io/name: grafana
+      app.kubernetes.io/part-of: kube-prometheus
+      app.kubernetes.io/version: 7.5.4
+    name: grafana-dashboard-zfs
     namespace: monitoring
 kind: ConfigMapList
