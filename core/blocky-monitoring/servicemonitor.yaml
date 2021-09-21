@@ -9,7 +9,9 @@ spec:
   endpoints:
     - interval: 30s
       port: metrics
-      scheme: http
+      scheme: https
+      tlsConfig:
+        insecureSkipVerify: true
   jobLabel: app.kubernetes.io/name
   selector:
     matchLabels:

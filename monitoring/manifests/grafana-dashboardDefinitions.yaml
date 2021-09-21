@@ -1756,8 +1756,7 @@ items:
           "editable": true,
           "gnetId": 13768,
           "graphTooltip": 0,
-          "id": 29,
-          "iteration": 1632150596229,
+          "iteration": 1632212100765,
           "links": [
               {
                   "icon": "external link",
@@ -3625,7 +3624,7 @@ items:
               }
           ],
           "refresh": false,
-          "schemaVersion": 26,
+          "schemaVersion": 27,
           "style": "dark",
           "tags": [
 
@@ -3638,7 +3637,7 @@ items:
                       "hide": 2,
                       "label": "blocky API URL",
                       "name": "blocky_url",
-                      "query": "http://192.168.1.100",
+                      "query": "https://192.168.1.100",
                       "skipUrlSync": false,
                       "type": "constant"
                   }
@@ -3665,7 +3664,7 @@ items:
           "timezone": "",
           "title": "blocky",
           "uid": "JvOqE4gRk",
-          "version": 27
+          "version": 1
       }
   kind: ConfigMap
   metadata:
