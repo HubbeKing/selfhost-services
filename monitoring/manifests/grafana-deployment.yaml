@@ -18,7 +18,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/grafana-config: e89de161cf3537b4152662dbdf2bac02
+        checksum/grafana-config: 663349de5e0ace58c50f142cb322a951
         checksum/grafana-datasources: bff02b6fd55e414ce7cf08a5ea2a85e3
       labels:
         app.kubernetes.io/component: grafana
@@ -27,7 +27,9 @@ spec:
         app.kubernetes.io/version: 7.5.4
     spec:
       containers:
-      - env: []
+      - env:
+        - name: GF_INSTALL_PLUGINS
+          value: grafana-piechart-panel
         image: grafana/grafana:7.5.4
         name: grafana
         ports:
@@ -39,11 +41,11 @@ spec:
             port: http
         resources:
           limits:
-            cpu: 200m
-            memory: 200Mi
+            cpu: 500m
+            memory: 512Mi
           requests:
-            cpu: 100m
-            memory: 100Mi
+            cpu: 250m
+            memory: 256Mi
         volumeMounts:
         - mountPath: /var/lib/grafana
           name: grafana-storage
