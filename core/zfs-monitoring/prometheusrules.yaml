@@ -10,6 +10,30 @@ spec:
   groups:
     - name: zfs.rules
       rules:
+        - alert: PoolFillingUp
+          annotations:
+            description: "Based on recent sampling, the ZFS pool {{ $labels.pool }} is expected to fill up within 30 days. Currently {{ $value | humanizePercentage }} is available."
+            summary: "ZFS pool is filling up."
+          expr: '(zfs_pool_free_bytes/zfs_pool_size_bytes) < 0.10 and zfs_pool_allocated_bytes > 0 and predict_linear(zfs_pool_free_bytes[6h], 30*24*3600) < 0'
+          for: 1h
+          labels:
+            severity: warning
+        - alert: PoolNearFull
+          annotations:
+            description: "The ZFS pool {{ $labels.pool }} has less than 15% space free."
+            summary: "ZFS pool almost full"
+          expr: "(zfs_pool_free_bytes/zfs_pool_size_bytes) < 0.15"
+          for: 2m
+          labels:
+            severity: warning
+        - alert: DatasetQuotaNearFull
+          annotations:
+            description: "The ZFS dataset {{ $labels.name }} has less than 20% quota left."
+            summary: "ZFS dataset quota almost used up."
+          expr: "(zfs_dataset_used_bytes/zfs_dataset_quota_bytes) > 0.8 and zfs_dataset_quota_bytes != 0"
+          for: 2m
+          labels:
+            severity: warning
         - alert: PoolDegraded
           annotations:
             description: "The ZFS pool {{ $labels.pool }} is in a DEGRADED state."
@@ -17,7 +41,6 @@ spec:
           expr: zfs_pool_health == 1
           for: 2m
           labels:
-            issue: "Pool {{ $labels.pool }} is in a DEGRADED state."
             severity: warning
         - alert: PoolFaulted
           annotations:
@@ -26,7 +49,6 @@ spec:
           expr: zfs_pool_health == 2
           for: 2m
           labels:
-            issue: "Pool {{ $labels.pool }} is in a FAULTED state."
             severity: critical
         - alert: PoolOffline
           annotations:
@@ -35,5 +57,4 @@ spec:
           expr: zfs_pool_health == 3
           for: 2m
           labels:
-            issue: "Pool {{ $labels.pool }} is OFFLINE."
             severity: critical
