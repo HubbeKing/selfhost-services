@@ -46,8 +46,6 @@ local kp =
           'nginx.json': (import 'dashboards/nginx.json'),
           'zfs.json': (import 'dashboards/zfs.json'),
         },
-        // add grafana plugins
-        plugins: ['grafana-piechart-panel'],
         // up resource spec
         resources: {
           requests: { cpu: '250m', memory: '256Mi' },

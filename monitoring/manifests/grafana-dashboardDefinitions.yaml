@@ -1756,7 +1756,7 @@ items:
           "editable": true,
           "gnetId": 13768,
           "graphTooltip": 0,
-          "iteration": 1632212100765,
+          "iteration": 1632221996570,
           "links": [
               {
                   "icon": "external link",
@@ -3261,26 +3261,36 @@ items:
                   "yBucketSize": null
               },
               {
-                  "aliasColors": {
-
-                  },
-                  "breakPoint": "50%",
                   "cacheTimeout": null,
-                  "combine": {
-                      "label": "Others",
-                      "threshold": 0
-                  },
                   "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
+                          "color": {
+                              "mode": "palette-classic"
+                          },
+                          "decimals": 0,
+                          "mappings": [
 
+                          ],
+                          "thresholds": {
+                              "mode": "absolute",
+                              "steps": [
+                                  {
+                                      "color": "green",
+                                      "value": null
+                                  },
+                                  {
+                                      "color": "red",
+                                      "value": 80
+                                  }
+                              ]
+                          },
+                          "unit": "short"
                       },
                       "overrides": [
 
                       ]
                   },
-                  "fontSize": "80%",
-                  "format": "short",
                   "gridPos": {
                       "h": 8,
                       "w": 12,
@@ -3289,22 +3299,38 @@ items:
                   },
                   "id": 2,
                   "interval": null,
-                  "legend": {
-                      "percentage": true,
-                      "percentageDecimals": 1,
-                      "show": true,
-                      "sideWidth": null,
-                      "values": true
-                  },
-                  "legendType": "Right side",
                   "links": [
 
                   ],
                   "maxDataPoints": 3,
-                  "nullPointMode": "connected",
-                  "pieType": "donut",
+                  "options": {
+                      "displayLabels": [
+
+                      ],
+                      "legend": {
+                          "calcs": [
+
+                          ],
+                          "displayMode": "table",
+                          "placement": "right",
+                          "values": [
+                              "value",
+                              "percent"
+                          ]
+                      },
+                      "pieType": "donut",
+                      "reduceOptions": {
+                          "calcs": [
+                              "sum"
+                          ],
+                          "fields": "",
+                          "values": false
+                      },
+                      "text": {
+
+                      }
+                  },
                   "pluginVersion": "6.6.2",
-                  "strokeWidth": 1,
                   "targets": [
                       {
                           "expr": " sort_desc(sum by (type) (ceil(increase(blocky_query_total[$__range]))))",
@@ -3318,31 +3344,39 @@ items:
                   "timeShift": null,
                   "title": "Query by type",
                   "transparent": true,
-                  "type": "grafana-piechart-panel",
-                  "valueName": "total"
+                  "type": "piechart"
               },
               {
-                  "aliasColors": {
-
-                  },
-                  "breakPoint": "50%",
                   "cacheTimeout": null,
-                  "combine": {
-                      "label": "Others",
-                      "threshold": 0
-                  },
                   "datasource": "prometheus",
-                  "decimals": null,
                   "fieldConfig": {
                       "defaults": {
+                          "color": {
+                              "mode": "palette-classic"
+                          },
+                          "decimals": 0,
+                          "mappings": [
 
+                          ],
+                          "thresholds": {
+                              "mode": "absolute",
+                              "steps": [
+                                  {
+                                      "color": "green",
+                                      "value": null
+                                  },
+                                  {
+                                      "color": "red",
+                                      "value": 80
+                                  }
+                              ]
+                          },
+                          "unit": "short"
                       },
                       "overrides": [
 
                       ]
                   },
-                  "fontSize": "80%",
-                  "format": "short",
                   "gridPos": {
                       "h": 8,
                       "w": 12,
@@ -3351,22 +3385,38 @@ items:
                   },
                   "id": 8,
                   "interval": null,
-                  "legend": {
-                      "header": "count",
-                      "percentage": true,
-                      "show": true,
-                      "sideWidth": null,
-                      "values": true
-                  },
-                  "legendType": "Right side",
                   "links": [
 
                   ],
                   "maxDataPoints": 3,
-                  "nullPointMode": "connected",
-                  "pieType": "donut",
+                  "options": {
+                      "displayLabels": [
+
+                      ],
+                      "legend": {
+                          "calcs": [
+
+                          ],
+                          "displayMode": "table",
+                          "placement": "right",
+                          "values": [
+                              "value",
+                              "percent"
+                          ]
+                      },
+                      "pieType": "donut",
+                      "reduceOptions": {
+                          "calcs": [
+                              "lastNotNull"
+                          ],
+                          "fields": "",
+                          "values": false
+                      },
+                      "text": {
+
+                      }
+                  },
                   "pluginVersion": "6.6.2",
-                  "strokeWidth": 1,
                   "targets": [
                       {
                           "expr": "sort_desc(sum by (client) (ceil(increase(blocky_query_total[$__range]))))",
@@ -3381,30 +3431,39 @@ items:
                   "timeShift": null,
                   "title": "Query per Client",
                   "transparent": true,
-                  "type": "grafana-piechart-panel",
-                  "valueName": "current"
+                  "type": "piechart"
               },
               {
-                  "aliasColors": {
-
-                  },
-                  "breakPoint": "50%",
                   "cacheTimeout": null,
-                  "combine": {
-                      "label": "Others",
-                      "threshold": 0
-                  },
                   "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
+                          "color": {
+                              "mode": "palette-classic"
+                          },
+                          "decimals": 0,
+                          "mappings": [
 
+                          ],
+                          "thresholds": {
+                              "mode": "absolute",
+                              "steps": [
+                                  {
+                                      "color": "green",
+                                      "value": null
+                                  },
+                                  {
+                                      "color": "red",
+                                      "value": 80
+                                  }
+                              ]
+                          },
+                          "unit": "short"
                       },
                       "overrides": [
 
                       ]
                   },
-                  "fontSize": "80%",
-                  "format": "short",
                   "gridPos": {
                       "h": 8,
                       "w": 12,
@@ -3413,20 +3472,37 @@ items:
                   },
                   "id": 32,
                   "interval": null,
-                  "legend": {
-                      "show": true,
-                      "sideWidth": null,
-                      "values": true
-                  },
-                  "legendType": "Right side",
                   "links": [
 
                   ],
                   "maxDataPoints": 3,
-                  "nullPointMode": "connected",
-                  "pieType": "donut",
+                  "options": {
+                      "displayLabels": [
+
+                      ],
+                      "legend": {
+                          "calcs": [
+
+                          ],
+                          "displayMode": "table",
+                          "placement": "right",
+                          "values": [
+                              "value"
+                          ]
+                      },
+                      "pieType": "donut",
+                      "reduceOptions": {
+                          "calcs": [
+                              "lastNotNull"
+                          ],
+                          "fields": "",
+                          "values": false
+                      },
+                      "text": {
+
+                      }
+                  },
                   "pluginVersion": "6.6.2",
-                  "strokeWidth": 1,
                   "targets": [
                       {
                           "expr": "topk(1, blocky_blacklist_cache) by (group)",
@@ -3439,30 +3515,39 @@ items:
                   "timeShift": null,
                   "title": "Blacklist by group",
                   "transparent": true,
-                  "type": "grafana-piechart-panel",
-                  "valueName": "current"
+                  "type": "piechart"
               },
               {
-                  "aliasColors": {
-
-                  },
-                  "breakPoint": "50%",
                   "cacheTimeout": null,
-                  "combine": {
-                      "label": "Others",
-                      "threshold": ""
-                  },
                   "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
+                          "color": {
+                              "mode": "palette-classic"
+                          },
+                          "decimals": 0,
+                          "mappings": [
 
+                          ],
+                          "thresholds": {
+                              "mode": "absolute",
+                              "steps": [
+                                  {
+                                      "color": "green",
+                                      "value": null
+                                  },
+                                  {
+                                      "color": "red",
+                                      "value": 80
+                                  }
+                              ]
+                          },
+                          "unit": "short"
                       },
                       "overrides": [
 
                       ]
                   },
-                  "fontSize": "80%",
-                  "format": "short",
                   "gridPos": {
                       "h": 8,
                       "w": 12,
@@ -3471,21 +3556,37 @@ items:
                   },
                   "id": 14,
                   "interval": null,
-                  "legend": {
-                      "percentage": true,
-                      "percentageDecimals": 1,
-                      "show": true,
-                      "sideWidth": null,
-                      "values": true
-                  },
-                  "legendType": "Right side",
                   "links": [
 
                   ],
                   "maxDataPoints": 3,
-                  "nullPointMode": "connected",
-                  "pieType": "donut",
-                  "strokeWidth": "1",
+                  "options": {
+                      "displayLabels": [
+
+                      ],
+                      "legend": {
+                          "calcs": [
+
+                          ],
+                          "displayMode": "table",
+                          "placement": "right",
+                          "values": [
+                              "value",
+                              "percent"
+                          ]
+                      },
+                      "pieType": "donut",
+                      "reduceOptions": {
+                          "calcs": [
+                              "lastNotNull"
+                          ],
+                          "fields": "",
+                          "values": false
+                      },
+                      "text": {
+
+                      }
+                  },
                   "targets": [
                       {
                           "expr": " sort_desc(sum by (reason) (ceil(increase(blocky_response_total[$__range]))))",
@@ -3499,30 +3600,39 @@ items:
                   "timeShift": null,
                   "title": "Response Reasons",
                   "transparent": true,
-                  "type": "grafana-piechart-panel",
-                  "valueName": "current"
+                  "type": "piechart"
               },
               {
-                  "aliasColors": {
-
-                  },
-                  "breakPoint": "50%",
                   "cacheTimeout": null,
-                  "combine": {
-                      "label": "Others",
-                      "threshold": 0
-                  },
                   "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
+                          "color": {
+                              "mode": "palette-classic"
+                          },
+                          "decimals": 0,
+                          "mappings": [
 
+                          ],
+                          "thresholds": {
+                              "mode": "absolute",
+                              "steps": [
+                                  {
+                                      "color": "green",
+                                      "value": null
+                                  },
+                                  {
+                                      "color": "red",
+                                      "value": 80
+                                  }
+                              ]
+                          },
+                          "unit": "short"
                       },
                       "overrides": [
 
                       ]
                   },
-                  "fontSize": "80%",
-                  "format": "short",
                   "gridPos": {
                       "h": 8,
                       "w": 12,
@@ -3531,21 +3641,37 @@ items:
                   },
                   "id": 38,
                   "interval": "",
-                  "legend": {
-                      "percentage": true,
-                      "percentageDecimals": 1,
-                      "show": true,
-                      "sideWidth": null,
-                      "values": true
-                  },
-                  "legendType": "Right side",
                   "links": [
 
                   ],
                   "maxDataPoints": 3,
-                  "nullPointMode": "connected",
-                  "pieType": "donut",
-                  "strokeWidth": "1",
+                  "options": {
+                      "displayLabels": [
+
+                      ],
+                      "legend": {
+                          "calcs": [
+
+                          ],
+                          "displayMode": "table",
+                          "placement": "right",
+                          "values": [
+                              "value",
+                              "percent"
+                          ]
+                      },
+                      "pieType": "donut",
+                      "reduceOptions": {
+                          "calcs": [
+                              "sum"
+                          ],
+                          "fields": "",
+                          "values": false
+                      },
+                      "text": {
+
+                      }
+                  },
                   "targets": [
                       {
                           "expr": " sort_desc(sum by (response_type) (ceil(increase(blocky_response_total[$__range]))))",
@@ -3559,30 +3685,39 @@ items:
                   "timeShift": null,
                   "title": "Response Type",
                   "transparent": true,
-                  "type": "grafana-piechart-panel",
-                  "valueName": "total"
+                  "type": "piechart"
               },
               {
-                  "aliasColors": {
-
-                  },
-                  "breakPoint": "50%",
                   "cacheTimeout": null,
-                  "combine": {
-                      "label": "Others",
-                      "threshold": 0
-                  },
                   "datasource": "prometheus",
                   "fieldConfig": {
                       "defaults": {
+                          "color": {
+                              "mode": "palette-classic"
+                          },
+                          "decimals": 0,
+                          "mappings": [
 
+                          ],
+                          "thresholds": {
+                              "mode": "absolute",
+                              "steps": [
+                                  {
+                                      "color": "green",
+                                      "value": null
+                                  },
+                                  {
+                                      "color": "red",
+                                      "value": 80
+                                  }
+                              ]
+                          },
+                          "unit": "short"
                       },
                       "overrides": [
 
                       ]
                   },
-                  "fontSize": "80%",
-                  "format": "short",
                   "gridPos": {
                       "h": 8,
                       "w": 12,
@@ -3591,21 +3726,37 @@ items:
                   },
                   "id": 12,
                   "interval": null,
-                  "legend": {
-                      "percentage": true,
-                      "percentageDecimals": 1,
-                      "show": true,
-                      "sideWidth": null,
-                      "values": true
-                  },
-                  "legendType": "Right side",
                   "links": [
 
                   ],
                   "maxDataPoints": 3,
-                  "nullPointMode": "connected",
-                  "pieType": "donut",
-                  "strokeWidth": 1,
+                  "options": {
+                      "displayLabels": [
+
+                      ],
+                      "legend": {
+                          "calcs": [
+
+                          ],
+                          "displayMode": "table",
+                          "placement": "right",
+                          "values": [
+                              "value",
+                              "percent"
+                          ]
+                      },
+                      "pieType": "donut",
+                      "reduceOptions": {
+                          "calcs": [
+                              "lastNotNull"
+                          ],
+                          "fields": "",
+                          "values": false
+                      },
+                      "text": {
+
+                      }
+                  },
                   "targets": [
                       {
                           "expr": " sort_desc(sum by (response_code) (ceil(increase(blocky_response_total[$__range]))))",
@@ -3619,8 +3770,7 @@ items:
                   "timeShift": null,
                   "title": "Response status",
                   "transparent": true,
-                  "type": "grafana-piechart-panel",
-                  "valueName": "current"
+                  "type": "piechart"
               }
           ],
           "refresh": false,
