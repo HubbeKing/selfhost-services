@@ -5,7 +5,7 @@ metadata:
     app.kubernetes.io/component: prometheus
     app.kubernetes.io/name: prometheus
     app.kubernetes.io/part-of: kube-prometheus
-    app.kubernetes.io/version: 2.26.0
+    app.kubernetes.io/version: 2.30.0
   name: prometheus-k8s
 rules:
 - apiGroups:
@@ -24,6 +24,14 @@ rules:
   - services
   - endpoints
   - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
   verbs:
   - get
   - list
