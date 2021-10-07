@@ -26,6 +26,11 @@ spec:
                 secretKeyRef:
                   name: nextcloud-envs
                   key: REDIS_HOST_PASSWORD
+            - name: REDISCLI_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: nextcloud-envs
+                  key: REDIS_HOST_PASSWORD
           ports:
             - containerPort: 6379
               name: redis
@@ -33,8 +38,6 @@ spec:
             exec:
               command:
                 - "redis-cli"
-                - "--pass"
-                - $(REDIS_HOST_PASSWORD)
                 - "ping"
             initialDelaySeconds: 5
             periodSeconds: 15
