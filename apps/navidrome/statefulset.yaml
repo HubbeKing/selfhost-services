@@ -17,7 +17,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: docker.io/deluan/navidrome:0.45.1
+        - image: docker.io/deluan/navidrome:0.46.0
           name: navidrome
           env:
             - name: ND_COVERARTPRIORITY
