@@ -1,7 +1,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: hubbe-club
+  name: wildcard-cert
   namespace: ingress-nginx
 spec:
   secretName: tls               # certificate will be saved as ingress-nginx/tls (namespace/name)
@@ -16,6 +16,8 @@ spec:
   dnsNames:
     - "hubbe.club"
     - "*.hubbe.club"
+    - "foxtek.io"
+    - "*.foxtek.io"
   issuerRef:
     name: cloudflare-issuer
     kind: ClusterIssuer
