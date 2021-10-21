@@ -5,7 +5,7 @@ metadata:
     app.kubernetes.io/component: prometheus
     app.kubernetes.io/name: prometheus
     app.kubernetes.io/part-of: kube-prometheus
-    app.kubernetes.io/version: 2.30.0
+    app.kubernetes.io/version: 2.29.1
     prometheus: k8s
   name: k8s
   namespace: monitoring
@@ -33,7 +33,7 @@ spec:
   enableFeatures: []
   externalLabels: {}
   externalUrl: https://prometheus.hubbe.club
-  image: quay.io/prometheus/prometheus:v2.30.0
+  image: quay.io/prometheus/prometheus:v2.29.1
   nodeSelector:
     kubernetes.io/os: linux
   podMetadata:
@@ -41,7 +41,7 @@ spec:
       app.kubernetes.io/component: prometheus
       app.kubernetes.io/name: prometheus
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 2.30.0
+      app.kubernetes.io/version: 2.29.1
   podMonitorNamespaceSelector: {}
   podMonitorSelector: {}
   probeNamespaceSelector: {}
@@ -73,4 +73,4 @@ spec:
           requests:
             storage: 20Gi
         storageClassName: longhorn
-  version: 2.30.0
+  version: 2.29.1

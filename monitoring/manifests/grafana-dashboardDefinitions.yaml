@@ -596,7 +596,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-alertmanager-overview
     namespace: monitoring
 - apiVersion: v1
@@ -2332,7 +2332,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-apiserver
     namespace: monitoring
 - apiVersion: v1
@@ -4421,7 +4421,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-blocky
     namespace: monitoring
 - apiVersion: v1
@@ -6292,7 +6292,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-cluster-total
     namespace: monitoring
 - apiVersion: v1
@@ -7458,7 +7458,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-controller-manager
     namespace: monitoring
 - apiVersion: v1
@@ -9751,7 +9751,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-etcd
     namespace: monitoring
 - apiVersion: v1
@@ -9829,7 +9829,7 @@ items:
                           "title": "CPU Utilisation",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -9913,7 +9913,7 @@ items:
                           "title": "CPU Requests Commitment",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -9997,7 +9997,7 @@ items:
                           "title": "CPU Limits Commitment",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -10081,7 +10081,7 @@ items:
                           "title": "Memory Utilisation",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -10165,7 +10165,7 @@ items:
                           "title": "Memory Requests Commitment",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -10249,7 +10249,7 @@ items:
                           "title": "Memory Limits Commitment",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -10347,7 +10347,7 @@ items:
                           "title": "CPU Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -10675,7 +10675,7 @@ items:
                           "title": "CPU Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -10774,7 +10774,7 @@ items:
                           "title": "Memory Usage (w/o cache)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -11102,7 +11102,7 @@ items:
                           "title": "Requests by Namespace",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -11404,7 +11404,7 @@ items:
                           "title": "Current Network Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -11503,7 +11503,7 @@ items:
                           "title": "Receive Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -11589,7 +11589,7 @@ items:
                           "title": "Transmit Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -11687,7 +11687,7 @@ items:
                           "title": "Average Container Bandwidth by Namespace: Received",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -11773,7 +11773,7 @@ items:
                           "title": "Average Container Bandwidth by Namespace: Transmitted",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -11871,7 +11871,7 @@ items:
                           "title": "Rate of Received Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -11957,7 +11957,7 @@ items:
                           "title": "Rate of Transmitted Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -12055,7 +12055,7 @@ items:
                           "title": "Rate of Received Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -12141,7 +12141,7 @@ items:
                           "title": "Rate of Transmitted Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -12240,7 +12240,7 @@ items:
                           "title": "IOPS(Reads+Writes)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -12326,7 +12326,7 @@ items:
                           "title": "ThroughPut(Read+Write)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -12630,7 +12630,7 @@ items:
                           "title": "Current Storage IO",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -12685,7 +12685,7 @@ items:
                           "value": "default"
                       },
                       "hide": 0,
-                      "label": null,
+                      "label": "Data Source",
                       "name": "datasource",
                       "options": [
 
@@ -12764,7 +12764,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-k8s-resources-cluster
     namespace: monitoring
 - apiVersion: v1
@@ -12841,7 +12841,7 @@ items:
                           "title": "CPU Utilisation (from requests)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -12925,7 +12925,7 @@ items:
                           "title": "CPU Utilisation (from limits)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -13009,7 +13009,7 @@ items:
                           "title": "Memory Utilisation (from requests)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -13093,7 +13093,7 @@ items:
                           "title": "Memory Utilisation (from limits)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "singlestat",
@@ -13228,7 +13228,7 @@ items:
                           "title": "CPU Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -13500,7 +13500,7 @@ items:
                           "title": "CPU Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -13636,7 +13636,7 @@ items:
                           "title": "Memory Usage (w/o cache)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -13992,7 +13992,7 @@ items:
                           "title": "Memory Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -14294,7 +14294,7 @@ items:
                           "title": "Current Network Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -14393,7 +14393,7 @@ items:
                           "title": "Receive Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -14479,7 +14479,7 @@ items:
                           "title": "Transmit Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -14577,7 +14577,7 @@ items:
                           "title": "Rate of Received Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -14663,7 +14663,7 @@ items:
                           "title": "Rate of Transmitted Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -14761,7 +14761,7 @@ items:
                           "title": "Rate of Received Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -14847,7 +14847,7 @@ items:
                           "title": "Rate of Transmitted Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -14946,7 +14946,7 @@ items:
                           "title": "IOPS(Reads+Writes)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -15032,7 +15032,7 @@ items:
                           "title": "ThroughPut(Read+Write)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -15336,7 +15336,7 @@ items:
                           "title": "Current Storage IO",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -15391,7 +15391,7 @@ items:
                           "value": "default"
                       },
                       "hide": 0,
-                      "label": null,
+                      "label": "Data Source",
                       "name": "datasource",
                       "options": [
 
@@ -15497,7 +15497,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-k8s-resources-namespace
     namespace: monitoring
 - apiVersion: v1
@@ -15576,7 +15576,7 @@ items:
                           "title": "CPU Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -15848,7 +15848,7 @@ items:
                           "title": "CPU Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -15947,7 +15947,7 @@ items:
                           "title": "Memory Usage (w/o cache)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -16303,7 +16303,7 @@ items:
                           "title": "Memory Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -16358,7 +16358,7 @@ items:
                           "value": "default"
                       },
                       "hide": 0,
-                      "label": null,
+                      "label": "Data Source",
                       "name": "datasource",
                       "options": [
 
@@ -16464,7 +16464,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-k8s-resources-node
     namespace: monitoring
 - apiVersion: v1
@@ -16576,7 +16576,7 @@ items:
                           "title": "CPU Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -16681,7 +16681,7 @@ items:
                           "title": "CPU Throttling",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -16953,7 +16953,7 @@ items:
                           "title": "CPU Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -17087,7 +17087,7 @@ items:
                           "title": "Memory Usage (WSS)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -17443,7 +17443,7 @@ items:
                           "title": "Memory Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -17543,7 +17543,7 @@ items:
                           "title": "Receive Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -17630,7 +17630,7 @@ items:
                           "title": "Transmit Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -17729,7 +17729,7 @@ items:
                           "title": "Rate of Received Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -17816,7 +17816,7 @@ items:
                           "title": "Rate of Transmitted Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -17915,7 +17915,7 @@ items:
                           "title": "Rate of Received Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -18002,7 +18002,7 @@ items:
                           "title": "Rate of Transmitted Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -18109,7 +18109,7 @@ items:
                           "title": "IOPS",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -18203,7 +18203,7 @@ items:
                           "title": "ThroughPut",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -18302,7 +18302,7 @@ items:
                           "title": "IOPS(Reads+Writes)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -18388,7 +18388,7 @@ items:
                           "title": "ThroughPut(Read+Write)",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -18692,7 +18692,7 @@ items:
                           "title": "Current Storage IO",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -18747,7 +18747,7 @@ items:
                           "value": "default"
                       },
                       "hide": 0,
-                      "label": null,
+                      "label": "Data Source",
                       "name": "datasource",
                       "options": [
 
@@ -18880,7 +18880,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-k8s-resources-pod
     namespace: monitoring
 - apiVersion: v1
@@ -18959,7 +18959,7 @@ items:
                           "title": "CPU Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -19231,7 +19231,7 @@ items:
                           "title": "CPU Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -19330,7 +19330,7 @@ items:
                           "title": "Memory Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -19602,7 +19602,7 @@ items:
                           "title": "Memory Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -19904,7 +19904,7 @@ items:
                           "title": "Current Network Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -20003,7 +20003,7 @@ items:
                           "title": "Receive Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -20089,7 +20089,7 @@ items:
                           "title": "Transmit Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -20187,7 +20187,7 @@ items:
                           "title": "Average Container Bandwidth by Pod: Received",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -20273,7 +20273,7 @@ items:
                           "title": "Average Container Bandwidth by Pod: Transmitted",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -20371,7 +20371,7 @@ items:
                           "title": "Rate of Received Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -20457,7 +20457,7 @@ items:
                           "title": "Rate of Transmitted Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -20555,7 +20555,7 @@ items:
                           "title": "Rate of Received Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -20641,7 +20641,7 @@ items:
                           "title": "Rate of Transmitted Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -20695,7 +20695,7 @@ items:
                           "value": "default"
                       },
                       "hide": 0,
-                      "label": null,
+                      "label": "Data Source",
                       "name": "datasource",
                       "options": [
 
@@ -20855,7 +20855,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-k8s-resources-workload
     namespace: monitoring
 - apiVersion: v1
@@ -20971,7 +20971,7 @@ items:
                           "title": "CPU Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -21290,7 +21290,7 @@ items:
                           "title": "CPU Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -21426,7 +21426,7 @@ items:
                           "title": "Memory Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -21745,7 +21745,7 @@ items:
                           "title": "Memory Quota",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -22066,7 +22066,7 @@ items:
                           "title": "Current Network Usage",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -22165,7 +22165,7 @@ items:
                           "title": "Receive Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -22251,7 +22251,7 @@ items:
                           "title": "Transmit Bandwidth",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -22349,7 +22349,7 @@ items:
                           "title": "Average Container Bandwidth by Workload: Received",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -22435,7 +22435,7 @@ items:
                           "title": "Average Container Bandwidth by Workload: Transmitted",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -22533,7 +22533,7 @@ items:
                           "title": "Rate of Received Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -22619,7 +22619,7 @@ items:
                           "title": "Rate of Transmitted Packets",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -22717,7 +22717,7 @@ items:
                           "title": "Rate of Received Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -22803,7 +22803,7 @@ items:
                           "title": "Rate of Transmitted Packets Dropped",
                           "tooltip": {
                               "shared": false,
-                              "sort": 0,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -22857,7 +22857,7 @@ items:
                           "value": "default"
                       },
                       "hide": 0,
-                      "label": null,
+                      "label": "Data Source",
                       "name": "datasource",
                       "options": [
 
@@ -22995,7 +22995,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-k8s-resources-workloads-namespace
     namespace: monitoring
 - apiVersion: v1
@@ -25238,7 +25238,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-kubelet
     namespace: monitoring
 - apiVersion: v1
@@ -27619,7 +27619,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-longhorn
     namespace: monitoring
 - apiVersion: v1
@@ -29072,7 +29072,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-namespace-by-pod
     namespace: monitoring
 - apiVersion: v1
@@ -30797,7 +30797,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-namespace-by-workload
     namespace: monitoring
 - apiVersion: v1
@@ -32380,7 +32380,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-nginx
     namespace: monitoring
 - apiVersion: v1
@@ -33432,7 +33432,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-node-cluster-rsrc-use
     namespace: monitoring
 - apiVersion: v1
@@ -34510,7 +34510,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-node-rsrc-use
     namespace: monitoring
 - apiVersion: v1
@@ -35490,7 +35490,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-nodes
     namespace: monitoring
 - apiVersion: v1
@@ -36056,7 +36056,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-persistentvolumesusage
     namespace: monitoring
 - apiVersion: v1
@@ -37273,7 +37273,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-pod-total
     namespace: monitoring
 - apiVersion: v1
@@ -38932,7 +38932,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-prometheus-remote-write
     namespace: monitoring
 - apiVersion: v1
@@ -39138,8 +39138,8 @@ items:
                           "timeShift": null,
                           "title": "Prometheus Stats",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "transform": "table",
@@ -39237,8 +39237,8 @@ items:
                           "timeShift": null,
                           "title": "Target Sync",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -39323,8 +39323,8 @@ items:
                           "timeShift": null,
                           "title": "Targets",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -39421,8 +39421,8 @@ items:
                           "timeShift": null,
                           "title": "Average Scrape Interval Duration",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -39539,8 +39539,8 @@ items:
                           "timeShift": null,
                           "title": "Scrape failures",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -39625,8 +39625,8 @@ items:
                           "timeShift": null,
                           "title": "Appended Samples",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -39723,8 +39723,8 @@ items:
                           "timeShift": null,
                           "title": "Head Series",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -39809,8 +39809,8 @@ items:
                           "timeShift": null,
                           "title": "Head Chunks",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -39907,8 +39907,8 @@ items:
                           "timeShift": null,
                           "title": "Query Rate",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -39993,8 +39993,8 @@ items:
                           "timeShift": null,
                           "title": "Stage Duration",
                           "tooltip": {
-                              "shared": false,
-                              "sort": 0,
+                              "shared": true,
+                              "sort": 2,
                               "value_type": "individual"
                           },
                           "type": "graph",
@@ -40048,7 +40048,7 @@ items:
                           "value": "default"
                       },
                       "hide": 0,
-                      "label": null,
+                      "label": "Data Source",
                       "name": "datasource",
                       "options": [
 
@@ -40156,7 +40156,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-prometheus
     namespace: monitoring
 - apiVersion: v1
@@ -41402,7 +41402,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-proxy
     namespace: monitoring
 - apiVersion: v1
@@ -42491,7 +42491,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-scheduler
     namespace: monitoring
 - apiVersion: v1
@@ -43918,7 +43918,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-workload-total
     namespace: monitoring
 - apiVersion: v1
@@ -44298,7 +44298,7 @@ items:
       app.kubernetes.io/component: grafana
       app.kubernetes.io/name: grafana
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 8.1.3
+      app.kubernetes.io/version: 8.1.1
     name: grafana-dashboard-zfs
     namespace: monitoring
 kind: ConfigMapList
