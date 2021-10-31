@@ -58,8 +58,6 @@ spec:
               name: redis-scripts
             - mountPath: /configs
               name: redis-config-rw
-            - mountPath: /data
-              name: data
         - image: docker.io/library/redis:6.2.6
           name: sentinel
           command: ["/bin/sh", "/scripts/startup.sh", "sentinel"]
@@ -93,12 +91,3 @@ spec:
             name: redis-configs
         - name: redis-config-rw
           emptyDir: {}
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
-        storageClassName: longhorn
