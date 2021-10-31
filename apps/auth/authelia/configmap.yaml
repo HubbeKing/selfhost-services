@@ -343,10 +343,10 @@ data:
               port: 26379
 
           ## Choose the host with the lowest latency.
-          route_by_latency: true
+          route_by_latency: false
 
           ## Choose the host randomly.
-          route_randomly: false
+          route_randomly: true
 
     ##
     ## Regulation Configuration
