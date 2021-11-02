@@ -80,20 +80,6 @@ sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://pack
 # add k8s apt repo
 echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
-# cri-tools repo vars
-DISTRO_VER=$(lsb_release -rs)
-if [[ ${DISTRO_VER} == "10" ]]; then
-    OS="Debian_10"
-else
-    OS="xUbuntu_${DISTRO_VER}"
-fi
-
-# add cri-tools repo signing key
-curl -L https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${OS}/Release.key | sudo apt-key add -
-
-# add cri-tools repo
-echo "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/${OS}/ /" | sudo tee /etc/apt/sources.list.d/cri-tools.list
-
 # install k8s packages and crictl for container debugging
 sudo apt update
 sudo apt install -y --allow-change-held-packages kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00 cri-tools
