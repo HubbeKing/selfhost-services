@@ -236,7 +236,7 @@ data:
         - domain: deepdream.hubbe.club
           subject:
             - group:DeepdreamUsers
-          policy: two_factor
+          policy: one_factor
 
           # docker registry only supports basic auth
         - domain: registry.hubbe.club
