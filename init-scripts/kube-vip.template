@@ -31,9 +31,13 @@ spec:
       value: "3"
     - name: vip_retryperiod
       value: "1"
+    - name: lb_enable
+      value: "true"
+    - name: lb_port
+      value: "6443"
     - name: vip_address
       value: ${VIP}
-    image: ghcr.io/kube-vip/kube-vip:v0.3.9
+    image: ghcr.io/kube-vip/kube-vip:v0.4.0
     imagePullPolicy: Always
     name: kube-vip
     resources: {}
