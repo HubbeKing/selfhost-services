@@ -12,10 +12,7 @@ local kp =
     values+:: {
       common+: {
         namespace: 'monitoring',
-      },
-      // add kubeadm mixin
-      kubePrometheus+: {
-        platform: "kubeadm"
+        platform: "kubeadm",
       },
       // monitor etcd
       etcd+: {
