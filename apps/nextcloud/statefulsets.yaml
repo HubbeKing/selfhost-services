@@ -73,7 +73,7 @@ spec:
         component: nextcloud
     spec:
       containers:
-        - image: ghcr.io/linuxserver/nextcloud:version-22.2.0
+        - image: ghcr.io/linuxserver/nextcloud:version-22.2.2
           name: nextcloud
           envFrom:
             - secretRef:
