@@ -18,7 +18,7 @@ spec:
         # this is not really necessary, since mautrix will just retry... but learning is its own reward.
         # signald should start first. kubelet starts containers[] sequentially, in order
         - name: signald
-          image: docker.io/finn/signald:latest
+          image: docker.io/signald/signald:latest
           # use a postStart lifecycle hook to consider container started once signald.sock exists
           lifecycle:
             postStart:
@@ -26,7 +26,7 @@ spec:
                 command:
                   - bash
                   - -c
-                  - "while [ ! -S /signald/signald.sock ]; do sleep 1; done"
+                  - "while [ ! -S /signald/signald.sock ]; do sleep 2; done"
           resources:
             requests:
               cpu: 50m
@@ -38,7 +38,7 @@ spec:
             - mountPath: /signald
               name: data-signald
         - name: matrix-signal
-          image: dock.mau.dev/tulir/mautrix-signal:latest
+          image: dock.mau.dev/mautrix/signal:latest
           ports:
             - containerPort: 29328
               name: appservice
