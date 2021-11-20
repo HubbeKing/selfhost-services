@@ -14,16 +14,27 @@ authorization:
     cacheAuthorizedTTL: 5m
     cacheUnauthorizedTTL: 30s
 cgroupDriver: systemd
+containerLogMaxFiles: 5
+containerLogMaxSize: 128Mi
+clusterDNS:
+  - 10.96.0.10
+clusterDomain: cluster.local
 cpuManagerReconcilePeriod: 10s
 evictionPressureTransitionPeriod: 5m
 fileCheckFrequency: 20s
+healthzBindAddress: 127.0.0.1
+healthzPort: 10248
 httpCheckFrequency: 20s
 imageMinimumGCAge: 2m
+logging:
+  format: text
 nodeStatusReportFrequency: 10s
 nodeStatusUpdateFrequency: 1m
+rotateCertificates: true
 runtimeRequestTimeout: 2m
 shutdownGracePeriod: 30s
 shutdownGracePeriodCriticalPods: 10s
+staticPodPath: /etc/kubernetes/manifests
 streamingConnectionIdleTimeout: 4h
 syncFrequency: 20s
 volumeStatsAggPeriod: 1m
