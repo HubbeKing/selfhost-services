@@ -9,6 +9,8 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 data:
+  # allow configuration snippets in ingress annotations
+  allow-snippet-annotations: "true"
   # ensure ssl-redirect is true, always redirect to https
   ssl-redirect: "true"
   # don't emit version number on error pages and server headers
