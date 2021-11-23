@@ -43934,6 +43934,14 @@ items:
                       "hide": true,
                       "iconColor": "rgba(0, 211, 255, 1)",
                       "name": "Annotations & Alerts",
+                      "target": {
+                          "limit": 100,
+                          "matchAny": false,
+                          "tags": [
+
+                          ],
+                          "type": "dashboard"
+                      },
                       "type": "dashboard"
                   }
               ]
@@ -43946,23 +43954,8 @@ items:
           ],
           "panels": [
               {
-                  "collapsed": false,
-                  "datasource": null,
-                  "gridPos": {
-                      "h": 1,
-                      "w": 24,
-                      "x": 0,
-                      "y": 0
-                  },
-                  "id": 6,
-                  "panels": [
-
-                  ],
-                  "title": "Row title",
-                  "type": "row"
-              },
-              {
                   "datasource": "prometheus",
+                  "description": "",
                   "fieldConfig": {
                       "defaults": {
                           "color": {
@@ -43970,52 +43963,27 @@ items:
                           },
                           "mappings": [
                               {
-                                  "from": "",
-                                  "id": 1,
-                                  "text": "HEALTHY",
-                                  "to": "",
-                                  "type": 1,
-                                  "value": "0"
-                              },
-                              {
-                                  "from": "",
-                                  "id": 2,
-                                  "text": "DEGRADED",
-                                  "to": "",
-                                  "type": 1,
-                                  "value": "1"
-                              },
-                              {
-                                  "from": "",
-                                  "id": 3,
-                                  "text": "FAULTED",
-                                  "to": "",
-                                  "type": 1,
-                                  "value": "2"
-                              },
-                              {
-                                  "from": "",
-                                  "id": 4,
-                                  "text": "OFFLINE",
-                                  "to": "",
-                                  "type": 1,
-                                  "value": "3"
-                              },
-                              {
-                                  "from": "",
-                                  "id": 5,
-                                  "text": "UNAVAILABLE",
-                                  "to": "",
-                                  "type": 1,
-                                  "value": "4"
-                              },
-                              {
-                                  "from": "",
-                                  "id": 6,
-                                  "text": "REMOVED",
-                                  "to": "",
-                                  "type": 1,
-                                  "value": "5"
+                                  "options": {
+                                      "0": {
+                                          "text": "HEALTHY"
+                                      },
+                                      "1": {
+                                          "text": "DEGRADED"
+                                      },
+                                      "2": {
+                                          "text": "FAULTED"
+                                      },
+                                      "3": {
+                                          "text": "OFFLINE"
+                                      },
+                                      "4": {
+                                          "text": "UNAVAILABLE"
+                                      },
+                                      "5": {
+                                          "text": "REMOVED"
+                                      }
+                                  },
+                                  "type": "value"
                               }
                           ],
                           "thresholds": {
@@ -44032,21 +44000,113 @@ items:
                                   {
                                       "color": "dark-red",
                                       "value": 2
+                                  },
+                                  {
+                                      "color": "green",
+                                      "value": 6
                                   }
                               ]
-                          }
+                          },
+                          "unit": "bytes"
                       },
                       "overrides": [
 
                       ]
                   },
                   "gridPos": {
-                      "h": 7,
-                      "w": 5,
+                      "h": 6,
+                      "w": 9,
                       "x": 0,
-                      "y": 1
+                      "y": 0
                   },
                   "id": 4,
+                  "options": {
+                      "colorMode": "value",
+                      "graphMode": "none",
+                      "justifyMode": "auto",
+                      "orientation": "auto",
+                      "reduceOptions": {
+                          "calcs": [
+                              "lastNotNull"
+                          ],
+                          "fields": "",
+                          "values": false
+                      },
+                      "text": {
+
+                      },
+                      "textMode": "auto"
+                  },
+                  "pluginVersion": "8.1.1",
+                  "targets": [
+                      {
+                          "exemplar": true,
+                          "expr": "zfs_pool_health{pool=\"array\"}",
+                          "instant": true,
+                          "interval": "",
+                          "legendFormat": "Status",
+                          "queryType": "randomWalk",
+                          "refId": "A"
+                      },
+                      {
+                          "exemplar": true,
+                          "expr": "zfs_pool_size_bytes",
+                          "hide": false,
+                          "interval": "",
+                          "legendFormat": "Capacity",
+                          "refId": "B"
+                      }
+                  ],
+                  "title": "Pool",
+                  "type": "stat"
+              },
+              {
+                  "datasource": "prometheus",
+                  "description": "",
+                  "fieldConfig": {
+                      "defaults": {
+                          "color": {
+                              "mode": "thresholds"
+                          },
+                          "mappings": [
+
+                          ],
+                          "max": 1,
+                          "min": 0,
+                          "thresholds": {
+                              "mode": "percentage",
+                              "steps": [
+                                  {
+                                      "color": "red",
+                                      "value": null
+                                  },
+                                  {
+                                      "color": "orange",
+                                      "value": 15
+                                  },
+                                  {
+                                      "color": "#EAB839",
+                                      "value": 35
+                                  },
+                                  {
+                                      "color": "green",
+                                      "value": 50
+                                  }
+                              ]
+                          },
+                          "unit": "percentunit"
+                      },
+                      "overrides": [
+
+                      ]
+                  },
+                  "gridPos": {
+                      "h": 6,
+                      "w": 11,
+                      "x": 9,
+                      "y": 0
+                  },
+                  "id": 11,
                   "options": {
                       "colorMode": "value",
                       "graphMode": "area",
@@ -44064,19 +44124,18 @@ items:
                       },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.5.4",
+                  "pluginVersion": "8.1.1",
                   "targets": [
                       {
                           "exemplar": true,
-                          "expr": "zfs_pool_health{pool=\"array\"}",
-                          "instant": true,
+                          "expr": "zfs_pool_free_bytes/zfs_pool_size_bytes",
                           "interval": "",
                           "legendFormat": "",
                           "queryType": "randomWalk",
                           "refId": "A"
                       }
                   ],
-                  "title": "Pool Status",
+                  "title": "Pool Capacity Remaining %",
                   "type": "stat"
               },
               {
@@ -44153,10 +44212,10 @@ items:
                       ]
                   },
                   "gridPos": {
-                      "h": 7,
-                      "w": 17,
-                      "x": 5,
-                      "y": 1
+                      "h": 5,
+                      "w": 20,
+                      "x": 0,
+                      "y": 6
                   },
                   "id": 7,
                   "options": {
@@ -44176,7 +44235,7 @@ items:
                       },
                       "textMode": "auto"
                   },
-                  "pluginVersion": "7.5.4",
+                  "pluginVersion": "8.1.1",
                   "targets": [
                       {
                           "exemplar": true,
@@ -44230,9 +44289,9 @@ items:
                   },
                   "gridPos": {
                       "h": 8,
-                      "w": 22,
+                      "w": 20,
                       "x": 0,
-                      "y": 8
+                      "y": 11
                   },
                   "id": 9,
                   "options": {
@@ -44250,7 +44309,7 @@ items:
 
                       }
                   },
-                  "pluginVersion": "7.5.4",
+                  "pluginVersion": "8.1.1",
                   "targets": [
                       {
                           "exemplar": true,
@@ -44270,7 +44329,7 @@ items:
               }
           ],
           "refresh": "5s",
-          "schemaVersion": 27,
+          "schemaVersion": 30,
           "style": "dark",
           "tags": [
 
