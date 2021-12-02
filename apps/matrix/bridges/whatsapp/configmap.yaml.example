@@ -1,4 +1,4 @@
-# see https://github.com/tulir/mautrix-whatsapp/wiki/Bridge-setup-with-Docker
+# see https://docs.mau.fi/bridges/go/whatsapp/setup/docker.html
 apiVersion: v1
 kind: ConfigMap
 metadata:
