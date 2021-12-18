@@ -20,7 +20,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: registry.hubbe.club/weechat:v3.3
+        - image: registry.hubbe.club/weechat:v3.4
           imagePullPolicy: Always
           name: weechat
           ports:
