@@ -19,7 +19,7 @@ spec:
         feature.node.kubernetes.io/pci-0300_8086.present: "true"
       initContainers:
         - name: intel-gpu-initcontainer
-          image: docker.io/intel/intel-gpu-initcontainer:0.22.0
+          image: docker.io/intel/intel-gpu-initcontainer:0.23.0
           securityContext:
             readOnlyRootFilesystem: true
           volumeMounts:
@@ -27,7 +27,7 @@ spec:
               name: nfd-source-hooks
       containers:
         - name: intel-gpu-plugin
-          image: docker.io/intel/intel-gpu-plugin:0.22.0
+          image: docker.io/intel/intel-gpu-plugin:0.23.0
           env:
             - name: NODE_NAME
               valueFrom:
@@ -44,17 +44,17 @@ spec:
               readOnly: true
             - name: kubeletsockets
               mountPath: /var/lib/kubelet/device-plugins
-      volumes:
-        - name: devfs
-          hostPath:
-            path: /dev/dri
-        - name: sysfs
-          hostPath:
-            path: /sys/class/drm
-        - name: kubeletsockets
-          hostPath:
-            path: /var/lib/kubelet/device-plugins
-        - name: nfd-source-hooks
-          hostPath:
-            path: /etc/kubernetes/node-feature-discovery/source.d/
-            type: DirectoryOrCreate
+        volumes:
+          - name: devfs
+            hostPath:
+              path: /dev/dri
+          - name: sysfs
+            hostPath:
+              path: /sys/class/drm
+          - name: kubeletsockets
+            hostPath:
+              path: /var/lib/kubelet/device-plugins
+          - name: nfd-source-hooks
+            hostPath:
+              path: /etc/kubernetes/node-feature-discovery/source.d/
+              type: DirectoryOrCreate
