@@ -44,17 +44,17 @@ spec:
               readOnly: true
             - name: kubeletsockets
               mountPath: /var/lib/kubelet/device-plugins
-        volumes:
-          - name: devfs
-            hostPath:
-              path: /dev/dri
-          - name: sysfs
-            hostPath:
-              path: /sys/class/drm
-          - name: kubeletsockets
-            hostPath:
-              path: /var/lib/kubelet/device-plugins
-          - name: nfd-source-hooks
-            hostPath:
-              path: /etc/kubernetes/node-feature-discovery/source.d/
-              type: DirectoryOrCreate
+      volumes:
+        - name: devfs
+          hostPath:
+            path: /dev/dri
+        - name: sysfs
+          hostPath:
+            path: /sys/class/drm
+        - name: kubeletsockets
+          hostPath:
+            path: /var/lib/kubelet/device-plugins
+        - name: nfd-source-hooks
+          hostPath:
+            path: /etc/kubernetes/node-feature-discovery/source.d/
+            type: DirectoryOrCreate
