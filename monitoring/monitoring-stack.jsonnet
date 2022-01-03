@@ -2,17 +2,22 @@ local kp =
   (import 'kube-prometheus/main.libsonnet') +
   (import 'kube-prometheus/addons/anti-affinity.libsonnet') +
   (import 'kube-prometheus/addons/static-etcd.libsonnet') +
-  (import 'kube-prometheus/addons/strip-limits.libsonnet') +
   (import 'kube-prometheus/addons/all-namespaces.libsonnet') +
   // add ingress definitions
   (import 'addons/ingress.jsonnet') +
   // add alertmanager config
   (import 'addons/alertmanager.jsonnet') +
+  // up resource specs for things set needlessly low
+  (import 'addons/resources.jsonnet') +
   {
     values+:: {
       common+: {
         namespace: 'monitoring',
         platform: "kubeadm",
+      },
+      // monitor kube-proxy
+      kubernetesControlPlane+: {
+        kubeProxy:: true  // needed patching of kube-proxy daemonset to add metrics port
       },
       // monitor etcd
       etcd+: {

@@ -49,7 +49,6 @@ spec:
   probeSelector: {}
   replicas: 2
   resources:
-    limits: {}
     requests:
       memory: 400Mi
   retention: 14d
