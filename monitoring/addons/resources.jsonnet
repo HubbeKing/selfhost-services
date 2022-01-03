@@ -11,17 +11,17 @@
                 requests: { cpu: '50m', memory: '256Mi' },
                 limits: { cpu: '250m', memory: '512Mi' },
             },
-        kubeRbacProxyMain+:: {
-            resources: {
-                requests: { cpu: '50m', memory: '256Mi' },
-                limits: { cpu: '250m', memory: '512Mi' },
-            },
-        },
+            kubeRbacProxyMain+:: {
+                resources: {
+                    requests: { cpu: '50m', memory: '256Mi' },
+                    limits: { cpu: '250m', memory: '512Mi' },
+                },
+            }
         },
         nodeExporter+:: {
             resources: {
                 requests: { cpu: '150m', memory: '256Mi' },
-                limits: { cpu: '250m', memory: '256Mi' },
+                limits: { cpu: '500m', memory: '256Mi' },
             },
         },
         prometheusAdapter+:: {
