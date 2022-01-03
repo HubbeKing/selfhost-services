@@ -5,7 +5,7 @@ metadata:
     app.kubernetes.io/component: controller
     app.kubernetes.io/name: prometheus-operator
     app.kubernetes.io/part-of: kube-prometheus
-    app.kubernetes.io/version: 0.49.0
+    app.kubernetes.io/version: 0.53.1
   name: prometheus-operator
   namespace: monitoring
 spec:
@@ -23,23 +23,19 @@ spec:
         app.kubernetes.io/component: controller
         app.kubernetes.io/name: prometheus-operator
         app.kubernetes.io/part-of: kube-prometheus
-        app.kubernetes.io/version: 0.49.0
+        app.kubernetes.io/version: 0.53.1
     spec:
       containers:
       - args:
         - --kubelet-service=kube-system/kubelet
-        - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:v0.49.0
-        - --config-reloader-cpu-limit=0
-        - --config-reloader-memory-limit=0
-        image: quay.io/prometheus-operator/prometheus-operator:v0.49.0
+        - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:v0.53.1
+        image: quay.io/prometheus-operator/prometheus-operator:v0.53.1
         name: prometheus-operator
         ports:
         - containerPort: 8080
           name: http
         resources:
-          limits:
-            cpu: 200m
-            memory: 200Mi
+          limits: {}
           requests:
             cpu: 100m
             memory: 100Mi

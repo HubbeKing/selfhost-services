@@ -2,11 +2,11 @@ apiVersion: monitoring.coreos.com/v1
 kind: Alertmanager
 metadata:
   labels:
-    alertmanager: main
     app.kubernetes.io/component: alert-router
+    app.kubernetes.io/instance: main
     app.kubernetes.io/name: alertmanager
     app.kubernetes.io/part-of: kube-prometheus
-    app.kubernetes.io/version: 0.22.2
+    app.kubernetes.io/version: 0.23.0
   name: main
   namespace: monitoring
 spec:
@@ -17,6 +17,7 @@ spec:
           labelSelector:
             matchLabels:
               app.kubernetes.io/component: alert-router
+              app.kubernetes.io/instance: main
               app.kubernetes.io/name: alertmanager
               app.kubernetes.io/part-of: kube-prometheus
           namespaces:
@@ -24,20 +25,19 @@ spec:
           topologyKey: kubernetes.io/hostname
         weight: 100
   externalUrl: https://alertmanager.hubbe.club
-  image: quay.io/prometheus/alertmanager:v0.22.2
+  image: quay.io/prometheus/alertmanager:v0.23.0
   nodeSelector:
     kubernetes.io/os: linux
   podMetadata:
     labels:
       app.kubernetes.io/component: alert-router
+      app.kubernetes.io/instance: main
       app.kubernetes.io/name: alertmanager
       app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 0.22.2
+      app.kubernetes.io/version: 0.23.0
   replicas: 3
   resources:
-    limits:
-      cpu: 100m
-      memory: 100Mi
+    limits: {}
     requests:
       cpu: 4m
       memory: 100Mi
@@ -46,4 +46,4 @@ spec:
     runAsNonRoot: true
     runAsUser: 1000
   serviceAccountName: alertmanager-main
-  version: 0.22.2
+  version: 0.23.0
