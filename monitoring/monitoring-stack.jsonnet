@@ -15,9 +15,15 @@ local kp =
         namespace: 'monitoring',
         platform: "kubeadm",
       },
-      // monitor kube-proxy
       kubernetesControlPlane+: {
-        kubeProxy:: true  // needed patching of kube-proxy daemonset to add metrics port
+        // monitor kube-proxy
+        kubeProxy:: true,  // needed patching of kube-proxy daemonset to add metrics port
+        // increase CPU throttling alert threshold from 25%
+        mixin+: {
+          _config+: {
+            cpuThrottlingPercent: 60,
+          },
+        },
       },
       // monitor etcd
       etcd+: {
