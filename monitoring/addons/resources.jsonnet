@@ -20,8 +20,8 @@
         },
         nodeExporter+:: {
             resources: {
-                requests: { cpu: '150m', memory: '256Mi' },
-                limits: { cpu: '500m', memory: '256Mi' },
+                requests: { cpu: '100m', memory: '256Mi' },
+                limits: { memory: '256Mi' },
             },
         },
         prometheusAdapter+:: {
