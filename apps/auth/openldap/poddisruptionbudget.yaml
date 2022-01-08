@@ -1,0 +1,10 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: openldap
+  namespace: authelia
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: openldap
