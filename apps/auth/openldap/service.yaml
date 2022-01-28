@@ -4,6 +4,7 @@ metadata:
   name: openldap
   namespace: authelia
 spec:
+  loadBalancerIP: 192.168.1.5
   ports:
     - port: 389
       name: ldap
@@ -11,3 +12,4 @@ spec:
       name: ldaps
   selector:
     app: openldap
+  type: LoadBalancer
