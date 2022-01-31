@@ -1,5 +1,5 @@
 # Kubernetes version to install
-KUBE_VERSION=1.22.3
+KUBE_VERSION=1.23.3
 
 # subnet CIDRs for kubeadm configuration
 # these should be set to avoid conflicts with existing networks
