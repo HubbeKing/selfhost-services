@@ -42,12 +42,15 @@ sudo apt install -y \
     curl \
     gnupg
 
+# check distro ID
+DISTRO=$(lsb_release -is|tr '[:upper:]' '[:lower:]')
+
 # add docker GPG key
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+curl -fsSL "https://download.docker.com/linux/${DISTRO}/gpg" | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 # add docker repo
 echo \
-  "deb [signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  "deb [signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/${DISTRO} \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # install containerd
