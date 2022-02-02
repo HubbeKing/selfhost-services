@@ -19,7 +19,7 @@ spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds
       containers:
-        - image: registry.hubbe.club/foundry:v0.8.9
+        - image: registry.hubbe.club/foundry:v9.249
           name: foundry-barthu
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=barthu"]
@@ -42,7 +42,7 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
-        - image: docker.io/library/httpd:2.4.51
+        - image: docker.io/library/httpd:2.4.52
           name: webdav
           ports:
             - containerPort: 8080
