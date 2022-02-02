@@ -28,7 +28,7 @@ spec:
             severity: warning
         - alert: DatasetQuotaNearFull
           annotations:
-            description: "The ZFS dataset {{ $labels.name }} has less than 20% quota left."
+            description: "The ZFS dataset {{ $labels.name }} is over 80% full. Currently {{ $value | humanizePercentage }} quota is used."
             summary: "ZFS dataset quota almost used up."
           expr: "(zfs_dataset_used_bytes/zfs_dataset_quota_bytes) > 0.8 and zfs_dataset_quota_bytes != 0"
           for: 2m
