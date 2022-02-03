@@ -37,16 +37,17 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: array
-              subPath: Music
+            - name: music
               mountPath: /music
-            - name: array
-              subPath: Downloads
+            - name: downloads
               mountPath: /downloads
       volumes:
-        - name: array
+        - name: downloads
           persistentVolumeClaim:
-            claimName: array
+            claimName: nfs-downloads
+        - name: music
+          persistentVolumeClaim:
+            claimName: nfs-music
   volumeClaimTemplates:
     - metadata:
         name: config

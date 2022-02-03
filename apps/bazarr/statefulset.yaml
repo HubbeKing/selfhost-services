@@ -37,16 +37,17 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: array
-              subPath: Videos/Movies
+            - name: movies
               mountPath: /movies
-            - name: array
-              subPath: Videos/Shows
+            - name: shows
               mountPath: /tv
       volumes:
-        - name: array
+        - name: movies
           persistentVolumeClaim:
-            claimName: array
+            claimName: nfs-videos-movies
+        - name: shows
+          persistentVolumeClaim:
+            claimName: nfs-videos-shows
   volumeClaimTemplates:
     - metadata:
         name: config

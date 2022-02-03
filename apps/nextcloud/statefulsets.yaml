@@ -106,15 +106,17 @@ spec:
               mountPath: /config
             - name: data
               mountPath: /data
-            - name: array
+            - name: photos
               mountPath: /photos
-              subPath: Photos
             - name: array
               mountPath: /array
       volumes:
         - name: array
           persistentVolumeClaim:
-            claimName: array
+            claimName: nfs-array
+        - name: photos
+          persistentVolumeClaim:
+            claimName: nfs-photos
   volumeClaimTemplates:
     - metadata:
         name: config

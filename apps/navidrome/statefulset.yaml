@@ -23,7 +23,7 @@ spec:
             - name: ND_COVERARTPRIORITY
               value: "cover.*, folder.*, front.*, embedded"
             - name: ND_TRANSCODINGCACHESIZE
-              value: "2GiB"
+              value: "10GiB"
             - name: ND_LASTFM_ENABLED
               value: "true"
             - name: ND_LASTFM_LANGUAGE
@@ -40,26 +40,18 @@ spec:
               port: 4533
             initialDelaySeconds: 5
             periodSeconds: 15
-          resources:
-            requests:
-              cpu: 250m
-              memory: 128Mi
-            limits:
-              cpu: 1000m
-              memory: 512Mi
           volumeMounts:
             - name: data
               mountPath: /data
             - name: cache
               mountPath: /data/cache
-            - name: array
-              subPath: Music
+            - name: music
               mountPath: /music
               readOnly: true
       volumes:
-        - name: array
+        - name: music
           persistentVolumeClaim:
-            claimName: array
+            claimName: nfs-music
         - name: cache
           emptyDir: {}
   volumeClaimTemplates:

@@ -41,21 +41,17 @@ spec:
               cpu: 4000m
               memory: 8Gi
           volumeMounts:
-            - mountPath: /desertbus
-              name: array
-              subPath: Videos/DBfH
+            - name: dbfh
+              mountPath: /desertbus
               readOnly: True
-            - mountPath: /movies
-              name: array
-              subPath: Videos/Movies
+            - name: movies
+              mountPath: /movies
               readOnly: True
-            - mountPath: /music
-              name: array
-              subPath: Music
+            - name: music
+              mountPath: /music
               readOnly: True
-            - mountPath: /tv
-              name: array
-              subPath: Videos/Shows
+            - name: shows
+              mountPath: /tv
               readOnly: True
             - mountPath: /transcode
               name: transcode
@@ -64,9 +60,18 @@ spec:
             - mountPath: /config
               name: config
       volumes:
-        - name: array
+        - name: dbfh
           persistentVolumeClaim:
-            claimName: array
+            claimName: nfs-videos-dbfh
+        - name: movies
+          persistentVolumeClaim:
+            claimName: nfs-videos-movies
+        - name: music
+          persistentVolumeClaim:
+            claimName: nfs-music
+        - name: shows
+          persistentVolumeClaim:
+            claimName: nfs-videos-shows
         - name: transcode
           emptyDir: {}
         - name: cache

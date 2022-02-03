@@ -27,8 +27,7 @@ spec:
                 - "/backups"
                 - "b2:hubbeking-backups"
               volumeMounts:
-                - name: array
-                  subPath: Backups
+                - name: backups
                   mountPath: /backups
                 - name: rclone-config
                   mountPath: /config/rclone
@@ -36,6 +35,6 @@ spec:
             - name: rclone-config
               configMap:
                 name: rclone-config
-            - name: array
+            - name: backups
               persistentVolumeClaim:
-                claimName: array
+                claimName: nfs-backups

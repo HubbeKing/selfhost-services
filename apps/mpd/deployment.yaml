@@ -49,10 +49,9 @@ spec:
               cpu: 500m
               memory: 256Mi
           volumeMounts:
-            - name: array
-              subPath: Music
+            - name: music
               mountPath: /music
       volumes:
-        - name: array
+        - name: music
           persistentVolumeClaim:
-            claimName: array
+            claimName: nfs-music

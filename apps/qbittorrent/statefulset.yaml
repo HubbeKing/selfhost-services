@@ -38,16 +38,17 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
-            - name: array
-              subPath: Downloads
+            - name: downloads
               mountPath: /downloads
-            - name: array
-              subPath: Videos
+            - name: videos
               mountPath: /videos
       volumes:
-        - name: array
+        - name: downloads
           persistentVolumeClaim:
-            claimName: array
+            claimName: nfs-downloads
+        - name: videos
+          persistentVolumeClaim:
+            claimName: nfs-videos
   volumeClaimTemplates:
     - metadata:
         name: config
