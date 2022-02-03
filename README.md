@@ -49,7 +49,7 @@ Services running on hubbe.club, in local k8s cluster
     - Nodes are then joined as worker nodes using `kubeadm token create --print-join-command` and `kubeadm join`
 
 ### Storage setup
-- NFS share for `volumes/array-nfs-pv.yaml` needs to be created
+- NFS shares for `volumes/nfs-volumes/` PVCs need to be created
     - Must be accessible from the IPs of the nodes in the k8s cluster
 - Longhorn needs no additional setup - simply deploy `volumes/longhorn` with `kubectl apply -f volumes/longhorn`
     - The storageclass settings can be tweaked if needed for volume HA stuff - see `volumes/longhorn/storageclass.yaml`
@@ -74,12 +74,10 @@ Services running on hubbe.club, in local k8s cluster
     - See https://github.com/intel/intel-device-plugins-for-kubernetes/tree/master/cmd/gpu_plugin
     - See https://github.com/RadeonOpenCompute/k8s-device-plugin
     - Run `kubectl apply -f core/intel-gpu-plugin.yaml -f core/amd-gpu-plugin.yaml`
-- Check NFS server IPs and share paths in `volumes` directory
-    - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/`
+- Check NFS server IPs and share paths in `volumes/nfs-volumes` directory
+    - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/nfs-volumes`
 - Create configs from `*.yaml.example` files
     - Alternatively, run `sops --decrypt --in-place` on existing files
-- Optional:
-    - Set new MYSQL_PASSWORD environment variables for `nextcloud` and `freshrss`
 - Set PUID, PGID, and TZ variables in `apps/linuxserver-envs.yaml`
 - Deploy apps
     - All apps can be deployed simply with `kubectl apply -R -f apps/` once SOPS decryption is done
@@ -87,6 +85,6 @@ Services running on hubbe.club, in local k8s cluster
         - Most things need the `apps/linuxserver-envs.yaml` ConfigMap
 
 ### Updating kustomize-based manifests
-- `kubectl create --dry-run=client -k <path> -o yaml > manifests.yaml`
-    - For example, nfd:
-        - `kubectl create --dry-run=client -k https://github.com/kubernetes-sigs/node-feature-discovery/deployment/overlays/default?ref=v0.9.0 > core/nfd.yaml`
+- `kubectl kustomize <URL> > manifest.yaml`
+    - example, node-feature-discovery
+    - `kubectl kustomize https://github.com/kubernetes-sigs/node-feature-discovery/deployment/overlays/default?ref=$v0.10.0 > nfd.yaml`
