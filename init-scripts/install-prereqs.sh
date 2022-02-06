@@ -88,6 +88,3 @@ sudo apt update
 sudo apt install -y --allow-change-held-packages kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00 cri-tools
 # hold k8s packages
 sudo apt-mark hold kubelet kubeadm kubectl
-
-# set up env var for crictl / containerd
-echo "CONTAINER_RUNTIME_ENDPOINT=unix:///run/containerd/containerd.sock" | sudo tee -a /etc/environment

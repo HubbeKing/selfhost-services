@@ -4,6 +4,9 @@ set -e
 # install prereqs
 ./install-prereqs.sh
 
+# deploy crictl config
+sudo cp crictl.yaml /etc/crictl.yaml
+
 # ensure kubelet is running
 sudo systemctl enable kubelet.service
 

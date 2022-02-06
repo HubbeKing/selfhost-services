@@ -9,19 +9,18 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
+# prepare host(s) for cluster join
 for host in "$@"
 do
     echo "Preparing $host for kubeadm join..."
-    # ensure required packages are installed and using proper settings
     echo "Copying install script..."
-    scp INSTALL_SETTINGS $host:/tmp/
-    scp containerd_config.toml $host:/tmp/
-    scp install-prereqs.sh $host:/tmp/
+    scp INSTALL_SETTINGS containerd_config.toml install-prereqs.sh crictl.yaml $host:/tmp/
     ssh -t $host "sed -i 's|INSTALL_SETTINGS|/tmp/INSTALL_SETTINGS|' /tmp/install-prereqs.sh"
     ssh -t $host "sed -i 's|containerd_config.toml|/tmp/containerd_config.toml|' /tmp/install-prereqs.sh"
     echo "Installing required packages..."
     ssh -t $host /tmp/install-prereqs.sh
-    # ensure kubelet service is enabled
+    echo "Deploying crictl config..."
+    ssh -t $host sudo cp /tmp/crictl.yaml /etc/crictl.yaml
     echo "Enabling kubelet systemd service..."
     ssh -t $host sudo systemctl enable kubelet.service
     echo "$host ready for kubeadm join."
@@ -38,6 +37,7 @@ sudo kubeadm init phase upload-certs --upload-certs --certificate-key $CERT_KEY
 echo "Generating join token..."
 JOIN_CMD=$(kubeadm token create --print-join-command)
 
+# actually join host(s) to cluster
 for host in "$@"
 do
     # use token and cert key to join node as a control-plane node
@@ -45,7 +45,7 @@ do
     ssh -t $host sudo $JOIN_CMD --control-plane --certificate-key $CERT_KEY
 done
 
-# deploy kube-vip.yaml to node(s)
+# deploy kube-vip.yaml to node(s) for control-plane HA
 source INSTALL_SETTINGS
 VIP="${CONTROL_PLANE_ENDPOINT%%:*}"
 for host in "$@"
