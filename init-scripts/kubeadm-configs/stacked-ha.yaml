@@ -28,6 +28,8 @@ httpCheckFrequency: 20s
 imageMinimumGCAge: 2m
 logging:
   format: text
+  flushFrequency: 0
+  verbosity: 0
 nodeStatusReportFrequency: 10s
 nodeStatusUpdateFrequency: 1m
 rotateCertificates: true
