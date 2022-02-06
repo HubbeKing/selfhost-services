@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Secret
 metadata:
@@ -9,25 +10,5 @@ metadata:
   name: grafana-config
   namespace: monitoring
 stringData:
-  grafana.ini: |
-    [auth]
-    oauth_auto_login = true
-    signout_redirect_url = https://auth.hubbe.club/logout
-    [auth.proxy]
-    auto_sign_up = true
-    enabled = true
-    header_name = X-Email
-    header_property = email
-    [date_formats]
-    default_timezone = UTC
-    [panels]
-    disable_sanitize_html = true
-    [security]
-    disable_initial_admin_creation = true
-    [server]
-    root_url = https://grafana.hubbe.club/
-    [users]
-    allow_sign_up = false
-    auto_assign_org = true
-    auto_assign_org_role = Admin
+  grafana.ini: "[auth]\noauth_auto_login = true\nsignout_redirect_url = https://auth.hubbe.club/logout\n[auth.proxy]\nauto_sign_up = true\nenabled = true\nheader_name = X-Email\nheader_property = email\n[date_formats]\ndefault_timezone = UTC\n[panels]\ndisable_sanitize_html = true\n[security]\ndisable_initial_admin_creation = true\n[server]\nroot_url = https://grafana.hubbe.club/\n[users]\nallow_sign_up = false\nauto_assign_org = true\nauto_assign_org_role = Admin\n"
 type: Opaque

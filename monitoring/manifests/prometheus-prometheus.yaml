@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
@@ -13,27 +14,27 @@ spec:
   affinity:
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
-      - podAffinityTerm:
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/component: prometheus
-              app.kubernetes.io/instance: k8s
-              app.kubernetes.io/name: prometheus
-              app.kubernetes.io/part-of: kube-prometheus
-          namespaces:
-          - monitoring
-          topologyKey: kubernetes.io/hostname
-        weight: 100
+        - podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/component: prometheus
+                app.kubernetes.io/instance: k8s
+                app.kubernetes.io/name: prometheus
+                app.kubernetes.io/part-of: kube-prometheus
+            namespaces:
+              - monitoring
+            topologyKey: kubernetes.io/hostname
+          weight: 100
   alerting:
     alertmanagers:
-    - apiVersion: v2
-      name: alertmanager-main
-      namespace: monitoring
-      port: web
+      - apiVersion: v2
+        name: alertmanager-main
+        namespace: monitoring
+        port: web
   enableFeatures: []
   externalLabels: {}
-  externalUrl: https://prometheus.hubbe.club
-  image: quay.io/prometheus/prometheus:v2.32.1
+  externalUrl: "https://prometheus.hubbe.club"
+  image: "quay.io/prometheus/prometheus:v2.32.1"
   nodeSelector:
     kubernetes.io/os: linux
   podMetadata:
@@ -55,7 +56,7 @@ spec:
   ruleNamespaceSelector: {}
   ruleSelector: {}
   secrets:
-  - kube-etcd-client-certs
+    - kube-etcd-client-certs
   securityContext:
     fsGroup: 2000
     runAsNonRoot: true
@@ -69,7 +70,7 @@ spec:
       kind: PersistentVolumeClaim
       spec:
         accessModes:
-        - ReadWriteOnce
+          - ReadWriteOnce
         resources:
           requests:
             storage: 20Gi

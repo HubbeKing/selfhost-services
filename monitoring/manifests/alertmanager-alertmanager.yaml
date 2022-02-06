@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: Alertmanager
 metadata:
@@ -13,19 +14,19 @@ spec:
   affinity:
     podAntiAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
-      - podAffinityTerm:
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/component: alert-router
-              app.kubernetes.io/instance: main
-              app.kubernetes.io/name: alertmanager
-              app.kubernetes.io/part-of: kube-prometheus
-          namespaces:
-          - monitoring
-          topologyKey: kubernetes.io/hostname
-        weight: 100
-  externalUrl: https://alertmanager.hubbe.club
-  image: quay.io/prometheus/alertmanager:v0.23.0
+        - podAffinityTerm:
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/component: alert-router
+                app.kubernetes.io/instance: main
+                app.kubernetes.io/name: alertmanager
+                app.kubernetes.io/part-of: kube-prometheus
+            namespaces:
+              - monitoring
+            topologyKey: kubernetes.io/hostname
+          weight: 100
+  externalUrl: "https://alertmanager.hubbe.club"
+  image: "quay.io/prometheus/alertmanager:v0.23.0"
   nodeSelector:
     kubernetes.io/os: linux
   podMetadata:

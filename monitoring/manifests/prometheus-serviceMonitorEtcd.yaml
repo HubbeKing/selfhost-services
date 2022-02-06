@@ -1,3 +1,4 @@
+---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -7,14 +8,14 @@ metadata:
   namespace: kube-system
 spec:
   endpoints:
-  - interval: 30s
-    port: metrics
-    scheme: https
-    tlsConfig:
-      caFile: /etc/prometheus/secrets/kube-etcd-client-certs/etcd-client-ca.crt
-      certFile: /etc/prometheus/secrets/kube-etcd-client-certs/etcd-client.crt
-      insecureSkipVerify: true
-      keyFile: /etc/prometheus/secrets/kube-etcd-client-certs/etcd-client.key
+    - interval: 30s
+      port: metrics
+      scheme: https
+      tlsConfig:
+        caFile: /etc/prometheus/secrets/kube-etcd-client-certs/etcd-client-ca.crt
+        certFile: /etc/prometheus/secrets/kube-etcd-client-certs/etcd-client.crt
+        insecureSkipVerify: true
+        keyFile: /etc/prometheus/secrets/kube-etcd-client-certs/etcd-client.key
   jobLabel: app.kubernetes.io/name
   selector:
     matchLabels:

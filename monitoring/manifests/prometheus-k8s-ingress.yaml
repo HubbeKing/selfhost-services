@@ -1,24 +1,25 @@
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   annotations:
-    nginx.ingress.kubernetes.io/auth-signin: https://auth.hubbe.club
-    nginx.ingress.kubernetes.io/auth-url: http://authelia.authelia.svc.cluster.local:9091/api/verify
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.hubbe.club"
+    nginx.ingress.kubernetes.io/auth-url: "http://authelia.authelia.svc.cluster.local:9091/api/verify"
   name: prometheus-k8s
   namespace: monitoring
 spec:
   ingressClassName: nginx
   rules:
-  - host: prometheus.hubbe.club
-    http:
-      paths:
-      - backend:
-          service:
-            name: prometheus-k8s
-            port:
-              name: web
-        path: /
-        pathType: Prefix
+    - host: prometheus.hubbe.club
+      http:
+        paths:
+          - backend:
+              service:
+                name: prometheus-k8s
+                port:
+                  name: web
+            path: /
+            pathType: Prefix
   tls:
-  - hosts:
-    - prometheus.hubbe.club
+    - hosts:
+        - prometheus.hubbe.club
