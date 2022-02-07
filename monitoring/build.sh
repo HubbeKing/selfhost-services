@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -o pipefail
 
 # Make sure to start with a clean 'manifests' dir
 rm -rf manifests
