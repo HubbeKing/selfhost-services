@@ -1,7 +1,10 @@
 #!/bin/bash
 
-kubectl apply -f manifests/setup
-kubectl apply -f manifests
+set -e
 
-sops --decrypt manifests/prometheus-secretEtcdCerts.yaml | kubectl apply -f -
-sops --decrypt manifests/alertmanager-secret.yaml | kubectl apply -f -
+if [[ ! -d manifests ]]; then
+  bash build.sh
+fi
+
+kubectl apply --server-side -f manifests/setup
+kubectl apply -f manifests

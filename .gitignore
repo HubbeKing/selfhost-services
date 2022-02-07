@@ -1,5 +1,6 @@
 apps/registry/htpasswd.txt
 monitoring/addons/etcd/*
 monitoring/addons/alertmanager.jsonnet
+monitoring/manifests
 monitoring/vendor
 monitoring/jsonnetfile.*
