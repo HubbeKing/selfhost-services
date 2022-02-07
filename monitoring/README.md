@@ -6,22 +6,18 @@ see also https://github.com/prometheus-operator/kube-prometheus
 - Install required packages:
     - `go-jsonnet`
     - `jsonnet-bundler-bin`
-    - `yj`
+    - `yj-rs`
 - Run `jb init`
 - Install kube-prometheus vendor files:
     - Run `jb install github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus@release-0.10`
-- Build manifests with `./build.sh monitoring-stack.jsonnet`
-- Commit/Push/Apply manifests:
-    - Run `kubectl apply -f manifests/setup`
-    - Wait for CRDs to become available
-    - Run `kubectl apply -f manifests`
+- Build manifests with `./build.sh`
+- Apply manifests with `./apply.sh`
 
 ## Updating manifests
 - Update jsonnet-bundler (jb)
 - Run `jb update`
-- Build new manifests with `./build.sh monitoring-stack.jsonnet`
-- Apply manifests:
-    - Run `./apply.sh`
+- Build new manifests with `./build.sh`
+- Apply manifests with `./apply.sh`
 
 ## Adding grafana dashboards
 - Add json file to `dashboards` dir
