@@ -29,14 +29,13 @@ Services running on hubbe.club, in local k8s cluster
     - `stacked-ha.yaml` is used if CONTROL_PLANE_ENDPOINT is set
     - This file is needed in order to set the cgroupDriver for the kubelet on kubeadm init
     - For info on what the configurations in this file control, see:
-        - https://godoc.org/k8s.io/kubelet/config/v1beta1#KubeletConfiguration
-        - https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#InitConfiguration
-        - https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2#ClusterConfiguration
+        - https://pkg.go.dev/k8s.io/kubelet/config/v1beta1?utm_source=godoc#KubeletConfiguration
+        - https://pkg.go.dev/k8s.io/kube-proxy/config/v1alpha1#KubeProxyConfiguration
+        - https://pkg.go.dev/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2?utm_source=godoc#InitConfiguration
+        - https://pkg.go.dev/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2?utm_source=godoc#ClusterConfiguration
 5. Set up the first node of the control-plane with `init-scripts/kubeadm-init.sh`
     - Required packages are installed - `containerd.io`, `kubeadm`, `kubelet`, and `kubectl`
-    - `kube-router` is set up as CNI provider, with all features enabled
-        - see https://github.com/cloudnativelabs/kube-router/blob/master/docs/kubeadm.md
-        - note: kube-proxy is still used as service proxy, for kubeadm upgrade compatibility
+    - Project Calico is installed as a CNI plugin, see `core/calico.yaml`
     - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
 6. (optional) Add additional control-plane nodes with `init-scripts/kubeadm-join-controlplane.sh <node_user>@<node_address>`
@@ -62,27 +61,35 @@ Services running on hubbe.club, in local k8s cluster
     - Run `kubectl apply -f core/cert-manager.yml`
     - Check `core/cert-issuer/*.yaml.example` files
         - Alternatively, run `sops --decrypt --in-place` on existing files
-    - Run `kubectl apply -f core/cert-issuer`
+        - Run `kubectl apply -f core/cert-issuer`
+- Deploy metalLB for nginx LoadBalancer service
+    - `kubectl apply -f core/metallb && sops -d core/metallb/memberlist-secret.yaml | kubectl apply -f -`
 - Deploy ingress-nginx for reverse proxying to deployed pods
-    - Run `kubectl apply -f nginx/`
+    - Run `kubectl apply -f core/nginx/`
     - Current configuration assumes a single wildcard cert, `ingress-nginx/tls` for all sites
     - Issued by LetsEncrypt, solved by CloudFlare DNS verification
     - See `nginx/certificate.yaml` for certificate request fulfilled by `cert-manager`
 
 ### Apps setup
 - Some apps need GPU acceleration (jellyfin)
+    - This is deployed using `node-feature-discovery`
+        - `kubectl apply -f core/nfd.yaml`
     - See https://github.com/intel/intel-device-plugins-for-kubernetes/tree/master/cmd/gpu_plugin
-    - See https://github.com/RadeonOpenCompute/k8s-device-plugin
-    - Run `kubectl apply -f core/intel-gpu-plugin.yaml -f core/amd-gpu-plugin.yaml`
+    - See `core/gpu-plugins`
 - Check NFS server IPs and share paths in `volumes/nfs-volumes` directory
     - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/nfs-volumes`
 - Create configs from `*.yaml.example` files
     - Alternatively, run `sops --decrypt --in-place` on existing files
-- Set PUID, PGID, and TZ variables in `apps/linuxserver-envs.yaml`
+- Set PUID, PGID, and TZ variables in `apps/0-linuxserver-envs.yaml`
 - Deploy apps
     - All apps can be deployed simply with `kubectl apply -R -f apps/` once SOPS decryption is done
     - If deploying single apps, remember to also deploy related configs
-        - Most things need the `apps/linuxserver-envs.yaml` ConfigMap
+        - Most things need the `apps/0-linuxserver-envs.yaml` ConfigMap
+
+### Monitoring setup
+- See `monitoring/README.md`
+    - mainly `monitoring/build.sh` and `monitoring/apply.sh`
+- After deployment of monitoring stack, deploy extra rules from `extras` folder
 
 ### Updating kustomize-based manifests
 - `kubectl kustomize <URL> > manifest.yaml`
