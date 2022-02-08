@@ -5,8 +5,8 @@ see also https://github.com/prometheus-operator/kube-prometheus
 ## Creating initial manifests
 - Install required packages:
     - `go-jsonnet`
+    - `gojsontoyaml-git`
     - `jsonnet-bundler-bin`
-    - `yj-rs`
 - Run `jb init`
 - Install kube-prometheus vendor files:
     - Run `jb install github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus@release-0.10`
