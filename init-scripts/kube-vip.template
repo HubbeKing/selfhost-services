@@ -11,10 +11,10 @@ spec:
     env:
     - name: vip_arp
       value: "true"
-    - name: vip_interface
-      value: ${INTERFACE}
     - name: port
       value: "6443"
+    - name: vip_interface
+      value: ${INTERFACE}
     - name: vip_cidr
       value: "32"
     - name: cp_enable
@@ -35,9 +35,11 @@ spec:
       value: "true"
     - name: lb_port
       value: "6443"
-    - name: vip_address
+    - name: lb_fwdmethod
+      value: local
+    - name: address
       value: ${VIP}
-    image: ghcr.io/kube-vip/kube-vip:v0.4.1
+    image: ghcr.io/kube-vip/kube-vip:v0.4.2
     imagePullPolicy: Always
     name: kube-vip
     resources: {}
@@ -46,7 +48,6 @@ spec:
         add:
         - NET_ADMIN
         - NET_RAW
-        - SYS_TIME
     volumeMounts:
     - mountPath: /etc/kubernetes/admin.conf
       name: kubeconfig
