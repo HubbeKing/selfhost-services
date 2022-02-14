@@ -67,6 +67,9 @@ spec:
       containers:
         - image: docker.io/onlyoffice/documentserver:7.0.0
           name: onlyoffice
+          envFrom:
+            - secretRef:
+                name: onlyoffice-envs
           ports:
             - containerPort: 80
               name: http
