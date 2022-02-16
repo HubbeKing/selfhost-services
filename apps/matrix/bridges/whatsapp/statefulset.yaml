@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: matrix-whatsapp
-          image: dock.mau.dev/mautrix/whatsapp:125ccd3dbbf84b0eb329e2ab530dca5a05a196e7-amd64
+          image: dock.mau.dev/mautrix/whatsapp:v0.2.4
           ports:
             - containerPort: 29318
               name: appservice
