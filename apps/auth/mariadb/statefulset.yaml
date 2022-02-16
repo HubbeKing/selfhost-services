@@ -29,6 +29,8 @@ spec:
         - image: docker.io/library/busybox:stable
           name: configmap-copier
           command: ["/bin/sh", "-c", "cp -L /readonly/* /configs/"]
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - mountPath: /readonly
               name: configs
@@ -72,6 +74,8 @@ spec:
             limits:
               cpu: 250m
               memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: data

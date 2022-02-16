@@ -40,6 +40,8 @@ spec:
               port: 4533
             initialDelaySeconds: 5
             periodSeconds: 15
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - name: data
               mountPath: /data

@@ -40,6 +40,8 @@ spec:
               gpu.intel.com/i915: 1
               cpu: 4000m
               memory: 8Gi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - name: dbfh
               mountPath: /desertbus

@@ -34,6 +34,8 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - mountPath: /signald
               name: data-signald
@@ -51,6 +53,8 @@ spec:
             limits:
               cpu: 250m
               memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - mountPath: /data/config.yaml
               name: matrix-signal-config

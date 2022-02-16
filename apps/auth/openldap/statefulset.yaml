@@ -57,6 +57,8 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - mountPath: /var/lib/ldap
               name: data

@@ -33,6 +33,8 @@ spec:
             limits:
               cpu: 150m
               memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - name: data
               mountPath: /home/weechat/.weechat

@@ -35,6 +35,8 @@ spec:
             limits:
               cpu: 500m
               memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - name: config
               mountPath: /config

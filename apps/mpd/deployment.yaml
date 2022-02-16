@@ -27,6 +27,8 @@ spec:
             limits:
               cpu: 500m
               memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
         - image: registry.hubbe.club/music:mpd
           imagePullPolicy: Always
           name: mpd
@@ -48,6 +50,8 @@ spec:
             limits:
               cpu: 500m
               memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - name: music
               mountPath: /music

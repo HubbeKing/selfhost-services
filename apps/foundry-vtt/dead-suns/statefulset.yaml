@@ -39,6 +39,8 @@ spec:
             limits:
               cpu: 500m
               memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - mountPath: /data
               name: data
@@ -59,6 +61,8 @@ spec:
             limits:
               cpu: 250m
               memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
           volumeMounts:
             - mountPath: /usr/local/apache2/conf/httpd.conf
               name: config
