@@ -76,7 +76,7 @@ spec:
         component: nextcloud
     spec:
       containers:
-        - image: ghcr.io/linuxserver/nextcloud:version-22.2.3
+        - image: ghcr.io/linuxserver/nextcloud:version-23.0.2
           imagePullPolicy: Always
           name: nextcloud
           envFrom:
