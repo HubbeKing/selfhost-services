@@ -8,7 +8,7 @@ spec:
     storage: 20T
   nfs:
     server: "192.168.1.121"
-    path: "/mnt/hubbe/array"
+    path: "/mnt/array"
     readOnly: false
   persistentVolumeReclaimPolicy: Retain
   volumeMode: Filesystem

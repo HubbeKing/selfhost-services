@@ -8,7 +8,7 @@ spec:
     storage: 500G
   nfs:
     server: "192.168.1.121"
-    path: "/mnt/hubbe/array/Music"
+    path: "/mnt/array/Music"
     readOnly: false
   persistentVolumeReclaimPolicy: Retain
   volumeMode: Filesystem

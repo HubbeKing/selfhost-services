@@ -8,7 +8,7 @@ spec:
     storage: 10T
   nfs:
     server: "192.168.1.121"
-    path: "/mnt/hubbe/array/Downloads"
+    path: "/mnt/array/Downloads"
     readOnly: false
   persistentVolumeReclaimPolicy: Retain
   volumeMode: Filesystem

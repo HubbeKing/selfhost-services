@@ -8,7 +8,7 @@ spec:
     storage: 15T
   nfs:
     server: "192.168.1.121"
-    path: "/mnt/hubbe/array/Videos"
+    path: "/mnt/array/Videos"
     readOnly: false
   persistentVolumeReclaimPolicy: Retain
   volumeMode: Filesystem
