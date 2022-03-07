@@ -19,7 +19,7 @@ spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds
       containers:
-        - image: registry.hubbe.club/foundry:v9.251
+        - image: registry.hubbe.club/foundry:v9.255
           name: foundry-dead-suns
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=dead-suns"]
