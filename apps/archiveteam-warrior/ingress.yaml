@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: archiveteam
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "http://authelia.authelia.svc.cluster.local:9091/api/verify"
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.hubbe.club"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - warrior.hubbe.club
+  rules:
+    - host: warrior.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: archiveteam
+                port:
+                  number: 8001

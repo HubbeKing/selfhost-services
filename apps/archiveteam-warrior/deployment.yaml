@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: archiveteam
+  annotations:
+    kubernetes.io/ingress-bandwidth: 10M
+    kubernetes.io/egress-bandwidth: 10M
+  labels:
+    app: archiveteam
+    component: warrior
+spec:
+  selector:
+    matchLabels:
+      app: archiveteam
+      component: warrior
+  template:
+    metadata:
+      labels:
+        app: archiveteam
+        component: warrior
+    spec:
+      containers:
+        - name: warrior
+          image: atdr.meo.ws/archiveteam/warrior-dockerfile:latest
+          env:
+            - name: DOWNLOADER
+              value: hubbe
+            - name: SELECTED_PROJECT
+              value: auto
+            - name: CONCURRENT_ITEMS
+              value: "4"
+          ports:
+            - containerPort: 8001
+              name: http
+          resources:
+            requests:
+              cpu: 100m
+              memory: 1024Mi
+              ephemeral-storage: 10Gi
+            limits:
+              cpu: 2000m
+              memory: 2048Mi
+              ephemeral-storage: 40Gi
+          securityContext:
+            allowPrivilegeEscalation: false
