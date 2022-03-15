@@ -21,6 +21,7 @@ data:
   enable-owasp-modsecurity-crs: "true"
   # increase default client-max-body-size (1m is kinda small)
   proxy-body-size: "16m"
+  proxy-max-temp-file-size: "0"
   # set 2-year HSTS headers
   hsts: "true"
   hsts-include-subdomains: "true"
