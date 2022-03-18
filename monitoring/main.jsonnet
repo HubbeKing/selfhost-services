@@ -27,7 +27,7 @@ local kp =
       },
       // monitor etcd
       etcd+: {
-        ips: ["192.168.1.122", "192.168.1.123", "192.168.1.124"],
+        ips: ["192.168.1.131", "192.168.1.132", "192.168.1.133"],
         clientCA: importstr "addons/etcd/ca.crt",
         clientKey: importstr "addons/etcd/peer.key",
         clientCert: importstr "addons/etcd/peer.crt",
