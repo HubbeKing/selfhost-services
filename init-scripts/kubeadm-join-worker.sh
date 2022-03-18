@@ -36,5 +36,5 @@ for host in "$@"
 do
     echo "Joining $host to k8s cluster using kubeadm join..."
     ssh -t $host sudo $JOIN_CMD
-    kubectl label node ${host%.*} kubernetes.io/role=worker
+    kubectl label node ${host%%.*} kubernetes.io/role=worker
 done
