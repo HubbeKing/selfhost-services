@@ -1,5 +1,5 @@
 # Kubernetes version to install
-KUBE_VERSION=1.23.3
+KUBE_VERSION=1.23.5
 
 # subnet CIDRs for kubeadm configuration
 # these should be set to avoid conflicts with existing networks
@@ -13,4 +13,4 @@ K8S_SERVICE_CIDR=10.96.0.0/12
 # uncomment and set this if stacked control plane HA setup is desired
 # see https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
 # for control-plane loadbalancer options, see https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md
-CONTROL_PLANE_ENDPOINT=192.168.1.120:6443
+CONTROL_PLANE_ENDPOINT=192.168.1.130:6443
