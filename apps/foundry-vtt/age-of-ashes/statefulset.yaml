@@ -19,7 +19,7 @@ spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds
       containers:
-        - image: registry.hubbe.club/foundry:v9.255
+        - image: registry.hubbe.club/foundry:v9.266
           name: foundry-ashes
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=ashes"]
@@ -44,7 +44,7 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
-        - image: docker.io/library/httpd:2.4.52
+        - image: docker.io/library/httpd:2.4.53
           name: webdav
           ports:
             - containerPort: 8080
