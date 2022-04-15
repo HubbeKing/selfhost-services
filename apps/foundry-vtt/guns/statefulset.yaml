@@ -19,7 +19,7 @@ spec:
       imagePullSecrets:
         - name: registry-hubbe-club-creds
       containers:
-        - image: registry.hubbe.club/foundry:v9.266
+        - image: registry.hubbe.club/foundry:v9.268
           name: foundry-guns
           command: ["node"]
           args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=gun"]
