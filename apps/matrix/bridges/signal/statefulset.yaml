@@ -14,6 +14,20 @@ spec:
         app: matrix
         component: matrix-signal
     spec:
+      initContainers:
+          # mautrix-signal doesn't start if its config is readonly, unfortunately
+        - image: docker.io/library/busybox:stable
+          name: configmap-copier
+          command: ["/bin/sh", "-c", "cp -L /readonly/* /data/"]
+          volumeMounts:
+            - mountPath: /readonly/config.yaml
+              name: matrix-signal-config
+              subPath: config.yaml
+            - mountPath: /readonly/registration.yaml
+              name: matrix-signal-registration
+              subPath: registration.yaml
+            - mountPath: /data
+              name: matrix-signal-data
       containers:
         # this is not really necessary, since mautrix will just retry... but learning is its own reward.
         # signald should start first. kubelet starts containers[] sequentially, in order
@@ -56,12 +70,8 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
-            - mountPath: /data/config.yaml
-              name: matrix-signal-config
-              subPath: config.yaml
-            - mountPath: /data/registration.yaml
-              name: matrix-signal-registration
-              subPath: registration.yaml
+            - mountPath: /data
+              name: matrix-signal-data
             - mountPath: /signald
               name: data-signald
       volumes:
@@ -71,6 +81,8 @@ spec:
         - name: matrix-signal-registration
           configMap:
             name: matrix-signal-registration
+        - name: matrix-signal-data
+          emptyDir: {}
   volumeClaimTemplates:
     - metadata:
         name: data-signald
