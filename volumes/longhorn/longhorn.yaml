@@ -838,7 +838,7 @@ metadata:
   namespace: longhorn-system
 data:
   default-setting.yaml: |-
-    backup-target: nfs://192.168.1.121:/mnt/hubbe/array/Backups/longhorn
+    backup-target: nfs://192.168.1.121:/mnt/array/Backups/longhorn
     backup-target-credential-secret:
     allow-recurring-job-while-volume-detached: false
     create-default-disk-labeled-nodes: false
@@ -960,8 +960,8 @@ data:
       recurringJobsSelector: '[
         {
           "name": "prod",
-          "isGroup": true,
-        },
+          "isGroup": true
+        }
       ]'
 ---
 apiVersion: apps/v1
