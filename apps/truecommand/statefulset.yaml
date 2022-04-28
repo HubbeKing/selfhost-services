@@ -20,10 +20,10 @@ spec:
               name: http
           resources:
             requests:
-              cpu: 250m
+              cpu: 50m
               memory: 256Mi
             limits:
-              cpu: 1000m
+              cpu: 250m
               memory: 1024Mi
           securityContext:
             allowPrivilegeEscalation: false

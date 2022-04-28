@@ -33,10 +33,10 @@ spec:
             timeoutSeconds: 10
           resources:
             requests:
-              cpu: 250m
+              cpu: 50m
               memory: 128Mi
             limits:
-              cpu: 500m
+              cpu: 250m
               memory: 256Mi
           securityContext:
             allowPrivilegeEscalation: false
@@ -117,7 +117,7 @@ spec:
             timeoutSeconds: 5
           resources:
             requests:
-              cpu: 100m
+              cpu: 50m
               memory: 128Mi
             limits:
               cpu: 1000m

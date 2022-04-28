@@ -29,10 +29,10 @@ spec:
               name: http
           resources:
             requests:
-              cpu: 250m
-              memory: 250Mi
+              cpu: 50m
+              memory: 256Mi
             limits:
-              cpu: 1000m
+              cpu: 500m
               memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
@@ -105,11 +105,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
               cpu: 250m
               memory: 512Mi
-            limits:
-              cpu: 500m
-              memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
