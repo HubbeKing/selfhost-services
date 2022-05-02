@@ -13,7 +13,7 @@ spec:
         app: prowlarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/prowlarr:develop-version-0.2.0.1678
+        - image: ghcr.io/linuxserver/prowlarr:develop-version-0.3.0.1724
           imagePullPolicy: Always
           name: prowlarr
           envFrom:
