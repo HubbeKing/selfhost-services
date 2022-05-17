@@ -19,7 +19,7 @@ spec:
         runAsGroup: 991
         runAsUser: 991
       containers:
-        - image: docker.io/matrixdotorg/synapse:v1.58.0
+        - image: docker.io/matrixdotorg/synapse:v1.59.0
           name: synapse
           env:
             - name: TZ
@@ -87,7 +87,7 @@ spec:
         component: postgres
     spec:
       containers:
-        - image: docker.io/library/postgres:13.5-alpine
+        - image: docker.io/library/postgres:13.6-alpine
           name: postgres
           envFrom:
             - secretRef:
