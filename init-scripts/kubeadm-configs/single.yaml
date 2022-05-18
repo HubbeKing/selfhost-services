@@ -88,7 +88,7 @@ winkernel:
   networkName: ""
   sourceVip: ""
 ---
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
 bootstrapTokens:
   - groups:
@@ -99,12 +99,13 @@ bootstrapTokens:
       - signing
       - authentication
 nodeRegistration:
-  criSocket: /run/containerd/containerd.sock
+  criSocket: unix:///var/run/containerd/containerd.sock
+  imagePullPolicy: IfNotPresent
   taints:
     - effect: NoSchedule
       key: node-role.kubernetes.io/master
 ---
-apiVersion: kubeadm.k8s.io/v1beta2
+apiVersion: kubeadm.k8s.io/v1beta3
 kind: ClusterConfiguration
 apiServer:
   extraArgs:
@@ -115,8 +116,6 @@ clusterName: kubernetes
 controllerManager:
   extraArgs:
     bind-address: 0.0.0.0
-dns:
-  type: CoreDNS
 etcd:
   local:
     dataDir: /var/lib/etcd
