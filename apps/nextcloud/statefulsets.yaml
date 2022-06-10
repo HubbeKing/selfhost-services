@@ -15,7 +15,7 @@ spec:
         component: mariadb
     spec:
       containers:
-        - image: docker.io/library/mariadb:10.7.3
+        - image: docker.io/library/mariadb:10.7.4
           name: mariadb
           args:
             - "--skip-innodb-read-only-compressed"
