@@ -13,7 +13,7 @@ spec:
         app: unifi-controller
     spec:
       containers:
-        - image: ghcr.io/linuxserver/unifi-controller:version-7.0.25
+        - image: ghcr.io/linuxserver/unifi-controller:version-7.1.66
           imagePullPolicy: Always
           name: unifi-controller
           env:
