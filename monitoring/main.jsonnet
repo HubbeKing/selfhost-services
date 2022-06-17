@@ -9,6 +9,8 @@ local kp =
   (import 'addons/alertmanager.jsonnet') +
   // up resource specs for things set needlessly low
   (import 'addons/resources.jsonnet') +
+  // disable networkPolicies
+  (import 'kube-prometheus/addons/networkpolicies-disabled.libsonnet') +
   {
     values+:: {
       common+: {
