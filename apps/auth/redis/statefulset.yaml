@@ -35,7 +35,7 @@ spec:
             - mountPath: /configs
               name: redis-config-rw
       containers:
-        - image: docker.io/library/redis:7.0.3
+        - image: docker.io/library/redis:7.0.4
           name: redis
           command: ["/bin/sh", "/scripts/startup.sh", "redis"]
           env:
@@ -60,7 +60,7 @@ spec:
               name: redis-scripts
             - mountPath: /configs
               name: redis-config-rw
-        - image: docker.io/library/redis:7.0.3
+        - image: docker.io/library/redis:7.0.4
           name: sentinel
           command: ["/bin/sh", "/scripts/startup.sh", "sentinel"]
           env:
