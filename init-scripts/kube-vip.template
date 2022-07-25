@@ -39,7 +39,9 @@ spec:
       value: local
     - name: address
       value: ${VIP}
-    image: ghcr.io/kube-vip/kube-vip:v0.4.4
+    - name: prometheus_server
+      value: :2112
+    image: ghcr.io/kube-vip/kube-vip:v0.5.0
     imagePullPolicy: Always
     name: kube-vip
     resources: {}
