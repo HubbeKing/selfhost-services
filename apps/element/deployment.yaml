@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: element-web
-          image: docker.io/vectorim/element-web:v1.11.0
+          image: docker.io/vectorim/element-web:v1.11.1
           ports:
             - containerPort: 80
               name: http
