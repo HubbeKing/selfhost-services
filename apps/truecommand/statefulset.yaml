@@ -13,7 +13,7 @@ spec:
         app: truecommand
     spec:
       containers:
-        - image: docker.io/ixsystems/truecommand:2.1.1
+        - image: docker.io/ixsystems/truecommand:2.2.1
           name: truecommand
           ports:
             - containerPort: 80
