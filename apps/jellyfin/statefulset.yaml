@@ -17,7 +17,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: docker.io/jellyfin/jellyfin:10.8.3
+        - image: docker.io/jellyfin/jellyfin:10.8.4
           name: jellyfin
           ports:
             - containerPort: 8096
