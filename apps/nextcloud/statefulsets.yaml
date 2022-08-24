@@ -44,7 +44,8 @@ spec:
             allowPrivilegeEscalation: false
           volumeMounts:
             - name: configs
-              mountPath: /etc/mysql/mariadb.conf.d
+              mountPath: /etc/mysql/mariadb.conf.d/99-nextcloud.cnf
+              subPath: 99-nextcloud.cnf
             - name: data
               mountPath: /var/lib/mysql
       volumes:

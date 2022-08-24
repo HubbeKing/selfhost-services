@@ -12,7 +12,6 @@ data:
     lc-messages-dir = /usr/share/mysql
     lc-messages = en_US
     skip-external-locking = ON
-    skip-name-resolve = ON
 
     transaction_isolation = READ-COMMITTED
     innodb_file_per_table = ON
