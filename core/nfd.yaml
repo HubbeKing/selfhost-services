@@ -562,7 +562,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        image: k8s.gcr.io/nfd/node-feature-discovery:v0.11.1
+        image: k8s.gcr.io/nfd/node-feature-discovery:v0.11.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -626,7 +626,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        image: k8s.gcr.io/nfd/node-feature-discovery:v0.11.1
+        image: k8s.gcr.io/nfd/node-feature-discovery:v0.11.2
         imagePullPolicy: IfNotPresent
         name: nfd-worker
         securityContext:
