@@ -15,8 +15,11 @@ spec:
         component: mariadb
     spec:
       containers:
-        - image: docker.io/library/mariadb:10.7.4
+        - image: docker.io/library/mariadb:10.8.4
           name: mariadb
+          env:
+            - name: MARIADB_AUTO_UPGRADE
+              value: "true"
           envFrom:
             - secretRef:
                 name: freshrss-envs

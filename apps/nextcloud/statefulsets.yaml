@@ -15,10 +15,13 @@ spec:
         component: mariadb
     spec:
       containers:
-        - image: docker.io/library/mariadb:10.7.4
+        - image: docker.io/library/mariadb:10.8.4
           name: mariadb
           args:
             - "--skip-innodb-read-only-compressed"
+          #env:
+          #  - name: MARIADB_AUTO_UPGRADE
+          #    value: "true"  TODO: figure out why this crashes with "can't connect to server on nextcloud-db"
           envFrom:
             - secretRef:
                 name: nextcloud-envs

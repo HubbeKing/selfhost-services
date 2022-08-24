@@ -37,12 +37,14 @@ spec:
             - mountPath: /configs
               name: configs-rw
       containers:
-        - image: docker.io/library/mariadb:10.7.4
+        - image: docker.io/library/mariadb:10.8.4
           name: mariadb
           command: ["/bin/sh", "/startup.sh"]
           env:
             - name: BOOTSTRAP_FORCE
               value: "false"
+            - name: MARIADB_AUTO_UPGRADE
+              value: "true"
             - name: POD_IP
               valueFrom:
                 fieldRef:
