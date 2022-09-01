@@ -13,7 +13,7 @@ spec:
         app: qbittorrent
     spec:
       containers:
-        - image: ghcr.io/linuxserver/qbittorrent:4.4.3
+        - image: ghcr.io/linuxserver/qbittorrent:4.4.5
           imagePullPolicy: Always
           name: qbittorrent
           envFrom:
