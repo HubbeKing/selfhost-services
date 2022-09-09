@@ -16,8 +16,6 @@ spec:
   dnsNames:
     - "hubbe.club"
     - "*.hubbe.club"
-    - "foxtek.io"
-    - "*.foxtek.io"
   issuerRef:
     name: cloudflare-issuer
     kind: ClusterIssuer
