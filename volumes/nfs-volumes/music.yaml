@@ -22,4 +22,5 @@ spec:
   resources:
     requests:
       storage: 500G
+  storageClassName: ""
   volumeName: nfs-music

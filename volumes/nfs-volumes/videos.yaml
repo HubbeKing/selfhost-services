@@ -22,4 +22,5 @@ spec:
   resources:
     requests:
       storage: 15T
+  storageClassName: ""
   volumeName: nfs-videos

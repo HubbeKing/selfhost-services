@@ -22,4 +22,5 @@ spec:
   resources:
     requests:
       storage: 20T
+  storageClassName: ""
   volumeName: nfs-array

@@ -22,4 +22,5 @@ spec:
   resources:
     requests:
       storage: 5T
+  storageClassName: ""
   volumeName: nfs-videos-dbfh

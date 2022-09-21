@@ -22,4 +22,5 @@ spec:
   resources:
     requests:
       storage: 10T
+  storageClassName: ""
   volumeName: nfs-downloads
