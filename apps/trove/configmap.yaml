@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: trove-nginx-config
+data:
+  nginx.conf: |
+    events {
+    }
+    http {
+      default_type  text/plain;
+
+      server {
+        listen      80;
+        location / {
+          autoindex on;
+          root      /usr/share/nginx/html;
+        }
+      }
+    }

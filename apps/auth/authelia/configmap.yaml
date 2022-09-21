@@ -245,6 +245,11 @@ data:
             - group:DeepdreamUsers
           policy: one_factor
 
+        - domain: trove.hubbe.club
+          subject:
+            - group:TroveUsers
+          policy: one_factor
+
           # docker registry only supports basic auth
         - domain: registry.hubbe.club
           subject:

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trove-nginx
+spec:
+  selector:
+    matchLabels:
+      app: trove-nginx
+  template:
+    metadata:
+      labels:
+        app: trove-nginx
+    spec:
+      containers:
+        - image: docker.io/library/nginx:latest
+          name: nginx
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 2Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: trove
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: trove-nginx-config
+        - name: trove
+          persistentVolumeClaim:
+            claimName: nfs-trove

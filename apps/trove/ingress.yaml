@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: trove-nginx
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: "http://authelia.authelia.svc.cluster.local:9091/api/verify"
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.hubbe.club"
+    # rate limiting zone
+    nginx.ingress.kubernetes.io/configuration-snippet: "limit_req zone=trove burst=5;"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - trove.hubbe.club
+  rules:
+    - host: trove.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: trove-nginx
+                port:
+                  number: 80
