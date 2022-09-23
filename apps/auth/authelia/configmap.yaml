@@ -416,8 +416,8 @@ data:
       smtp:
         username: noreply@hubbe.club
         ## Password can also be set using a secret: https://www.authelia.com/docs/configuration/secrets.html
-        host: smtp.purelymail.com
-        port: 587
+        host: smtp.migadu.com
+        port: 465
         sender: noreply@hubbe.club
         ## HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
         identifier: authelia@hubbe.club
