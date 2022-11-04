@@ -11,7 +11,7 @@ mkdir -p manifests/setup
 sops --decrypt addons/alertmanager.jsonnet.enc > addons/alertmanager.jsonnet
 
 # generate manifests and convert to yaml for readability
-jsonnet -J vendor -m manifests "main.jsonnet" | xargs -I{} bash -c 'cat {} | gojsontoyaml > {}.yaml' -- {}
+jsonnet -J vendor -m manifests "main.jsonnet" | xargs -I{} bash -c 'cat {} | ~/go/bin/gojsontoyaml > {}.yaml' -- {}
 
 # Make sure to remove json files
 find manifests -type f ! -name '*.yaml' -delete

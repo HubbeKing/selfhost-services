@@ -11,6 +11,10 @@ local kp =
   (import 'addons/resources.jsonnet') +
   // disable networkPolicies
   (import 'kube-prometheus/addons/networkpolicies-disabled.libsonnet') +
+  // add ingress-nginx monitoring
+  (import 'addons/ingress-nginx.jsonnet') +
+  // add pihole monitoring
+  (import 'addons/pihole.jsonnet') +
   {
     values+:: {
       common+: {
@@ -101,4 +105,5 @@ local kp =
 { ['node-exporter-' + name]: kp.nodeExporter[name] for name in std.objectFields(kp.nodeExporter) } +
 { ['prometheus-' + name]: kp.prometheus[name] for name in std.objectFields(kp.prometheus) } +
 { ['prometheus-adapter-' + name]: kp.prometheusAdapter[name] for name in std.objectFields(kp.prometheusAdapter) } +
-{ [name + '-ingress']: kp.ingress[name] for name in std.objectFields(kp.ingress) }
+{ [name + '-ingress']: kp.ingress[name] for name in std.objectFields(kp.ingress) } +
+{ [name + '-serviceMonitor']: kp.serviceMonitor[name] for name in std.objectFields(kp.serviceMonitor) }
