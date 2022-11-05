@@ -13,14 +13,14 @@ spec:
         app: unifi-controller
     spec:
       containers:
-        - image: ghcr.io/linuxserver/unifi-controller:version-7.2.94
+        - image: ghcr.io/linuxserver/unifi-controller:version-7.2.95
           imagePullPolicy: Always
           name: unifi-controller
           env:
             - name: MEM_STARTUP   # -Xms
               value: 1024M
             - name: MEM_LIMIT     # -Xmx
-              value: 1024M
+              value: 2048M
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
@@ -61,7 +61,7 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: 50m
+              cpu: 250m
               memory: 1Gi
             limits:
               cpu: 1000m
