@@ -54,11 +54,10 @@ local kp =
         },
         // add grafana dashboards
         dashboards+:: {
-          'blocky.json': (import 'dashboards/blocky.json'),
           'etcd.json': (import 'dashboards/etcd.json'),
           'longhorn.json': (import 'dashboards/longhorn.json'),
           'nginx.json': (import 'dashboards/nginx.json'),
-          'zfs.json': (import 'dashboards/zfs.json'),
+          'pihole.json': (import 'dashboards/pihole.json'),
         },
         // up resource spec
         resources: {
@@ -106,4 +105,5 @@ local kp =
 { ['prometheus-' + name]: kp.prometheus[name] for name in std.objectFields(kp.prometheus) } +
 { ['prometheus-adapter-' + name]: kp.prometheusAdapter[name] for name in std.objectFields(kp.prometheusAdapter) } +
 { [name + '-ingress']: kp.ingress[name] for name in std.objectFields(kp.ingress) } +
-{ [name + '-serviceMonitor']: kp.serviceMonitor[name] for name in std.objectFields(kp.serviceMonitor) }
+{ [name + '-serviceMonitor']: kp.serviceMonitor[name] for name in std.objectFields(kp.serviceMonitor) } +
+{ [name + '-prometheusRule']: kp.prometheusRule[name] for name in std.objectFields(kp.prometheusRule) }
