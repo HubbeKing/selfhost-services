@@ -18,9 +18,9 @@ spec:
           name: unifi-controller
           env:
             - name: MEM_STARTUP   # -Xms
-              value: 1024M
+              value: "1024"
             - name: MEM_LIMIT     # -Xmx
-              value: 2048M
+              value: "2048"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
