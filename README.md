@@ -12,19 +12,17 @@ Services running on hubbe.club, in local k8s cluster
 ### k8s Cluster Setup
 1. Set up machines with basic apt-based OS
     - Should support Ubuntu Server 20.04 LTS and up, both arm64 and amd64, possibly also armhf
-2. Set up control-plane loadbalancer static pods
-    - See `control-plane-ha` folder for details
-3. Adjust settings in `init-scripts/INSTALL_SETTINGS`
+2. Adjust settings in `init-scripts/INSTALL_SETTINGS`
     - The other scripts pull variables from this file:
         - `KUBE_VERSION` sets the kubernetes version for the cluster
         - `POD_NETWORK_CIDR` sets the pod networking subnet, this should be set to avoid conflicts with existing networking
         - `K8S_SERVICE_CIDR` sets the service subnet, this should also avoid conflicting
         - `CONTROL_PLANE_ENDPOINT` sets the kube-apiserver loadbalancer endpoint, which allows for stacked HA setups
             - This causes init and join-controlplane scripts to deploy kube-vip as a static pod
-                - see https://kube-vip.io/install_static
+                - see https://kube-vip.io/docs/installation/static/ for details
             - See https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
             - See https://github.com/kubernetes/kubeadm/blob/master/docs/ha-considerations.md
-4. (optional) Adjust kubeadm configuration in `init-scripts/kubeadm-configs`
+3. (optional) Adjust kubeadm configuration in `init-scripts/kubeadm-configs`
     - `single.yaml` is used if CONTROL_PLANE_ENDPOINT is not set
     - `stacked-ha.yaml` is used if CONTROL_PLANE_ENDPOINT is set
     - This file is needed in order to set the cgroupDriver for the kubelet on kubeadm init
@@ -33,16 +31,16 @@ Services running on hubbe.club, in local k8s cluster
         - https://pkg.go.dev/k8s.io/kube-proxy/config/v1alpha1#KubeProxyConfiguration
         - https://pkg.go.dev/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2?utm_source=godoc#InitConfiguration
         - https://pkg.go.dev/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2?utm_source=godoc#ClusterConfiguration
-5. Set up the first node of the control-plane with `init-scripts/kubeadm-init.sh`
+4. Set up the first node of the control-plane with `init-scripts/kubeadm-init.sh`
     - Required packages are installed - `containerd.io`, `kubeadm`, `kubelet`, and `kubectl`
     - Project Calico is installed as a CNI plugin, see `core/calico.yaml`
     - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
     - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
-6. (optional) Add additional control-plane nodes with `init-scripts/kubeadm-join-controlplane.sh <node_user>@<node_address>`
+5. (optional) Add additional control-plane nodes with `init-scripts/kubeadm-join-controlplane.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
     - Same inital setup is performed as on first node
     - Nodes are then joined as control-plane nodes using `kubeadm token create --print-join-command` and `kubeadm join`
-7. Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
+6. Add in worker nodes by running `init-scripts/kubeadm-join-worker.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
     - Same initial setup is performed as on first node
     - Nodes are then joined as worker nodes using `kubeadm token create --print-join-command` and `kubeadm join`
