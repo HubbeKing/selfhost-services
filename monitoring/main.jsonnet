@@ -15,6 +15,8 @@ local kp =
   (import 'addons/ingress-nginx.jsonnet') +
   // add pihole monitoring
   (import 'addons/pihole.jsonnet') +
+  // add APC UPS monitoring
+  (import 'addons/apcupsd.jsonnet') +
   {
     values+:: {
       common+: {
@@ -105,5 +107,7 @@ local kp =
 { ['prometheus-' + name]: kp.prometheus[name] for name in std.objectFields(kp.prometheus) } +
 { ['prometheus-adapter-' + name]: kp.prometheusAdapter[name] for name in std.objectFields(kp.prometheusAdapter) } +
 { [name + '-ingress']: kp.ingress[name] for name in std.objectFields(kp.ingress) } +
+{ [name + '-service']: kp.service[name] for name in std.objectFields(kp.service) } +
+{ [name + '-endpoints']: kp.endpoints[name] for name in std.objectFields(kp.endpoints) } +
 { [name + '-serviceMonitor']: kp.serviceMonitor[name] for name in std.objectFields(kp.serviceMonitor) } +
 { [name + '-prometheusRule']: kp.prometheusRule[name] for name in std.objectFields(kp.prometheusRule) }
