@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: the-lounge
+spec:
+  selector:
+    matchLabels:
+      app: the-lounge
+  serviceName: the-lounge
+  template:
+    metadata:
+      labels:
+        app: the-lounge
+    spec:
+      containers:
+        - image: docker.io/thelounge/thelounge:4.3.1
+          name: the-lounge
+          ports:
+            - containerPort: 9000
+              name: http
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              cpu: 350m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: data
+              mountPath: /var/opt/thelounge
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn

@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: the-lounge
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - chat.hubbe.club
+  rules:
+    - host: chat.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: the-lounge
+                port:
+                  number: 9000
