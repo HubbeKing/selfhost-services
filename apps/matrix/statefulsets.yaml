@@ -19,7 +19,7 @@ spec:
         runAsGroup: 991
         runAsUser: 991
       containers:
-        - image: docker.io/matrixdotorg/synapse:v1.73.0
+        - image: docker.io/matrixdotorg/synapse:v1.74.0
           name: synapse
           env:
             - name: TZ
@@ -45,8 +45,6 @@ spec:
               name: matrix-whatsapp-registration
             - mountPath: /appservices/mautrix-signal
               name: matrix-signal-registration
-            - mountPath: /appservices/matrix-irc
-              name: matrix-irc-registration
       volumes:
         - name: matrix-synapse-config
           configMap:
@@ -57,9 +55,6 @@ spec:
         - name: matrix-signal-registration
           configMap:
             name: matrix-signal-registration
-        - name: matrix-irc-registration
-          configMap:
-            name: matrix-irc-registration
   volumeClaimTemplates:
     - metadata:
         name: media-store
