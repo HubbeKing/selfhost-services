@@ -82,7 +82,7 @@ spec:
         component: nextcloud
     spec:
       containers:
-        - image: ghcr.io/linuxserver/nextcloud:version-25.0.0
+        - image: ghcr.io/linuxserver/nextcloud:version-25.0.2
           imagePullPolicy: Always
           name: nextcloud
           envFrom:
@@ -106,11 +106,11 @@ spec:
             timeoutSeconds: 5
           resources:
             requests:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
             limits:
-              cpu: 2000m
-              memory: 2Gi
+              cpu: 4000m
+              memory: 6Gi
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
