@@ -45,9 +45,6 @@ spec:
             - name: movies
               mountPath: /movies
               readOnly: True
-            - name: music
-              mountPath: /music
-              readOnly: True
             - name: shows
               mountPath: /tv
               readOnly: True
@@ -64,9 +61,6 @@ spec:
         - name: movies
           persistentVolumeClaim:
             claimName: nfs-videos-movies
-        - name: music
-          persistentVolumeClaim:
-            claimName: nfs-music
         - name: shows
           persistentVolumeClaim:
             claimName: nfs-videos-shows
