@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qbittorrent-envs
+data:
+  VPN_ENABLED: "yes"
+  VPN_TYPE: wireguard
+  LAN_NETWORK: 192.168.1.0/24
+  PUID: "1000"
+  PGID: "1000"
