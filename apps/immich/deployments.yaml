@@ -1,0 +1,284 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: immich
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/component: redis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: immich
+        app.kubernetes.io/component: redis
+    spec:
+      containers:
+        - image: docker.io/library/redis:6.2.10
+          name: redis
+          command: ["redis-server"]
+          args:
+            - "--requirepass"
+            - "$(REDIS_HOST_PASSWORD)"
+          env:
+            - name: REDIS_HOST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-envs
+                  key: REDIS_HOST_PASSWORD
+            - name: REDISCLI_AUTH
+              valueFrom:
+                secretKeyRef:
+                  name: redis-envs
+                  key: REDIS_HOST_PASSWORD
+          ports:
+            - containerPort: 6379
+              name: tcp-redis
+          readinessProbe:
+            exec:
+              command:
+                - "redis-cli"
+                - "ping"
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: immich
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/component: web
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: immich
+        app.kubernetes.io/component: web
+    spec:
+      containers:
+        - image: docker.io/altran1502/immich-web:v1.42.0_65-dev
+          name: immich-web
+          command: ["/bin/sh", "./entrypoint.sh"]
+          envFrom:
+            - configMapRef:
+                name: web-envs
+            - secretRef:
+                name: web-envs
+          env:
+            # setting an actual public URL here causes the server-side to use an incorrect API base URL
+            # for example, setting https://photos.hubbe.club broke everything, as the web client was trying to use itself as the API rather than the server
+            - name: PUBLIC_IMMICH_SERVER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: web-envs
+                  key: IMMICH_SERVER_URL
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-envs
+                  key: POSTGRES_PASSWORD
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-envs
+                  key: REDIS_HOST_PASSWORD
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 3000
+              name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /usr/src/app/upload
+              name: photos
+      volumes:
+        - name: photos
+          persistentVolumeClaim:
+            claimName: nfs-photos
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+  namespace: immich
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/component: server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: immich
+        app.kubernetes.io/component: server
+    spec:
+      containers:
+        - image: docker.io/altran1502/immich-server:v1.42.0_65-dev
+          name: immich-server
+          command: ["/bin/sh", "./start-server.sh"]
+          envFrom:
+            - configMapRef:
+                name: web-envs
+            - secretRef:
+                name: web-envs
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-envs
+                  key: POSTGRES_PASSWORD
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-envs
+                  key: REDIS_HOST_PASSWORD
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 3001
+              name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /usr/src/app/upload
+              name: photos
+      volumes:
+        - name: photos
+          persistentVolumeClaim:
+            claimName: nfs-photos
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: microservices
+  namespace: immich
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/component: microservices
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: immich
+        app.kubernetes.io/component: microservices
+    spec:
+      containers:
+        - image: docker.io/altran1502/immich-server:v1.42.0_65-dev
+          name: immich-microservices
+          command: ["/bin/sh", "./start-microservices.sh"]
+          envFrom:
+            - configMapRef:
+                name: web-envs
+            - secretRef:
+                name: web-envs
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-envs
+                  key: POSTGRES_PASSWORD
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-envs
+                  key: REDIS_HOST_PASSWORD
+          ports:
+            - containerPort: 3002
+              name: http
+          resources:
+            requests:
+              cpu: 250m
+              memory: 128Mi
+            limits:
+              cpu: 2000m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /usr/src/app/upload
+              name: photos
+      volumes:
+        - name: photos
+          persistentVolumeClaim:
+            claimName: nfs-photos
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: machine-learning
+  namespace: immich
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/component: machine-learning
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: immich
+        app.kubernetes.io/component: machine-learning
+    spec:
+      containers:
+        - image: docker.io/altran1502/immich-machine-learning:v1.42.0_65-dev
+          name: immich-machine-learning
+          command: ["/bin/sh", "./entrypoint.sh"]
+          envFrom:
+            - configMapRef:
+                name: web-envs
+            - secretRef:
+                name: web-envs
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-envs
+                  key: POSTGRES_PASSWORD
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-envs
+                  key: REDIS_HOST_PASSWORD
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 2000m
+              memory: 2048Mi
+          ports:
+            - containerPort: 3003
+              name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /usr/src/app/upload
+              name: photos
+      volumes:
+        - name: photos
+          persistentVolumeClaim:
+            claimName: nfs-photos
