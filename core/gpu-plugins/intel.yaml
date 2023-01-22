@@ -19,7 +19,7 @@ spec:
         feature.node.kubernetes.io/pci-0300_8086.present: "true"
       initContainers:
         - name: intel-gpu-initcontainer
-          image: intel/intel-gpu-initcontainer:0.25.1
+          image: intel/intel-gpu-initcontainer:0.26.0
           imagePullPolicy: IfNotPresent
           securityContext:
             seLinuxOptions:
@@ -36,7 +36,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
-          image: intel/intel-gpu-plugin:0.25.1
+          image: intel/intel-gpu-plugin:0.26.0
           imagePullPolicy: IfNotPresent
           securityContext:
             seLinuxOptions:
