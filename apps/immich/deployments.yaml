@@ -78,13 +78,6 @@ spec:
             - secretRef:
                 name: web-envs
           env:
-            # setting an actual public URL here causes the server-side to use an incorrect API base URL
-            # for example, setting https://photos.hubbe.club broke everything, as the web client was trying to use itself as the API rather than the server
-            - name: PUBLIC_IMMICH_SERVER_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: web-envs
-                  key: IMMICH_SERVER_URL
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
