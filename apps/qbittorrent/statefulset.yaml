@@ -25,8 +25,7 @@ spec:
             - mountPath: /config
               name: config
       containers:
-        - image: docker.io/dyonr/qbittorrentvpn:latest
-          imagePullPolicy: Always
+        - image: docker.io/binhex/arch-qbittorrentvpn:4.5.1-1-03
           name: qbittorrent
           envFrom:
             - configMapRef:
@@ -48,10 +47,6 @@ spec:
               cpu: 1000m
               memory: 2Gi
           securityContext:
-            capabilities:
-              add:
-                - NET_ADMIN
-                - SYS_MODULE
             privileged: true
           volumeMounts:
             - name: config

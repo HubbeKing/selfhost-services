@@ -4,7 +4,11 @@ metadata:
   name: qbittorrent-envs
 data:
   VPN_ENABLED: "yes"
-  VPN_TYPE: wireguard
-  LAN_NETWORK: 192.168.1.0/24
+  ENABLE_PRIVOXY: "no"
+  VPN_PROV: custom
+  VPN_CLIENT: wireguard
+  LAN_NETWORK: 192.168.1.0/24,192.168.2.0/24,10.244.0.0/16,10.96.0.0/12
+  NAME_SERVERS: 1.1.1.1,1.0.0.1
+  DEBUG: "true"
   PUID: "1000"
   PGID: "1000"
