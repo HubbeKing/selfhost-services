@@ -69,7 +69,7 @@ spec:
         app.kubernetes.io/component: web
     spec:
       containers:
-        - image: docker.io/altran1502/immich-web:v1.49.0
+        - image: docker.io/altran1502/immich-web:v1.50.1
           name: immich-web
           command: ["/bin/sh", "./entrypoint.sh"]
           envFrom:
@@ -125,7 +125,7 @@ spec:
         app.kubernetes.io/component: server
     spec:
       containers:
-        - image: docker.io/altran1502/immich-server:v1.49.0
+        - image: docker.io/altran1502/immich-server:v1.50.1
           name: immich-server
           command: ["/bin/sh", "./start-server.sh"]
           envFrom:
@@ -181,7 +181,7 @@ spec:
         app.kubernetes.io/component: microservices
     spec:
       containers:
-        - image: docker.io/altran1502/immich-server:v1.49.0
+        - image: docker.io/altran1502/immich-server:v1.50.1
           name: immich-microservices
           command: ["/bin/sh", "./start-microservices.sh"]
           envFrom:
@@ -237,7 +237,7 @@ spec:
         app.kubernetes.io/component: machine-learning
     spec:
       containers:
-        - image: docker.io/altran1502/immich-machine-learning:v1.49.0
+        - image: docker.io/altran1502/immich-machine-learning:v1.50.1
           name: immich-machine-learning
           command: ["python", "src/main.py"]
           envFrom:
