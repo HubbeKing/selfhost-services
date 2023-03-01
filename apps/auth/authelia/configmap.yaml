@@ -39,8 +39,9 @@ data:
       ## Explanation at https://www.authelia.com/docs/configuration/server.html
       ## Read buffer size adjusts the server's max incoming request size in bytes.
       ## Write buffer size does the same for outgoing responses.
-      read_buffer_size: 4096
-      write_buffer_size: 4096
+      buffers:
+        read: 4096
+        write: 4096
 
       ## Set the single level path Authelia listens on.
       ## Must be alphanumeric chars and should not contain any slashes.
