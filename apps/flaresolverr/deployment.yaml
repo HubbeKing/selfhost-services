@@ -20,12 +20,20 @@ spec:
           ports:
             - containerPort: 8191
               name: http
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8191
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 2
           resources:
             requests:
               cpu: 50m
-              memory: 256Mi
-            limits:
-              cpu: 250m
               memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 2Gi
           securityContext:
             allowPrivilegeEscalation: false
