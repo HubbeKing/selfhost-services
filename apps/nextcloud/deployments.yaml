@@ -67,7 +67,7 @@ spec:
         component: onlyoffice
     spec:
       containers:
-        - image: docker.io/onlyoffice/documentserver:7.3.2
+        - image: docker.io/onlyoffice/documentserver:7.3.3
           name: onlyoffice
           envFrom:
             - secretRef:
