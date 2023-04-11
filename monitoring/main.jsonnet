@@ -63,8 +63,8 @@ local kp =
         },
         // up resource spec
         resources: {
-          requests: { cpu: '250m', memory: '256Mi' },
-          limits: { cpu: '500m', memory: '512Mi' },
+          requests: { cpu: '50m', memory: '256Mi' },
+          limits: { cpu: '250m', memory: '512Mi' },
         },
       },
     },
