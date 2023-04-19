@@ -48,6 +48,11 @@ spec:
                   description: Rule defines a rule for node customization such as
                     labeling.
                   properties:
+                    extendedResources:
+                      additionalProperties:
+                        type: string
+                      description: ExtendedResources to create if the rule matches.
+                      type: object
                     labels:
                       additionalProperties:
                         type: string
@@ -303,6 +308,8 @@ spec:
                       required:
                       - elements
                       type: object
+                    description: Attributes contains all the attribute-type features
+                      of the node.
                     type: object
                   flags:
                     additionalProperties:
@@ -318,6 +325,8 @@ spec:
                       required:
                       - elements
                       type: object
+                    description: Flags contains all the flag-type features of the
+                      node.
                     type: object
                   instances:
                     additionalProperties:
@@ -340,11 +349,9 @@ spec:
                       required:
                       - elements
                       type: object
+                    description: Instances contains all the instance-type features
+                      of the node.
                     type: object
-                required:
-                - attributes
-                - flags
-                - instances
                 type: object
               labels:
                 additionalProperties:
@@ -352,8 +359,6 @@ spec:
                 description: Labels is the set of node labels that are requested to
                   be created.
                 type: object
-            required:
-            - features
             type: object
         required:
         - spec
@@ -397,6 +402,7 @@ rules:
   - ""
   resources:
   - nodes
+  - nodes/status
   verbs:
   - get
   - patch
@@ -437,6 +443,20 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: nfd-master
+  namespace: node-feature-discovery
+---
+apiVersion: v1
+data:
+  nfd-master.conf: |
+    # noPublish: false
+    # extraLabelNs: ["added.ns.io","added.kubernets.io"]
+    # denyLabelNs: ["denied.ns.io","denied.kubernetes.io"]
+    # resourceLabels: ["vendor-1.com/feature-1","vendor-2.io/feature-2"]
+    # enableTaints: false
+    # labelWhiteList: "foo"
+kind: ConfigMap
+metadata:
+  name: nfd-master-conf
   namespace: node-feature-discovery
 ---
 apiVersion: v1
@@ -720,15 +740,14 @@ spec:
                 - ""
             weight: 1
       containers:
-      - args: []
-        command:
+      - command:
         - nfd-master
         env:
         - name: NODE_NAME
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.12.2
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.13.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -753,7 +772,11 @@ spec:
             - ALL
           readOnlyRootFilesystem: true
           runAsNonRoot: true
-        volumeMounts: []
+        volumeMounts:
+        - mountPath: /etc/kubernetes/node-feature-discovery
+          name: nfd-master-conf
+          readOnly: true
+      enableServiceLinks: false
       serviceAccount: nfd-master
       tolerations:
       - effect: NoSchedule
@@ -764,7 +787,10 @@ spec:
         key: node-role.kubernetes.io/control-plane
         operator: Equal
         value: ""
-      volumes: []
+      volumes:
+      - configMap:
+          name: nfd-master-conf
+        name: nfd-master-conf
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -792,7 +818,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.12.2
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.13.0
         imagePullPolicy: IfNotPresent
         name: nfd-worker
         securityContext:
@@ -814,6 +840,9 @@ spec:
           readOnly: true
         - mountPath: /host-usr/lib
           name: host-usr-lib
+          readOnly: true
+        - mountPath: /host-lib
+          name: host-lib
           readOnly: true
         - mountPath: /etc/kubernetes/node-feature-discovery/source.d/
           name: source-d
@@ -839,6 +868,9 @@ spec:
       - hostPath:
           path: /usr/lib
         name: host-usr-lib
+      - hostPath:
+          path: /lib
+        name: host-lib
       - hostPath:
           path: /etc/kubernetes/node-feature-discovery/source.d/
         name: source-d
