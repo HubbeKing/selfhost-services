@@ -23,13 +23,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nextcloud-onlyoffice
+  name: nextcloud-collabora
 spec:
   ports:
-    - port: 80
+    - port: 9980
   selector:
     app: nextcloud
-    component: onlyoffice
+    component: collabora
 ---
 apiVersion: v1
 kind: Service

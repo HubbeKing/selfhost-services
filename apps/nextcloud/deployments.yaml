@@ -54,32 +54,37 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nextcloud-onlyoffice
+  name: nextcloud-collabora
 spec:
   selector:
     matchLabels:
       app: nextcloud
-      component: onlyoffice
+      component: collabora
   template:
     metadata:
       labels:
         app: nextcloud
-        component: onlyoffice
+        component: collabora
     spec:
       containers:
-        - image: docker.io/onlyoffice/documentserver:7.3.3
-          name: onlyoffice
+        - image: docker.io/collabora/code:22.05.13.1.1
+          name: collabora
+          env:
+            - name: aliasgroup1
+              value: "https://cloud\\.hubbe\\.club:443"
+            - name: extra_params
+              value: "--o:ssl.enable=false -o:ssl.termination=true"
           envFrom:
             - secretRef:
-                name: onlyoffice-envs
+                name: collabora-envs
           ports:
-            - containerPort: 80
+            - containerPort: 9980
               name: http
           readinessProbe:
             httpGet:
-              path: /healthcheck
-              port: 80
-            initialDelaySeconds: 30
+              path: /
+              port: 9980
+            initialDelaySeconds: 5
             periodSeconds: 15
             timeoutSeconds: 5
           resources:
@@ -89,5 +94,3 @@ spec:
             limits:
               cpu: 1000m
               memory: 2Gi
-          securityContext:
-            allowPrivilegeEscalation: false

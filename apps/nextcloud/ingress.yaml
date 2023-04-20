@@ -35,24 +35,23 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: onlyoffice
+  name: collabora
   annotations:
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      more_clear_headers "X-Frame-Options";
-      more_set_headers "Content-Security-Policy: frame-ancestors https://cloud.hubbe.club";
+    # user WOPISrc arg to ensure all users editing one document are served by the same pod
+    nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - documents.hubbe.club
+      - office.hubbe.club
   rules:
-    - host: documents.hubbe.club
+    - host: office.hubbe.club
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: nextcloud-onlyoffice
+                name: nextcloud-collabora
                 port:
-                  number: 80
+                  number: 9980
