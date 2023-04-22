@@ -44,11 +44,11 @@ spec:
             periodSeconds: 15
           resources:
             requests:
-              cpu: 50m
+              cpu: 100m
               memory: 64Mi
             limits:
-              cpu: 250m
-              memory: 256Mi
+              cpu: 500m
+              memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
 ---
@@ -205,11 +205,8 @@ spec:
               name: http
           resources:
             requests:
-              cpu: 250m
-              memory: 256Mi
-            limits:
-              cpu: 2000m
-              memory: 4Gi
+              cpu: 1000m
+              memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
@@ -258,11 +255,8 @@ spec:
                   key: REDIS_HOST_PASSWORD
           resources:
             requests:
-              cpu: 250m
-              memory: 512Mi
-            limits:
-              cpu: 2000m
-              memory: 4096Mi
+              cpu: 1000m
+              memory: 1Gi
           ports:
             - containerPort: 3003
               name: http
