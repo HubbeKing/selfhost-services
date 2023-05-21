@@ -46,6 +46,13 @@ spec:
           ports:
             - containerPort: 6379
               name: redis
+          readinessProbe:
+            exec:
+              command:
+                - "redis-cli"
+                - "ping"
+            initialDelaySeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: 50m
@@ -71,6 +78,13 @@ spec:
           ports:
             - containerPort: 26379
               name: sentinel
+          readinessProbe:
+            exec:
+              command:
+                - "redis-cli"
+                - "ping"
+            initialDelaySeconds: 5
+            periodSeconds: 15
           resources:
             requests:
               cpu: 50m
