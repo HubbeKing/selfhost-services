@@ -37,7 +37,7 @@ spec:
             - mountPath: /configs
               name: configs-rw
       containers:
-        - image: docker.io/library/mariadb:10.10.3
+        - image: docker.io/library/mariadb:10.11.3
           name: mariadb
           command: ["/bin/sh", "/startup.sh"]
           env:
