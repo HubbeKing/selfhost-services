@@ -19,7 +19,7 @@ spec:
         feature.node.kubernetes.io/pci-0300_8086.present: "true"
       initContainers:
         - name: intel-gpu-initcontainer
-          image: intel/intel-gpu-initcontainer:0.26.1
+          image: intel/intel-gpu-initcontainer:0.27.0
           imagePullPolicy: IfNotPresent
           securityContext:
             seLinuxOptions:
@@ -28,7 +28,7 @@ spec:
             allowPrivilegeEscalation: false
           volumeMounts:
             - mountPath: /etc/kubernetes/node-feature-discovery/source.d/
-              name: nfd-source-hooks
+              name: nfd-features
       containers:
         - name: intel-gpu-plugin
           env:
@@ -40,7 +40,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
-          image: intel/intel-gpu-plugin:0.26.1
+          image: intel/intel-gpu-plugin:0.27.0
           imagePullPolicy: IfNotPresent
           securityContext:
             seLinuxOptions:
@@ -66,7 +66,7 @@ spec:
         - name: kubeletsockets
           hostPath:
             path: /var/lib/kubelet/device-plugins
-        - name: nfd-source-hooks
+        - name: nfd-features
           hostPath:
             path: /etc/kubernetes/node-feature-discovery/source.d/
             type: DirectoryOrCreate
