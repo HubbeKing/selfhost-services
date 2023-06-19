@@ -25,7 +25,7 @@ spec:
             - mountPath: /config
               name: config
       containers:
-        - image: docker.io/binhex/arch-qbittorrentvpn:4.5.3-1-02
+        - image: docker.io/binhex/arch-qbittorrentvpn:4.5.4-1-01
           name: qbittorrent
           envFrom:
             - configMapRef:
