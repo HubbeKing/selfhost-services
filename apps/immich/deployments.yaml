@@ -261,9 +261,8 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
-            - mountPath: /usr/src/app/upload
-              name: photos
+            - mountPath: /cache
+              name: model-cache
       volumes:
-        - name: photos
-          persistentVolumeClaim:
-            claimName: nfs-photos
+        - name: model-cache
+          emptyDir: {}
