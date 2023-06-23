@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: warrior
+  labels:
+    app: warrior
+spec:
+  selector:
+    matchLabels:
+      app: warrior
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: warrior
+    spec:
+      containers:
+        - image: atdr.meo.ws/archiveteam/warrior-dockerfile:latest
+          name: warrior
+          env:
+            - name: DOWNLOADER
+              value: hubbe
+            - name: CONCURRENT_ITEMS
+              value: "4"
+            - name: SELECTED_PROJECT
+              value: auto
+          ports:
+            - containerPort: 8001
