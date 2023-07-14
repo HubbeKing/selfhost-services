@@ -15,7 +15,7 @@ spec:
         component: mariadb
     spec:
       containers:
-        - image: docker.io/library/mariadb:10.11.4
+        - image: docker.io/library/mariadb:11.0.2
           name: mariadb
           args:
             - "--skip-innodb-read-only-compressed"
@@ -33,7 +33,7 @@ spec:
               command:
                 - bash
                 - "-c"
-                - "mysql --host=localhost --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'"
+                - "mariadb --host=localhost --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'"
             initialDelaySeconds: 5
             periodSeconds: 15
           resources:

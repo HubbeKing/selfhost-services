@@ -16,9 +16,9 @@ data:
     if [ $ORDINAL = "0" ]; then
       # pod-0
       # check if cluster is already up
-      if mysql --host=galera.authelia.svc.cluster.local --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'; then
+      if mariadb --host=galera.authelia.svc.cluster.local --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --execute 'SELECT 1'; then
         # connect to cluster
-        docker-entrypoint.sh mysqld
+        docker-entrypoint.sh mariadbd
       else
         # new cluster
         echo "INFO: Assuming cluster is not up. Bootstrapping..."
@@ -28,11 +28,11 @@ data:
             echo "WARNING: safe_to_bootstrap is 0 but $BOOTSTRAP_FORCE is true, forcing bootstrap..."
             sed -i 's|safe_to_bootstrap: 0|safe_to_bootstrap: 1|' /var/lib/mysql/grastate.dat
         fi
-        docker-entrypoint.sh mysqld --wsrep-new-cluster
+        docker-entrypoint.sh mariadbd --wsrep-new-cluster
       fi
     else
       # pod-1 or above, connect to cluster
-      docker-entrypoint.sh mysqld
+      docker-entrypoint.sh mariadbd
     fi
   shutdown.sh: |
     #!/bin/sh
@@ -43,7 +43,7 @@ data:
       sleep 15
     fi
     # gracefully shutdown - this doesn't happen on SIGTERM if there's open connections, but we WANT it to.
-    mysql --host=localhost --user=root --password=${MYSQL_ROOT_PASSWORD} --execute 'SHUTDOWN WAIT FOR ALL REPLICAS'
+    mariadb --host=localhost --user=root --password=${MARIADB_ROOT_PASSWORD} --execute 'SHUTDOWN WAIT FOR ALL REPLICAS'
 ---
 apiVersion: v1
 kind: ConfigMap

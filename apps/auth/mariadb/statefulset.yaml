@@ -27,6 +27,7 @@ spec:
       priorityClassName: high-priority
       initContainers:
         - image: docker.io/library/busybox:stable
+          imagePullPolicy: Always
           name: configmap-copier
           command: ["/bin/sh", "-c", "cp -L /readonly/* /configs/"]
           securityContext:
@@ -37,7 +38,7 @@ spec:
             - mountPath: /configs
               name: configs-rw
       containers:
-        - image: docker.io/library/mariadb:10.11.4
+        - image: docker.io/library/mariadb:11.0.2
           name: mariadb
           command: ["/bin/sh", "/startup.sh"]
           env:
@@ -60,13 +61,13 @@ spec:
                   - /shutdown.sh
           ports:
             - containerPort: 3306
-              name: mysql
+              name: mariadb
           readinessProbe:
             exec:
               command:
                 - bash
                 - "-c"
-                - "mysql --host=localhost --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'"
+                - "mariadb --host=localhost --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --execute 'SELECT 1'"
             initialDelaySeconds: 5
             periodSeconds: 15
           resources:
