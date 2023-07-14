@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tubearchivist
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - youtube.hubbe.club
+  rules:
+    - host: youtube.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: tubearchivist-web
+                port:
+                  number: 8000

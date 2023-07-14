@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tubearchivist-redis
+spec:
+  selector:
+    matchLabels:
+      app: tubearchivist
+      component: redis
+  serviceName: tubearchivist-redis-hl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tubearchivist
+        component: redis
+    spec:
+      containers:
+        - name: redis
+          image: docker.io/redis/redis-stack-server:6.2.6-v7
+          ports:
+            - containerPort: 6379
+              name: redis
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: tubearchivist-es
+spec:
+  selector:
+    matchLabels:
+      app: tubearchivist
+      component: elasticsearch
+  serviceName: tubearchivist-es-hl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tubearchivist
+        component: elasticsearch
+    spec:
+      containers:
+        - name: elasticsearch
+          image: docker.io/library/elasticsearch:8.8.1
+          env:
+            - name: ELASTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tubearchivist-envs
+                  key: ELASTIC_PASSWORD
+            - name: ES_JAVA_OPTS
+              value: "-Xms512m -Xmx512m"
+            - name: xpack.security.enabled
+              value: "true"
+            - name: discovery.type
+              value: single-node
+            - name: path.repo
+              value: /usr/share/elasticsearch/data/snapshot
+          ports:
+            - containerPort: 9200
+              name: elasticsearch
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1024Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: data
+              mountPath: /usr/share/elasticsearch/data
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi

@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-videos-youtube
+spec:
+  accessModes: [ "ReadWriteMany" ]
+  capacity:
+    storage: 1T
+  nfs:
+    server: "192.168.1.121"
+    path: "/mnt/array/Videos/Youtube"
+    readOnly: false
+  persistentVolumeReclaimPolicy: Retain
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-videos-youtube
+spec:
+  accessModes: [ "ReadWriteMany" ]
+  resources:
+    requests:
+      storage: 1T
+  storageClassName: ""
+  volumeName: nfs-videos-youtube

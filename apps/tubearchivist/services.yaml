@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tubearchivist-web
+spec:
+  ports:
+    - port: 8000
+  selector:
+    app: tubearchivist
+    component: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tubearchivist-redis
+spec:
+  ports:
+    - port: 6379
+  selector:
+    app: tubearchivist
+    component: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tubearchivist-redis-hl
+spec:
+  clusterIP: None
+  ports:
+    - port: 6379
+  selector:
+    app: tubearchivist
+    component: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tubearchivist-es
+spec:
+  ports:
+    - port: 9200
+  selector:
+    app: tubearchivist
+    component: elasticsearch
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tubearchivist-es-hl
+spec:
+  # headless service
+  clusterIP: None
+  ports:
+    - port: 9200
+  selector:
+    app: tubearchivist
+    component: elasticsearch
