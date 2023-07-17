@@ -82,7 +82,7 @@ spec:
         component: postgres
     spec:
       containers:
-        - image: docker.io/library/postgres:13.10-alpine
+        - image: docker.io/library/postgres:15.3-alpine
           name: postgres
           envFrom:
             - secretRef:
