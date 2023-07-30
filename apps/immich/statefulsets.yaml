@@ -73,7 +73,7 @@ spec:
         app.kubernetes.io/component: typesense
     spec:
       containers:
-        - image: docker.io/typesense/typesense:0.24.0
+        - image: docker.io/typesense/typesense:0.24.1
           name: typesense
           env:
             - name: TYPESENSE_DATA_DIR
