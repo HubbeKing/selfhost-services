@@ -69,7 +69,7 @@ spec:
         app.kubernetes.io/component: web
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-web:v1.71.0
+        - image: ghcr.io/immich-app/immich-web:v1.72.1
           name: immich-web
           envFrom:
             - configMapRef:
@@ -124,9 +124,9 @@ spec:
         app.kubernetes.io/component: server
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.71.0
+        - image: ghcr.io/immich-app/immich-server:v1.72.1
           name: immich-server
-          command: ["/bin/sh", "./start-server.sh"]
+          command: ["/usr/src/app/start.sh", "immich"]
           envFrom:
             - configMapRef:
                 name: web-envs
@@ -180,9 +180,9 @@ spec:
         app.kubernetes.io/component: microservices
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.71.0
+        - image: ghcr.io/immich-app/immich-server:v1.72.1
           name: immich-microservices
-          command: ["/bin/sh", "./start-microservices.sh"]
+          command: ["/usr/src/app/start.sh", "microservices"]
           envFrom:
             - configMapRef:
                 name: web-envs
@@ -203,6 +203,9 @@ spec:
             - containerPort: 3002
               name: http
           resources:
+            limits:
+              # VAAPI device for HW acceleration
+              gpu.intel.com/i915: 1
             requests:
               cpu: 1000m
               memory: 1Gi
@@ -233,7 +236,7 @@ spec:
         app.kubernetes.io/component: machine-learning
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-machine-learning:v1.71.0
+        - image: ghcr.io/immich-app/immich-machine-learning:v1.72.1
           name: immich-machine-learning
           envFrom:
             - configMapRef:
