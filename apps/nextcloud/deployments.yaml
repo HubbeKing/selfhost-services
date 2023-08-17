@@ -14,7 +14,7 @@ spec:
         component: redis
     spec:
       containers:
-        - image: docker.io/library/redis:7.0.12
+        - image: docker.io/library/redis:7.2.0
           name: redis
           command: ["redis-server"]
           args:
