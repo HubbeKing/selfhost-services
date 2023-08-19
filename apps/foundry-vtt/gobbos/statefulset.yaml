@@ -1,50 +1,49 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: foundry-ashes
+  name: foundry-gobbos
 spec:
   selector:
     matchLabels:
-      app: foundry-ashes
-  serviceName: foundry-ashes
+      app: foundry-gobbos
+  serviceName: foundry-gobbos
   template:
     metadata:
       labels:
-        app: foundry-ashes
+        app: foundry-gobbos
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-      imagePullSecrets:
-        - name: registry-hubbe-club-creds
       containers:
-        - image: registry.hubbe.club/foundry:v9.280
-          name: foundry-ashes
-          command: ["node"]
-          args: ["/foundry/resources/app/main.js", "--noupdate", "--dataPath=/data", "--world=ashes"]
+        - image: docker.io/felddy/foundryvtt:11.307.0
+          name: foundry-gobbos
+          envFrom:
+            - secretRef:
+                name: foundry-credentials
+            - configMapRef:
+                name: foundry-envs
+            - secretRef:
+                name: foundry-gobbos-envs
           ports:
             - containerPort: 30000
               name: http
           readinessProbe:
             httpGet:
-              path: /ashes
+              path: /gobbos
               port: 30000
             initialDelaySeconds: 5
             periodSeconds: 15
           resources:
             requests:
-              cpu: 50m
-              memory: 512Mi
+              cpu: 250m
+              memory: 256Mi
             limits:
-              cpu: 500m
+              cpu: 1000m
               memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
             - mountPath: /data
               name: data
-        - image: docker.io/library/httpd:2.4.54
+        - image: docker.io/library/httpd:2.4.57
           name: webdav
           ports:
             - containerPort: 8080

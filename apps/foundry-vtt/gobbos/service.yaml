@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: foundry-genesys
+  name: foundry-gobbos
 spec:
   ports:
     - port: 8080
@@ -9,4 +9,4 @@ spec:
     - port: 30000
       name: http
   selector:
-    app: foundry-genesys
+    app: foundry-gobbos
