@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: tubearchivist
-          image: docker.io/bbilly1/tubearchivist:v0.4.0
+          image: docker.io/bbilly1/tubearchivist:v0.4.1
           envFrom:
             - secretRef:
                 name: tubearchivist-envs
