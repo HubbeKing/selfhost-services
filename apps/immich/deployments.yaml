@@ -15,7 +15,7 @@ spec:
         app.kubernetes.io/component: redis
     spec:
       containers:
-        - image: docker.io/library/redis:7.2.0
+        - image: docker.io/library/redis:7.2.1
           name: redis
           command: ["redis-server"]
           args:
