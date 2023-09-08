@@ -7,8 +7,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.9.2
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: nodefeaturerules.nfd.k8s-sigs.io
 spec:
   group: nfd.k8s-sigs.io
@@ -259,8 +258,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.9.2
-  creationTimestamp: null
+    controller-gen.kubebuilder.io/version: v0.12.1
   name: nodefeatures.nfd.k8s-sigs.io
 spec:
   group: nfd.k8s-sigs.io
@@ -417,6 +415,21 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+- apiGroups:
+  - coordination.k8s.io
+  resourceNames:
+  - nfd-master.nfd.kubernetes.io
+  resources:
+  - leases
+  verbs:
+  - get
+  - update
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -454,6 +467,29 @@ data:
     # resourceLabels: ["vendor-1.com/feature-1","vendor-2.io/feature-2"]
     # enableTaints: false
     # labelWhiteList: "foo"
+    # resyncPeriod: "2h"
+    # klog:
+    #    addDirHeader: false
+    #    alsologtostderr: false
+    #    logBacktraceAt:
+    #    logtostderr: true
+    #    skipHeaders: false
+    #    stderrthreshold: 2
+    #    v: 0
+    #    vmodule:
+    ##   NOTE: the following options are not dynamically run-time configurable
+    ##         and require a nfd-master restart to take effect after being changed
+    #    logDir:
+    #    logFile:
+    #    logFileMaxSize: 1800
+    #    skipLogHeaders: false
+    # leaderElection:
+    #   leaseDuration: 15s
+    #   # this value has to be lower than leaseDuration and greater than retryPeriod*1.2
+    #   renewDeadline: 10s
+    #   # this value has to be greater than 0
+    #   retryPeriod: 2s
+    # nfdApiParallelism: 10
 kind: ConfigMap
 metadata:
   name: nfd-master-conf
@@ -511,6 +547,7 @@ data:
     #        - "SSE4"
     #        - "SSE42"
     #        - "SSSE3"
+    #        - "TDX_GUEST"
     #      attributeWhitelist:
     #  kernel:
     #    kconfigFile: "/path/to/kconfig"
@@ -540,7 +577,7 @@ data:
     #      - "vendor"
     #      - "device"
     #  local:
-    #    hooksEnabled: true
+    #    hooksEnabled: false
     #  custom:
     #    # The following feature demonstrates the capabilities of the matchFeatures
     #    - name: "my custom rule"
@@ -701,6 +738,7 @@ spec:
   ports:
   - port: 8080
     protocol: TCP
+    targetPort: grpc
   selector:
     app: nfd-master
   type: ClusterIP
@@ -747,7 +785,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.13.4
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.14.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:
@@ -757,6 +795,11 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 10
         name: nfd-master
+        ports:
+        - containerPort: 8081
+          name: metrics
+        - containerPort: 8080
+          name: grpc
         readinessProbe:
           exec:
             command:
@@ -818,9 +861,12 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.13.4
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.14.0
         imagePullPolicy: IfNotPresent
         name: nfd-worker
+        ports:
+        - containerPort: 8081
+          name: metrics
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
