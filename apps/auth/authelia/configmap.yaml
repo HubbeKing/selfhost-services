@@ -409,9 +409,9 @@ data:
       ##   - validate the SMTP server x509 certificate during the TLS handshake against the hosts trusted certificates
       ##     (configure in tls section)
       smtp:
-        username: noreply@hubbe.club
+        username: raz@foxtek.fi
         ## Password can also be set using a secret: https://www.authelia.com/docs/configuration/secrets.html
-        host: smtp.purelymail.com
+        host: smtp.fastmail.com
         port: 465
         sender: noreply@hubbe.club
         ## HELO/EHLO Identifier. Some SMTP Servers may reject the default of localhost.
