@@ -13,8 +13,6 @@ local kp =
   (import 'kube-prometheus/addons/networkpolicies-disabled.libsonnet') +
   // add ingress-nginx monitoring
   (import 'addons/ingress-nginx.jsonnet') +
-  // add pihole monitoring
-  (import 'addons/pihole.jsonnet') +
   // add APC UPS monitoring
   (import 'addons/apcupsd.jsonnet') +
   {
@@ -59,7 +57,6 @@ local kp =
           'etcd.json': (import 'dashboards/etcd.json'),
           'longhorn.json': (import 'dashboards/longhorn.json'),
           'nginx.json': (import 'dashboards/nginx.json'),
-          'pihole.json': (import 'dashboards/pihole.json'),
         },
         // up resource spec
         resources: {
