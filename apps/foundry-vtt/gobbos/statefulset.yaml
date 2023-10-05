@@ -13,7 +13,7 @@ spec:
         app: foundry-gobbos
     spec:
       containers:
-        - image: docker.io/felddy/foundryvtt:11.311.0
+        - image: docker.io/felddy/foundryvtt:11.313.0
           name: foundry-gobbos
           envFrom:
             - secretRef:
