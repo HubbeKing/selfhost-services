@@ -13,8 +13,6 @@ local kp =
   (import 'kube-prometheus/addons/networkpolicies-disabled.libsonnet') +
   // add ingress-nginx monitoring
   (import 'addons/ingress-nginx.jsonnet') +
-  // add APC UPS monitoring
-  (import 'addons/apcupsd.jsonnet') +
   {
     values+:: {
       common+: {
@@ -104,7 +102,4 @@ local kp =
 { ['prometheus-' + name]: kp.prometheus[name] for name in std.objectFields(kp.prometheus) } +
 { ['prometheus-adapter-' + name]: kp.prometheusAdapter[name] for name in std.objectFields(kp.prometheusAdapter) } +
 { [name + '-ingress']: kp.ingress[name] for name in std.objectFields(kp.ingress) } +
-{ [name + '-service']: kp.service[name] for name in std.objectFields(kp.service) } +
-{ [name + '-endpoints']: kp.endpoints[name] for name in std.objectFields(kp.endpoints) } +
-{ [name + '-serviceMonitor']: kp.serviceMonitor[name] for name in std.objectFields(kp.serviceMonitor) } +
-{ [name + '-prometheusRule']: kp.prometheusRule[name] for name in std.objectFields(kp.prometheusRule) }
+{ [name + '-serviceMonitor']: kp.serviceMonitor[name] for name in std.objectFields(kp.serviceMonitor) }
