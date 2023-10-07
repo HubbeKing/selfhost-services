@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: redis
-          image: docker.io/redis/redis-stack-server:6.2.6-v7
+          image: docker.io/redis/redis-stack-server:6.2.6-v9
           ports:
             - containerPort: 6379
               name: redis
@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
         - name: elasticsearch
-          image: docker.io/library/elasticsearch:8.8.1
+          image: docker.io/library/elasticsearch:8.9.0
           env:
             - name: ELASTIC_PASSWORD
               valueFrom:
