@@ -15,7 +15,7 @@ spec:
         component: mariadb
     spec:
       containers:
-        - image: docker.io/library/mariadb:11.0.3
+        - image: docker.io/library/mariadb:11.1.2
           name: mariadb
           env:
             - name: MARIADB_AUTO_UPGRADE
