@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: home-assistant
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - home.hubbe.club
+  rules:
+    - host: home.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: home-assistant
+                port:
+                  number: 8123
