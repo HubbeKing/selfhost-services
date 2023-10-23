@@ -51,6 +51,8 @@ data:
   proxy-buffering: "on"
   proxy-buffers-number: "8"
   proxy-buffer-size: "16k"
+  # block certain useragents (web spiders that don't respect robots info)
+  block-user-agents: "'.*Bytespider.*'"
 ---
 # Source: configmaps.yaml
 apiVersion: v1
