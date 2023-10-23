@@ -77,14 +77,17 @@ sudo apt update
 sudo apt install -y --no-install-recommends open-iscsi ipvsadm nfs-common
 
 # install kubeadm, kubelet, and kubectl
+# get k8s major version
+KUBE_MAJOR_VERSION=${KUBE_VERSION%.*}
+
 # add google cloud signing key
-curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/kubernetes-archive-keyring.gpg
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v${KUBE_MAJOR_VERSION}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
 # add k8s apt repo
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v${KUBE_MAJOR_VERSION}/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
 # install k8s packages and crictl for container debugging
 sudo apt update
-sudo apt install -y --allow-change-held-packages kubelet=${KUBE_VERSION}-00 kubeadm=${KUBE_VERSION}-00 kubectl=${KUBE_VERSION}-00 cri-tools
+sudo apt install -y --allow-change-held-packages kubelet=${KUBE_VERSION}-1.1 kubeadm=${KUBE_VERSION}-1.1 kubectl=${KUBE_VERSION}-1.1 cri-tools
 # hold k8s packages
 sudo apt-mark hold kubelet kubeadm kubectl
