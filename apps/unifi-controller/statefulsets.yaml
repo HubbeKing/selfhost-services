@@ -1,21 +1,72 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: unifi-controller
+  name: unifi-mongodb
 spec:
   selector:
     matchLabels:
-      app: unifi-controller
-  serviceName: unifi-controller
+      app: unifi
+      component: mongodb
+  serviceName: unifi-mongodb-hl
   template:
     metadata:
       labels:
-        app: unifi-controller
+        app: unifi
+        component: mongodb
     spec:
       containers:
-        - image: ghcr.io/linuxserver/unifi-controller:version-7.5.187
+        - image: docker.io/library/mongo:4.4.25
+          name: mongodb
+          ports:
+            - containerPort: 27017
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: data
+              mountPath: /data/db
+            - name: init-mongo
+              mountPath: /docker-entrypoint-initdb.d/
+      volumes:
+        - name: init-mongo
+          configMap:
+            name: unifi-mongodb-init
+            defaultMode: 0755
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: unifi-network-app
+spec:
+  selector:
+    matchLabels:
+      app: unifi
+      component: network-app
+  serviceName: unifi-network-app
+  template:
+    metadata:
+      labels:
+        app: unifi
+        component: network-app
+    spec:
+      containers:
+        - image: ghcr.io/linuxserver/unifi-network-application:version-7.5.187
           imagePullPolicy: Always
-          name: unifi-controller
+          name: unifi-network-app
           env:
             - name: MEM_STARTUP   # -Xms
               value: "1024"
@@ -24,6 +75,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
+            - configMapRef:
+                name: unifi-envs
           ports:
             - containerPort: 1900
               protocol: UDP
@@ -52,13 +105,6 @@ spec:
             - containerPort: 10001
               protocol: UDP
               name: ap-discovery
-          readinessProbe:
-            httpGet:
-              path: /manage/account/login
-              port: 8443
-              scheme: HTTPS
-            initialDelaySeconds: 30
-            periodSeconds: 15
           resources:
             requests:
               cpu: 250m

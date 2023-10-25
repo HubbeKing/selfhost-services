@@ -1,16 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-controller
+  name: unifi-network-app
 spec:
   clusterIP: None
   selector:
-    app: unifi-controller
+    app: unifi
+    component: network-app
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-controller-tcp
+  name: unifi-network-app-tcp
   annotations:
     metallb.universe.tf/allow-shared-ip: unifi
 spec:
@@ -32,13 +33,14 @@ spec:
       protocol: TCP
       name: http-redirect
   selector:
-    app: unifi-controller
+    app: unifi
+    component: network-app
   type: LoadBalancer
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: unifi-controller-udp
+  name: unifi-network-app-udp
   annotations:
     metallb.universe.tf/allow-shared-ip: unifi
 spec:
@@ -57,5 +59,29 @@ spec:
       protocol: UDP
       name: ap-discovery
   selector:
-    app: unifi-controller
+    app: unifi
+    component: network-app
   type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-mongodb-hl
+spec:
+  clusterIP: None
+  ports:
+    - port: 27017
+  selector:
+    app: unifi
+    component: mongodb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: unifi-mongodb
+spec:
+  ports:
+    - port: 27017
+  selector:
+    app: unifi
+    component: mongodb
