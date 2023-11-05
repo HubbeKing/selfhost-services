@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: flaresolverr
-          image: ghcr.io/flaresolverr/flaresolverr:v3.3.6
+          image: ghcr.io/flaresolverr/flaresolverr:v3.3.7
           env:
             - name: LOG_LEVEL
               value: info
