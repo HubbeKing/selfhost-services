@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
         - name: elasticsearch
-          image: docker.io/library/elasticsearch:8.9.0
+          image: docker.io/library/elasticsearch:8.11.0
           env:
             - name: ELASTIC_PASSWORD
               valueFrom:
