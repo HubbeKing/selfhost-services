@@ -1,6 +1,59 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
+  name: tubearchivist-web
+spec:
+  selector:
+    matchLabels:
+      app: tubearchivist
+      component: web
+  serviceName: tubearchivist-web-hl
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tubearchivist
+        component: web
+    spec:
+      containers:
+        - name: tubearchivist
+          image: docker.io/bbilly1/tubearchivist:v0.4.3
+          envFrom:
+            - secretRef:
+                name: tubearchivist-envs
+          ports:
+            - containerPort: 8000
+              name: http
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: cache
+              mountPath: /cache
+            - name: videos
+              mountPath: /youtube
+      volumes:
+        - name: videos
+          persistentVolumeClaim:
+            claimName: nfs-videos-youtube
+  volumeClaimTemplates:
+    - metadata:
+        name: cache
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
   name: tubearchivist-redis
 spec:
   selector:

@@ -12,6 +12,18 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: tubearchivist-web-hl
+spec:
+  clusterIP: None
+  ports:
+    - port: 8000
+  selector:
+    app: tubearchivist
+    component: web
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: tubearchivist-redis
 spec:
   ports:
