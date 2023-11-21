@@ -55,61 +55,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
-  namespace: immich
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: immich
-      app.kubernetes.io/component: web
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: immich
-        app.kubernetes.io/component: web
-    spec:
-      containers:
-        - image: ghcr.io/immich-app/immich-web:v1.87.0
-          name: immich-web
-          envFrom:
-            - configMapRef:
-                name: web-envs
-            - secretRef:
-                name: web-envs
-          env:
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: db-envs
-                  key: POSTGRES_PASSWORD
-            - name: REDIS_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: redis-envs
-                  key: REDIS_HOST_PASSWORD
-          resources:
-            requests:
-              cpu: 100m
-              memory: 64Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
-          ports:
-            - containerPort: 3000
-              name: http
-          securityContext:
-            allowPrivilegeEscalation: false
-          volumeMounts:
-            - mountPath: /usr/src/app/upload
-              name: photos
-      volumes:
-        - name: photos
-          persistentVolumeClaim:
-            claimName: nfs-photos
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: server
   namespace: immich
 spec:
@@ -124,14 +69,14 @@ spec:
         app.kubernetes.io/component: server
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.87.0
+        - image: ghcr.io/immich-app/immich-server:v1.88.1
           name: immich-server
           command: ["/usr/src/app/start.sh", "immich"]
           envFrom:
             - configMapRef:
-                name: web-envs
+                name: server-envs
             - secretRef:
-                name: web-envs
+                name: server-envs
           env:
             - name: DB_PASSWORD
               valueFrom:
@@ -180,14 +125,14 @@ spec:
         app.kubernetes.io/component: microservices
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.87.0
+        - image: ghcr.io/immich-app/immich-server:v1.88.1
           name: immich-microservices
           command: ["/usr/src/app/start.sh", "microservices"]
           envFrom:
             - configMapRef:
-                name: web-envs
+                name: server-envs
             - secretRef:
-                name: web-envs
+                name: server-envs
           env:
             - name: DB_PASSWORD
               valueFrom:
@@ -236,13 +181,13 @@ spec:
         app.kubernetes.io/component: machine-learning
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-machine-learning:v1.87.0
+        - image: ghcr.io/immich-app/immich-machine-learning:v1.88.1
           name: immich-machine-learning
           envFrom:
             - configMapRef:
-                name: web-envs
+                name: server-envs
             - secretRef:
-                name: web-envs
+                name: server-envs
           env:
             - name: DB_PASSWORD
               valueFrom:

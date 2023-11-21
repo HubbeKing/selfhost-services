@@ -21,34 +21,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: web
-                port:
-                  name: http
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: api
-  namespace: immich
-  labels:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: server
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 50000M
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - photos.hubbe.club
-  rules:
-    - host: photos.hubbe.club
-      http:
-        paths:
-          - path: /api(/|$)(.*)
-            pathType: Prefix
-            backend:
-              service:
                 name: server
                 port:
                   name: http

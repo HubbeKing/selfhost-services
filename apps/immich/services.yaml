@@ -83,22 +83,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
-  namespace: immich
-  labels:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: web
-spec:
-  ports:
-    - name: http
-      port: 3000
-  selector:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: web
----
-apiVersion: v1
-kind: Service
-metadata:
   name: server
   namespace: immich
   labels:
