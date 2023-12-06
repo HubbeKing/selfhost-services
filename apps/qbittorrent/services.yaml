@@ -7,14 +7,3 @@ spec:
     - port: 8080
   selector:
     app: qbittorrent
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: qbittorrent-incoming
-spec:
-  ports:
-    - port: 63505
-  selector:
-    app: qbittorrent
-  type: LoadBalancer
