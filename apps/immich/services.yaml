@@ -34,39 +34,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: typesense-hl
-  namespace: immich
-  labels:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: typesense
-spec:
-  clusterIP: None
-  ports:
-    - name: tcp-typesense
-      port: 8108
-  selector:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: typesense
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: typesense
-  namespace: immich
-  labels:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: typesense
-spec:
-  ports:
-    - name: tcp-typesense
-      port: 8108
-  selector:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: typesense
----
-apiVersion: v1
-kind: Service
-metadata:
   name: redis
   namespace: immich
   labels:

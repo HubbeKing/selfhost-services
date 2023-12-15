@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+  namespace: immich
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: immich
+      app.kubernetes.io/component: postgres
+  serviceName: postgres-hl
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: immich
+        app.kubernetes.io/component: postgres
+    spec:
+      containers:
+        - image: docker.io/tensorchord/pgvecto-rs:pg15-v0.1.11
+          name: postgres
+          envFrom:
+            - secretRef:
+                name: db-envs
+          ports:
+            - containerPort: 5432
+              name: tcp-postgres
+          readinessProbe:
+            exec:
+              command:
+                - bash
+                - "-c"
+                - "pg_isready -U immich -d immich"
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              cpu: 250m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: data
+              subPath: postgres
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 2Gi
+        storageClassName: longhorn
