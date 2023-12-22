@@ -47,6 +47,11 @@ spec:
                   description: Rule defines a rule for node customization such as
                     labeling.
                   properties:
+                    annotations:
+                      additionalProperties:
+                        type: string
+                      description: Annotations to create if the rule matches.
+                      type: object
                     extendedResources:
                       additionalProperties:
                         type: string
@@ -79,19 +84,16 @@ spec:
                                 in the feature set.
                               properties:
                                 feature:
+                                  description: Feature is the name of the feature
+                                    set to match against.
                                   type: string
                                 matchExpressions:
                                   additionalProperties:
-                                    description: "MatchExpression specifies an expression
+                                    description: MatchExpression specifies an expression
                                       to evaluate against a set of input values. It
                                       contains an operator that is applied when matching
                                       the input and an array of values that the operator
-                                      evaluates the input against. \n NB: CreateMatchExpression
-                                      or MustCreateMatchExpression() should be used
-                                      for creating new instances. \n NB: Validate()
-                                      must be called if Op or Value fields are modified
-                                      or if a new instance is created from scratch
-                                      without using the helper functions."
+                                      evaluates the input against.
                                     properties:
                                       op:
                                         description: Op is the operator to be applied.
@@ -123,13 +125,46 @@ spec:
                                     required:
                                     - op
                                     type: object
-                                  description: MatchExpressionSet contains a set of
-                                    MatchExpressions, each of which is evaluated against
-                                    a set of input values.
+                                  description: MatchExpressions is the set of per-element
+                                    expressions evaluated. These match against the
+                                    value of the specified elements.
+                                  type: object
+                                matchName:
+                                  description: MatchName in an expression that is
+                                    matched against the name of each element in the
+                                    feature set.
+                                  properties:
+                                    op:
+                                      description: Op is the operator to be applied.
+                                      enum:
+                                      - In
+                                      - NotIn
+                                      - InRegexp
+                                      - Exists
+                                      - DoesNotExist
+                                      - Gt
+                                      - Lt
+                                      - GtLt
+                                      - IsTrue
+                                      - IsFalse
+                                      type: string
+                                    value:
+                                      description: Value is the list of values that
+                                        the operand evaluates the input against. Value
+                                        should be empty if the operator is Exists,
+                                        DoesNotExist, IsTrue or IsFalse. Value should
+                                        contain exactly one element if the operator
+                                        is Gt or Lt and exactly two elements if the
+                                        operator is GtLt. In other cases Value should
+                                        contain at least one element.
+                                      items:
+                                        type: string
+                                      type: array
+                                  required:
+                                  - op
                                   type: object
                               required:
                               - feature
-                              - matchExpressions
                               type: object
                             type: array
                         required:
@@ -145,18 +180,16 @@ spec:
                           are evaluated against each element in the feature set.
                         properties:
                           feature:
+                            description: Feature is the name of the feature set to
+                              match against.
                             type: string
                           matchExpressions:
                             additionalProperties:
-                              description: "MatchExpression specifies an expression
+                              description: MatchExpression specifies an expression
                                 to evaluate against a set of input values. It contains
                                 an operator that is applied when matching the input
                                 and an array of values that the operator evaluates
-                                the input against. \n NB: CreateMatchExpression or
-                                MustCreateMatchExpression() should be used for creating
-                                new instances. \n NB: Validate() must be called if
-                                Op or Value fields are modified or if a new instance
-                                is created from scratch without using the helper functions."
+                                the input against.
                               properties:
                                 op:
                                   description: Op is the operator to be applied.
@@ -186,12 +219,44 @@ spec:
                               required:
                               - op
                               type: object
-                            description: MatchExpressionSet contains a set of MatchExpressions,
-                              each of which is evaluated against a set of input values.
+                            description: MatchExpressions is the set of per-element
+                              expressions evaluated. These match against the value
+                              of the specified elements.
+                            type: object
+                          matchName:
+                            description: MatchName in an expression that is matched
+                              against the name of each element in the feature set.
+                            properties:
+                              op:
+                                description: Op is the operator to be applied.
+                                enum:
+                                - In
+                                - NotIn
+                                - InRegexp
+                                - Exists
+                                - DoesNotExist
+                                - Gt
+                                - Lt
+                                - GtLt
+                                - IsTrue
+                                - IsFalse
+                                type: string
+                              value:
+                                description: Value is the list of values that the
+                                  operand evaluates the input against. Value should
+                                  be empty if the operator is Exists, DoesNotExist,
+                                  IsTrue or IsFalse. Value should contain exactly
+                                  one element if the operator is Gt or Lt and exactly
+                                  two elements if the operator is GtLt. In other cases
+                                  Value should contain at least one element.
+                                items:
+                                  type: string
+                                type: array
+                            required:
+                            - op
                             type: object
                         required:
                         - feature
-                        - matchExpressions
                         type: object
                       type: array
                     name:
@@ -367,6 +432,12 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
+  name: nfd-gc
+  namespace: node-feature-discovery
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
   name: nfd-master
   namespace: node-feature-discovery
 ---
@@ -390,6 +461,39 @@ rules:
   - create
   - get
   - update
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: nfd-gc
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - nodes/proxy
+  verbs:
+  - get
+- apiGroups:
+  - topology.node.k8s.io
+  resources:
+  - noderesourcetopologies
+  verbs:
+  - delete
+  - list
+- apiGroups:
+  - nfd.k8s-sigs.io
+  resources:
+  - nodefeatures
+  verbs:
+  - delete
+  - list
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -448,6 +552,19 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
+  name: nfd-gc
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: nfd-gc
+subjects:
+- kind: ServiceAccount
+  name: nfd-gc
+  namespace: node-feature-discovery
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
   name: nfd-master
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -462,6 +579,7 @@ apiVersion: v1
 data:
   nfd-master.conf: |
     # noPublish: false
+    # autoDefaultNs: true
     # extraLabelNs: ["added.ns.io","added.kubernets.io"]
     # denyLabelNs: ["denied.ns.io","denied.kubernetes.io"]
     # resourceLabels: ["vendor-1.com/feature-1","vendor-2.io/feature-2"]
@@ -582,7 +700,7 @@ data:
     #    # The following feature demonstrates the capabilities of the matchFeatures
     #    - name: "my custom rule"
     #      labels:
-    #        my-ng-feature: "true"
+    #        "vendor.io/my-ng-feature": "true"
     #      # matchFeatures implements a logical AND over all matcher terms in the
     #      # list (i.e. all of the terms, or per-feature matchers, must match)
     #      matchFeatures:
@@ -653,7 +771,7 @@ data:
     #    # The following feature demonstrates the capabilities of the matchAny
     #    - name: "my matchAny rule"
     #      labels:
-    #        my-ng-feature-2: "my-value"
+    #        "vendor.io/my-ng-feature-2": "my-value"
     #      # matchAny implements a logical IF over all elements (sub-matchers) in
     #      # the list (i.e. at least one feature matcher must match)
     #      matchAny:
@@ -674,10 +792,17 @@ data:
     #                vendor: {op: In, value: ["8086"]}
     #                class: {op: In, value: ["02"]}
     #
+    #    - name: "avx wildcard rule"
+    #      labels:
+    #        "my-avx-feature": "true"
+    #      matchFeatures:
+    #        - feature: cpu.cpuid
+    #          matchName: {op: InRegexp, value: ["^AVX512"]}
+    #
     #    # The following features demonstreate label templating capabilities
     #    - name: "my template rule"
     #      labelsTemplate: |
-    #        {{ range .system.osrelease }}my-system-feature.{{ .Name }}={{ .Value }}
+    #        {{ range .system.osrelease }}vendor.io/my-system-feature.{{ .Name }}={{ .Value }}
     #        {{ end }}
     #      matchFeatures:
     #        - feature: system.osrelease
@@ -687,7 +812,7 @@ data:
     #
     #    - name: "my template rule 2"
     #      labelsTemplate: |
-    #        {{ range .pci.device }}my-pci-device.{{ .class }}-{{ .device }}=with-cpuid
+    #        {{ range .pci.device }}vendor.io/my-pci-device.{{ .class }}-{{ .device }}=with-cpuid
     #        {{ end }}
     #      matchFeatures:
     #        - feature: pci.device
@@ -702,7 +827,7 @@ data:
     #    # previous labels and vars
     #    - name: "my dummy kernel rule"
     #      labels:
-    #        "my.kernel.feature": "true"
+    #        "vendor.io/my.kernel.feature": "true"
     #      matchFeatures:
     #        - feature: kernel.version
     #          matchExpressions:
@@ -717,31 +842,72 @@ data:
     #
     #    - name: "my rule using backrefs"
     #      labels:
-    #        "my.backref.feature": "true"
+    #        "vendor.io/my.backref.feature": "true"
     #      matchFeatures:
     #        - feature: rule.matched
     #          matchExpressions:
-    #            my.kernel.feature: {op: IsTrue}
+    #            vendor.io/my.kernel.feature: {op: IsTrue}
     #            my.dummy.var: {op: Gt, value: ["0"]}
     #
+    #    - name: "kconfig template rule"
+    #      labelsTemplate: |
+    #        {{ range .kernel.config }}kconfig-{{ .Name }}={{ .Value }}
+    #        {{ end }}
+    #      matchFeatures:
+    #        - feature: kernel.config
+    #          matchName: {op: In, value: ["SWAP", "X86", "ARM"]}
 kind: ConfigMap
 metadata:
   name: nfd-worker-conf
   namespace: node-feature-discovery
 ---
-apiVersion: v1
-kind: Service
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: nfd-master
+  labels:
+    app: nfd
+  name: nfd-gc
   namespace: node-feature-discovery
 spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: grpc
   selector:
-    app: nfd-master
-  type: ClusterIP
+    matchLabels:
+      app: nfd-gc
+  template:
+    metadata:
+      labels:
+        app: nfd-gc
+    spec:
+      containers:
+      - command:
+        - nfd-gc
+        env:
+        - name: NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.15.0
+        imagePullPolicy: IfNotPresent
+        name: nfd-gc
+        ports:
+        - containerPort: 8081
+          name: metrics
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+      dnsPolicy: ClusterFirstWithHostNet
+      serviceAccount: nfd-gc
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -785,13 +951,19 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.14.3
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.15.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
-          exec:
-            command:
-            - /usr/bin/grpc_health_probe
-            - -addr=:8080
+          grpc:
+            port: 8080
           initialDelaySeconds: 10
           periodSeconds: 10
         name: nfd-master
@@ -801,11 +973,9 @@ spec:
         - containerPort: 8080
           name: grpc
         readinessProbe:
-          exec:
-            command:
-            - /usr/bin/grpc_health_probe
-            - -addr=:8080
           failureThreshold: 10
+          grpc:
+            port: 8080
           initialDelaySeconds: 5
           periodSeconds: 10
         securityContext:
@@ -861,7 +1031,15 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: spec.nodeName
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.14.3
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_UID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.uid
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.15.0
         imagePullPolicy: IfNotPresent
         name: nfd-worker
         ports:
