@@ -64,7 +64,7 @@ spec:
         component: network-app
     spec:
       containers:
-        - image: ghcr.io/linuxserver/unifi-network-application:version-8.0.24
+        - image: ghcr.io/linuxserver/unifi-network-application:version-8.0.26
           imagePullPolicy: Always
           name: unifi-network-app
           env:
