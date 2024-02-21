@@ -16,7 +16,7 @@ spec:
         app.kubernetes.io/component: postgres
     spec:
       containers:
-        - image: docker.io/tensorchord/pgvecto-rs:pg15-v0.1.11
+        - image: docker.io/tensorchord/pgvecto-rs:pg15-v0.2.0
           name: postgres
           envFrom:
             - secretRef:
