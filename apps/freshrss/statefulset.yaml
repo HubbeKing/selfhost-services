@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: freshrss-web
+spec:
+  selector:
+    matchLabels:
+      app: freshrss
+      component: freshrss
+  serviceName: freshrss
+  template:
+    metadata:
+      labels:
+        app: freshrss
+        component: freshrss
+    spec:
+      containers:
+        - image: docker.io/freshrss/freshrss:1.23.1
+          name: freshrss
+          env:
+            # cron minutes definition for RSS sync
+            - name: CRON_MIN
+              value: "*/5"
+            - name: TZ
+              valueFrom:
+                configMapKeyRef:
+                  name: linuxserver-envs
+                  key: TZ
+          readinessProbe:
+            httpGet:
+              path: /i/
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: data
+              mountPath: /var/www/FreshRSS/data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn
