@@ -1,70 +1,6 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: nextcloud-db
-spec:
-  selector:
-    matchLabels:
-      app: nextcloud
-      component: mariadb
-  serviceName: nextcloud-db
-  template:
-    metadata:
-      labels:
-        app: nextcloud
-        component: mariadb
-    spec:
-      containers:
-        - image: docker.io/library/mariadb:11.2.3
-          name: mariadb
-          args:
-            - "--skip-innodb-read-only-compressed"
-          envFrom:
-            - secretRef:
-                name: nextcloud-envs
-          ports:
-            - containerPort: 3306
-              name: mariadb
-          readinessProbe:
-            exec:
-              command:
-                - bash
-                - "-c"
-                - "mariadb --host=localhost --user=${MYSQL_USER} --password=${MYSQL_PASSWORD} --execute 'SELECT 1'"
-            initialDelaySeconds: 5
-            periodSeconds: 15
-          resources:
-            requests:
-              cpu: 50m
-              memory: 1Gi
-            limits:
-              cpu: 500m
-              memory: 3Gi
-          securityContext:
-            allowPrivilegeEscalation: false
-          volumeMounts:
-            - name: configs
-              mountPath: /etc/mysql/mariadb.conf.d/99-nextcloud.cnf
-              subPath: 99-nextcloud.cnf
-            - name: data
-              mountPath: /var/lib/mysql
-      volumes:
-        - name: configs
-          configMap:
-            name: nextcloud-db-config
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 2Gi
-        storageClassName: longhorn
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
   name: nextcloud-web
 spec:
   selector:
@@ -83,8 +19,6 @@ spec:
           imagePullPolicy: Always
           name: nextcloud
           envFrom:
-            - secretRef:
-                name: nextcloud-envs
             - configMapRef:
                 name: linuxserver-envs
           ports:
