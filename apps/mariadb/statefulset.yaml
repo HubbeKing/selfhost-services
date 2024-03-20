@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mariadb
-  namespace: authelia
+  namespace: database
 spec:
   replicas: 3
   selector:
@@ -27,7 +27,6 @@ spec:
       priorityClassName: high-priority
       initContainers:
         - image: docker.io/library/busybox:stable
-          imagePullPolicy: Always
           name: configmap-copier
           command: ["/bin/sh", "-c", "cp -L /readonly/* /configs/"]
           securityContext:
@@ -38,6 +37,7 @@ spec:
             - mountPath: /configs
               name: configs-rw
       containers:
+        # use LTS image (10.11, 11.7, etc)
         - image: docker.io/library/mariadb:10.11.7
           name: mariadb
           command: ["/bin/sh", "/startup.sh"]
@@ -64,19 +64,21 @@ spec:
               name: mariadb
           readinessProbe:
             exec:
+              # unfortunately, MariaDB's own healthcheck.sh relies on a 'healthcheck' user, whose password can't easily be set and is randomly generated
+              # new pods can't know what the first pod set.
+              # thus, we manually reuse the commands it does in our own healthcheck.sh script
               command:
-                - bash
-                - "-c"
-                - "mariadb --host=localhost --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --execute 'SELECT 1'"
+                - /healthcheck.sh
             initialDelaySeconds: 5
-            periodSeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 5
           resources:
             requests:
-              cpu: 50m
-              memory: 256Mi
-            limits:
-              cpu: 250m
+              cpu: 100m
               memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
@@ -90,6 +92,9 @@ spec:
             - mountPath: /shutdown.sh
               name: scripts
               subPath: shutdown.sh
+            - mountPath: /healthcheck.sh
+              name: scripts
+              subPath: healthcheck.sh
       terminationGracePeriodSeconds: 60  # give mariadb time for a graceful shutdown
       volumes:
         - name: configs-rw

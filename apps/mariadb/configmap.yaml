@@ -2,13 +2,13 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mariadb-scripts
-  namespace: authelia
+  namespace: database
 data:
   # if we are pod ordinal 0, and we cannot reach any other pods, do a cluster-up for the mariadb galera cluster.
   # otherwise, attempt to join the existing galera cluster.
   # this is only really a problem if pod 0 ever crashes, which can happen.
   startup.sh: |
-    #!/bin/sh
+    #!/bin/bash
     # manually set wsrep_node_address and wsrep_node_name in galera config based on pod IP and hostname
     sed -i 's|POD_IP|'"$POD_IP"'|' /etc/mysql/conf.d/galera.cnf
     sed -i 's|HOSTNAME|'"$HOSTNAME"'|' /etc/mysql/conf.d/galera.cnf
@@ -16,7 +16,7 @@ data:
     if [ $ORDINAL = "0" ]; then
       # pod-0
       # check if cluster is already up
-      if mariadb --host=galera.authelia.svc.cluster.local --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --execute 'SELECT 1'; then
+      if mariadb --host=galera.database.svc.cluster.local --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --execute 'SELECT 1'; then
         # connect to cluster
         docker-entrypoint.sh mariadbd
       else
@@ -35,28 +35,46 @@ data:
       docker-entrypoint.sh mariadbd
     fi
   shutdown.sh: |
-    #!/bin/sh
+    #!/bin/bash
     ORDINAL=${HOSTNAME##*-}
-    # if we're ordinal 0, nap for 15s, in case this is a delete
+    # if we're ordinal 0, nap for 15s, in case this is a full statefulset delete
     # so that higher ordinals have time for graceful shutdown
     if [ $ORDINAL = "0" ]; then
       sleep 15
     fi
     # gracefully shutdown - this doesn't happen on SIGTERM if there's open connections, but we WANT it to.
     mariadb --host=localhost --user=root --password=${MARIADB_ROOT_PASSWORD} --execute 'SHUTDOWN WAIT FOR ALL REPLICAS'
+  healthcheck.sh: |
+    #!/bin/bash
+    set -e
+    # test TCP connection
+    mariadb --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --host localhost --protocol tcp -e 'select 1' 2>&1
+    # test InnoDB initialization
+    s=$(mariadb --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --skip-column-names -e 'select 1 from information_schema.ENGINES WHERE engine="innodb" AND support in ("YES", "DEFAULT", "ENABLED")')
+    if (( "$s" != 1 )); then
+      echo "InnoDB not initialized!"
+      return 1
+    fi
+    # test Galera node status for SYNCED state
+    s=$(mariadb --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --skip-column-names -e 'select VARIABLE_VALUE from information_schema.GLOBAL_STATUS WHERE VARIABLE_NAME="WSREP_LOCAL_STATE"')
+    if (( "$s" != 4 )); then
+      echo "Galera node not in state SYNCED, instead in state $s!"
+      return 1
+    fi
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mariadb-configs
-  namespace: authelia
+  namespace: database
 data:
+  # galera clustering configuration
   galera.cnf: |
     [galera]
     wsrep_on=ON
     wsrep_provider="/usr/lib/libgalera_smm.so"
-    wsrep_cluster_address="gcomm://mariadb-0.galera.authelia.svc.cluster.local,mariadb-1.galera.authelia.svc.cluster.local,mariadb-2.galera.authelia.svc.cluster.local"
-    wsrep_cluster_name="authelia"
+    wsrep_cluster_address="gcomm://mariadb-0.galera.database.svc.cluster.local,mariadb-1.galera.database.svc.cluster.local,mariadb-2.galera.database.svc.cluster.local"
+    wsrep_cluster_name="mariadb"
     wsrep_node_address=POD_IP
     wsrep_node_name=HOSTNAME
     binlog_format=ROW

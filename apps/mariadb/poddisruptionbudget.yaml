@@ -2,9 +2,9 @@ apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
   name: mariadb
-  namespace: authelia
+  namespace: database
 spec:
-  minAvailable: 2
+  minAvailable: 50%
   selector:
     matchLabels:
       app: mariadb

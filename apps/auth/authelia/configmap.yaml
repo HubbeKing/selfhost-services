@@ -369,7 +369,7 @@ data:
       ## MySQL / MariaDB (Storage Provider)
       ##
       mysql:
-        address: tcp://mariadb.authelia.svc.cluster.local:3306
+        address: tcp://mariadb.database.svc.cluster.local:3306
         database: authelia
         username: authelia
         ## Password can also be set using a secret: https://www.authelia.com/docs/configuration/secrets.html
