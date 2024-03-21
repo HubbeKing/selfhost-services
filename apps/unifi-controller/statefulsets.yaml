@@ -15,7 +15,7 @@ spec:
         component: mongodb
     spec:
       containers:
-        - image: docker.io/library/mongo:4.4.28
+        - image: docker.io/library/mongo:4.4.29
           name: mongodb
           ports:
             - containerPort: 27017
