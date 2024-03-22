@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: keydb
+  namespace: database
+spec:
+  replicas: 3
+  serviceName: keydb-hl
+  selector:
+    matchLabels:
+      app: keydb
+  template:
+    metadata:
+      labels:
+        app: keydb
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - keydb
+      priorityClassName: high-priority
+      containers:
+        - image: docker.io/eqalpha/keydb:x86_64_v6.3.4
+          name: keydb
+          command: [ "/bin/sh", "/startup.sh" ]
+          ports:
+            - containerPort: 6379
+              name: redis
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 150m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /etc/keydb/keydb.conf
+              name: keydb-configs
+              subPath: keydb.conf
+            - mountPath: /startup.sh
+              name: keydb-scripts
+              subPath: startup.sh
+      volumes:
+        - name: keydb-configs
+          configMap:
+            name: keydb-configs
+        - name: keydb-scripts
+          configMap:
+            name: keydb-scripts
+            defaultMode: 0755

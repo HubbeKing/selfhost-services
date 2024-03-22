@@ -298,8 +298,8 @@ data:
       ## Important: Kubernetes (or HA) users must read https://www.authelia.com/docs/features/statelessness.html
       ##
       redis:
-        #host: redis.authelia.svc.cluster.local
-        port: 26379
+        host: keydb.database.svc.cluster.local
+        port: 6379
 
         ## Username used for redis authentication. This is optional and a new feature in redis 6.0.
         # username: authelia
@@ -314,32 +314,6 @@ data:
 
         ## The target number of idle connections to have open ready for work. Useful when opening connections is slow.
         minimum_idle_connections: 0
-
-        ## The Redis HA configuration options.
-        ## This provides specific options to Redis Sentinel, sentinel_name must be defined (Master Name).
-        high_availability:
-          ## Sentinel Name / Master Name.
-          sentinel_name: authelia
-
-          ## Specific password for Redis Sentinel. The node username and password is configured above.
-          ## Password can also be set using a secret: https://www.authelia.com/docs/configuration/secrets.html
-
-          ## The additional nodes to pre-seed the redis provider with (for sentinel).
-          ## If the host in the above section is defined, it will be combined with this list to connect to sentinel.
-          ## For high availability to be used you must have either defined; the host above or at least one node below.
-          nodes:
-            - host: redis-0.redis.authelia.svc.cluster.local
-              port: 26379
-            - host: redis-1.redis.authelia.svc.cluster.local
-              port: 26379
-            - host: redis-2.redis.authelia.svc.cluster.local
-              port: 26379
-
-          ## Choose the host with the lowest latency.
-          route_by_latency: false
-
-          ## Choose the host randomly.
-          route_randomly: true
 
     ##
     ## Regulation Configuration

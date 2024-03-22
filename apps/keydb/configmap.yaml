@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keydb-configs
+  namespace: database
+data:
+  keydb.conf: |
+    bind 0.0.0.0
+    protected-mode no
+    port 6379
+    tcp-backlog 511
+    timeout 0
+    tcp-keepalive 300
+    daemonize no
+    supervised no
+    pidfile /var/run/keydb_6379.pid
+    loglevel notice
+    databases 16
+    requirepass Pentagon1-Chip-Oxidize
+    masterauth Pentagon1-Chip-Oxidize
+    multi-master yes
+    active-replica yes
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: keydb-scripts
+  namespace: database
+data:
+  # start up, with replicaof depending on hostname ordinal
+  # assumes 3 pods
+  startup.sh: |
+    #!/bin/sh
+    ORDINAL=${HOSTNAME##*-}
+    if [ $ORDINAL = "0" ]; then
+      keydb-server /etc/keydb/keydb.conf --replicaof keydb-1.keydb-hl.database.svc.cluster.local 6379 --replicaof keydb-2.keydb-hl.database.svc.cluster.local 6379
+    elif [ $ORDINAL = "1" ]; then
+      keydb-server /etc/keydb/keydb.conf --replicaof keydb-0.keydb-hl.database.svc.cluster.local 6379 --replicaof keydb-2.keydb-hl.database.svc.cluster.local 6379
+    elif [ $ORDINAL = "2" ]; then
+      keydb-server /etc/keydb/keydb.conf --replicaof keydb-0.keydb-hl.database.svc.cluster.local 6379 --replicaof keydb-1.keydb-hl.database.svc.cluster.local 6379
+    fi

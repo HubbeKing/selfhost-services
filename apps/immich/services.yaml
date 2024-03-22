@@ -34,22 +34,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis
-  namespace: immich
-  labels:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: redis
-spec:
-  ports:
-    - name: tcp-redis
-      port: 6379
-  selector:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: redis
----
-apiVersion: v1
-kind: Service
-metadata:
   name: server
   namespace: immich
   labels:
