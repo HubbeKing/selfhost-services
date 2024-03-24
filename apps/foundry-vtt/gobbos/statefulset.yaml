@@ -43,7 +43,7 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
-        - image: docker.io/library/httpd:2.4.57
+        - image: docker.io/library/httpd:2.4.58
           name: webdav
           ports:
             - containerPort: 8080
