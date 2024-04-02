@@ -18,6 +18,9 @@ spec:
         - image: ghcr.io/linuxserver/nextcloud:version-28.0.4
           imagePullPolicy: Always
           name: nextcloud
+          env:
+            - name: DOCKER_MODS
+              value: "linuxserver/mods:universal-cron|linuxserver/mods:nextcloud-memories"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
