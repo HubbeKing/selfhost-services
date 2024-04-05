@@ -15,7 +15,7 @@ spec:
         app.kubernetes.io/component: server
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.100.0
+        - image: ghcr.io/immich-app/immich-server:v1.101.0
           name: immich-server
           command: ["/usr/src/app/start.sh", "immich"]
           envFrom:
@@ -66,7 +66,7 @@ spec:
         app.kubernetes.io/component: microservices
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.100.0
+        - image: ghcr.io/immich-app/immich-server:v1.101.0
           name: immich-microservices
           command: ["/usr/src/app/start.sh", "microservices"]
           envFrom:
@@ -117,7 +117,7 @@ spec:
         app.kubernetes.io/component: machine-learning
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-machine-learning:v1.100.0
+        - image: ghcr.io/immich-app/immich-machine-learning:v1.101.0
           name: immich-machine-learning
           envFrom:
             - configMapRef:
