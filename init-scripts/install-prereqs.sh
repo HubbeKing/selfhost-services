@@ -90,6 +90,6 @@ echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.
 # install crictl for container debugging
 # install etcd-client for etcd debugging
 sudo apt update
-sudo apt install -y --allow-change-held-packages kubelet=${KUBE_VERSION}-1.1 kubeadm=${KUBE_VERSION}-1.1 kubectl=${KUBE_VERSION}-1.1 cri-tools etcd-client
+sudo apt install -y --allow-change-held-packages kubelet=${KUBE_VERSION}-* kubeadm=${KUBE_VERSION}-* kubectl=${KUBE_VERSION}-* cri-tools etcd-client
 # hold k8s packages
 sudo apt-mark hold kubelet kubeadm kubectl
