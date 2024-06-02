@@ -13,7 +13,7 @@ spec:
         app: bazarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/bazarr:version-v1.4.2
+        - image: ghcr.io/linuxserver/bazarr:version-v1.4.3
           imagePullPolicy: Always
           name: bazarr
           envFrom:
