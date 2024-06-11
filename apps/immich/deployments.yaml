@@ -15,9 +15,8 @@ spec:
         app.kubernetes.io/component: server
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.105.1
+        - image: ghcr.io/immich-app/immich-server:v1.106.1
           name: immich-server
-          command: ["/usr/src/app/start.sh", "immich"]
           envFrom:
             - configMapRef:
                 name: server-envs
@@ -30,66 +29,15 @@ spec:
                   name: db-envs
                   key: POSTGRES_PASSWORD
           resources:
-            requests:
-              cpu: 100m
-              memory: 64Mi
-            limits:
-              cpu: 500m
-              memory: 512Mi
-          ports:
-            - containerPort: 3001
-              name: http
-          securityContext:
-            allowPrivilegeEscalation: false
-          volumeMounts:
-            - mountPath: /usr/src/app/upload
-              name: photos
-      volumes:
-        - name: photos
-          persistentVolumeClaim:
-            claimName: nfs-photos
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: microservices
-  namespace: immich
-spec:
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: immich
-      app.kubernetes.io/component: microservices
-  template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: immich
-        app.kubernetes.io/component: microservices
-    spec:
-      containers:
-        - image: ghcr.io/immich-app/immich-server:v1.105.1
-          name: immich-microservices
-          command: ["/usr/src/app/start.sh", "microservices"]
-          envFrom:
-            - configMapRef:
-                name: server-envs
-            - secretRef:
-                name: server-envs
-          env:
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: db-envs
-                  key: POSTGRES_PASSWORD
-          ports:
-            - containerPort: 3002
-              name: http
-          resources:
-            limits:
-              # VAAPI device for HW acceleration
-              gpu.intel.com/i915: 1
             requests:
               cpu: 1000m
               memory: 1Gi
+            limits:
+              # VAAPI device for HW acceleration
+              gpu.intel.com/i915: 1
+          ports:
+            - containerPort: 3001
+              name: http
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
@@ -117,7 +65,7 @@ spec:
         app.kubernetes.io/component: machine-learning
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-machine-learning:v1.105.1
+        - image: ghcr.io/immich-app/immich-machine-learning:v1.106.1
           name: immich-machine-learning
           envFrom:
             - configMapRef:

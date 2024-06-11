@@ -50,22 +50,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: microservices
-  namespace: immich
-  labels:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: microservices
-spec:
-  ports:
-    - name: http
-      port: 3002
-  selector:
-    app.kubernetes.io/name: immich
-    app.kubernetes.io/component: microservices
----
-apiVersion: v1
-kind: Service
-metadata:
   name: machine-learning
   namespace: immich
   labels:
