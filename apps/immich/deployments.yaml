@@ -15,8 +15,11 @@ spec:
         app.kubernetes.io/component: server
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.106.1
+        - image: ghcr.io/immich-app/immich-server:v1.106.3
           name: immich-server
+          env:
+            - name: IMMICH_PORT
+              value: 3001
           envFrom:
             - configMapRef:
                 name: server-envs
@@ -65,8 +68,11 @@ spec:
         app.kubernetes.io/component: machine-learning
     spec:
       containers:
-        - image: ghcr.io/immich-app/immich-machine-learning:v1.106.1
+        - image: ghcr.io/immich-app/immich-machine-learning:v1.106.3
           name: immich-machine-learning
+          env:
+            - name: IMMICH_PORT
+              value: 3003
           envFrom:
             - configMapRef:
                 name: server-envs

@@ -12,12 +12,7 @@ data:
   REDIS_HOSTNAME: keydb.database.svc.cluster.local
   REDIS_PORT: "6379"
   REDIS_DBINDEX: "2"
-  PORT: "3000"
-  SERVER_PORT: "3001"
-  MICROSERVICES_PORT: "3002"
-  # host part of listen URL parameter for machine-learning container
-  MACHINE_LEARNING_HOST: "0.0.0.0"
-  MACHINE_LEARNING_PORT: "3003"
+  # URL used to connect to server container from machine-learning container
   IMMICH_SERVER_URL: http://server.immich.svc.cluster.local:3001
-  # actual URL other containers connect to for machine-learning API calls
+  # URL used to connect to machine-learning container from server container
   IMMICH_MACHINE_LEARNING_URL: http://machine-learning.immich.svc.cluster.local:3003
