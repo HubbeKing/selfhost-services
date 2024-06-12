@@ -17,15 +17,14 @@ spec:
       containers:
         - image: ghcr.io/immich-app/immich-server:v1.106.3
           name: immich-server
-          env:
-            - name: IMMICH_PORT
-              value: 3001
           envFrom:
             - configMapRef:
                 name: server-envs
             - secretRef:
                 name: server-envs
           env:
+            - name: IMMICH_PORT
+              value: '3001'
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -70,15 +69,14 @@ spec:
       containers:
         - image: ghcr.io/immich-app/immich-machine-learning:v1.106.3
           name: immich-machine-learning
-          env:
-            - name: IMMICH_PORT
-              value: 3003
           envFrom:
             - configMapRef:
                 name: server-envs
             - secretRef:
                 name: server-envs
           env:
+            - name: IMMICH_PORT
+              value: '3003'
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
