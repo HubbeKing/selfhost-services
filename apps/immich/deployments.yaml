@@ -23,8 +23,6 @@ spec:
             - secretRef:
                 name: server-envs
           env:
-            - name: IMMICH_PORT
-              value: '3001'
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -75,8 +73,9 @@ spec:
             - secretRef:
                 name: server-envs
           env:
-            - name: IMMICH_PORT
-              value: '3003'
+            # required for some reason, see https://github.com/immich-app/immich/discussions/9228
+            - name: MACHINE_LEARNING_PORT
+              value: "3003"
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
