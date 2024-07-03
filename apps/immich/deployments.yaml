@@ -14,6 +14,8 @@ spec:
         app.kubernetes.io/name: immich
         app.kubernetes.io/component: server
     spec:
+      # work around bug with ENV var parsing?
+      enableServiceLinks: false
       containers:
         - image: ghcr.io/immich-app/immich-server:v1.107.0
           name: immich-server
@@ -61,6 +63,8 @@ spec:
         app.kubernetes.io/name: immich
         app.kubernetes.io/component: machine-learning
     spec:
+      # work around bug with ENV var parsing?
+      enableServiceLinks: false
       containers:
         - image: ghcr.io/immich-app/immich-machine-learning:v1.107.0
           name: immich-machine-learning
