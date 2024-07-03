@@ -32,9 +32,6 @@ spec:
             requests:
               cpu: 1000m
               memory: 1Gi
-            limits:
-              # VAAPI device for HW acceleration
-              gpu.intel.com/i915: 1
           ports:
             - containerPort: 3001
               name: http
