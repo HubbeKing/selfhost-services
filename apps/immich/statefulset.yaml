@@ -16,9 +16,23 @@ spec:
         app.kubernetes.io/component: postgres
     spec:
       containers:
-        - image: docker.io/tensorchord/pgvecto-rs:pg15-v0.2.0
+        - image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
           imagePullPolicy: Always
           name: postgres
+          args:
+            - "-c"
+            - "shared_preload_libraries=vectors.so"
+            - "-c"
+            - 'search_path="$$user", public, vectors'
+            - "-c"
+            - "max_wal_size=2GB"
+            - "-c"
+            - "shared_buffers=512MB"
+            - "-c"
+            - "wal_compression=on"
+          env:
+            - name: POSTGRES_INITDB_ARGS
+              value: "--data-checksums"
           envFrom:
             - secretRef:
                 name: db-envs
@@ -30,16 +44,19 @@ spec:
               command:
                 - bash
                 - "-c"
-                - "pg_isready -U immich -d immich"
-            initialDelaySeconds: 5
-            periodSeconds: 15
+                - "pg_isready -U immich -d immich || exit 1; Chksum=\"$$(psql --dbname=immich --username=immich --tuples-only --no-align --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')\"; echo \"checksum failure count is $$Chksum\"; [ \"$$Chksum\" = '0' ] || exit 1"
+            initialDelaySeconds: 30
+            periodSeconds: 300
+            timeoutSeconds: 30
+            failureThreshold: 1
+            successThreshold: 1
           resources:
             requests:
               cpu: 50m
               memory: 256Mi
             limits:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 500m
+              memory: 1Gi
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
