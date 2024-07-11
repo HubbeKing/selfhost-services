@@ -745,6 +745,12 @@ rules:
   - create
   - get
   - update
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -1186,7 +1192,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.16.1
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.16.2
         imagePullPolicy: IfNotPresent
         name: nfd-gc
         ports:
@@ -1259,7 +1265,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.16.1
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.16.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           grpc:
@@ -1344,7 +1350,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.16.1
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.16.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           grpc:
