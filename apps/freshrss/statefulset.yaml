@@ -15,7 +15,7 @@ spec:
         component: freshrss
     spec:
       containers:
-        - image: docker.io/freshrss/freshrss:1.24.2
+        - image: docker.io/freshrss/freshrss:1.24.3
           name: freshrss
           env:
             # cron minutes definition for RSS sync
