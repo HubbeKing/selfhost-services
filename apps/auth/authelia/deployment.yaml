@@ -35,6 +35,9 @@ spec:
             - authelia
           args:
             - --config=/config/configuration.yml
+          env:
+            - name: X_AUTHELIA_CONFIG_FILTERS
+              value: template
           envFrom:
             - configMapRef:
                 name: envs
