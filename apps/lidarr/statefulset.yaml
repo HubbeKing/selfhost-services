@@ -13,7 +13,7 @@ spec:
         app: lidarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/lidarr:version-2.5.3.4341
+        - image: ghcr.io/linuxserver/lidarr:version-2.6.4.4402
           imagePullPolicy: Always
           name: lidarr
           envFrom:
