@@ -42,7 +42,7 @@ metadata:
 spec:
   ports:
     - name: http
-      port: 3001
+      port: 2283
   selector:
     app.kubernetes.io/name: immich
     app.kubernetes.io/component: server

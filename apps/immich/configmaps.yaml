@@ -13,6 +13,6 @@ data:
   REDIS_PORT: "6379"
   REDIS_DBINDEX: "2"
   # URL used to connect to server container from machine-learning container
-  IMMICH_SERVER_URL: http://server.immich.svc.cluster.local:3001
+  IMMICH_SERVER_URL: http://server.immich.svc.cluster.local:2283
   # URL used to connect to machine-learning container from server container
   IMMICH_MACHINE_LEARNING_URL: http://machine-learning.immich.svc.cluster.local:3003

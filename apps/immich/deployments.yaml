@@ -17,7 +17,7 @@ spec:
       # work around bug with ENV var parsing?
       enableServiceLinks: false
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.117.0
+        - image: ghcr.io/immich-app/immich-server:v1.118.0
           name: immich-server
           envFrom:
             - configMapRef:
@@ -35,7 +35,7 @@ spec:
               cpu: 1000m
               memory: 1Gi
           ports:
-            - containerPort: 3001
+            - containerPort: 2283
               name: http
           securityContext:
             allowPrivilegeEscalation: false
@@ -66,7 +66,7 @@ spec:
       # work around bug with ENV var parsing?
       enableServiceLinks: false
       containers:
-        - image: ghcr.io/immich-app/immich-machine-learning:v1.117.0
+        - image: ghcr.io/immich-app/immich-machine-learning:v1.118.0
           name: immich-machine-learning
           envFrom:
             - configMapRef:
