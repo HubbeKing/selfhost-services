@@ -13,7 +13,7 @@ spec:
         app: sonarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/sonarr:version-4.0.9.2244
+        - image: ghcr.io/linuxserver/sonarr:version-4.0.10.2544
           imagePullPolicy: Always
           name: sonarr
           envFrom:
