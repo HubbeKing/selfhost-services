@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: faster-whisper
+spec:
+  selector:
+    matchLabels:
+      app: faster-whisper
+  template:
+    metadata:
+      labels:
+        app: faster-whisper
+    spec:
+      containers:
+        - image: ghcr.io/linuxserver/faster-whisper:latest
+          name: faster-whisper
+          env:
+            - name: WHISPER_MODEL
+              value: base-int8
+            - name: WHISPER_BEAM
+              value: "1"
+            - name: WHISPER_LANG
+              value: en
+          ports:
+            - containerPort: 10300
+              name: wyoming
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: run-tmpfs
+              mountPath: /run
+      volumes:
+        - name: run-tmpfs
+          emptyDir:
+            medium: Memory
