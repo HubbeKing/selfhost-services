@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ddns-updater
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ddns-updater
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ddns-updater
+    spec:
+      containers:
+        - image: ghcr.io/qdm12/ddns-updater:v2.8.2
+          name: ddns-updater
+          env:
+            - name: PERIOD
+              value: 15m
+            - name: UPDATE_COOLDOWN_PERIOD
+              value: 15m
+            - name: BACKUP_PERIOD
+              value: "0"
+          ports:
+            - containerPort: 8000
+              name: http
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: config
+              mountPath: /updater/data/config.json
+              subPath: config.json
+      volumes:
+        - name: config
+          secret:
+            secretName: ddns-updater-config

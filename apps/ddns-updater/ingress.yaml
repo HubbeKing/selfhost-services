@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ddns-updater
+  annotations:
+    nginx.ingress.kubernetes.io/auth-method: GET
+    nginx.ingress.kubernetes.io/auth-url: "http://authelia.authelia.svc.cluster.local:9091/api/verify"
+    nginx.ingress.kubernetes.io/auth-signin: "https://auth.hubbe.club?rm=$request_method"
+    nginx.ingress.kubernetes.io/auth-response-headers: Remote-User,Remote-Name,Remote-Groups,Remote-Email
+    nginx.ingress.kubernetes.io/auth-snippet: |
+      proxy_set_header X-Forwarded-Method $request_method;
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - ddns.hubbe.club
+  rules:
+    - host: ddns.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ddns-updater
+                port:
+                  number: 8000
