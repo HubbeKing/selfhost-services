@@ -7,7 +7,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.3
   name: nodefeaturegroups.nfd.k8s-sigs.io
 spec:
   group: nfd.k8s-sigs.io
@@ -278,7 +278,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.3
   name: nodefeaturerules.nfd.k8s-sigs.io
 spec:
   group: nfd.k8s-sigs.io
@@ -596,7 +596,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.14.0
+    controller-gen.kubebuilder.io/version: v0.16.3
   name: nodefeatures.nfd.k8s-sigs.io
 spec:
   group: nfd.k8s-sigs.io
@@ -662,8 +662,9 @@ spec:
                       properties:
                         elements:
                           additionalProperties:
-                            description: Nil is a dummy empty struct for protobuf
-                              compatibility
+                            description: |-
+                              Nil is a dummy empty struct for protobuf compatibility.
+                              NOTE: protobuf definitions have been removed but this is kept for API compatibility.
                             type: object
                           description: Individual features of the feature set.
                           type: object
@@ -793,6 +794,13 @@ rules:
 - apiGroups:
   - ""
   resources:
+  - namespaces
+  verbs:
+  - watch
+  - list
+- apiGroups:
+  - ""
+  resources:
   - nodes
   - nodes/status
   verbs:
@@ -880,10 +888,24 @@ data:
     # autoDefaultNs: true
     # extraLabelNs: ["added.ns.io","added.kubernets.io"]
     # denyLabelNs: ["denied.ns.io","denied.kubernetes.io"]
-    # resourceLabels: ["vendor-1.com/feature-1","vendor-2.io/feature-2"]
     # enableTaints: false
     # labelWhiteList: "foo"
     # resyncPeriod: "2h"
+    # restrictions:
+    #   disableLabels: true
+    #   disableTaints: true
+    #   disableExtendedResources: true
+    #   disableAnnotations: true
+    #   allowOverwrite: false
+    #   denyNodeFeatureLabels: true
+    #   nodeFeatureNamespaceSelector:
+    #    matchLabels:
+    #      kubernetes.io/metadata.name: "node-feature-discovery"
+    #    matchExpressions:
+    #      - key: "kubernetes.io/metadata.name"
+    #        operator: "In"
+    #        values:
+    #           - "node-feature-discovery"
     # klog:
     #    addDirHeader: false
     #    alsologtostderr: false
@@ -908,7 +930,7 @@ data:
     # nfdApiParallelism: 10
 kind: ConfigMap
 metadata:
-  name: nfd-master-conf
+  name: nfd-master-conf-9mfc26f2tc
   namespace: node-feature-discovery
 ---
 apiVersion: v1
@@ -917,6 +939,7 @@ data:
     #core:
     #  labelWhiteList:
     #  noPublish: false
+    #  noOwnerRefs: false
     #  sleepInterval: 60s
     #  featureSources: [all]
     #  labelSources: [all]
@@ -993,8 +1016,6 @@ data:
     #      - "class"
     #      - "vendor"
     #      - "device"
-    #  local:
-    #    hooksEnabled: false
     #  custom:
     #    # The following feature demonstrates the capabilities of the matchFeatures
     #    - name: "my custom rule"
@@ -1157,7 +1178,7 @@ data:
     #          matchName: {op: In, value: ["SWAP", "X86", "ARM"]}
 kind: ConfigMap
 metadata:
-  name: nfd-worker-conf
+  name: nfd-worker-conf-c2mbm9t788
   namespace: node-feature-discovery
 ---
 apiVersion: apps/v1
@@ -1192,7 +1213,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.16.6
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.0
         imagePullPolicy: IfNotPresent
         name: nfd-gc
         ports:
@@ -1265,13 +1286,11 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.16.6
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           grpc:
             port: 8082
-          initialDelaySeconds: 10
-          periodSeconds: 10
         name: nfd-master
         ports:
         - containerPort: 8081
@@ -1280,8 +1299,6 @@ spec:
           failureThreshold: 10
           grpc:
             port: 8082
-          initialDelaySeconds: 5
-          periodSeconds: 10
         resources:
           limits:
             cpu: 300m
@@ -1296,6 +1313,10 @@ spec:
             - ALL
           readOnlyRootFilesystem: true
           runAsNonRoot: true
+        startupProbe:
+          failureThreshold: 30
+          grpc:
+            port: 8082
         volumeMounts:
         - mountPath: /etc/kubernetes/node-feature-discovery
           name: nfd-master-conf
@@ -1313,7 +1334,7 @@ spec:
         value: ""
       volumes:
       - configMap:
-          name: nfd-master-conf
+          name: nfd-master-conf-9mfc26f2tc
         name: nfd-master-conf
 ---
 apiVersion: apps/v1
@@ -1333,9 +1354,7 @@ spec:
         app: nfd-worker
     spec:
       containers:
-      - args:
-        - -server=nfd-master:8080
-        command:
+      - command:
         - nfd-worker
         env:
         - name: NODE_NAME
@@ -1350,7 +1369,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.16.6
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           grpc:
@@ -1400,9 +1419,6 @@ spec:
         - mountPath: /host-lib
           name: host-lib
           readOnly: true
-        - mountPath: /etc/kubernetes/node-feature-discovery/source.d/
-          name: source-d
-          readOnly: true
         - mountPath: /etc/kubernetes/node-feature-discovery/features.d/
           name: features-d
           readOnly: true
@@ -1431,11 +1447,8 @@ spec:
           path: /lib
         name: host-lib
       - hostPath:
-          path: /etc/kubernetes/node-feature-discovery/source.d/
-        name: source-d
-      - hostPath:
           path: /etc/kubernetes/node-feature-discovery/features.d/
         name: features-d
       - configMap:
-          name: nfd-worker-conf
+          name: nfd-worker-conf-c2mbm9t788
         name: nfd-worker-conf
