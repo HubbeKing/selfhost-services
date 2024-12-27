@@ -12,7 +12,7 @@ spec:
         app.kubernetes.io/name: ddns-updater
     spec:
       containers:
-        - image: ghcr.io/qdm12/ddns-updater:v2.8.2
+        - image: ghcr.io/qdm12/ddns-updater:v2.9.0
           name: ddns-updater
           env:
             - name: PERIOD
