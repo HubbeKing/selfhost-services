@@ -20,7 +20,7 @@ spec:
           name: nextcloud
           env:
             - name: DOCKER_MODS
-              value: "linuxserver/mods:universal-cron|linuxserver/mods:nextcloud-memories"
+              value: "linuxserver/mods:universal-cron"
           envFrom:
             - configMapRef:
                 name: linuxserver-envs
