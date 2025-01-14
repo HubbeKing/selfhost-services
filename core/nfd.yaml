@@ -746,6 +746,7 @@ rules:
   - create
   - get
   - update
+  - delete
 - apiGroups:
   - ""
   resources:
@@ -1213,7 +1214,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.0
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.1
         imagePullPolicy: IfNotPresent
         name: nfd-gc
         ports:
@@ -1286,7 +1287,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.0
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           grpc:
@@ -1369,7 +1370,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.0
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           grpc:
