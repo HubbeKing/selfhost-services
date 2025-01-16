@@ -5,6 +5,7 @@ metadata:
   namespace: database
 spec:
   # single service IP for applications to connect to
+  loadBalancerIP: 192.168.1.8
   ports:
     - port: 3306
       name: mariadb
@@ -16,6 +17,7 @@ spec:
       name: ist
   selector:
     app: mariadb
+  type: LoadBalancer
 ---
 apiVersion: v1
 kind: Service
