@@ -53,13 +53,13 @@ data:
     s=$(mariadb --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --skip-column-names -e 'select 1 from information_schema.ENGINES WHERE engine="innodb" AND support in ("YES", "DEFAULT", "ENABLED")')
     if (( "$s" != 1 )); then
       echo "InnoDB not initialized!"
-      return 1
+      exit 1
     fi
     # test Galera node status for SYNCED state
     s=$(mariadb --user=${MARIADB_USER} --password=${MARIADB_PASSWORD} --skip-column-names -e 'select VARIABLE_VALUE from information_schema.GLOBAL_STATUS WHERE VARIABLE_NAME="WSREP_LOCAL_STATE"')
     if (( "$s" != 4 )); then
       echo "Galera node not in state SYNCED, instead in state $s!"
-      return 1
+      exit 1
     fi
 ---
 apiVersion: v1
