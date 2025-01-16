@@ -4,7 +4,7 @@ metadata:
   name: mariadb
   namespace: database
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: mariadb
@@ -85,8 +85,8 @@ spec:
               cpu: 100m
               memory: 512Mi
             limits:
-              cpu: 500m
-              memory: 1Gi
+              cpu: 1000m
+              memory: 2Gi
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
@@ -121,5 +121,5 @@ spec:
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: 5Gi
+            storage: 20Gi
         storageClassName: longhorn

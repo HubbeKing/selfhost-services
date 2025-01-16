@@ -74,7 +74,7 @@ data:
     [galera]
     wsrep_on=ON
     wsrep_provider="/usr/lib/libgalera_smm.so"
-    wsrep_cluster_address="gcomm://mariadb-0.galera.database.svc.cluster.local,mariadb-1.galera.database.svc.cluster.local,mariadb-2.galera.database.svc.cluster.local"
+    wsrep_cluster_address="gcomm://mariadb-0.galera.database.svc.cluster.local,mariadb-1.galera.database.svc.cluster.local,mariadb-2.galera.database.svc.cluster.local,mariadb-3.galera.database.svc.cluster.local,mariadb-4.galera.database.svc.cluster.local"
     wsrep_cluster_name="mariadb"
     wsrep_node_address=POD_IP
     wsrep_node_name=HOSTNAME
