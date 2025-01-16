@@ -62,11 +62,19 @@ spec:
           ports:
             - containerPort: 3306
               name: mariadb
-          readinessProbe:
+          startupProbe:
             exec:
               # unfortunately, MariaDB's own healthcheck.sh relies on a 'healthcheck' user, whose password can't easily be set and is randomly generated
               # new pods can't know what the first pod set.
               # thus, we manually reuse the commands it does in our own healthcheck.sh script
+              command:
+                - /healthcheck.sh
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 18 # give pods 180s to start on first go, in case they're new joiners
+          readinessProbe:
+            exec:
               command:
                 - /healthcheck.sh
             initialDelaySeconds: 5
