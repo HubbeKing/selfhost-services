@@ -8,3 +8,4 @@ data:
   GID: "1000"
   TZ: "Europe/Helsinki"
   LLDAP_LDAP_BASE_DN: "dc=hubbe,dc=club"
+  LLDAP_HTTP_URL: "https://account.hubbe.club"
