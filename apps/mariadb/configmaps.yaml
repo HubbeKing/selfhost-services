@@ -44,6 +44,7 @@ data:
     fi
     # gracefully shutdown - this doesn't happen on SIGTERM if there's open connections, but we WANT it to.
     mariadb --host=localhost --user=root --password=${MARIADB_ROOT_PASSWORD} --execute 'SHUTDOWN WAIT FOR ALL REPLICAS'
+  # healthcheck script with credentials from env vars
   healthcheck.sh: |
     #!/bin/bash
     set -e
@@ -61,6 +62,36 @@ data:
       echo "Galera node not in state SYNCED, instead in state $s!"
       exit 1
     fi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-backup-scripts
+  namespace: database
+data:
+  # yon mariadb backup script
+  mariadb-backup.sh: |
+    #!/bin/bash
+    set -e
+    ARGS=(--host=$DB_HOST --port=$DB_PORT --user=$DB_USER --password=$DB_PASS --skip-ssl)
+
+    databases=$(mariadb "${ARGS[@]}" \
+        --execute 'show databases' --skip-column-names --batch | \
+        grep -vE 'mysql|information_schema|performance_schema|sys')
+
+    for db in $databases; do
+      echo "$db"
+      mariadb-dump --single-transaction "${ARGS[@]}" "$db" | \
+      gzip --rsyncable > /backup/"$db".sql.gz
+    done
+  # yon restic backup script (no bash in the image)
+  restic-backup.sh: |
+    #!/bin/sh
+    set -e
+    restic backup /backup && \
+    restic unlock && \
+    restic forget --group-by paths ${RESTIC_FORGET_ARGS} && \
+    restic prune
 ---
 apiVersion: v1
 kind: ConfigMap

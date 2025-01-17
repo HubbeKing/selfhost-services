@@ -1,0 +1,63 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mariadb-restic-backup
+  namespace: database
+spec:
+  # backup once a day at 01:05
+  schedule: "5 1 * * *"
+  failedJobsHistoryLimit: 1
+  successfulJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          initContainers:
+            - name: mariadb-dump
+              image: docker.io/library/mariadb:lts
+              command: ["/bin/bash", "/scripts/mariadb-backup.sh"]
+              env:
+                - name: DB_HOST
+                  value: mariadb.database.svc.cluster.local
+                - name: DB_PORT
+                  value: "3306"
+                - name: DB_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: mariadb-backup-envs
+                      key: MARIADB_BACKUP_USER
+                - name: DB_PASS
+                  valueFrom:
+                    secretKeyRef:
+                      name: mariadb-backup-envs
+                      key: MARIADB_BACKUP_PASSWORD
+              volumeMounts:
+                - mountPath: /scripts
+                  name: scripts
+                - mountPath: /backup
+                  name: backup-tmp
+          containers:
+            - name: restic-backup
+              image: docker.io/restic/restic:latest
+              command: ["/scripts/restic-backup.sh"]
+              envFrom:
+                - secretRef:
+                    name: mariadb-backup-envs
+              volumeMounts:
+                - mountPath: /scripts
+                  name: scripts
+                - mountPath: /backup
+                  name: backup-tmp
+                - mountPath: /srv/backup
+                  name: backup
+          restartPolicy: OnFailure
+          volumes:
+            - name: backup
+              persistentVolumeClaim:
+                claimName: restic-db-backups
+            - name: backup-tmp
+              emptyDir: {}
+            - name: scripts
+              configMap:
+                name: mariadb-backup-scripts
+                defaultMode: 0755
