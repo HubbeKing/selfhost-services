@@ -110,7 +110,7 @@ data:
 
         ## The address to the ldap server. Format: <scheme>://<address>[:<port>].
         ## Scheme can be ldap or ldaps in the format (port optional).
-        address: ldap://openldap.authelia.svc.cluster.local
+        address: ldap://lldap.authelia.svc.cluster.local
 
         ## Use StartTLS with the LDAP connection.
         start_tls: false
@@ -131,7 +131,7 @@ data:
 
         ## The additional_users_dn is prefixed to base_dn and delimited by a comma when searching for users.
         ## i.e. with this set to OU=Users and base_dn set to DC=a,DC=com; OU=Users,DC=a,DC=com is searched for users.
-        additional_users_dn: ou=users
+        additional_users_dn: ou=people
 
         ## The users filter used in search queries to find the user profile based on input filled in login form.
         ## Various placeholders are available in the user filter:
@@ -147,7 +147,7 @@ data:
         ##
         ## To allow sign in both with username and email, one can use a filter like
         ## (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
-        users_filter: (&({username_attribute}={input})(objectClass=inetOrgPerson))
+        users_filter: (&({username_attribute}={input})(objectClass=Person))
 
         ## The additional_groups_dn is prefixed to base_dn and delimited by a comma when searching for groups.
         ## i.e. with this set to OU=Groups and base_dn set to DC=a,DC=com; OU=Groups,DC=a,DC=com is searched for groups.
@@ -162,21 +162,16 @@ data:
         ##
         ## If your groups use the `groupOfUniqueNames` structure use this instead:
         ##    (&(uniquemember={dn})(objectclass=groupOfUniqueNames))
-        groups_filter: (&(uniquemember={dn})(objectclass=groupOfUniqueNames))
+        groups_filter: (member={dn})
 
         attributes:
-          ## The attribute holding the name of the group.
+          display_name: displayName
+          username: uid
           group_name: cn
-
-          ## The attribute holding the mail address of the user. If multiple email addresses are defined for a user, only the
-          ## first one returned by the LDAP server is used.
           mail: mail
 
-          ## The attribute holding the display name of the user. This will be used to greet an authenticated user.
-          display_name: cn
-
         ## The username and password of the admin user.
-        user: cn=admin,dc=hubbe,dc=club
+        user: cn=readonly,ou=people,dc=hubbe,dc=club
         ## Password can also be set using a secret: https://www.authelia.com/docs/configuration/secrets.html
 
     ##
@@ -218,11 +213,6 @@ data:
             - 192.168.1.0/24
 
       rules:
-        - domain: deepdream.hubbe.club
-          subject:
-            - group:DeepdreamUsers
-          policy: one_factor
-
         - domain: trove.hubbe.club
           subject:
             - group:TroveUsers

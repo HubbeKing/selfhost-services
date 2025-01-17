@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lldap
+  namespace: authelia
+  annotations:
+    # sticky sessions, to let login work properly when replicas>1
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - account.hubbe.club
+  rules:
+    - host: account.hubbe.club
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lldap
+                port:
+                  number: 17170
