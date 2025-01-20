@@ -5,7 +5,7 @@ metadata:
 data:
   ssh: |
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGCOz0rEqX5SdB6fE7CV73m15e1MFKcdM1YXsmhwqlbW hubbe@desktop
-    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGCzBxPfaREa9WHoS7UttFMWaH5V6KcVnV//RMPpDtd6 hubbe@laptop
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyG6Tp45NHkRta28E6Xo22uWHPEQS5wpFnVKdkc8Rem hubbe@laptop
   age: |
     age1j80wssnp7v6kxuga65pua3utmza4y50w243sntfyncynhp6fwpuqxkx7lc
 ---
