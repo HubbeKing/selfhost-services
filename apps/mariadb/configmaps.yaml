@@ -82,7 +82,7 @@ data:
     for db in $databases; do
       echo "$db"
       mariadb-dump --single-transaction "${ARGS[@]}" "$db" | \
-      gzip --rsyncable > /backup/"$db".sql.gz
+      zstd --rsyncable > /backup/"$db".sql.zst
     done
   # yon restic backup script (no bash in the image)
   restic-backup.sh: |
