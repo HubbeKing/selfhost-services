@@ -1,0 +1,22 @@
+apiVersion: dragonflydb.io/v1alpha1
+kind: Dragonfly
+metadata:
+  labels:
+    app.kubernetes.io/name: dragonfly
+    app.kubernetes.io/managed-by: dragonfly-operator
+  name: dragonfly
+  namespace: database
+spec:
+  authentication:
+    passwordFromSecret:
+      key: password
+      name: dragonfly-auth  
+  image: docker.dragonflydb.io/dragonflydb/dragonfly:v1.26.1
+  replicas: 3
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi

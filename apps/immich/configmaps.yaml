@@ -9,7 +9,7 @@ data:
   DB_PORT: "5432"
   DB_USERNAME: immich
   DB_DATABASE_NAME: immich
-  REDIS_HOSTNAME: keydb.database.svc.cluster.local
+  REDIS_HOSTNAME: dragonfly.database.svc.cluster.local
   REDIS_PORT: "6379"
   REDIS_DBINDEX: "2"
   # URL used to connect to server container from machine-learning container

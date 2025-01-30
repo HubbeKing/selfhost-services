@@ -280,7 +280,7 @@ data:
       ## Important: Kubernetes (or HA) users must read https://www.authelia.com/docs/features/statelessness.html
       ##
       redis:
-        host: keydb.database.svc.cluster.local
+        host: dragonfly.database.svc.cluster.local
         port: 6379
 
         ## Username used for redis authentication. This is optional and a new feature in redis 6.0.
