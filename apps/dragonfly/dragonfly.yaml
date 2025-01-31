@@ -11,6 +11,8 @@ spec:
     passwordFromSecret:
       key: password
       name: dragonfly-auth
+  args:
+    - "--default_lua_flags=allow-undeclared-keys"
   image: docker.dragonflydb.io/dragonflydb/dragonfly:v1.26.2
   replicas: 3
   resources:
