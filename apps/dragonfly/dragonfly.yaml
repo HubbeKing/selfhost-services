@@ -10,8 +10,8 @@ spec:
   authentication:
     passwordFromSecret:
       key: password
-      name: dragonfly-auth  
-  image: docker.dragonflydb.io/dragonflydb/dragonfly:v1.26.1
+      name: dragonfly-auth
+  image: docker.dragonflydb.io/dragonflydb/dragonfly:v1.26.2
   replicas: 3
   resources:
     requests:
