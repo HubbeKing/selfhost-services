@@ -11,6 +11,9 @@ metadata:
 data:
   # allow configuration snippets in ingress annotations
   allow-snippet-annotations: "true"
+  # actually allow all annotations, risk be damned
+  # i'm writing all the ingresses so...
+  annotations-risk-level: "Critical"
   # ensure ssl-redirect is true, always redirect to https
   ssl-redirect: "true"
   # don't emit version number on error pages and server headers
