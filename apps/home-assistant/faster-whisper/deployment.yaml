@@ -16,7 +16,7 @@ spec:
           name: faster-whisper
           env:
             - name: WHISPER_MODEL
-              value: base-int8
+              value: small-int8
             - name: WHISPER_BEAM
               value: "1"
             - name: WHISPER_LANG
