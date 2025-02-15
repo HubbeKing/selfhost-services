@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recyclarr
+spec:
+  selector:
+    matchLabels:
+      app: recyclarr
+  template:
+    metadata:
+      labels:
+        app: recyclarr
+    spec:
+      containers:
+        - image: ghcr.io/recyclarr/recyclarr:7.4.1
+          name: recyclarr
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: config
+              mountPath: /config/recyclarr.yml
+              subPath: recyclarr.yml
+            - name: secret
+              mountPath: /config/secrets.yml
+              subPath: secrets.yml
+            - name: tmpfs
+              mountPath: /tmp
+      volumes:
+        - name: config
+          configMap:
+            name: recyclarr-config
+        - name: secret
+          secret:
+            secretName: recyclarr-secrets
+        - name: tmpfs
+          emptyDir:
+            medium: Memory
