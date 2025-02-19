@@ -10,8 +10,7 @@ Services running on hubbe.club, in local k8s cluster
     - Run `find . -type f -name '*.yaml' -exec sops --decrypt --in-place '{}' \;`
 
 ### k8s Cluster Setup
-1. Set up machines with basic apt-based OS
-    - Should support Ubuntu Server 20.04 LTS and up, both arm64 and amd64, possibly also armhf
+1. Set up machines with latest version of Debian
 2. Adjust settings in `init-scripts/INSTALL_SETTINGS`
     - The other scripts pull variables from this file:
         - `KUBE_VERSION` sets the kubernetes version for the cluster
@@ -35,7 +34,8 @@ Services running on hubbe.club, in local k8s cluster
     - Required packages are installed - `containerd.io`, `kubeadm`, `kubelet`, and `kubectl`
     - Project Calico is installed as a CNI plugin, see `core/calico.yaml`
     - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
-    - Note that the master node is not un-tainted, and thus no user pods are scheduled on master by default
+    - Note that the control plane nodes are not un-tainted, and thus no user pods are scheduled on them by default
+    - Note that control plane nodes also have the `node.kubernetes.io/exclude-from-external-load-balancers` label, which must be removed for MetalLB to work with user pods on them.
 5. (optional) Add additional control-plane nodes with `init-scripts/kubeadm-join-controlplane.sh <node_user>@<node_address>`
     - `<node_user>` must be able to SSH to the node, and have `sudo` access
     - Same inital setup is performed as on first node
@@ -46,13 +46,14 @@ Services running on hubbe.club, in local k8s cluster
     - Nodes are then joined as worker nodes using `kubeadm token create --print-join-command` and `kubeadm join`
 
 ### Storage setup
-- NFS shares for `volumes/nfs-volumes/` PVCs need to be created
+- NFS shares for `volumes` PVCs need to be created
     - Must be accessible from the IPs of the nodes in the k8s cluster
-- Longhorn needs no additional setup - simply deploy `volumes/longhorn` with `kubectl apply -f volumes/longhorn`
-    - The storageclass settings can be tweaked if needed for volume HA stuff - see `volumes/longhorn/storageclass.yaml`
+    - Deploy volumes (PV/PVC) with `kubectl apply -f volumes`
+- Longhorn needs no additional setup - simply deploy `operators/longhorn` with `kubectl apply -f operators/longhorn`
+    - The storageclass settings can be tweaked if needed for volume HA stuff - see `operators/longhorn/storageclass.yaml`
 - At this stage, restore volumes from Longhorn backups using the Longhorn UI.
     - Make sure to also create PVs/PVCs via the Longhorn UI.
-- Longhorn handles backups - see Longhorn UI and/or default settings in `volumes/longhorn/deployment.yaml`
+- Longhorn handles backups - see Longhorn UI and/or default settings in `operators/longhorn/deployment.yaml`
 
 ### Ingress setup
 - Set up `cert-manager` for automated cert renew
@@ -69,13 +70,13 @@ Services running on hubbe.club, in local k8s cluster
     - See `nginx/certificate.yaml` for certificate request fulfilled by `cert-manager`
 
 ### Apps setup
+- Some apps use operators, install these from `operators` folder.
+    - dragonfly-operator for DragonflyDB/Redis, Cloudnative-PG for postgres
 - Some apps need GPU acceleration (jellyfin)
-    - This is deployed using `node-feature-discovery`
+    - This uses `node-feature-discovery` to target the gpu plugin deployment
         - `kubectl apply -f core/nfd.yaml`
     - See https://github.com/intel/intel-device-plugins-for-kubernetes/tree/master/cmd/gpu_plugin
     - See `core/gpu-plugins`
-- Check NFS server IPs and share paths in `volumes/nfs-volumes` directory
-    - Deploy volumes (PV/PVC) with `kubectl apply -f volumes/nfs-volumes`
 - Create configs from `*.yaml.example` files
     - Alternatively, run `sops --decrypt --in-place` on existing files
 - Set PUID, PGID, and TZ variables in `apps/0-linuxserver-envs.yaml`
@@ -88,8 +89,3 @@ Services running on hubbe.club, in local k8s cluster
 - See `monitoring/README.md`
     - mainly `monitoring/build.sh` and `monitoring/apply.sh`
 - After deployment of monitoring stack, deploy extra rules from `extras` folder
-
-### Updating kustomize-based manifests
-- `kubectl kustomize <URL> > manifest.yaml`
-    - example, node-feature-discovery
-    - `kubectl kustomize https://github.com/kubernetes-sigs/node-feature-discovery/deployment/overlays/default?ref=$v0.10.0 > nfd.yaml`
