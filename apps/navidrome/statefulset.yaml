@@ -17,17 +17,13 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: docker.io/deluan/navidrome:0.54.5
+        - image: docker.io/deluan/navidrome:0.55.0
           name: navidrome
           env:
             - name: ND_COVERARTPRIORITY
               value: "cover.*, folder.*, front.*, embedded"
             - name: ND_TRANSCODINGCACHESIZE
               value: "10GiB"
-            - name: ND_LASTFM_ENABLED
-              value: "true"
-            - name: ND_LASTFM_LANGUAGE
-              value: "en"
           envFrom:
             - secretRef:
                 name: navidrome-envs
