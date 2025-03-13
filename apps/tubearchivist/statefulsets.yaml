@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: tubearchivist
-          image: docker.io/bbilly1/tubearchivist:v0.4.13
+          image: docker.io/bbilly1/tubearchivist:v0.5.0
           envFrom:
             - secretRef:
                 name: tubearchivist-envs
@@ -54,50 +54,6 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: tubearchivist-redis
-spec:
-  selector:
-    matchLabels:
-      app: tubearchivist
-      component: redis
-  serviceName: tubearchivist-redis-hl
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: tubearchivist
-        component: redis
-    spec:
-      containers:
-        - name: redis
-          image: docker.io/redis/redis-stack-server:6.2.6-v9
-          ports:
-            - containerPort: 6379
-              name: redis
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
-            limits:
-              cpu: 250m
-              memory: 512Mi
-          securityContext:
-            allowPrivilegeEscalation: false
-          volumeMounts:
-            - name: data
-              mountPath: /data
-  volumeClaimTemplates:
-    - metadata:
-        name: data
-      spec:
-        accessModes: [ "ReadWriteOnce" ]
-        resources:
-          requests:
-            storage: 1Gi
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
   name: tubearchivist-es
 spec:
   selector:
@@ -114,7 +70,7 @@ spec:
     spec:
       containers:
         - name: elasticsearch
-          image: docker.io/library/elasticsearch:8.11.0
+          image: docker.io/library/elasticsearch:8.17.2
           env:
             - name: ELASTIC_PASSWORD
               valueFrom:
