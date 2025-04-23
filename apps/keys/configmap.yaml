@@ -6,6 +6,7 @@ data:
   ssh: |
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGCOz0rEqX5SdB6fE7CV73m15e1MFKcdM1YXsmhwqlbW hubbe@desktop
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGyG6Tp45NHkRta28E6Xo22uWHPEQS5wpFnVKdkc8Rem hubbe@laptop
+    sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMveINHEK6SYOaT6oxr9xRAhDGrM3k6S72+hX74s7HRrAAAABHNzaDo= hubbe@roaming
   age: |
     age1j80wssnp7v6kxuga65pua3utmza4y50w243sntfyncynhp6fwpuqxkx7lc
 ---
