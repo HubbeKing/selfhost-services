@@ -1,0 +1,95 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: foundry-barthu
+spec:
+  selector:
+    matchLabels:
+      app: foundry-barthu
+  serviceName: foundry-barthu
+  template:
+    metadata:
+      labels:
+        app: foundry-barthu
+    spec:
+      containers:
+        - image: docker.io/felddy/foundryvtt:13.342.0
+          name: foundry-barthu
+          envFrom:
+            - secretRef:
+                name: foundry-credentials
+            - configMapRef:
+                name: foundry-envs
+            - secretRef:
+                name: foundry-barthu-envs
+          ports:
+            - containerPort: 30000
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /barthu
+              port: 30000
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 500m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /data
+              name: data
+        - image: docker.io/library/httpd:2.4.63
+          name: webdav
+          ports:
+            - containerPort: 8080
+              name: webdav
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 150m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - mountPath: /usr/local/apache2/conf/httpd.conf
+              name: config
+              subPath: httpd.conf
+            - mountPath: /var/www/webdav
+              name: data
+            - mountPath: /tmp
+              name: tmp
+            - mountPath: /tmp/users.pwd
+              name: users
+              subPath: users.pwd
+      securityContext:
+        fsGroup: 1000
+      volumes:
+        - name: config
+          configMap:
+            name: foundry-webdav-config
+        - name: tmp
+          emptyDir: {}
+        - name: users
+          secret:
+            secretName: foundry-webdav-htpasswd
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: longhorn

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: foundry-envs
+data:
+  FOUNDRY_COMPRESS_WEBSOCKET: "true"
+  FOUNDRY_HOSTNAME: "foundry.hubbe.club"
+  FOUNDRY_IP_DISCOVERY: "false"
+  FOUNDRY_MINIFY_STATIC_FILES: "true"
+  FOUNDRY_PROTOCOL: "4"
+  FOUNDRY_PROXY_PORT: "443"
+  FOUNDRY_PROXY_SSL: "true"
+  FOUNDRY_TELEMETRY: "false"
+  TZ: "Europe/Helsinki"
