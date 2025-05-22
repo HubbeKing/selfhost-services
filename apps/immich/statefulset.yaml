@@ -16,20 +16,9 @@ spec:
         app.kubernetes.io/component: postgres
     spec:
       containers:
-        - image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
+        - image: ghcr.io/immich-app/postgres:14-vectorchord0.3.0-pgvectors0.2.0
           imagePullPolicy: Always
           name: postgres
-          args:
-            - "-c"
-            - "shared_preload_libraries=vectors.so"
-            - "-c"
-            - 'search_path="$$user", public, vectors'
-            - "-c"
-            - "max_wal_size=2GB"
-            - "-c"
-            - "shared_buffers=512MB"
-            - "-c"
-            - "wal_compression=on"
           env:
             - name: POSTGRES_INITDB_ARGS
               value: "--data-checksums"
@@ -39,17 +28,6 @@ spec:
           ports:
             - containerPort: 5432
               name: tcp-postgres
-          readinessProbe:
-            exec:
-              command:
-                - bash
-                - "-c"
-                - "pg_isready -U immich -d immich || exit 1; Chksum=\"$$(psql --dbname=immich --username=immich --tuples-only --no-align --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')\"; echo \"checksum failure count is $$Chksum\"; [ \"$$Chksum\" = '0' ] || exit 1"
-            initialDelaySeconds: 30
-            periodSeconds: 300
-            timeoutSeconds: 30
-            failureThreshold: 1
-            successThreshold: 1
           resources:
             requests:
               cpu: 50m
