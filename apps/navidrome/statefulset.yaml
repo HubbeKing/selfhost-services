@@ -22,6 +22,8 @@ spec:
           env:
             - name: ND_COVERARTPRIORITY
               value: "cover.*, folder.*, front.*, embedded"
+            - name: ND_SCANNER_SCHEDULE
+              value: "0 23 * * *"
             - name: ND_TRANSCODINGCACHESIZE
               value: "10GiB"
           envFrom:
