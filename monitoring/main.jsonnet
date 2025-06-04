@@ -33,8 +33,8 @@ local kp =
       etcd+: {
         ips: ["192.168.1.131", "192.168.1.132", "192.168.1.133"],
         clientCA: importstr "addons/etcd/ca.crt",
-        clientKey: importstr "addons/etcd/peer.key",
-        clientCert: importstr "addons/etcd/peer.crt",
+        clientKey: importstr "addons/etcd/server.key",
+        clientCert: importstr "addons/etcd/server.crt",
         insecureSkipVerify: true,
       },
       // we monitor all namespaces through an addon rather than defining them all here
