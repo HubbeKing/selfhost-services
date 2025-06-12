@@ -1,8 +1,8 @@
 local kp =
-  (import 'kube-prometheus/main.libsonnet') +
-  (import 'kube-prometheus/addons/anti-affinity.libsonnet') +
-  (import 'kube-prometheus/addons/static-etcd.libsonnet') +
-  (import 'kube-prometheus/addons/all-namespaces.libsonnet') +
+  (import 'github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus/main.libsonnet') +
+  (import 'github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus/addons/anti-affinity.libsonnet') +
+  (import 'github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus/addons/static-etcd.libsonnet') +
+  (import 'github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus/addons/all-namespaces.libsonnet') +
   // add ingress definitions
   (import 'addons/ingress.jsonnet') +
   // add alertmanager config
@@ -10,7 +10,7 @@ local kp =
   // up resource specs for things set needlessly low
   (import 'addons/resources.jsonnet') +
   // disable networkPolicies
-  (import 'kube-prometheus/addons/networkpolicies-disabled.libsonnet') +
+  (import 'github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus/addons/networkpolicies-disabled.libsonnet') +
   // add ingress-nginx monitoring
   (import 'addons/ingress-nginx.jsonnet') +
   {
