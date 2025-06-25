@@ -35,7 +35,7 @@ sudo kubeadm init phase upload-certs --upload-certs --certificate-key $CERT_KEY
 
 # generate a token for joining the cluster
 echo "Generating join token..."
-JOIN_CMD=$(kubeadm token create --print-join-command)
+JOIN_CMD=$(sudo kubeadm token create --print-join-command)
 
 # actually join host(s) to cluster
 for host in "$@"

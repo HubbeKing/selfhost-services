@@ -29,7 +29,7 @@ done
 echo "All nodes ready for join."
 
 echo "Generating join token..."
-JOIN_CMD=$(kubeadm token create --print-join-command)
+JOIN_CMD=$(sudo kubeadm token create --print-join-command)
 
 # actually join host(s) to cluster
 for host in "$@"
