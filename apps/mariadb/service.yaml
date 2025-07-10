@@ -17,6 +17,7 @@ spec:
       name: ist
   selector:
     app: mariadb
+  sessionAffinity: ClientIP
   type: LoadBalancer
 ---
 apiVersion: v1
