@@ -29,7 +29,7 @@ spec:
       priorityClassName: high-priority
       containers:
         - name: lldap
-          image: docker.io/lldap/lldap:v0.6.1
+          image: docker.io/lldap/lldap:v0.6.2
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
