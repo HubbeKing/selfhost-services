@@ -13,7 +13,7 @@ spec:
         app: radarr
     spec:
       containers:
-        - image: ghcr.io/linuxserver/radarr:version-5.26.2.10099
+        - image: ghcr.io/linuxserver/radarr:version-5.27.5.10198
           imagePullPolicy: Always
           name: radarr
           envFrom:
