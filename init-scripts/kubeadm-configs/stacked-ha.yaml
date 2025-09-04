@@ -99,7 +99,7 @@ bootstrapTokens:
       - signing
       - authentication
 nodeRegistration:
-  criSocket: unix:///var/run/containerd/containerd.sock
+  criSocket: unix:///var/run/crio/crio.sock
   imagePullPolicy: IfNotPresent
   taints:
     - effect: NoSchedule

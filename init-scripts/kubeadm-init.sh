@@ -13,7 +13,6 @@ sudo systemctl enable kubelet.service
 # get required kubeadm config vars from INSTALL_SETTINGS
 source INSTALL_SETTINGS
 
-# TODO: once kube-router supports running without kube-proxy configmap, skip kube-proxy step during init
 # check if a CONTROL_PLANE_ENDPOINT has been specified
 if [ -n "${CONTROL_PLANE_ENDPOINT}" ]; then
     # generate and place kube-vip.yaml manifest for the current node

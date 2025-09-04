@@ -31,7 +31,7 @@ Services running on hubbe.club, in local k8s cluster
         - https://pkg.go.dev/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2?utm_source=godoc#InitConfiguration
         - https://pkg.go.dev/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2?utm_source=godoc#ClusterConfiguration
 4. Set up the first node of the control-plane with `init-scripts/kubeadm-init.sh`
-    - Required packages are installed - `containerd.io`, `kubeadm`, `kubelet`, and `kubectl`
+    - Required packages are installed - `cri-o`, `kubeadm`, `kubelet`, and `kubectl`
     - Project Calico is installed as a CNI plugin, see `core/calico.yaml`
     - Kernel source address verification is enabled by the `init-scripts/install-prereqs.sh` script
     - Note that the control plane nodes are not un-tainted, and thus no user pods are scheduled on them by default

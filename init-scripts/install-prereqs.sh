@@ -33,41 +33,6 @@ EOF
 # load sysctl parameters immediately
 sudo sysctl --system
 
-# set up docker repo for containerd.io package
-# requirements for docker repo
-sudo apt update
-sudo apt install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg
-
-# check distro ID
-DISTRO=$(lsb_release -is|tr '[:upper:]' '[:lower:]')
-
-# add docker GPG key
-curl -fsSL "https://download.docker.com/linux/${DISTRO}/gpg" | sudo gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-# add docker repo
-echo \
-  "deb [signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/${DISTRO} \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-# install containerd
-sudo apt update
-sudo apt install -y --allow-change-held-packages containerd.io
-
-# hold containerd package
-sudo apt-mark hold containerd.io
-
-# configure containerd
-sudo mkdir -p /etc/containerd
-sudo cp containerd_config.toml /etc/containerd/config.toml
-
-# restart containerd
-sudo systemctl restart containerd
-sudo systemctl enable containerd
-
 # update apt package lists
 sudo apt update
 
@@ -76,15 +41,35 @@ sudo apt update
 # install NFS client, so we can mount NFS shares as volumes
 sudo apt install -y --no-install-recommends open-iscsi ipvsadm nfs-common
 
-# install kubeadm, kubelet, and kubectl
+# install cri-o, kubeadm, kubelet, and kubectl
 # get k8s major version
 KUBE_MAJOR_VERSION=${KUBE_VERSION%.*}
+CRIO_VERSION=v${KUBE_MAJOR_VERSION}
+
+# add dependencies for cri-o and k8s repos
+sudo apt update
+sudo apt install -y software-properties-common curl
 
 # add google cloud signing key
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v${KUBE_MAJOR_VERSION}/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
 # add k8s apt repo
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v${KUBE_MAJOR_VERSION}/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# add CRI-O signing key
+curl -fsSL https://download.opensuse.org/repositories/isv:/cri-o:/stable:/$CRIO_VERSION/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/cri-o-apt-keyring.gpg
+
+# add CRI-O apt repo
+echo "deb [signed-by=/etc/apt/keyrings/cri-o-apt-keyring.gpg] https://download.opensuse.org/repositories/isv:/cri-o:/stable:/$CRIO_VERSION/deb/ /" | sudo tee /etc/apt/sources.list.d/cri-o.list
+
+# install CRI-O
+sudo apt update
+sudo apt install -y cri-o
+sudo apt-mark hold cri-o
+
+# ensure CRI-O service is set up right
+sudo mv /etc/cni/net.d/10-crio-bridge.conflist.disabled /etc/cni/net.d/10-crio-bridge.conflist
+sudo systemctl enable --now crio.service
 
 # install k8s packages
 # install crictl for container debugging

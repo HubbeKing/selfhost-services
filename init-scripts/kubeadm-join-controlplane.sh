@@ -14,9 +14,8 @@ for host in "$@"
 do
     echo "Preparing $host for kubeadm join..."
     echo "Copying install script..."
-    scp INSTALL_SETTINGS containerd_config.toml install-prereqs.sh crictl.yaml $host:/tmp/
+    scp INSTALL_SETTINGS install-prereqs.sh crictl.yaml $host:/tmp/
     ssh -t $host "sed -i 's|INSTALL_SETTINGS|/tmp/INSTALL_SETTINGS|' /tmp/install-prereqs.sh"
-    ssh -t $host "sed -i 's|containerd_config.toml|/tmp/containerd_config.toml|' /tmp/install-prereqs.sh"
     echo "Installing required packages..."
     ssh -t $host /tmp/install-prereqs.sh
     echo "Deploying crictl config..."
