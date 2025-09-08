@@ -14,7 +14,7 @@ spec:
         component: collabora
     spec:
       containers:
-        - image: docker.io/collabora/code:25.04.4.3.1
+        - image: docker.io/collabora/code:25.04.5.1.1
           name: collabora
           env:
             - name: aliasgroup1
@@ -41,3 +41,13 @@ spec:
             limits:
               cpu: 1000m
               memory: 2Gi
+          securityContext:
+            capabilities:
+              add:
+                - CAP_SYS_CHROOT
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
