@@ -34,7 +34,7 @@ spec:
               memory: 256Mi
             limits:
               cpu: 1000m
-              memory: 1024Mi
+              memory: 2048Mi
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
