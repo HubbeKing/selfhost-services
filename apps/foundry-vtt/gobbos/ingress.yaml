@@ -14,7 +14,7 @@ spec:
     - host: foundry.hubbe.club
       http:
         paths:
-          - path: /gobbos
+          - path: /averion
             pathType: Prefix
             backend:
               service:

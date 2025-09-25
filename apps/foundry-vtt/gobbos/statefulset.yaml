@@ -27,7 +27,7 @@ spec:
               name: http
           readinessProbe:
             httpGet:
-              path: /gobbos
+              path: /averion
               port: 30000
             initialDelaySeconds: 5
             periodSeconds: 15
