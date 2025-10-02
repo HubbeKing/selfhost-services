@@ -17,7 +17,7 @@ spec:
       # work around bug with ENV var parsing?
       enableServiceLinks: false
       containers:
-        - image: ghcr.io/immich-app/immich-server:v1.144.1
+        - image: ghcr.io/immich-app/immich-server:v2.0.0
           name: immich-server
           envFrom:
             - configMapRef:
@@ -66,7 +66,7 @@ spec:
       # work around bug with ENV var parsing?
       enableServiceLinks: false
       containers:
-        - image: ghcr.io/immich-app/immich-machine-learning:v1.144.1
+        - image: ghcr.io/immich-app/immich-machine-learning:v2.0.0
           name: immich-machine-learning
           envFrom:
             - configMapRef:
