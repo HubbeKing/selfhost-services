@@ -13,8 +13,7 @@ spec:
         app: homeassistant
     spec:
       containers:
-        - image: ghcr.io/home-assistant/home-assistant:2025.10.0
-          imagePullPolicy: Always
+        - image: ghcr.io/home-assistant/home-assistant:2025.10.1
           name: homeassistant
           env:
             - name: TZ
