@@ -21,6 +21,10 @@ spec:
               value: "https://cloud\\.hubbe\\.club:443"
             - name: extra_params
               value: "--o:ssl.enable=false -o:ssl.termination=true"
+            - name: DONT_GEN_SSL_CERT
+              value: "true"
+            - name: server_name
+              value: "office.hubbe.club"
           envFrom:
             - secretRef:
                 name: collabora-envs
