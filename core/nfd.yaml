@@ -86,10 +86,18 @@ spec:
                                         - Exists
                                         - DoesNotExist
                                         - Gt
+                                        - Ge
                                         - Lt
+                                        - Le
                                         - GtLt
+                                        - GeLe
                                         - IsTrue
                                         - IsFalse
+                                        type: string
+                                      type:
+                                        description: |-
+                                          Type defines the value type for specific operators.
+                                          The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
                                         type: string
                                       value:
                                         description: |-
@@ -122,10 +130,18 @@ spec:
                                       - Exists
                                       - DoesNotExist
                                       - Gt
+                                      - Ge
                                       - Lt
+                                      - Le
                                       - GtLt
+                                      - GeLe
                                       - IsTrue
                                       - IsFalse
+                                      type: string
+                                    type:
+                                      description: |-
+                                        Type defines the value type for specific operators.
+                                        The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
                                       type: string
                                     value:
                                       description: |-
@@ -177,10 +193,18 @@ spec:
                                   - Exists
                                   - DoesNotExist
                                   - Gt
+                                  - Ge
                                   - Lt
+                                  - Le
                                   - GtLt
+                                  - GeLe
                                   - IsTrue
                                   - IsFalse
+                                  type: string
+                                type:
+                                  description: |-
+                                    Type defines the value type for specific operators.
+                                    The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
                                   type: string
                                 value:
                                   description: |-
@@ -213,10 +237,18 @@ spec:
                                 - Exists
                                 - DoesNotExist
                                 - Gt
+                                - Ge
                                 - Lt
+                                - Le
                                 - GtLt
+                                - GeLe
                                 - IsTrue
                                 - IsFalse
+                                type: string
+                              type:
+                                description: |-
+                                  Type defines the value type for specific operators.
+                                  The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
                                 type: string
                               value:
                                 description: |-
@@ -237,6 +269,19 @@ spec:
                       type: array
                     name:
                       description: Name of the rule.
+                      type: string
+                    vars:
+                      additionalProperties:
+                        type: string
+                      description: |-
+                        Vars is the variables to store if the rule matches. Variables can be
+                        referenced from other rules enabling more complex rule hierarchies.
+                      type: object
+                    varsTemplate:
+                      description: |-
+                        VarsTemplate specifies a template to expand for dynamically generating
+                        multiple variables. Data (after template expansion) must be keys with an
+                        optional value (<key>[=<value>]) separated by newlines.
                       type: string
                   required:
                   - name
@@ -380,10 +425,18 @@ spec:
                                         - Exists
                                         - DoesNotExist
                                         - Gt
+                                        - Ge
                                         - Lt
+                                        - Le
                                         - GtLt
+                                        - GeLe
                                         - IsTrue
                                         - IsFalse
+                                        type: string
+                                      type:
+                                        description: |-
+                                          Type defines the value type for specific operators.
+                                          The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
                                         type: string
                                       value:
                                         description: |-
@@ -416,10 +469,18 @@ spec:
                                       - Exists
                                       - DoesNotExist
                                       - Gt
+                                      - Ge
                                       - Lt
+                                      - Le
                                       - GtLt
+                                      - GeLe
                                       - IsTrue
                                       - IsFalse
+                                      type: string
+                                    type:
+                                      description: |-
+                                        Type defines the value type for specific operators.
+                                        The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
                                       type: string
                                     value:
                                       description: |-
@@ -471,10 +532,18 @@ spec:
                                   - Exists
                                   - DoesNotExist
                                   - Gt
+                                  - Ge
                                   - Lt
+                                  - Le
                                   - GtLt
+                                  - GeLe
                                   - IsTrue
                                   - IsFalse
+                                  type: string
+                                type:
+                                  description: |-
+                                    Type defines the value type for specific operators.
+                                    The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
                                   type: string
                                 value:
                                   description: |-
@@ -507,10 +576,18 @@ spec:
                                 - Exists
                                 - DoesNotExist
                                 - Gt
+                                - Ge
                                 - Lt
+                                - Le
                                 - GtLt
+                                - GeLe
                                 - IsTrue
                                 - IsFalse
+                                type: string
+                              type:
+                                description: |-
+                                  Type defines the value type for specific operators.
+                                  The currently supported type is 'version' for Gt,Ge,Lt,Le,GtLt,GeLe operators.
                                 type: string
                               value:
                                 description: |-
@@ -886,10 +963,10 @@ apiVersion: v1
 data:
   nfd-master.conf: |
     # noPublish: false
-    # autoDefaultNs: true
     # extraLabelNs: ["added.ns.io","added.kubernets.io"]
     # denyLabelNs: ["denied.ns.io","denied.kubernetes.io"]
     # enableTaints: false
+    # informerPageSize: 200
     # labelWhiteList: "foo"
     # resyncPeriod: "2h"
     # restrictions:
@@ -931,7 +1008,7 @@ data:
     # nfdApiParallelism: 10
 kind: ConfigMap
 metadata:
-  name: nfd-master-conf-9mfc26f2tc
+  name: nfd-master-conf-8kb68dgffh
   namespace: node-feature-discovery
 ---
 apiVersion: v1
@@ -1214,12 +1291,22 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.4
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.18.0
         imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 10
         name: nfd-gc
         ports:
-        - containerPort: 8081
-          name: metrics
+        - containerPort: 8080
+          name: http
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+          initialDelaySeconds: 5
         resources:
           limits:
             cpu: 20m
@@ -1259,13 +1346,6 @@ spec:
           preferredDuringSchedulingIgnoredDuringExecution:
           - preference:
               matchExpressions:
-              - key: node-role.kubernetes.io/master
-                operator: In
-                values:
-                - ""
-            weight: 1
-          - preference:
-              matchExpressions:
               - key: node-role.kubernetes.io/control-plane
                 operator: In
                 values:
@@ -1287,19 +1367,21 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.4
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.18.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
-          grpc:
-            port: 8082
+          httpGet:
+            path: /healthz
+            port: http
         name: nfd-master
         ports:
-        - containerPort: 8081
-          name: metrics
+        - containerPort: 8080
+          name: http
         readinessProbe:
           failureThreshold: 10
-          grpc:
-            port: 8082
+          httpGet:
+            path: /healthz
+            port: http
         resources:
           limits:
             cpu: 300m
@@ -1314,10 +1396,6 @@ spec:
             - ALL
           readOnlyRootFilesystem: true
           runAsNonRoot: true
-        startupProbe:
-          failureThreshold: 30
-          grpc:
-            port: 8082
         volumeMounts:
         - mountPath: /etc/kubernetes/node-feature-discovery
           name: nfd-master-conf
@@ -1326,16 +1404,12 @@ spec:
       serviceAccount: nfd-master
       tolerations:
       - effect: NoSchedule
-        key: node-role.kubernetes.io/master
-        operator: Equal
-        value: ""
-      - effect: NoSchedule
         key: node-role.kubernetes.io/control-plane
         operator: Equal
         value: ""
       volumes:
       - configMap:
-          name: nfd-master-conf-9mfc26f2tc
+          name: nfd-master-conf-8kb68dgffh
         name: nfd-master-conf
 ---
 apiVersion: apps/v1
@@ -1370,21 +1444,23 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.17.4
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.18.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
-          grpc:
-            port: 8082
+          httpGet:
+            path: /healthz
+            port: http
           initialDelaySeconds: 10
           periodSeconds: 10
         name: nfd-worker
         ports:
-        - containerPort: 8081
-          name: metrics
+        - containerPort: 8080
+          name: http
         readinessProbe:
           failureThreshold: 10
-          grpc:
-            port: 8082
+          httpGet:
+            path: /healthz
+            port: http
           initialDelaySeconds: 5
           periodSeconds: 10
         resources:
