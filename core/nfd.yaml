@@ -1291,7 +1291,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.18.0
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.18.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -1367,7 +1367,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.18.0
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.18.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -1444,7 +1444,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.uid
-        image: registry.k8s.io/nfd/node-feature-discovery:v0.18.0
+        image: registry.k8s.io/nfd/node-feature-discovery:v0.18.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
