@@ -27,6 +27,7 @@ spec:
       priorityClassName: high-priority
       initContainers:
         - image: docker.io/library/busybox:stable
+          imagePullPolicy: Always
           name: configmap-copier
           command: ["/bin/sh", "-c", "cp -L /readonly/* /configs/"]
           securityContext:
@@ -37,7 +38,7 @@ spec:
             - mountPath: /configs
               name: configs-rw
       containers:
-        - image: docker.io/library/mariadb:11.4.5
+        - image: docker.io/library/mariadb:11.4.8
           name: mariadb
           command: ["/bin/sh", "/startup.sh"]
           env:
