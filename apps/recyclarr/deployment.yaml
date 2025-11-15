@@ -18,6 +18,8 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
           volumeMounts:
+            - name: cache
+              mountPath: /config
             - name: config
               mountPath: /config/recyclarr.yml
               subPath: recyclarr.yml
@@ -34,5 +36,8 @@ spec:
           secret:
             secretName: recyclarr-secrets
         - name: tmpfs
+          emptyDir:
+            medium: Memory
+        - name: cache
           emptyDir:
             medium: Memory
