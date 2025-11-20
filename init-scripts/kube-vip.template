@@ -47,7 +47,7 @@ spec:
       value: ${VIP}
     - name: prometheus_server
       value: :2112
-    image: ghcr.io/kube-vip/kube-vip:v1.0.1
+    image: ghcr.io/kube-vip/kube-vip:v1.0.2
     imagePullPolicy: IfNotPresent
     name: kube-vip
     resources: {}
