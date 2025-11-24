@@ -44,11 +44,6 @@ data:
   ssl-protocols: "TLSv1.2 TLSv1.3"
   ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-CHACHA20-POLY1305"
   ssl-prefer-server-ciphers: "false"
-  # rate limiting zone for trove
-  # add a cache to be used for static resources
-  http-snippet: |
-    limit_req_zone $binary_remote_addr zone=trove:10m rate=1r/s;
-    proxy_cache_path /tmp/nginx_cache levels=1:2 keys_zone=static:32m use_temp_path=off max_size=1g inactive=24h;
   # add basic security headers
   add-headers: "ingress-nginx/custom-headers"
   # tweak proxy buffering
