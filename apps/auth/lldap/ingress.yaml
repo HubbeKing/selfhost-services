@@ -4,6 +4,7 @@ metadata:
   name: lldap
   namespace: authelia
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
     # sticky sessions, to let login work properly when replicas>1
     nginx.ingress.kubernetes.io/affinity: "cookie"
 spec:
@@ -11,6 +12,7 @@ spec:
   tls:
     - hosts:
       - account.hubbe.club
+      secretName: lldap-cert
   rules:
     - host: account.hubbe.club
       http:

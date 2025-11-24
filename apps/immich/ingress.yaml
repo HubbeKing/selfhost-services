@@ -7,12 +7,14 @@ metadata:
     app.kubernetes.io/name: immich
     app.kubernetes.io/component: web
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/proxy-body-size: 50000M
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
         - photos.hubbe.club
+      secretName: immich-cert
   rules:
     - host: photos.hubbe.club
       http:

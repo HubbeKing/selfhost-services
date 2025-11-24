@@ -2,11 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jellyfin
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-      - video.hubbe.club  
+      - video.hubbe.club
+      secretName: jellyfin-cert
   rules:
     - host: video.hubbe.club
       http:

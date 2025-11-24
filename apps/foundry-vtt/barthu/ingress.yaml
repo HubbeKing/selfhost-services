@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: foundry-barthu
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
     # disable client_max_body_size checking, to allow large uploads
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
 spec:
@@ -10,6 +11,7 @@ spec:
   tls:
     - hosts:
       - foundry.hubbe.club
+      secretName: foundry-cert
   rules:
     - host: foundry.hubbe.club
       http:

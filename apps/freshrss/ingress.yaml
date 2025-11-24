@@ -3,25 +3,19 @@ kind: Ingress
 metadata:
   name: freshrss
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
     nginx.ingress.kubernetes.io/auth-method: GET
     nginx.ingress.kubernetes.io/auth-url: "http://authelia.authelia.svc.cluster.local:9091/api/verify"
     nginx.ingress.kubernetes.io/auth-signin: "https://auth.hubbe.club?rm=$request_method"
     nginx.ingress.kubernetes.io/auth-response-headers: Remote-User,Remote-Name,Remote-Groups,Remote-Email
     nginx.ingress.kubernetes.io/auth-snippet: |
       proxy_set_header X-Forwarded-Method $request_method;
-    # use cache for site, it loads static resources very slowly sometimes
-    nginx.ingress.kubernetes.io/server-snippet: |
-      proxy_cache static;
-      proxy_cache_valid 404 10m;
-      proxy_cache_use_stale error timeout updating http_404 http_500 http_502 http_503 http_504;
-      proxy_cache_bypass $http_x_purge;
-      proxy_ignore_headers Cache-Control;
-      add_header X-Cache-Status $upstream_cache_status;
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
       - rss.hubbe.club
+      secretName: freshrss-cert
   rules:
     - host: rss.hubbe.club
       http:

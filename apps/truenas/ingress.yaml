@@ -2,11 +2,14 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: truenas
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
       - truenas.hubbe.club
+      secretName: truenas-cert
   rules:
     - host: truenas.hubbe.club
       http:

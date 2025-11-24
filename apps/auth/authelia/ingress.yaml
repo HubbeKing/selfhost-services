@@ -4,6 +4,7 @@ metadata:
   name: authelia
   namespace: authelia
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-issuer
     # sticky sessions, to let login work properly when replicas>1
     nginx.ingress.kubernetes.io/affinity: "cookie"
 spec:
@@ -11,6 +12,7 @@ spec:
   tls:
     - hosts:
       - auth.hubbe.club
+      secretName: authelia-cert
   rules:
     - host: auth.hubbe.club
       http:
