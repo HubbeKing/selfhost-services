@@ -5,6 +5,7 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
     name: name,
     namespace: namespace,
     annotations: {
+      'cert-manager.io/cluster-issuer': 'letsencrypt-issuer',
       'nginx.ingress.kubernetes.io/auth-method': 'GET',
       'nginx.ingress.kubernetes.io/auth-url': 'http://authelia.authelia.svc.cluster.local:9091/api/verify',
       'nginx.ingress.kubernetes.io/auth-signin': 'https://auth.hubbe.club?rm=$request_method',
@@ -16,6 +17,7 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
     ingressClassName: 'nginx',
     tls: [{
       hosts: [ host ],
+      secretName: name + '-cert',
     }],
     rules: [{
       host: host,
