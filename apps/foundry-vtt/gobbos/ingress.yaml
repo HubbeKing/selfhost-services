@@ -4,8 +4,7 @@ metadata:
   name: foundry-gobbos
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    traefik.ingress.kubernetes.io/router.middlewares: traefik-https-redirect@kubernetescrd
-    traefik.ingress.kubernetes.io/router.tls.options: traefik-tls@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-https-redirect@kubernetescrd,traefik-security-headers@kubernetescrd
 spec:
   ingressClassName: traefik
   tls:
