@@ -13,6 +13,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nextcloud-web
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serverstransport: traefik-skipverify@kubernetescrd
 spec:
   ports:
     - port: 443

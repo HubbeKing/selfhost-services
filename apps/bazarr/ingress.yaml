@@ -4,14 +4,10 @@ metadata:
   name: bazarr
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    nginx.ingress.kubernetes.io/auth-method: GET
-    nginx.ingress.kubernetes.io/auth-url: "http://authelia.authelia.svc.cluster.local:9091/api/verify"
-    nginx.ingress.kubernetes.io/auth-signin: "https://auth.hubbe.club?rm=$request_method"
-    nginx.ingress.kubernetes.io/auth-response-headers: Remote-User,Remote-Name,Remote-Groups,Remote-Email
-    nginx.ingress.kubernetes.io/auth-snippet: |
-      proxy_set_header X-Forwarded-Method $request_method;
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-https-redirect@kubernetescrd,traefik-authelia-forwardauth@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls.options: traefik-tls@kubernetescrd
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
       - bazarr.hubbe.club

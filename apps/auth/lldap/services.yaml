@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: lldap
   namespace: authelia
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: traefik-lldap-svc
 spec:
   ports:
     - port: 389

@@ -11,8 +11,8 @@ local kp =
   (import 'addons/resources.jsonnet') +
   // disable networkPolicies
   (import 'github.com/prometheus-operator/kube-prometheus/jsonnet/kube-prometheus/addons/networkpolicies-disabled.libsonnet') +
-  // add ingress-nginx monitoring
-  (import 'addons/ingress-nginx.jsonnet') +
+  // add traefik monitoring
+  (import 'addons/traefik.jsonnet') +
   {
     values+:: {
       common+: {
@@ -54,7 +54,6 @@ local kp =
         dashboards+:: {
           'etcd.json': (import 'dashboards/etcd.json'),
           'longhorn.json': (import 'dashboards/longhorn.json'),
-          'nginx.json': (import 'dashboards/nginx.json'),
         },
         // up resource spec
         resources: {

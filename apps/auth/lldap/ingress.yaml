@@ -5,10 +5,10 @@ metadata:
   namespace: authelia
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    # sticky sessions, to let login work properly when replicas>1
-    nginx.ingress.kubernetes.io/affinity: "cookie"
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-https-redirect@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls.options: traefik-tls@kubernetescrd
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
       - account.hubbe.club

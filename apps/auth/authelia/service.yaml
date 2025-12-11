@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: authelia
   namespace: authelia
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: traefik-authelia-svc
 spec:
   clusterIP: 10.97.185.100
   ports:

@@ -1,15 +1,14 @@
 {
     serviceMonitor+:: {
-        'ingress-nginx': {
+        'traefik': {
             'apiVersion': 'monitoring.coreos.com/v1',
             'kind': 'ServiceMonitor',
             'metadata': {
                 'labels': {
-                    'app.kubernetes.io/name': 'ingress-nginx',
-                    'app.kubernetes.io/instance': 'ingress-nginx',
-                    'app.kubernetes.io/component': 'controller',
+                    'app.kubernetes.io/name': 'traefik',
+                    'app.kubernetes.io/instance': 'traefik-traefik',
                 },
-                'name': 'ingress-nginx-controller',
+                'name': 'traefik',
                 'namespace': 'monitoring'
             },
             'spec': {
@@ -22,14 +21,13 @@
                 ],
                 'namespaceSelector': {
                     'matchNames': [
-                        'ingress-nginx'
+                        'traefik'
                     ],
                 },
                 'selector': {
                     'matchLabels': {
-                        'app.kubernetes.io/name': 'ingress-nginx',
-                        'app.kubernetes.io/instance': 'ingress-nginx',
-                        'app.kubernetes.io/component': 'controller',
+                        'app.kubernetes.io/name': 'traefik',
+                        'app.kubernetes.io/instance': 'traefik-traefik',
                     },
                 },
             },

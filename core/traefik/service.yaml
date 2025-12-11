@@ -1,0 +1,34 @@
+---
+# Source: traefik/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik
+  namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: traefik-traefik
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.3
+  externalTrafficPolicy: Local
+  selector:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/instance: traefik-traefik
+  ports:
+  - port: 80
+    name: web
+    targetPort: web
+    protocol: TCP
+  - port: 443
+    name: websecure
+    targetPort: websecure
+    protocol: TCP
+  - port: 8080
+    name: traefik
+    targetPort: traefik
+    protocol: TCP
+  - port: 9100
+    name: metrics
+    targetPort: metrics
+    protocol: TCP

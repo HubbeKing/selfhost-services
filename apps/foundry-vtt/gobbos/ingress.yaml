@@ -4,10 +4,10 @@ metadata:
   name: foundry-gobbos
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    # disable client_max_body_size checking, to allow large uploads
-    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-https-redirect@kubernetescrd
+    traefik.ingress.kubernetes.io/router.tls.options: traefik-tls@kubernetescrd
 spec:
-  ingressClassName: nginx
+  ingressClassName: traefik
   tls:
     - hosts:
       - foundry.hubbe.club
