@@ -51,7 +51,7 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
           },
           'auth.proxy': {
             enabled: true,
-            header_name: 'X-Email',
+            header_name: 'Remote-Email',
             header_property: 'email',
             auto_sign_up: true,
           },
@@ -97,14 +97,6 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
       {
         'name': 'grafana',
         'port': { 'name': 'http' },
-      },
-      {
-        'nginx.ingress.kubernetes.io/configuration-snippet': |||
-          auth_request_set $user   $upstream_http_remote_user;
-          auth_request_set $email  $upstream_http_remote_email;
-          proxy_set_header X-User  $user;
-          proxy_set_header X-Email $email;
-        |||,
       },
     ),
     'prometheus-k8s': ingress(
