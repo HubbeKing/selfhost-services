@@ -24,10 +24,6 @@ spec:
     name: websecure
     targetPort: websecure
     protocol: TCP
-  - port: 8080
-    name: traefik
-    targetPort: traefik
-    protocol: TCP
   - port: 9100
     name: metrics
     targetPort: metrics
