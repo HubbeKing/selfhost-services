@@ -6,8 +6,7 @@ local ingress(name, namespace, host, service, extraAnnotations={}) = {
     namespace: namespace,
     annotations: {
       'cert-manager.io/cluster-issuer': 'letsencrypt-issuer',
-      'traefik.ingress.kubernetes.io/router.middlewares': 'traefik-https-redirect@kubernetescrd,traefik-authelia-forwardauth@kubernetescrd',
-      'traefik.ingress.kubernetes.io/router.tls.options': 'traefik-tls@kubernetescrd',
+      'traefik.ingress.kubernetes.io/router.middlewares': 'traefik-authelia-forwardauth@kubernetescrd',
     } + extraAnnotations,
   },
   spec: { 
