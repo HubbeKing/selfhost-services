@@ -90,8 +90,8 @@ spec:
           - "--entryPoints.traefik.address=:8080/tcp"
           - "--entryPoints.web.address=:8000/tcp"
           - "--entryPoints.websecure.address=:8443/tcp"
-          - "--entryPoints.web.http.middlewares=traefik-https-redirect@kubernetescrd,traefik-security-headers@kubernetescrd"
-          - "--entryPoints.websecure.http.middlewares=traefik-https-redirect@kubernetescrd,traefik-security-headers@kubernetescrd"
+          - "--entryPoints.web.http.middlewares=traefik-security-headers@kubernetescrd"
+          - "--entryPoints.websecure.http.middlewares=traefik-security-headers@kubernetescrd"
           # allow URL-encoded chars (https://www.reddit.com/r/selfhosted/comments/1ph9jio/traefik_v364_breaks_nextcloud_officecollabora/)
           - "--entryPoints.websecure.http.encodedCharacters.allowEncodedSlash=true"
           - "--entryPoints.websecure.http.encodedCharacters.allowEncodedBackSlash=true"

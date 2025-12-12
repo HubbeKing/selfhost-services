@@ -4,7 +4,7 @@ metadata:
   name: prowlarr
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
-    traefik.ingress.kubernetes.io/router.middlewares: traefik-authelia-forwardauth@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-https-redirect@kubernetescrd,traefik-authelia-forwardauth@kubernetescrd
 spec:
   ingressClassName: traefik
   tls:

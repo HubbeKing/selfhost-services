@@ -8,6 +8,7 @@ metadata:
     app.kubernetes.io/component: web
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-issuer
+    traefik.ingress.kubernetes.io/router.middlewares: traefik-https-redirect@kubernetescrd
 spec:
   ingressClassName: traefik
   tls:

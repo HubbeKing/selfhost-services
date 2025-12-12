@@ -11,12 +11,8 @@ spec:
         solvers:
             - http01:
                 ingress:
-                    class: ENC[AES256_GCM,data:pVpbPQg=,iv:Z7SZe/idiZJOmjztuGk/P2jmPBJUUp8IP18yfgQDXi4=,tag:MVQOm+Md31H7fAZ0A55+tw==,type:str]
+                    ingressClassName: ENC[AES256_GCM,data:Se1hNjceLw==,iv:n4BAZ4MRexJXqHVLdwQp7aiIpg/3s2/+FkR+pgd8JYU=,tag:lKxHQh3lx9PTlqDmlnEzRA==,type:str]
 sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
     age:
         - recipient: age1j80wssnp7v6kxuga65pua3utmza4y50w243sntfyncynhp6fwpuqxkx7lc
           enc: |
@@ -27,8 +23,7 @@ sops:
             cmt1RG1FZVRsOTQxbndkSm1vaWxGb0EKBhOYjjOoLQ2+wDbyd16JnOqoy7/IMIOK
             rwsj4Mmfba4aEO8M8sTgsgbYzdc7DKGVDPPEE4IkVTo+qSyfw++aGQ==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2021-08-07T16:50:59Z"
-    mac: ENC[AES256_GCM,data:7fVsOsYqSB6esEhBQg4xrHu+0zxT76zHaRS222up8Se2lrM3R/IU6efPCMWdvaYDdo/RVcKoog6Xm43MWDhr08vh01he0kThg7noET3FCY63FwpHuTvYMfVnvQSVrYQY8I7pD3LHZaAwQGb5DkaVzsvAFiKJp47v6AIltwxlQus=,iv:XBrab/Yfh5/x3HlkNq8Vo7bhX80iUPvD5UBw4UyuJUE=,tag:ABI0Ssvk5ddv7D2P8bNOrw==,type:str]
-    pgp: []
+    lastmodified: "2025-12-12T11:27:29Z"
+    mac: ENC[AES256_GCM,data:imm4hJn/UW8JZP967j8NCTSe4oEIAmFjCw/XfGRTVW5kJyULXD1sVHh73A4ZxvE7WZUMk+UMMb8X0ywoCmonCNZwWAxbX96zd9ylF6E8IiFHGFgYyM4d70ktx1P3K/f58pkD0p3jmNlMRVcQebrJvNFShoJvvtL6K1+iyEwrogE=,iv:wr7BsuILGPFuQJ1c4xNciiI2/LzrDdoVcVFM0ZmUml8=,tag:gkA2Jy4Cmo8+K0FxST5ZAg==,type:str]
     unencrypted_suffix: _unencrypted
-    version: 3.7.1
+    version: 3.11.0
