@@ -2,10 +2,13 @@ apiVersion: v1
 kind: Service
 metadata:
   name: truenas
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
+    traefik.ingress.kubernetes.io/service.serverstransport: traefik-skipverify@kubernetescrd
+    traefik.ingress.kubernetes.io/service.passHostHeader: "false"
 spec:
-  clusterIP: None
+  externalName: galactica.lan
   ports:
-    - port: 80
-  selector:
-    app: truenas
-  type: ClusterIP
+    - name: https
+      port: 443
+  type: ExternalName
