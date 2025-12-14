@@ -113,6 +113,7 @@ spec:
           - "--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik"
           - "--entryPoints.websecure.http.tls=true"
           - "--log.level=INFO"
+          - "--accesslog=true"
         env:
           - name: POD_NAME
             valueFrom:
