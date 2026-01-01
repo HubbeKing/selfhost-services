@@ -12,3 +12,5 @@ data:
   DEBUG: "true"
   PUID: "1000"
   PGID: "1000"
+  # restart container if healthcheck fails
+  HEALTHCHECK_ACTION: "kill 1"
