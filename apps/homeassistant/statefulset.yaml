@@ -13,7 +13,7 @@ spec:
         app: homeassistant
     spec:
       containers:
-        - image: ghcr.io/home-assistant/home-assistant:2026.1.0
+        - image: ghcr.io/home-assistant/home-assistant:2026.1.1
           name: homeassistant
           env:
             - name: TZ
