@@ -14,7 +14,7 @@ spec:
         component: collabora
     spec:
       containers:
-        - image: docker.io/collabora/code:25.04.7.2.1
+        - image: docker.io/collabora/code:25.04.8.2.1
           name: collabora
           env:
             - name: aliasgroup1
