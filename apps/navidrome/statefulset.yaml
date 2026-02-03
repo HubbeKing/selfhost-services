@@ -26,6 +26,10 @@ spec:
               value: "0 23 * * *"
             - name: ND_TRANSCODINGCACHESIZE
               value: "10GiB"
+            - name: ND_PLUGINS_ENABLED
+              value: "true"
+            - name: ND_PLUGINS_AUTORELOAD
+              value: "true"
           envFrom:
             - secretRef:
                 name: navidrome-envs
