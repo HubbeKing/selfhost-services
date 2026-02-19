@@ -16,7 +16,7 @@ spec:
         app.kubernetes.io/component: postgres
     spec:
       containers:
-        - image: ghcr.io/immich-app/postgres:14-vectorchord0.4.2-pgvectors0.2.0
+        - image: ghcr.io/immich-app/postgres:18-vectorchord0.5.3
           imagePullPolicy: Always
           name: postgres
           env:
@@ -38,7 +38,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
+            - mountPath: /var/lib/postgresql
               name: data
               subPath: postgres
   volumeClaimTemplates:
