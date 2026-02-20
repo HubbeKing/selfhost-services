@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: profilarr
+spec:
+  selector:
+    matchLabels:
+      app: profilarr
+  serviceName: profilarr
+  template:
+    metadata:
+      labels:
+        app: profilarr
+    spec:
+      containers:
+        - image: docker.io/santiagosayshey/profilarr:v1.1.4
+          imagePullPolicy: Always
+          name: profilarr
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          ports:
+            - containerPort: 6868
+              name: http
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 2048Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: config
+              mountPath: /config
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn
