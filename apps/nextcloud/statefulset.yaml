@@ -52,12 +52,12 @@ spec:
               mountPath: /config
             - name: data
               mountPath: /data
-            - name: array
-              mountPath: /array
+            - name: backups-ha
+              mountPath: /backups/home-assistant
       volumes:
-        - name: array
+        - name: backups-ha
           persistentVolumeClaim:
-            claimName: nfs-array
+            claimName: nfs-backups-homeassistant
   volumeClaimTemplates:
     - metadata:
         name: config
