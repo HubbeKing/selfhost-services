@@ -1,0 +1,24 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Backup
+metadata:
+  name: mariadb-backup
+  namespace: database
+spec:
+  mariaDbRef:
+    name: mariadb
+  schedule:
+    cron: "5 23 * * *"
+    suspend: false
+  maxRetention: 336h  # 14 days
+  compression: bzip2
+  storage:
+    s3:
+      bucket: mariadb
+      region: garage
+      endpoint: http://192.168.1.121:30188
+      accessKeyIdSecretKeyRef:
+        name: mariadb-garage
+        key: access-key-id
+      secretAccessKeySecretKeyRef:
+        name: mariadb-garage
+        key: secret-access-key

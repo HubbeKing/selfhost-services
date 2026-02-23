@@ -1,0 +1,38 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: MariaDB
+metadata:
+  name: mariadb
+  namespace: database
+spec:
+  affinity:
+    antiAffinityEnabled: true
+  galera:
+    enabled: true
+    config:
+      reuseStorageVolume: true
+  image: docker-registry1.mariadb.com/library/mariadb:11.8.6
+  metrics:
+    enabled: true
+    exporter:
+      image: docker.io/prom/mysqld-exporter:v0.18.0
+  myCnfConfigMapKeyRef:
+    name: mariadb-config
+    key: config.cnf
+  replicas: 5
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+  rootPasswordSecretKeyRef:
+    name: mariadb-secrets
+    key: root-password
+  service:
+    type: LoadBalancer
+    loadBalancerIP: 192.168.1.8
+    sessionAffinity: ClientIP
+  storage:
+    size: 20Gi
+    storageClassName: longhorn
