@@ -4,6 +4,8 @@ metadata:
   name: mariadb-backup
   namespace: database
 spec:
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 1
   mariaDbRef:
     name: mariadb
   schedule:
@@ -15,7 +17,7 @@ spec:
     s3:
       bucket: mariadb
       region: garage
-      endpoint: http://192.168.1.121:30188
+      endpoint: 192.168.1.121:30188
       accessKeyIdSecretKeyRef:
         name: mariadb-garage
         key: access-key-id
