@@ -13,6 +13,11 @@ spec:
     suspend: false
   maxRetention: 336h  # 14 days
   compression: bzip2
+  databases:
+    - authelia
+    - freshrss
+    - lldap
+    - nextcloud
   storage:
     s3:
       bucket: mariadb
