@@ -18,6 +18,36 @@ spec:
   myCnfConfigMapKeyRef:
     name: mariadb-config
     key: config.cnf
+  livenessProbe:
+      failureThreshold: 5
+      httpGet:
+        path: /liveness
+        port: 5566
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+  readinessProbe:
+      failureThreshold: 5
+      httpGet:
+        path: /readiness
+        port: 5566
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
+  startupProbe:
+      failureThreshold: 30  # give mariadb plenty of time to start
+      httpGet:
+        path: /liveness
+        port: 5566
+        scheme: HTTP
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 5
   replicas: 5
   resources:
     requests:
