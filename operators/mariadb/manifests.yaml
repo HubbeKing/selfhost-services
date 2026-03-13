@@ -5,10 +5,10 @@ kind: ServiceAccount
 metadata:
   name: mariadb-operator
   labels:
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
 ---
 # Source: mariadb-operator/templates/webhook/serviceaccount.yaml
@@ -17,16 +17,16 @@ kind: ServiceAccount
 metadata:
   name: mariadb-operator-webhook
   labels:
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator-webhook
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
 ---
 # Source: mariadb-operator/templates/operator/configmap.yaml
 apiVersion: v1
 data:
-  MARIADB_OPERATOR_IMAGE: "docker-registry3.mariadb.com/mariadb-operator/mariadb-operator:25.10.4"
+  MARIADB_OPERATOR_IMAGE: "docker-registry3.mariadb.com/mariadb-operator/mariadb-operator:26.3.0"
   MARIADB_GALERA_LIB_PATH: "/usr/lib/galera/libgalera_smm.so"
   MARIADB_DEFAULT_VERSION: "11.8"
   RELATED_IMAGE_MARIADB: "docker-registry1.mariadb.com/library/mariadb:11.8.5"
@@ -113,8 +113,8 @@ rules:
   - delete
   - get
   - list
-  - watch
   - patch
+  - watch
 - apiGroups:
   - ""
   resources:
@@ -194,14 +194,23 @@ rules:
   - patch
   - watch
 - apiGroups:
+  - events.k8s.io
+  resources:
+  - events
+  verbs:
+  - create
+  - list
+  - patch
+  - watch
+- apiGroups:
   - k8s.mariadb.com
   resources:
   - backups
   - connections
   - databases
+  - externalmariadbs
   - grants
   - mariadbs
-  - externalmariadbs
   - maxscales
   - physicalbackups
   - restores
@@ -221,9 +230,9 @@ rules:
   - backups/finalizers
   - connections/finalizers
   - databases/finalizers
+  - externalmariadbs/finalizers
   - grants/finalizers
   - mariadbs/finalizers
-  - externalmariadbs/finalizers
   - maxscales/finalizers
   - physicalbackups/finalizers
   - restores/finalizers
@@ -237,11 +246,12 @@ rules:
   - backups/status
   - connections/status
   - databases/status
+  - externalmariadbs/status
   - grants/status
   - mariadbs/status
-  - externalmariadbs/status
   - maxscales/status
   - physicalbackups/status
+  - pointintimerecoveries/status
   - restores/status
   - sqljobs/status
   - users/status
@@ -257,6 +267,14 @@ rules:
   - create
   - list
   - patch
+  - watch
+- apiGroups:
+  - k8s.mariadb.com
+  resources:
+  - pointintimerecoveries
+  verbs:
+  - get
+  - list
   - watch
 - apiGroups:
   - monitoring.coreos.com
@@ -386,10 +404,10 @@ metadata:
   name: mariadb-operator-metrics
   labels:
     
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   ports:
@@ -407,10 +425,10 @@ kind: Service
 metadata:
   name: mariadb-operator-webhook
   labels:
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator-webhook
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   ports:
@@ -428,10 +446,10 @@ metadata:
   name: mariadb-operator-webhook-metrics
   labels:
     
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator-webhook
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   ports:
@@ -449,10 +467,10 @@ kind: Deployment
 metadata:
   name: mariadb-operator
   labels:
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   selector:
@@ -469,7 +487,7 @@ spec:
       automountServiceAccountToken: true
       terminationGracePeriodSeconds: 10
       containers:
-        - image: "docker-registry3.mariadb.com/mariadb-operator/mariadb-operator:25.10.4"
+        - image: "docker-registry3.mariadb.com/mariadb-operator/mariadb-operator:26.3.0"
           imagePullPolicy: IfNotPresent
           name: controller
           args:
@@ -502,10 +520,10 @@ kind: Deployment
 metadata:
   name: mariadb-operator-webhook
   labels:
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator-webhook
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   selector:
@@ -522,7 +540,7 @@ spec:
       automountServiceAccountToken: true
       hostNetwork: false
       containers:
-        - image: "docker-registry3.mariadb.com/mariadb-operator/mariadb-operator:25.10.4"
+        - image: "docker-registry3.mariadb.com/mariadb-operator/mariadb-operator:26.3.0"
           imagePullPolicy: IfNotPresent
           name: webhook
           args:
@@ -567,10 +585,10 @@ metadata:
   name: mariadb-operator-webhook-cert
   labels:
     
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator-webhook
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   commonName: mariadb-operator-webhook.default.svc
@@ -592,10 +610,10 @@ metadata:
   name: mariadb-operator-selfsigned-issuer
   labels:
     
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator-webhook
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   selfSigned: {}
@@ -607,10 +625,10 @@ metadata:
   name: mariadb-operator
   labels:
     
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
     
 spec:
@@ -634,10 +652,10 @@ metadata:
   name: mariadb-operator-webhook
   labels:
     
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator-webhook
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
     
 spec:
@@ -660,10 +678,10 @@ kind: ValidatingWebhookConfiguration
 metadata:
   name: mariadb-operator-webhook
   labels:
-    helm.sh/chart: mariadb-operator-25.10.4
+    helm.sh/chart: mariadb-operator-26.3.0
     app.kubernetes.io/name: mariadb-operator-webhook
     app.kubernetes.io/instance: mariadb-operator
-    app.kubernetes.io/version: "25.10.4"
+    app.kubernetes.io/version: "26.3.0"
     app.kubernetes.io/managed-by: Helm
   annotations:
     cert-manager.io/inject-ca-from: default/mariadb-operator-webhook-cert
@@ -707,6 +725,26 @@ webhooks:
           - UPDATE
         resources:
           - physicalbackups
+    sideEffects: None
+  - admissionReviewVersions:
+      - v1
+    clientConfig:
+      service:
+        name: mariadb-operator-webhook
+        namespace: default
+        path: /validate-k8s-mariadb-com-v1alpha1-pointintimerecovery
+    failurePolicy: Fail
+    name: vpointintimerecovery-v1alpha1.kb.io
+    rules:
+      - apiGroups:
+          - k8s.mariadb.com
+        apiVersions:
+          - v1alpha1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - pointintimerecoveries
     sideEffects: None
   - admissionReviewVersions:
       - v1
