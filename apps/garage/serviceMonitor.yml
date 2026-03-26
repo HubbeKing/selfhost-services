@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: garage
+  namespace: database
+spec:
+  endpoints:
+    - interval: 30s
+      port: admin
+      scheme: http
+      authorization:
+        type: "Bearer"
+        credentials:
+          name: garage-secrets
+          key: metrics.token
+  selector:
+    matchLabels:
+      app: garage
+      component: garage

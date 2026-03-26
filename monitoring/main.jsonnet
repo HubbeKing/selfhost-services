@@ -53,7 +53,8 @@ local kp =
         // add grafana dashboards
         dashboards+:: {
           'etcd.json': (import 'dashboards/etcd.json'),
-          'traefik.json':(import 'dashboards/traefik.json'),
+          'traefik.json': (import 'dashboards/traefik.json'),
+          'garage.json':  (import 'dashboards/garage.json'),
         },
         // up resource spec
         resources: {
