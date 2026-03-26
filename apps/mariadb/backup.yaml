@@ -22,7 +22,7 @@ spec:
     s3:
       bucket: mariadb
       region: garage
-      endpoint: 192.168.1.121:30188
+      endpoint: garage.database.svc.cluster.local:3900
       accessKeyIdSecretKeyRef:
         name: mariadb-garage
         key: access-key-id
