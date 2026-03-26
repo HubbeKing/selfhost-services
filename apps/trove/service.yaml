@@ -4,6 +4,7 @@ kind: Service
 metadata:
   name: trove-nginx
 spec:
+  loadBalancerIP: 192.168.1.6
   ports:
     - port: 80
   selector:
