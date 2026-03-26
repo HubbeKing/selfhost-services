@@ -1,0 +1,35 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: rclone-sync
+  namespace: database
+spec:
+  schedule: "5 4 * * *"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          name: rclone-sync
+          namespace: database
+        spec:
+          containers:
+            - name: rclone
+              image: docker.io/rclone/rclone:latest
+              command:
+                - rclone
+                - sync
+                - garage:mariadb
+                - hetzner:hubbe-mariadb
+                - --fast-list
+                - --transfers=16
+              securityContext:
+                allowPrivilegeEscalation: false
+              volumeMounts:
+                - mountPath: /config/rclone/rclone.conf
+                  name: config
+                  subPath: rclone.conf
+          volumes:
+            - name: config
+              secret:
+                secretName: rclone-config
+          restartPolicy: OnFailure
