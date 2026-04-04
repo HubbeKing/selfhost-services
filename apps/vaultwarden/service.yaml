@@ -6,5 +6,5 @@ spec:
   selector:
     app: vaultwarden
   ports:
-    - port: 80
+    - port: 8080
       name: http

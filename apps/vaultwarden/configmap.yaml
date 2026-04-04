@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: vaultwarden-envs
 data:
+  ROCKET_PORT: "8080"
   DOMAIN: https://vault.hubbe.club
   TRASH_AUTO_DELETE_DAYS: "30"
   SIGNUPS_ALLOWED: "false"
