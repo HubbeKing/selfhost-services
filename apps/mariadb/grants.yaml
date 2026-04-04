@@ -61,3 +61,19 @@ spec:
   username: nextcloud
   host: "%"
   cleanupPolicy: Delete
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: grant-vaultwarden
+  namespace: database
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "ALL"
+  database: vaultwarden
+  table: "*"
+  username: vaultwarden
+  host: "%"
+  cleanupPolicy: Delete

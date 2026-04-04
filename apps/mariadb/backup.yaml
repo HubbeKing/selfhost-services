@@ -18,6 +18,7 @@ spec:
     - freshrss
     - lldap
     - nextcloud
+    - vaultwarden
   storage:
     s3:
       bucket: mariadb

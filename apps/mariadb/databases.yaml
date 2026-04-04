@@ -45,3 +45,15 @@ spec:
   characterSet: utf8mb4
   collate: utf8mb4_general_ci
   cleanupPolicy: Delete
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Database
+metadata:
+  name: vaultwarden
+  namespace: database
+spec:
+  mariaDbRef:
+    name: mariadb
+  characterSet: utf8mb4
+  collate: utf8mb4_general_ci
+  cleanupPolicy: Delete
