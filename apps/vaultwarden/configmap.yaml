@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vaultwarden-envs
+data:
+  DOMAIN: https://vault.hubbe.club
+  TRASH_AUTO_DELETE_DAYS: "30"
+  SIGNUPS_ALLOWED: "false"
+  SMTP_HOST: "smtp.fastmail.com"
+  SMTP_FROM: vaultwarden@hubbe.club
+  SMTP_FROM_NAME: Vaultwarden
+  SMTP_SECURITY: force_tls
+  SMTP_PORT: "465"
+  HELO_NAME: vault.hubbe.club
+  PUSH_ENABLED: "true"
+  PUSH_RELAY_URI: "https://api.bitwarden.eu"
+  PUSH_IDENTITY_URI: "https://identity.bitwarden.eu"

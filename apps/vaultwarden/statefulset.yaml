@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vaultwarden
+spec:
+  selector:
+    matchLabels:
+      app: vaultwarden
+  serviceName: vaultwarden
+  template:
+    metadata:
+      labels:
+        app: vaultwarden
+    spec:
+      containers:
+        - image: ghcr.io/dani-garcia/vaultwarden:1.35.4
+          imagePullPolicy: Always
+          name: vaultwarden
+          envFrom:
+            - configMapRef:
+                name: vaultwarden-envs
+            - secretRef:
+                name: vaultwarden-secrets
+          ports:
+            - containerPort: 80
+              name: http
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 2048Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn
