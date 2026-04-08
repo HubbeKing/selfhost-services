@@ -16,3 +16,5 @@ data:
   IMMICH_SERVER_URL: http://server.immich.svc.cluster.local:2283
   # URL used to connect to machine-learning container from server container
   IMMICH_MACHINE_LEARNING_URL: http://machine-learning.immich.svc.cluster.local:3003
+  # load default CSP
+  IMMICH_HELMET_FILE: "true"
