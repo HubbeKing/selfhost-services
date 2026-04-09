@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: music-assistant
+spec:
+  selector:
+    matchLabels:
+      app: music-assistant
+  serviceName: music-assistant
+  template:
+    metadata:
+      labels:
+        app: music-assistant
+    spec:
+      # required for music-assistant
+      hostNetwork: true
+      containers:
+        - image: ghcr.io/music-assistant/server:2.8.2
+          name: music-assistant
+          env:
+            - name: LOG_LEVEL
+              value: "info"
+          ports:
+            - containerPort: 8095
+              name: http
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 1024Mi
+            limits:
+              cpu: 2000m
+              memory: 4096Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: music
+              mountPath: /music
+      volumes:
+        - name: music
+          persistentVolumeClaim:
+            claimName: nfs-music
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 5Gi
+        storageClassName: longhorn
