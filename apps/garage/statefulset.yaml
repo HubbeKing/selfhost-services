@@ -16,7 +16,7 @@ spec:
         component: garage
     spec:
       containers:
-        - image: docker.io/dxflrs/garage:v2.2.0
+        - image: docker.io/dxflrs/garage:v2.3.0
           imagePullPolicy: Always
           name: garage
           ports:
