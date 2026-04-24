@@ -39,7 +39,7 @@ spec:
       successThreshold: 1
       timeoutSeconds: 5
   startupProbe:
-      failureThreshold: 30  # give mariadb plenty of time to start
+      failureThreshold: 60  # give mariadb plenty of time to start
       httpGet:
         path: /liveness
         port: 5566
