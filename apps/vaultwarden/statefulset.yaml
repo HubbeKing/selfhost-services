@@ -17,7 +17,7 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
       containers:
-        - image: ghcr.io/dani-garcia/vaultwarden:1.35.7
+        - image: ghcr.io/dani-garcia/vaultwarden:1.35.8
           imagePullPolicy: Always
           name: vaultwarden
           envFrom:
