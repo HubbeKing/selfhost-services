@@ -1,0 +1,12 @@
+# NOTE: make sure to scale down Nextcloud before doing a restore
+# Nextcloud is so transaction-happy that there's bound to be deadlocks
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Restore
+metadata:
+  name: mariadb-restore
+  namespace: database
+spec:
+  mariaDbRef:
+    name: mariadb
+  backupRef:
+    name: mariadb-backup
