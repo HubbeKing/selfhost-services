@@ -54,7 +54,7 @@ spec:
   passwordSecretKeyRef:
     name: mariadb-nextcloud
     key: password
-  maxUserConnections: 20
+  maxUserConnections: 100
   host: "%"
   cleanupPolicy: Delete
 ---
