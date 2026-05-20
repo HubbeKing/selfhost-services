@@ -13,7 +13,7 @@ spec:
         app: the-lounge
     spec:
       containers:
-        - image: docker.io/thelounge/thelounge:4.4.3
+        - image: docker.io/thelounge/thelounge:4.5.0
           name: the-lounge
           ports:
             - containerPort: 9000
