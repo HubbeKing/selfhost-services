@@ -13,10 +13,12 @@ spec:
         app: profilarr
     spec:
       containers:
-        - image: docker.io/santiagosayshey/profilarr:v1.1.4
+        - image: ghcr.io/dictionarry-hub/profilarr:2.0.3
           imagePullPolicy: Always
           name: profilarr
           envFrom:
+            - configMapRef:
+                name: profilarr-envs
             - configMapRef:
                 name: linuxserver-envs
           ports:

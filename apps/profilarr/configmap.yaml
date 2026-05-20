@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: profilarr-envs
+data:
+  AUTH: "off"
+  ORIGIN: "https://profilarr.hubbe.club"
