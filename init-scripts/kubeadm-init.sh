@@ -38,7 +38,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # apply Project Calico CNI plugin
-kubectl apply -f ../core/calico.yaml
+kubectl apply -f ../core/calico
 
 # remove temporary kubeadm config file
 rm temp.yaml
