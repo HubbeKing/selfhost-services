@@ -13,7 +13,7 @@ spec:
         app: foundry-gobbos
     spec:
       containers:
-        - image: ghcr.io/felddy/foundryvtt:14.361.0
+        - image: ghcr.io/felddy/foundryvtt:14.363.0
           name: foundry-gobbos
           envFrom:
             - secretRef:
@@ -43,7 +43,7 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: data
-        - image: docker.io/library/httpd:2.4.66
+        - image: docker.io/library/httpd:2.4.67
           name: webdav
           ports:
             - containerPort: 8080
