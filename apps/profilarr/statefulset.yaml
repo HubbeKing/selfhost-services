@@ -13,7 +13,7 @@ spec:
         app: profilarr
     spec:
       containers:
-        - image: ghcr.io/dictionarry-hub/profilarr:2.0.7
+        - image: ghcr.io/dictionarry-hub/profilarr:2.0.8
           imagePullPolicy: Always
           name: profilarr
           envFrom:
