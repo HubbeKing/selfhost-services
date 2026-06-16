@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: dragonfly-cluster-access
+  namespace: database
+spec:
+  podSelector:
+    matchLabels:
+      app: dragonfly # <- dragonfly cluster name
+      app.kubernetes.io/name: dragonfly
+      app.kubernetes.io/part-of: dragonfly
+  policyTypes:
+    - Ingress
+  ingress:
+    # allow access to dragonfly from Authelia
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: authelia
+      ports:
+        - protocol: TCP
+          port: 6379
+    # allow access to dragonfly from immich
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: immich
+      ports:
+        - protocol: TCP
+          port: 6379
+    # allow access to dragonfly from Nextcloud
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
+          podSelector:
+            matchLabels:
+              app: nextcloud
+              component: nextcloud
+      ports:
+        - protocol: TCP
+          port: 6379
+    # allow access to dragonfly from tubearchivist
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
+          podSelector:
+            matchLabels:
+              app: tubearchivist
+              component: web
+      ports:
+        - protocol: TCP
+          port: 6379
