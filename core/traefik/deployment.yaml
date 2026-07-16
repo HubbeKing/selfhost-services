@@ -36,7 +36,7 @@ spec:
       terminationGracePeriodSeconds: 60
       hostNetwork: false
       containers:
-      - image: docker.io/library/traefik:v3.7.7@sha256:397ef7fbae48bfef5cdc452041703c97846897c5d8206fa57c767b19212909d1
+      - image: docker.io/library/traefik:v3.7.8
         imagePullPolicy: IfNotPresent
         name: traefik
         resources:
