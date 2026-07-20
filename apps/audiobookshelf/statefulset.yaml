@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: audiobookshelf
+spec:
+  selector:
+    matchLabels:
+      app: audiobookshelf
+  serviceName: audiobookshelf
+  template:
+    metadata:
+      labels:
+        app: audiobookshelf
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      containers:
+        - image: ghcr.io/advplyr/audiobookshelf:2.35.1
+          name: audiobookshelf
+          envFrom:
+            - configMapRef:
+                name: audiobookshelf-envs
+          ports:
+            - containerPort: 13378
+              name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: metadata
+              mountPath: /metadata
+            - name: podcasts
+              mountPath: /podcasts
+      volumes:
+        - name: podcasts
+          persistentVolumeClaim:
+            claimName: nfs-podcasts
+  volumeClaimTemplates:
+    - metadata:
+        name: config
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn
+    - metadata:
+        name: metadata
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 1Gi
+        storageClassName: longhorn

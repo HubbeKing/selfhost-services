@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: audiobookshelf-envs
+data:
+  # work around bug with https redirects on podcast download
+  # see issue 5230
+  DISABLE_SSRF_REQUEST_FILTER: "1"
+  PORT: "13378"
+  TZ: "Europe/Helsinki"
