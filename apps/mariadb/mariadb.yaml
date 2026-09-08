@@ -10,7 +10,7 @@ spec:
     enabled: true
     config:
       reuseStorageVolume: true
-  image: docker.io/library/mariadb:11.8.8
+  image: docker.io/library/mariadb:11.8.9
   metrics:
     enabled: true
     exporter:
