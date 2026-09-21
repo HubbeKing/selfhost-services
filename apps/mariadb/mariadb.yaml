@@ -66,3 +66,7 @@ spec:
   storage:
     size: 20Gi
     storageClassName: longhorn
+  updateStrategy:
+    type: ReplicasFirstPrimaryLast
+    autoUpdateDataPlane: false
+    mariadbAutoUpgradeEnabled: true
