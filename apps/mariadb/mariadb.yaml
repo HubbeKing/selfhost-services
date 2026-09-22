@@ -68,5 +68,5 @@ spec:
     storageClassName: longhorn
   updateStrategy:
     type: ReplicasFirstPrimaryLast
-    autoUpdateDataPlane: false
+    autoUpdateDataPlane: true
     mariadbAutoUpgradeEnabled: true
