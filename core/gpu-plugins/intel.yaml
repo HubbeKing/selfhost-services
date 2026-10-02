@@ -22,6 +22,7 @@ spec:
       nodeSelector:
         # NFD labels nodes with intel GPU with this label
         feature.node.kubernetes.io/pci-0300_8086.present: "true"
+      automountServiceAccountToken: false
       containers:
       - name: intel-gpu-plugin
         env:
@@ -33,7 +34,7 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
-        image: intel/intel-gpu-plugin:0.37.0
+        image: intel/intel-gpu-plugin:0.37.1
         imagePullPolicy: IfNotPresent
         securityContext:
           seLinuxOptions:
