@@ -12,6 +12,8 @@ data:
     transaction_isolation=READ-COMMITTED
     performance_schema=on
     max_connections=1000
+    long_query_time=2
+    slow_query_log=on
 
     [galera]
     binlog_format=ROW
@@ -19,13 +21,13 @@ data:
     innodb_autoinc_lock_mode=2
     innodb_doublewrite=1
     query_cache_size=0
-    innodb_flush_log_at_trx_commit=2
+    innodb_flush_log_at_trx_commit=1
     wsrep_slave_threads=8
     innodb_io_capacity=2000
     innodb_io_capacity_max=10000
     innodb_buffer_pool_size=768M
     innodb_log_buffer_size=64M
-    innodb_log_file_size=1G
+    innodb_log_file_size=256M
     innodb_read_io_threads=8
     innodb_write_io_threads=4
     thread_handling=pool-of-threads
