@@ -6,8 +6,13 @@ metadata:
 spec:
   forwardAuth:
     address: http://authelia.authelia.svc.cluster.local:9091/api/authz/forward-auth
+    # copy these headers from Authelia
     authResponseHeaders:
       - 'Remote-User'
       - 'Remote-Groups'
       - 'Remote-Email'
       - 'Remote-Name'
+    # max 1MB responses from Authelia
+    maxResponseBodySize: 1048576
+    # trust X-ForwardedFor and the like from Authelia
+    trustForwardHeader: true
