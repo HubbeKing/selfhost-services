@@ -74,6 +74,9 @@ spec:
         - name: websecure
           containerPort: 8443
           protocol: TCP
+        - name: mqttsecure
+          containerPort: 8883
+          protocol: TCP
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:
@@ -90,6 +93,7 @@ spec:
           - "--entryPoints.traefik.address=:8080/tcp"
           - "--entryPoints.web.address=:8000/tcp"
           - "--entryPoints.websecure.address=:8443/tcp"
+          - "--entryPoints.mqttsecure.address=:8883/tcp"
           - "--entryPoints.web.http.middlewares=traefik-security-headers@kubernetescrd"
           - "--entryPoints.websecure.http.middlewares=traefik-security-headers@kubernetescrd"
           # allow URL-encoded chars (https://www.reddit.com/r/selfhosted/comments/1ph9jio/traefik_v364_breaks_nextcloud_officecollabora/)
