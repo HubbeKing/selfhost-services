@@ -13,7 +13,7 @@ spec:
       name: dragonfly-auth
   args:
     - "--default_lua_flags=allow-undeclared-keys"
-  image: docker.dragonflydb.io/dragonflydb/dragonfly:v2.0.0
+  image: docker.dragonflydb.io/dragonflydb/dragonfly:v2.0.2
   replicas: 3
   resources:
     requests:
