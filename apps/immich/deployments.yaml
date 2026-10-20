@@ -17,7 +17,7 @@ spec:
       # work around bug with ENV var parsing?
       enableServiceLinks: false
       containers:
-        - image: ghcr.io/immich-app/immich-server:v3.3.3
+        - image: ghcr.io/immich-app/immich-server:v3.3.4
           name: immich-server
           envFrom:
             - configMapRef:
