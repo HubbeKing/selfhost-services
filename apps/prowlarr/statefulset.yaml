@@ -12,6 +12,23 @@ spec:
       labels:
         app: prowlarr
     spec:
+      initContainers:
+        - image: ghcr.io/linuxserver/wireguard:latest
+          name: wireguard
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          restartPolicy: Always
+          securityContext:
+            capabilities:
+              add: [NET_ADMIN, NET_RAW]
+              drop: [ALL]
+            privileged: true
+          volumeMounts:
+            - name: wireguard-config
+              mountPath: /config/wg_confs/wg0.conf
+              subPath: wg0.conf
+              readOnly: true
       containers:
         - image: ghcr.io/linuxserver/prowlarr:version-2.6.5.5623
           imagePullPolicy: Always
@@ -40,6 +57,11 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+      volumes:
+        - name: wireguard-config
+          secret:
+            secretName: prowlarr-wireguard
+            defaultMode: 0400
   volumeClaimTemplates:
     - metadata:
         name: config
