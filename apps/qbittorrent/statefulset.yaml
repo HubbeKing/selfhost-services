@@ -13,22 +13,28 @@ spec:
         app: qbittorrent
     spec:
       initContainers:
-        - image: docker.io/library/busybox:stable
-          imagePullPolicy: Always
-          name: config-copier
-          command:
-            - "/bin/sh"
-            - "-c"
-            - "mkdir -p /config/wireguard && cp -L /readonly/* /config/wireguard/"
+        - image: ghcr.io/linuxserver/wireguard:latest
+          name: wireguard
+          envFrom:
+            - configMapRef:
+                name: linuxserver-envs
+          restartPolicy: Always
+          securityContext:
+            capabilities:
+              add: [NET_ADMIN, NET_RAW]
+              drop: [ALL]
+            privileged: true
           volumeMounts:
-            - mountPath: /readonly
-              name: wireguard-config
-            - mountPath: /config
-              name: config
+            - name: wireguard-config
+              mountPath: /config/wg_confs/wg0.conf
+              subPath: wg0.conf
+              readOnly: true
       containers:
-        - image: docker.io/binhex/arch-qbittorrentvpn:5.3.0-1-01
+        - image: ghcr.io/linuxserver/qbittorrent:5.3.0
           name: qbittorrent
           envFrom:
+            - configMapRef:
+                name: linuxserver-envs
             - configMapRef:
                 name: qbittorrent-envs
           ports:
@@ -48,7 +54,7 @@ spec:
               cpu: 1000m
               memory: 2Gi
           securityContext:
-            privileged: true
+            allowPrivilegeEscalation: false
           volumeMounts:
             - name: config
               mountPath: /config
@@ -66,7 +72,7 @@ spec:
         - name: wireguard-config
           secret:
             secretName: qbittorrent-wg-conf
-            defaultMode: 0755
+            defaultMode: 0400
   volumeClaimTemplates:
     - metadata:
         name: config

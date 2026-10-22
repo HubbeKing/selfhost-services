@@ -3,14 +3,5 @@ kind: ConfigMap
 metadata:
   name: qbittorrent-envs
 data:
-  VPN_ENABLED: "yes"
-  ENABLE_PRIVOXY: "no"
-  VPN_PROV: custom
-  VPN_CLIENT: wireguard
-  LAN_NETWORK: 192.168.1.0/24,192.168.2.0/24,10.244.0.0/16,10.96.0.0/12
-  NAME_SERVERS: 10.128.0.1
-  DEBUG: "true"
-  PUID: "1000"
-  PGID: "1000"
-  # restart container if healthcheck fails
-  HEALTHCHECK_ACTION: "kill 1"
+  WEBUI_PORT: "8080"
+  TORRENTING_PORT: "10998"
