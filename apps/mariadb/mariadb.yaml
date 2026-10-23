@@ -14,7 +14,7 @@ spec:
   metrics:
     enabled: true
     exporter:
-      image: docker.io/prom/mysqld-exporter:v0.20.0
+      image: docker.io/prom/mysqld-exporter:v0.21.0
   myCnfConfigMapKeyRef:
     name: mariadb-config
     key: config.cnf
