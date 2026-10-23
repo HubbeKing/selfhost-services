@@ -48,14 +48,14 @@ spec:
       periodSeconds: 10
       successThreshold: 1
       timeoutSeconds: 5
-  replicas: 5
+  replicas: 3
   resources:
     requests:
       cpu: 100m
       memory: 512Mi
     limits:
       cpu: 2000m
-      memory: 2Gi
+      memory: 4Gi
   rootPasswordSecretKeyRef:
     name: mariadb-secrets
     key: root-password
