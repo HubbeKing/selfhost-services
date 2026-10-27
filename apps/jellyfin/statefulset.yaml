@@ -13,7 +13,7 @@ spec:
         app: jellyfin
     spec:
       containers:
-        - image: ghcr.io/jellyfin/jellyfin:12.3
+        - image: ghcr.io/jellyfin/jellyfin:12.4
           name: jellyfin
           ports:
             - containerPort: 8096
