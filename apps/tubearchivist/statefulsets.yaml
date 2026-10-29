@@ -15,9 +15,13 @@ spec:
         app: tubearchivist
         component: web
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: tubearchivist
-          image: docker.io/bbilly1/tubearchivist:v0.5.12
+          image: docker.io/bbilly1/tubearchivist:v0.6.0
           envFrom:
             - secretRef:
                 name: tubearchivist-envs
@@ -70,7 +74,7 @@ spec:
     spec:
       containers:
         - name: elasticsearch
-          image: docker.io/library/elasticsearch:8.17.2
+          image: docker.io/library/elasticsearch:8.19.23
           env:
             - name: ELASTIC_PASSWORD
               valueFrom:
