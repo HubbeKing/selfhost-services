@@ -39,6 +39,7 @@ spec:
               name: http
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
           volumeMounts:
             - mountPath: /usr/src/app/upload
               name: photos
@@ -77,6 +78,9 @@ spec:
             # required for some reason, see https://github.com/immich-app/immich/discussions/9228
             - name: MACHINE_LEARNING_PORT
               value: "3003"
+            # disable telemetry for ML runtime
+            - name: ORT_DISABLE_TELEMETRY
+              value: "1"
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -91,9 +95,14 @@ spec:
               name: http
           securityContext:
             allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
           volumeMounts:
             - mountPath: /cache
               name: model-cache
+            - mountPath: /tmp
+              name: temp
       volumes:
         - name: model-cache
+          emptyDir: {}
+        - name: temp
           emptyDir: {}
