@@ -163,6 +163,13 @@ rules:
       - update
       - delete
       - watch
+  # Rancher's admission webhook rejects Namespace pod-security label changes without this verb.
+  - apiGroups:
+      - management.cattle.io
+    resources:
+      - projects
+    verbs:
+      - updatepsa
   - apiGroups:
       - ""
     resources:
@@ -775,7 +782,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: tigera-operator
-          image: quay.io/tigera/operator:v1.44.0
+          image: quay.io/tigera/operator:v1.44.1
           imagePullPolicy: IfNotPresent
           command:
             - operator
@@ -797,7 +804,7 @@ spec:
             - name: OPERATOR_NAME
               value: "tigera-operator"
             - name: TIGERA_OPERATOR_INIT_IMAGE_VERSION
-              value: v1.44.0
+              value: v1.44.1
           envFrom:
             - configMapRef:
                 name: kubernetes-services-endpoint
