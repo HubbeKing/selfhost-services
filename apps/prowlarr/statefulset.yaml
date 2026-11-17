@@ -30,7 +30,7 @@ spec:
               subPath: wg0.conf
               readOnly: true
       containers:
-        - image: ghcr.io/linuxserver/prowlarr:version-2.7.0.5723
+        - image: ghcr.io/linuxserver/prowlarr:version-3.0.2.5780
           imagePullPolicy: Always
           name: prowlarr
           envFrom:
