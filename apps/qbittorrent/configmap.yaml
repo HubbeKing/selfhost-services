@@ -4,4 +4,4 @@ metadata:
   name: qbittorrent-envs
 data:
   WEBUI_PORT: "8080"
-  TORRENTING_PORT: "10998"
+  TORRENTING_PORT: "23618"
