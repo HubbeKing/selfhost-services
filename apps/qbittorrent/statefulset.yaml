@@ -30,7 +30,7 @@ spec:
               subPath: wg0.conf
               readOnly: true
       containers:
-        - image: ghcr.io/linuxserver/qbittorrent:5.3.0
+        - image: ghcr.io/linuxserver/qbittorrent:5.3.1
           name: qbittorrent
           envFrom:
             - configMapRef:
