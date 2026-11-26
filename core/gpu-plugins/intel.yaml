@@ -34,8 +34,10 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
-        image: intel/intel-gpu-plugin:0.37.1
+        image: intel/intel-gpu-plugin:0.37.2
         imagePullPolicy: IfNotPresent
+        args:
+          - -prefix=/host
         securityContext:
           seLinuxOptions:
             type: "container_device_plugin_t"
@@ -55,11 +57,9 @@ spec:
             cpu: 100m
         volumeMounts:
         - name: devfs
-          mountPath: /dev/dri
+          mountPath: /host/dev
           readOnly: true
-        - name: sysfsdrm
-          mountPath: /sys/class/drm
-          readOnly: true
+          recursiveReadOnly: IfPossible
         - name: kubeletsockets
           mountPath: /var/lib/kubelet/device-plugins
         - name: cdipath
@@ -67,10 +67,8 @@ spec:
       volumes:
       - name: devfs
         hostPath:
-          path: /dev/dri
-      - name: sysfsdrm
-        hostPath:
-          path: /sys/class/drm
+          path: /dev
+          type: Directory
       - name: kubeletsockets
         hostPath:
           path: /var/lib/kubelet/device-plugins
